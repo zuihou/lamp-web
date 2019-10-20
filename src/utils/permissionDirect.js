@@ -2,9 +2,9 @@
 
 // 必须包含列出的所有权限，元素才显示
 export const hasPermission = {
-  install(Vue) {
+  install (Vue) {
     Vue.directive('hasPermission', {
-      bind(el, binding, vnode) {
+      bind (el, binding, vnode) {
         const permissions = vnode.context.$store.state.account.permissions
         const value = binding.value
         let flag = true
@@ -27,9 +27,9 @@ export const hasPermission = {
 
 // 当不包含列出的权限时，渲染该元素
 export const hasNoPermission = {
-  install(Vue) {
+  install (Vue) {
     Vue.directive('hasNoPermission', {
-      bind(el, binding, vnode) {
+      bind (el, binding, vnode) {
         const permissions = vnode.context.$store.state.account.permissions
         const value = binding.value
         let flag = true
@@ -52,9 +52,9 @@ export const hasNoPermission = {
 
 // 只要包含列出的任意一个权限，元素就会显示
 export const hasAnyPermission = {
-  install(Vue) {
+  install (Vue) {
     Vue.directive('hasAnyPermission', {
-      bind(el, binding, vnode) {
+      bind (el, binding, vnode) {
         const permissions = vnode.context.$store.state.account.permissions
         const value = binding.value
         let flag = false

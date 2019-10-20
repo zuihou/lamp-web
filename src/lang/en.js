@@ -14,7 +14,7 @@ export default {
     deleteCache: 'DeleteCache'
   },
   login: {
-    title: 'FEBS System Login',
+    title: 'zuihou-admin-cloud',
     logIn: 'Login',
     username: 'Username',
     password: 'Password',
@@ -142,7 +142,7 @@ export default {
     sidebarLogo: 'Sidebar Logo'
   },
   system: {
-    title: 'FEBS System'
+    title: 'zuihou-ui System'
   },
   tips: {
     usernameShouldNotBeEmpty: 'Username can not be empty',
@@ -159,7 +159,7 @@ export default {
     confirmDelete: 'The selected data will be permanently deleted, continue?',
     confirmDeleteCache: 'Whether to clear the user permission cache immediately?',
     containCurrentUser: 'The operation has been canceled because it contains the currently logged in user',
-    neverLogin: 'Never logged in to the FEBS system',
+    neverLogin: 'Never logged in to the zuihou system',
     nothing: 'Nothing',
     topId: 'A value of 0 indicates a top-level node',
     choose: 'Select: ',
@@ -167,7 +167,7 @@ export default {
     onlyChooseOne: 'Only one node can be selected as the parent node',
     noNodeSelected: 'Please select a node first',
     confirmDeleteNode: 'The selected node and its child nodes will be permanently deleted. Continue?',
-    iframeGrant: 'Userame: FEBS Password: 123456',
+    iframeGrant: 'Userame: zuihou Password: 123456',
     notEqual: 'Inconsistent values entered twice',
     oldPasswordIncorrect: 'Old password incorrect',
     uploadSuccess: 'Upload Successfully',
@@ -205,7 +205,7 @@ export default {
   common: {
     system: 'Microservice Auth System',
     desc: {
-      a: 'Based on Spring Boot 2.1.8 & Spring Cloud Greenwich.SR3',
+      a: 'Based on Spring Boot 2.1.2 & Spring Cloud Greenwich.RELEASE',
       b: 'Use Spring Cloud OAuth2 Unified Authentication',
       c: 'Authentication server resource server separation, easy to expand',
       d: 'Front-end separation architecture for increased efficiency',
@@ -260,9 +260,11 @@ export default {
       h: 'What are you going to eat?',
       i: 'Do you want to watch movies on weekends?'
     },
+    docDetails: 'Learn more',
     allProject: 'All Projects',
     noDept: 'No department',
     noRole: 'No role',
+    noWorkDescribe: `This guy's lazy.He didn't leave anything.`,
     firstLogin: 'First login',
     todayIp: 'Today IP',
     todayVisit: 'Today visits',

@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/layout'
 import db from '@/utils/localstorage'
-import request from '@/utils/request'
 import store from '@/store/index'
+import loginApi from '@/api/Login.js'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -93,20 +93,19 @@ router.beforeEach((to, from, next) => {
   if (whiteList.indexOf(to.path) !== -1) {
     next()
   } else {
-    const token = db.get('ACCESS_TOKEN')
+    const token = db.get('TOKEN')
     const user = db.get('USER')
     const userRouter = get('USER_ROUTER')
     if (token.length && user) {
       if (!asyncRouter) {
         if (!userRouter) {
-          request.get(`system/menu/${user.username}`).then((res) => {
-            const permissions = res.data.data.permissions
-            store.commit('account/setPermissions', permissions)
-            asyncRouter = res.data.data.routes
-            store.commit('account/setRoutes', asyncRouter)
-            save('USER_ROUTER', asyncRouter)
-            go(to, next)
-          })
+          loginApi.getRouter({})
+            .then(data => {
+              asyncRouter = data.data
+              store.commit('account/setRoutes', asyncRouter)
+              save('USER_ROUTER', asyncRouter)
+              go(to, next)
+            })
         } else {
           asyncRouter = userRouter
           go(to, next)
@@ -128,21 +127,21 @@ router.afterEach(() => {
   NProgress.done()
 })
 
-function go(to, next) {
+function go (to, next) {
   asyncRouter = filterAsyncRouter(asyncRouter)
   router.addRoutes(asyncRouter)
   next({ ...to, replace: true })
 }
 
-function save(name, data) {
+function save (name, data) {
   localStorage.setItem(name, JSON.stringify(data))
 }
 
-function get(name) {
+function get (name) {
   return JSON.parse(localStorage.getItem(name))
 }
 
-function filterAsyncRouter(routes) {
+function filterAsyncRouter (routes) {
   return routes.filter((route) => {
     const component = route.component
     if (component) {
@@ -159,8 +158,8 @@ function filterAsyncRouter(routes) {
   })
 }
 
-function view(path) {
-  return function(resolve) {
+function view (path) {
+  return function (resolve) {
     import(`@/views/${path}.vue`).then(mod => {
       resolve(mod)
     })

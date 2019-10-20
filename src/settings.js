@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'FEBS Cloud',
+  title: 'zuihou-ui',
   // Spring Boot Admin控制台地址
   springBootAdminUrl: 'http://localhost:8401',
   // Swagger UI 地址
@@ -9,7 +9,7 @@ module.exports = {
   // kibana 控制台地址
   kibanaUrl: 'http://192.168.33.10:5601',
   // 第三方登录接口地址
-  socialLoginUrl: 'http://localhost:8301/auth/social/login',
+  socialLoginUrl: 'https://apicloud.mrbird.cn:8301/auth/social/login',
   // 验证码获取接口地址
-  captchaUrl: 'http://localhost:8301/auth/captcha'
+  captchaUrl: 'https://apicloud.mrbird.cn:8301/auth/captcha'
 }

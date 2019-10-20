@@ -9,7 +9,7 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 10000,
   responseType: 'json',
-  validateStatus(status) {
+  validateStatus (status) {
     return status === 200
   }
 })
@@ -18,7 +18,7 @@ const refresh_service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 10000,
   responseType: 'json',
-  validateStatus(status) {
+  validateStatus (status) {
     return status === 200
   }
 })
@@ -93,7 +93,7 @@ service.interceptors.response.use((config) => {
 })
 
 const request = {
-  refresh(url, params) {
+  refresh (url, params) {
     params['grant_type'] = 'refresh_token'
     return refresh_service.post(url, params, {
       transformRequest: [(params) => {
@@ -104,7 +104,7 @@ const request = {
       }
     })
   },
-  login(url, params) {
+  login (url, params) {
     params['grant_type'] = 'password'
     return service.post(url, params, {
       transformRequest: [(params) => {
@@ -115,7 +115,7 @@ const request = {
       }
     })
   },
-  post(url, params) {
+  post (url, params) {
     return service.post(url, params, {
       transformRequest: [(params) => {
         return tansParams(params)
@@ -125,7 +125,7 @@ const request = {
       }
     })
   },
-  put(url, params) {
+  put (url, params) {
     return service.put(url, params, {
       transformRequest: [(params) => {
         return tansParams(params)
@@ -135,7 +135,7 @@ const request = {
       }
     })
   },
-  get(url, params) {
+  get (url, params) {
     let _params
     if (Object.is(params, undefined)) {
       _params = ''
@@ -149,7 +149,7 @@ const request = {
     }
     return service.get(`${url}${_params}`)
   },
-  delete(url, params) {
+  delete (url, params) {
     let _params
     if (Object.is(params, undefined)) {
       _params = ''
@@ -163,7 +163,7 @@ const request = {
     }
     return service.delete(`${url}${_params}`)
   },
-  download(url, params, filename) {
+  download (url, params, filename) {
     NProgress.start()
     return service.post(url, params, {
       transformRequest: [(params) => {
@@ -196,7 +196,7 @@ const request = {
       })
     })
   },
-  upload(url, params) {
+  upload (url, params) {
     return service.post(url, params, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -205,7 +205,7 @@ const request = {
   }
 }
 
-function tansParams(params) {
+function tansParams (params) {
   let result = ''
   Object.keys(params).forEach((key) => {
     if (!Object.is(params[key], undefined) && !Object.is(params[key], null)) {
@@ -215,8 +215,9 @@ function tansParams(params) {
   return result
 }
 
-async function queryRefreshToken(config, refreshToken) {
-  const result = await request.refresh('auth/oauth/token', {
+async function queryRefreshToken (config, refreshToken) {
+  const result = await request.refresh('authority/anno/login', {
+    // const result = await request.refresh('auth/oauth/token', {
     refresh_token: refreshToken
   })
   if (result.status === 200) {
@@ -226,7 +227,7 @@ async function queryRefreshToken(config, refreshToken) {
   return config
 }
 
-function saveData(data) {
+function saveData (data) {
   store.commit('account/setAccessToken', data.access_token)
   store.commit('account/setRefreshToken', data.refresh_token)
   const current = new Date()

@@ -14,7 +14,7 @@ export default {
     deleteCache: '清除缓存'
   },
   login: {
-    title: 'FEBS 系统登录',
+    title: 'zuihou-admin-cloud',
     logIn: '立即登录',
     username: '账号',
     password: '密码',
@@ -142,7 +142,7 @@ export default {
     sidebarLogo: '侧边栏 Logo'
   },
   system: {
-    title: 'FEBS 权限系统'
+    title: 'zuihou-admin'
   },
   tips: {
     usernameShouldNotBeEmpty: '用户名不能为空',
@@ -205,8 +205,8 @@ export default {
   common: {
     system: '分布式微服务权限系统',
     desc: {
-      a: '基于Spring Boot 2.1.8 & Spring Cloud Greenwich.SR3',
-      b: '使用Spring Cloud OAuth2统一认证',
+      a: '基于Spring Boot 2.1.2 & Spring Cloud Greenwich.RELEASE',
+      b: '使用Jwt自定义统一认证',
       c: '认证服务器资源服务器分离，方便拓展',
       d: '前后端分离架构，提高软件开发效率',
       e: '集成多种监控，为微服务保驾护航',
@@ -257,9 +257,11 @@ export default {
       h: '准备吃些什么呢',
       i: '周末要不要去看电影？'
     },
+    docDetails: '了解更多',
     allProject: '所有项目',
     noDept: '暂无部门',
     noRole: '暂无角色',
+    noWorkDescribe: '这家伙很懒，什么也没留下~',
     firstLogin: '第一次登录系统',
     todayIp: '今日IP',
     todayVisit: '今日访问',

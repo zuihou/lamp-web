@@ -1,25 +1,28 @@
 <template>
-  <div class="drawer-container">
+  <div class='drawer-container'>
     <div>
-      <h3 class="drawer-title">{{ $t('settings.title') }}</h3>
-      <div class="drawer-item">
+      <h3 class='drawer-title'>{{ $t('settings.title') }}</h3>
+      <div class='drawer-item'>
         <span>{{ $t('settings.theme') }}</span>
-        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
+        <theme-picker
+          style='float: right;height: 26px;margin: -3px 8px 0 0;'
+          @change='themeChange'
+        />
       </div>
 
-      <div class="drawer-item">
+      <div class='drawer-item'>
         <span>{{ $t('settings.tagsView') }}</span>
-        <el-switch v-model="tagsView" class="drawer-switch" />
+        <el-switch v-model='tagsView' class='drawer-switch' />
       </div>
 
-      <div class="drawer-item">
+      <div class='drawer-item'>
         <span>{{ $t('settings.fixedHeader') }}</span>
-        <el-switch v-model="fixedHeader" class="drawer-switch" />
+        <el-switch v-model='fixedHeader' class='drawer-switch' />
       </div>
 
-      <div class="drawer-item">
+      <div class='drawer-item'>
         <span>{{ $t('settings.sidebarLogo') }}</span>
-        <el-switch v-model="sidebarLogo" class="drawer-switch" />
+        <el-switch v-model='sidebarLogo' class='drawer-switch' />
       </div>
     </div>
   </div>
@@ -30,37 +33,37 @@ import ThemePicker from '@/components/ThemePicker'
 
 export default {
   components: { ThemePicker },
-  data() {
+  data () {
     return {}
   },
   computed: {
     fixedHeader: {
-      get() {
+      get () {
         return this.$store.state.setting.fixHeader
       },
-      set(val) {
+      set (val) {
         this.$store.commit('setting/fixHeader', val)
       }
     },
     tagsView: {
-      get() {
+      get () {
         return this.$store.state.setting.multipage
       },
-      set(val) {
+      set (val) {
         this.$store.commit('setting/setMultipage', val)
       }
     },
     sidebarLogo: {
-      get() {
+      get () {
         return this.$store.state.setting.sidebarLogo
       },
-      set(val) {
+      set (val) {
         this.$store.commit('setting/setSidebarLogo', val)
       }
     }
   },
   methods: {
-    themeChange(val) {
+    themeChange (val) {
       this.$store.commit('setting/setTheme', val)
     }
   }
@@ -76,19 +79,19 @@ export default {
 
   .drawer-title {
     margin-bottom: 12px;
-    color: rgba(0, 0, 0, .85);
+    color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     line-height: 22px;
   }
 
   .drawer-item {
-    color: rgba(0, 0, 0, .65);
+    color: rgba(0, 0, 0, 0.65);
     font-size: 14px;
     padding: 12px 0;
   }
 
   .drawer-switch {
-    float: right
+    float: right;
   }
 }
 </style>

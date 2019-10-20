@@ -1,43 +1,44 @@
 <template>
-  <div class="navbar">
-    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+  <div class='navbar'>
+    <hamburger
+      id='hamburger-container'
+      :is-active='sidebar.opened'
+      class='hamburger-container'
+      @toggleClick='toggleSideBar'
+    />
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <breadcrumb id='breadcrumb-container' class='breadcrumb-container' />
 
-    <div class="right-menu">
-      <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" />
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-        <lang-select class="right-menu-item hover-effect" />
+    <div class='right-menu'>
+      <template v-if='device!=="mobile"'>
+        <search id='header-search' class='right-menu-item' />
+        <screenfull id='screenfull' class='right-menu-item hover-effect' />
+        <lang-select class='right-menu-item hover-effect' />
       </template>
 
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar" alt="avatar">
-          <span class="user-name">{{ username }}</span>
+      <el-dropdown class='avatar-container right-menu-item hover-effect' trigger='click'>
+        <div class='avatar-wrapper'>
+          <img :src='avatar' class='user-avatar' alt='avatar' />
+          <span class='user-name'>{{ name }}</span>
         </div>
-        <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile/index">
-            <el-dropdown-item>
-              {{ $t('navbar.profile') }}
-            </el-dropdown-item>
+        <el-dropdown-menu slot='dropdown'>
+          <router-link to='/profile/index'>
+            <el-dropdown-item>{{ $t('navbar.profile') }}</el-dropdown-item>
           </router-link>
           <el-dropdown-item>
-            <span style="display:block;" @click="setting">{{ $t('navbar.setting') }}</span>
+            <span style='display:block;' @click='setting'>{{ $t('navbar.setting') }}</span>
           </el-dropdown-item>
-          <a target="_blank" href="https://github.com/wuyouzhuguli/FEBS-Cloud">
-            <el-dropdown-item>
-              {{ $t('navbar.github') }}
-            </el-dropdown-item>
+          <a target='_blank' href='https://github.com/zuihou/zuihou-admin-cloud'>
+            <el-dropdown-item>{{ $t('navbar.github') }}</el-dropdown-item>
           </a>
-          <a target="_blank" href="https://www.kancloud.cn/mrbird/spring-cloud/1263679">
+          <a target='_blank' href='https://www.kancloud.cn/zuihou/zuihou-admin-cloud/'>
             <el-dropdown-item>{{ $t('navbar.docs') }}</el-dropdown-item>
           </a>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="deleteCache">{{ $t('navbar.deleteCache') }}</span>
+            <span style='display:block;' @click='deleteCache'>{{ $t('navbar.deleteCache') }}</span>
           </el-dropdown-item>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
+            <span style='display:block;' @click='logout'>{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -62,34 +63,35 @@ export default {
     Search
   },
   computed: {
-    sidebar() {
+    sidebar () {
       return this.$store.state.setting.sidebar
     },
-    avatar() {
-      return require(`@/assets/avatar/${this.$store.state.account.user.avatar}`)
+    avatar () {
+      // return require(`@/assets/avatar/${this.$store.state.account.user.avatar}`)
+      return require(`@/assets/avatar/default.jpg`)
     },
-    username() {
-      return this.$store.state.account.user.username
+    name () {
+      return this.$store.state.account.user.name
     },
-    device() {
+    device () {
       return this.$store.state.setting.device
     }
   },
   methods: {
-    toggleSideBar() {
+    toggleSideBar () {
       this.$store.commit('setting/toggleSidebar')
     },
-    setting() {
+    setting () {
       this.$store.commit('setting/openSettingBar', true)
     },
-    logout() {
+    logout () {
       this.clean()
     },
-    clean() {
+    clean () {
       db.clear()
       location.reload()
     },
-    deleteCache() {
+    deleteCache () {
       this.$confirm(this.$t('tips.confirmDeleteCache'), this.$t('common.tips'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
@@ -118,11 +120,11 @@ export default {
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(0, 0, 0, 0.025);
     }
   }
 
@@ -154,10 +156,10 @@ export default {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }

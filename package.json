@@ -1,7 +1,7 @@
 {
-  "name": "febs-cloud-web",
-  "version": "4.2.1",
-  "description": "febs cloud微服务权限系统前端",
+  "name": "zuihou-ui",
+  "version": "1.0",
+  "description": "zuihou-admin-cloud微服务权限系统前端",
   "author": "MrBird",
   "license": "Apache 2.0",
   "scripts": {
@@ -33,10 +33,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/wuyouzhuguli/FEBS-Cloud"
+    "url": "https://github.com/zuihou/zuihou-admin-cloud"
   },
   "bugs": {
-    "url": "https://github.com/wuyouzhuguli/FEBS-Cloud/issues"
+    "url": "https://github.com/zuihou/zuihou-admin-cloud/issues"
   },
   "dependencies": {
     "@riophae/vue-treeselect": "0.0.38",
