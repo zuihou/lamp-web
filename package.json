@@ -1,8 +1,8 @@
 {
   "name": "zuihou-ui",
   "version": "1.0",
-  "description": "zuihou-admin-cloud微服务权限系统前端",
-  "author": "MrBird",
+  "description": "zuihou-admin-cloud前端",
+  "author": "zuihou",
   "license": "Apache 2.0",
   "scripts": {
     "dev": "vue-cli-service serve",
