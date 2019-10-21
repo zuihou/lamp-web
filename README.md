@@ -54,7 +54,7 @@ zuihou-ui 是[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)�
 
 ## 安装
 ```
-npm install
+npm install --registry=https://registry.npm.taobao.org
 ```
 
 ### 本地开发环境运行
