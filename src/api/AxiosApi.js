@@ -25,6 +25,7 @@ axios.interceptors.response.use(
 
 function handleError (error, reject) {
   if (error.code === 'ECONNABORTED') {
+    debugger
     Message({
       message: '请求超时'
     })
@@ -43,11 +44,12 @@ function handleError (error, reject) {
 function handleSuccess (res, resolve) {
   if (!res.data.isSuccess && res.data.msg) {
     // 未登录
+    debugger
     if (res.data.code === 40001) {
       MessageBox.alert(res.data.msg, '提醒', {
         confirmButtonText: '确定',
         callback: () => {
-          window.location.hash = '/'
+          window.location.hash = '/login'
         }
       })
     } else {
@@ -66,9 +68,12 @@ const httpServer = (opts) => {
 
   // http默认配置
   const method = opts.method.toUpperCase()
+  // baseURL
+  // 开发环境： /api                 // 开发环境在 vue.config.js 中有 devServer.proxy 代理
+  // 生产环境： http://IP:PORT/api   // 生产环境中 代理失效， 故需要配置绝对路径
   const httpDefaultOpts = {
     method,
-    baseURL: process.env.VUE_APP_BASE_API,
+    baseURL: process.env.VUE_APP_PROD_REQUEST_DOMAIN_PREFIX + process.env.VUE_APP_BASE_API,
     url: opts.url,
     responseType: opts.responseType || '',
     timeout: 20000

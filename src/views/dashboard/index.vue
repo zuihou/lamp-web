@@ -1,49 +1,49 @@
 <template>
-  <div class='main'>
-    <el-row :gutter='10'>
-      <el-col :xs='24' :sm='24'>
-        <div class='app-container user-container'>
-          <el-row :gutter='10'>
-            <el-col :xs='24' :sm='12'>
-              <div class='user-wrapper'>
-                <div class='user-header'>
-                  <img alt='avatar' :src='avatar' />
+  <div class="main">
+    <el-row :gutter="10">
+      <el-col :xs="24" :sm="24">
+        <div class="app-container user-container">
+          <el-row :gutter="10">
+            <el-col :xs="24" :sm="12">
+              <div class="user-wrapper">
+                <div class="user-header">
+                  <img alt="avatar" :src="avatar">
                 </div>
-                <div class='user-info'>
-                  <div class='random-message'>{{ welcomeMessage }}</div>
-                  <div class='user-dept'>
+                <div class="user-info">
+                  <div class="random-message">{{ welcomeMessage }}</div>
+                  <div class="user-dept">
                     <span>{{ user.workDescribe ? user.workDescribe : $t('common.workDescribe') }}</span>
                   </div>
-                  <div class='user-login-info'>
+                  <div class="user-login-info">
                     {{ $t('common.lastLoginTime') }}：
                     <span
-                      id='last-login-time'
+                      id="last-login-time"
                     >{{ user.lastLoginTime ? user.lastLoginTime : $t('common.firstLogin') }}</span>
                   </div>
                 </div>
               </div>
             </el-col>
-            <el-col :xs='24' :sm='12'>
-              <div class='user-visits'>
-                <el-row style='margin-bottom: .7rem'>
-                  <el-col :span='4' :offset='4'>{{ $t('common.todayIp') }}</el-col>
-                  <el-col :span='4' :offset='4'>{{ $t('common.todayVisit') }}</el-col>
-                  <el-col :span='4' :offset='4'>{{ $t('common.TotalVisit') }}</el-col>
+            <el-col :xs="24" :sm="12">
+              <div class="user-visits">
+                <el-row style="margin-bottom: .7rem">
+                  <el-col :span="4" :offset="4">{{ $t('common.todayIp') }}</el-col>
+                  <el-col :span="4" :offset="4">{{ $t('common.todayVisit') }}</el-col>
+                  <el-col :span="4" :offset="4">{{ $t('common.TotalVisit') }}</el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span='4' :offset='4' class='num'>
-                    <el-link type='primary'>
-                      <countTo :start-val='0' :end-val='todayIp' :duration='3000' />
+                  <el-col :span="4" :offset="4" class="num">
+                    <el-link type="primary">
+                      <countTo :start-val="0" :end-val="todayIp" :duration="3000" />
                     </el-link>
                   </el-col>
-                  <el-col :span='4' :offset='4' class='num'>
-                    <el-link type='primary'>
-                      <countTo :start-val='0' :end-val='todayVisit' :duration='3000' />
+                  <el-col :span="4" :offset="4" class="num">
+                    <el-link type="primary">
+                      <countTo :start-val="0" :end-val="todayVisit" :duration="3000" />
                     </el-link>
                   </el-col>
-                  <el-col :span='4' :offset='4' class='num'>
-                    <el-link type='primary'>
-                      <countTo :start-val='0' :end-val='totalVisit' :duration='3000' />
+                  <el-col :span="4" :offset="4" class="num">
+                    <el-link type="primary">
+                      <countTo :start-val="0" :end-val="totalVisit" :duration="3000" />
                     </el-link>
                   </el-col>
                 </el-row>
@@ -53,42 +53,42 @@
         </div>
       </el-col>
     </el-row>
-    <el-row :gutter='10'>
-      <el-col :xs='24' :sm='12'>
-        <div class='app-container'>
-          <div id='visit-count-chart' style='width: 100%;height: 20rem' />
+    <el-row :gutter="10">
+      <el-col :xs="24" :sm="12">
+        <div class="app-container">
+          <div id="visit-count-chart" style="width: 100%;height: 20rem" />
         </div>
       </el-col>
-      <el-col :xs='24' :sm='12'>
-        <div class='app-container project-wrapper'>
-          <div class='project-header'>
+      <el-col :xs="24" :sm="12">
+        <div class="app-container project-wrapper">
+          <div class="project-header">
             <el-link
-              type='primary'
-              href='https://www.kancloud.cn/zuihou/zuihou-admin-cloud'
-              target='_blank'
-              style='float: right;'
+              type="primary"
+              href="https://www.kancloud.cn/zuihou/zuihou-admin-cloud"
+              target="_blank"
+              style="float: right;"
             >{{ $t('common.docDetails') }}</el-link>
           </div>
           <table>
             <tr>
               <td>
-                <div class='project-avatar-wrapper'>
-                  <el-avatar class='project-avatar'>{{ projects[0].avatar }}</el-avatar>
+                <div class="project-avatar-wrapper">
+                  <el-avatar class="project-avatar">{{ projects[0].avatar }}</el-avatar>
                 </div>
-                <div class='project-detail'>
-                  <div class='project-name'>{{ projects[0].name }}</div>
-                  <div class='project-desc'>
+                <div class="project-detail">
+                  <div class="project-name">{{ projects[0].name }}</div>
+                  <div class="project-desc">
                     <p>{{ projects[0].des }}</p>
                   </div>
                 </div>
               </td>
               <td>
-                <div class='project-avatar-wrapper'>
-                  <el-avatar class='project-avatar'>{{ projects[1].avatar }}</el-avatar>
+                <div class="project-avatar-wrapper">
+                  <el-avatar class="project-avatar">{{ projects[1].avatar }}</el-avatar>
                 </div>
-                <div class='project-detail'>
-                  <div class='project-name'>{{ projects[1].name }}</div>
-                  <div class='project-desc'>
+                <div class="project-detail">
+                  <div class="project-name">{{ projects[1].name }}</div>
+                  <div class="project-desc">
                     <p>{{ projects[1].des }}</p>
                   </div>
                 </div>
@@ -96,23 +96,23 @@
             </tr>
             <tr>
               <td>
-                <div class='project-avatar-wrapper'>
-                  <el-avatar class='project-avatar'>{{ projects[2].avatar }}</el-avatar>
+                <div class="project-avatar-wrapper">
+                  <el-avatar class="project-avatar">{{ projects[2].avatar }}</el-avatar>
                 </div>
-                <div class='project-detail'>
-                  <div class='project-name'>{{ projects[2].name }}</div>
-                  <div class='project-desc'>
+                <div class="project-detail">
+                  <div class="project-name">{{ projects[2].name }}</div>
+                  <div class="project-desc">
                     <p>{{ projects[2].des }}</p>
                   </div>
                 </div>
               </td>
               <td>
-                <div class='project-avatar-wrapper'>
-                  <el-avatar class='project-avatar'>{{ projects[3].avatar }}</el-avatar>
+                <div class="project-avatar-wrapper">
+                  <el-avatar class="project-avatar">{{ projects[3].avatar }}</el-avatar>
                 </div>
-                <div class='project-detail'>
-                  <div class='project-name'>{{ projects[3].name }}</div>
-                  <div class='project-desc'>
+                <div class="project-detail">
+                  <div class="project-name">{{ projects[3].name }}</div>
+                  <div class="project-desc">
                     <p>{{ projects[3].des }}</p>
                   </div>
                 </div>
@@ -120,23 +120,23 @@
             </tr>
             <tr>
               <td>
-                <div class='project-avatar-wrapper'>
-                  <el-avatar class='project-avatar'>{{ projects[4].avatar }}</el-avatar>
+                <div class="project-avatar-wrapper">
+                  <el-avatar class="project-avatar">{{ projects[4].avatar }}</el-avatar>
                 </div>
-                <div class='project-detail'>
-                  <div class='project-name'>{{ projects[4].name }}</div>
-                  <div class='project-desc'>
+                <div class="project-detail">
+                  <div class="project-name">{{ projects[4].name }}</div>
+                  <div class="project-desc">
                     <p>{{ projects[4].des }}</p>
                   </div>
                 </div>
               </td>
               <td>
-                <div class='project-avatar-wrapper'>
-                  <el-avatar class='project-avatar'>{{ projects[5].avatar }}</el-avatar>
+                <div class="project-avatar-wrapper">
+                  <el-avatar class="project-avatar">{{ projects[5].avatar }}</el-avatar>
                 </div>
-                <div class='project-detail'>
-                  <div class='project-name'>{{ projects[5].name }}</div>
-                  <div class='project-desc'>
+                <div class="project-detail">
+                  <div class="project-name">{{ projects[5].name }}</div>
+                  <div class="project-desc">
                     <p>{{ projects[5].des }}</p>
                   </div>
                 </div>
@@ -237,11 +237,10 @@ export default {
         if (r.isError) {
           return
         }
-        debugger
         const data = r.data
-        this.todayIp = data.todayIp
-        this.totalVisit = data.totalVisitCount
-        this.todayVisit = data.todayVisitCount
+        this.todayIp = Number(data.todayIp)
+        this.totalVisit = Number(data.totalVisitCount)
+        this.todayVisit = Number(data.todayVisitCount)
         const tenVisitCount = []
         const dateArr = []
         const tenUserVisitCount = []

@@ -1,11 +1,11 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  getVisitList: `/authority/dashboard/visit`
+  findUserPage: `/authority/dashboard/visit`
 }
 
 export default {
-  getVisitList (data) {
+  findUserPage (data) {
     return axiosApi({
       method: 'GET',
       url: apiList.getVisitList,

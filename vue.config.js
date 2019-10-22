@@ -9,9 +9,15 @@ const name = settings.title // page title
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
-const port = 9527 // dev port
+// const port = 9527 // dev port
 
-let targetUrl = process.env.API_PREFIX
+const targetUrl = process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX
+const proxyUrl = process.env.VUE_APP_BASE_API
+
+// console.log(process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX)
+// console.log(process.env.VUE_APP_BASE_API)
+// console.log(process.env.VUE_APP_PROD_REQUEST_DOMAIN_PREFIX)
+// console.log(process.env)
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -28,7 +34,7 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
-    port: port,
+    // port: port,
     open: true,
     overlay: {
       warnings: false,
@@ -38,12 +44,12 @@ module.exports = {
     proxy: {
       // change xxx-api/login => ≥mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
+      [proxyUrl]: {
         target: targetUrl,
-        changeOrigin: true
-        // pathRewrite: {
-        //   ['^' + process.env.VUE_APP_BASE_API]: ''
-        // }
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + proxyUrl]: proxyUrl
+        }
       }
     }
   },

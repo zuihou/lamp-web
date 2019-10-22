@@ -1,5 +1,9 @@
-FROM nginx:1.14.2
-MAINTAINER MrBird 852252810@qq.com
+FROM nginx:1.17.0
+MAINTAINER zuihou 244387066@qq.com
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.template /etc/nginx/conf.d/nginx.template
 COPY dist/ /etc/nginx/html
+
+# 通过 envsubst 命令替换 nginx.template 模板中的变量，并覆盖/etc/nginx/nginx.conf 
+CMD envsubst '$NGINX_HOST $DOCKER_REQUEST_DOMAIN_PREFIX' < /etc/nginx/conf.d/nginx.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'
+
