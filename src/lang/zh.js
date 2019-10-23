@@ -227,7 +227,7 @@ export default {
       secret: '保密'
     },
     status: {
-      valid: '有效',
+      valid: '启用',
       invalid: '禁用'
     },
     menu: {

@@ -1,174 +1,173 @@
 <template>
-  <div class="app-container">
-    <div class="filter-container">
+  <div class='app-container'>
+    <div class='filter-container'>
       <el-input
-        v-model="queryParams.username"
-        :placeholder="$t(&quot;table.user.username&quot;)"
-        class="filter-item search-item"
+        v-model='queryParams.username'
+        :placeholder='$t(&quot;table.user.username&quot;)'
+        class='filter-item search-item'
       />
       <el-input
-        v-model="queryParams.deptName"
-        :placeholder="$t(&quot;table.user.dept&quot;)"
-        class="filter-item search-item"
+        v-model='queryParams.deptName'
+        :placeholder='$t(&quot;table.user.dept&quot;)'
+        class='filter-item search-item'
       />
       <el-date-picker
-        v-model="queryParams.timeRange"
-        :range-separator="null"
-        :start-placeholder="$t(&quot;table.user.createTime&quot;)"
-        value-format="yyyy-MM-dd"
-        class="filter-item search-item date-range-item"
-        type="daterange"
+        v-model='queryParams.timeRange'
+        :range-separator='null'
+        :start-placeholder='$t(&quot;table.user.createTime&quot;)'
+        value-format='yyyy-MM-dd'
+        class='filter-item search-item date-range-item'
+        type='daterange'
       />
-      <el-button class="filter-item" type="primary" plain @click="search">{{ $t('table.search') }}</el-button>
-      <el-button class="filter-item" type="warning" plain @click="reset">{{ $t('table.reset') }}</el-button>
+      <el-button class='filter-item' type='primary' plain @click='search'>{{ $t('table.search') }}</el-button>
+      <el-button class='filter-item' type='warning' plain @click='reset'>{{ $t('table.reset') }}</el-button>
       <el-dropdown
-        v-has-any-permission="[&quot;user:add&quot;,&quot;user:delete&quot;,&quot;user:reset&quot;,&quot;user:export&quot;]"
-        trigger="click"
-        class="filter-item"
+        v-has-any-permission='[&quot;user:add&quot;,&quot;user:delete&quot;,&quot;user:reset&quot;,&quot;user:export&quot;]'
+        trigger='click'
+        class='filter-item'
       >
         <el-button>
           {{ $t('table.more') }}
-          <i class="el-icon-arrow-down el-icon--right" />
+          <i class='el-icon-arrow-down el-icon--right' />
         </el-button>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot='dropdown'>
           <el-dropdown-item
-            v-has-permission="[&quot;user:add&quot;]"
-            @click.native="add"
+            v-has-permission='[&quot;user:add&quot;]'
+            @click.native='add'
           >{{ $t('table.add') }}</el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;user:delete&quot;]"
-            @click.native="batchDelete"
+            v-has-permission='[&quot;user:delete&quot;]'
+            @click.native='batchDelete'
           >{{ $t('table.delete') }}</el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;user:reset&quot;]"
-            @click.native="resetPassword"
+            v-has-permission='[&quot;user:reset&quot;]'
+            @click.native='resetPassword'
           >{{ $t('table.resetPassword') }}</el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;user:export&quot;]"
-            @click.native="exportExcel"
+            v-has-permission='[&quot;user:export&quot;]'
+            @click.native='exportExcel'
           >{{ $t('table.export') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
 
     <el-table
-      ref="table"
-      :key="tableKey"
-      v-loading="loading"
-      :data="list"
+      ref='table'
+      :key='tableKey'
+      v-loading='loading'
+      :data='tableData.records'
       border
       fit
-      style="width: 100%;"
-      @selection-change="onSelectChange"
-      @sort-change="sortChange"
+      style='width: 100%;'
+      @selection-change='onSelectChange'
+      @sort-change='sortChange'
     >
-      <el-table-column type="selection" align="center" width="40px" />
+      <el-table-column type='selection' align='center' width='40px' />
       <el-table-column
-        :label="$t(&quot;table.user.username&quot;)"
-        prop="username"
-        :show-overflow-tooltip="true"
-        align="center"
-        min-width="120px"
+        :label='$t(&quot;table.user.username&quot;)'
+        prop='name'
+        :show-overflow-tooltip='true'
+        align='center'
+        min-width='120px'
       >
-        <template slot-scope="scope">
-          <span>{{ scope.row.username }}</span>
+        <template slot-scope='scope'>
+          <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.sex&quot;)"
-        :filters="[{ text: $t(&quot;common.sex.male&quot;), value: &quot;0&quot; }, { text: $t(&quot;common.sex.female&quot;), value: &quot;1&quot; }, { text: $t(&quot;common.sex.secret&quot;), value: &quot;2&quot; }]"
-        :filter-method="filterSex"
-        class-name="status-col"
+        :label='$t(&quot;table.user.sex&quot;)'
+        prop='sex.desc'
+        class-name='status-col'
       >
-        <template slot-scope="{row}">
-          <el-tag :type="row.sex | sexFilter">{{ transSex(row.sex) }}</el-tag>
+        <template slot-scope='{row}'>
+          <el-tag :type='row.sex.code | sexFilter'>{{ row.sex.desc }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.email&quot;)"
-        :show-overflow-tooltip="true"
-        align="center"
-        min-width="150px"
+        :label='$t(&quot;table.user.email&quot;)'
+        :show-overflow-tooltip='true'
+        align='center'
+        min-width='150px'
       >
-        <template slot-scope="scope">
+        <template slot-scope='scope'>
           <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t(&quot;table.user.dept&quot;)" align="center" min-width="100px">
-        <template slot-scope="scope">
-          <span>{{ scope.row.deptName }}</span>
+      <el-table-column :label='$t(&quot;table.user.dept&quot;)' align='center' min-width='100px'>
+        <template slot-scope='scope'>
+          <span>{{ scope.row.orgId }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.status&quot;)"
-        :filters="[{ text: $t(&quot;common.status.valid&quot;), value: &quot;1&quot; }, { text: $t(&quot;common.status.invalid&quot;), value: &quot;0&quot; }]"
-        :filter-method="filterStatus"
-        class-name="status-col"
+        :label='$t(&quot;table.user.status&quot;)'
+        :filters='[{ text: $t(&quot;common.status.valid&quot;), value: &quot;1&quot; }, { text: $t(&quot;common.status.invalid&quot;), value: &quot;0&quot; }]'
+        :filter-method='filterStatus'
+        class-name='status-col'
       >
-        <template slot-scope="{row}">
+        <template slot-scope='{row}'>
           <el-tag
-            :type="row.status | statusFilter"
+            :type='row.status | statusFilter'
           >{{ row.status === '1' ? $t('common.status.valid') : $t('common.status.invalid') }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.createTime&quot;)"
-        prop="createTime"
-        align="center"
-        min-width="180px"
-        sortable="custom"
+        :label='$t(&quot;table.user.createTime&quot;)'
+        prop='createTime'
+        align='center'
+        min-width='180px'
+        sortable='custom'
       >
-        <template slot-scope="scope">
+        <template slot-scope='scope'>
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.operation&quot;)"
-        align="center"
-        min-width="150px"
-        class-name="small-padding fixed-width"
+        :label='$t(&quot;table.operation&quot;)'
+        align='center'
+        min-width='150px'
+        class-name='small-padding fixed-width'
       >
-        <template slot-scope="{row}">
+        <template slot-scope='{row}'>
           <i
-            v-hasPermission="[&quot;user:view&quot;]"
-            class="el-icon-view table-operation"
-            style="color: #87d068;"
-            @click="view(row)"
+            v-hasPermission='[&quot;user:view&quot;]'
+            class='el-icon-view table-operation'
+            style='color: #87d068;'
+            @click='view(row)'
           />
           <i
-            v-hasPermission="[&quot;user:update&quot;]"
-            class="el-icon-setting table-operation"
-            style="color: #2db7f5;"
-            @click="edit(row)"
+            v-hasPermission='[&quot;user:update&quot;]'
+            class='el-icon-setting table-operation'
+            style='color: #2db7f5;'
+            @click='edit(row)'
           />
           <i
-            v-hasPermission="[&quot;user:delete&quot;]"
-            class="el-icon-delete table-operation"
-            style="color: #f50;"
-            @click="singleDelete(row)"
+            v-hasPermission='[&quot;user:delete&quot;]'
+            class='el-icon-delete table-operation'
+            style='color: #f50;'
+            @click='singleDelete(row)'
           />
           <el-link
-            v-has-no-permission="[&quot;user:view&quot;,&quot;user:update&quot;,&quot;user:delete&quot;]"
-            class="no-perm"
+            v-has-no-permission='[&quot;user:view&quot;,&quot;user:update&quot;,&quot;user:delete&quot;]'
+            class='no-perm'
           >{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>
     <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="pagination.num"
-      :limit.sync="pagination.size"
-      @pagination="fetch"
+      v-show='tableData.total>0'
+      :total='Number(tableData.total)'
+      :page.sync='pagination.current'
+      :limit.sync='pagination.size'
+      @pagination='fetch'
     />
     <user-edit
-      ref="edit"
-      :dialog-visible="dialog.isVisible"
-      :title="dialog.title"
-      @success="editSuccess"
-      @close="editClose"
+      ref='edit'
+      :dialog-visible='dialog.isVisible'
+      :title='dialog.title'
+      @success='editSuccess'
+      @close='editClose'
     />
-    <user-view ref="view" :dialog-visible="userViewVisible" @close="viewClose" />
+    <user-view ref='view' :dialog-visible='userViewVisible' @close='viewClose' />
   </div>
 </template>
 
@@ -176,6 +175,7 @@
 import Pagination from '@/components/Pagination'
 import UserEdit from './Edit'
 import UserView from './View'
+import userApi from '@/api/User.js'
 
 export default {
   name: 'UserManage',
@@ -183,18 +183,17 @@ export default {
   filters: {
     sexFilter (status) {
       const map = {
-        0: 'success',
-        1: 'danger',
-        2: 'info'
+        "W": 'success',
+        "M": 'danger'
       }
-      return map[status]
+      return map[status] || 'info'
     },
     statusFilter (status) {
       const map = {
-        0: 'danger',
-        1: 'success'
+        "0": 'danger',
+        "1": 'success'
       }
-      return map[status]
+      return map[status] || 'success'
     }
   },
   data () {
@@ -205,15 +204,18 @@ export default {
       },
       userViewVisible: false,
       tableKey: 0,
-      loading: false,
-      list: null,
       total: 0,
       queryParams: {},
       sort: {},
       selection: [],
+      // 以下已修改
+      loading: false,
+      tableData: {
+        total: 0
+      },
       pagination: {
         size: 10,
-        num: 1
+        current: 1
       }
     }
   },
@@ -223,7 +225,7 @@ export default {
     }
   },
   mounted () {
-    // this.fetch()
+    this.fetch()
   },
   methods: {
     transSex (sex) {
@@ -269,8 +271,8 @@ export default {
     },
     exportExcel () {
       this.$download('system/user/excel', {
-        pageSize: this.pagination.size,
-        pageNum: this.pagination.num,
+        size: this.pagination.size,
+        current: this.pagination.current,
         ...this.queryParams
       }, `user_${new Date().getTime()}.xlsx`)
     },
@@ -375,24 +377,23 @@ export default {
       this.dialog.isVisible = true
     },
     fetch (params = {}) {
-      debugger
       this.loading = true
-
-      // params.pageSize = this.pagination.size
-      // params.pageNum = this.pagination.num
-      // if (this.queryParams.timeRange) {
-      //   params.createTimeFrom = this.queryParams.timeRange[0]
-      //   params.createTimeTo = this.queryParams.timeRange[1]
-      // }
-
-      // this.$get('system/user', {
-      //   ...params
-      // }).then((r) => {
-      //   const data = r.data.data
-      //   this.total = data.total
-      //   this.list = data.rows
-      //   this.loading = false
-      // })
+      params.size = this.pagination.size
+      params.current = this.pagination.current
+      if (this.queryParams.timeRange) {
+        params.startCreateTime = this.queryParams.timeRange[0]
+        params.endCreateTime = this.queryParams.timeRange[1]
+      }
+      userApi.findUserPage(params)
+        .then((r) => {
+          if (r.isError) {
+            debugger
+            return
+          }
+          const data = r.data.data
+          this.tableData = r.data
+          this.loading = false
+        })
     },
     sortChange (val) {
       this.sort.field = val.prop

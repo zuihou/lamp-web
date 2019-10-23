@@ -1,14 +1,14 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  findUserPage: `/authority/dashboard/visit`
+  findUserPage: `/authority/user/page`
 }
 
 export default {
   findUserPage (data) {
     return axiosApi({
       method: 'GET',
-      url: apiList.getVisitList,
+      url: apiList.findUserPage,
       formData: true,
       data
     })
