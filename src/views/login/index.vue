@@ -23,6 +23,18 @@
         <lang-select class="set-language" />
       </div>
       <span v-if="login.type === &quot;up&quot;">
+        <el-form-item prop="tenant">
+          <el-input
+            ref="tenant"
+            v-model="loginForm.tenant"
+            :placeholder="$t(&quot;login.tenant&quot;)"
+            prefix-icon="el-icon-user"
+            name="tenant"
+            type="text"
+            autocomplete="off"
+            @keyup.enter.native="handleLogin"
+          />
+        </el-form-item>
         <el-form-item prop="account">
           <el-input
             ref="account"
@@ -200,6 +212,7 @@ export default {
       loginForm: {
         account: 'zuihou',
         password: 'zuihou',
+        tenant: '0000',
         bindAccount: '',
         bindPassword: '',
         signAccount: '',
@@ -207,6 +220,7 @@ export default {
       },
       rules: {
         account: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
+        tenant: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
         password: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
         code: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
         bindAccount: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
@@ -244,6 +258,12 @@ export default {
     getCodeImage () {
       loginApi.getCaptcha(this.randomId)
         .then(res => {
+          if (res.byteLength <= 100) {
+            this.$message({
+              message: this.$t('tips.systemError'),
+              type: 'error'
+            })
+          }
           return 'data:image/png;base64,' + btoa(
             new Uint8Array(res)
               .reduce((data, byte) => data + String.fromCharCode(byte), '')
@@ -352,17 +372,18 @@ export default {
     handleLogin () {
       let account_c = false
       let password_c = false
+      let tenant_c = false
       let code_c = false
+      this.$refs.loginForm.validateField('tenant', e => { if (!e) { tenant_c = true } })
       this.$refs.loginForm.validateField('account', e => { if (!e) { account_c = true } })
       this.$refs.loginForm.validateField('password', e => { if (!e) { password_c = true } })
       this.$refs.loginForm.validateField('code', e => { if (!e) { code_c = true } })
-      if (account_c && password_c && code_c) {
+      if (account_c && password_c && code_c && tenant_c) {
         this.loading = true
         const that = this
         that.loginForm['key'] = that.randomId
         loginApi.login(this.loginForm)
           .then(res => {
-            console.log(res)
             if (res.isSuccess) {
               that.saveLoginData(res.data.token)
               that.saveUserInfo(res.data.user)
@@ -380,6 +401,7 @@ export default {
       }
     },
     saveLoginData (token) {
+      this.$store.commit('account/setTenant', this.loginForm.tenant)
       this.$store.commit('account/setToken', token.token)
       const current = new Date()
       const expireTime = current.setTime(current.getTime() + 1000 * token.expire)
@@ -504,7 +526,7 @@ $light_gray: #eee;
     left: 70%;
     margin: -180px 0 0 -160px;
     width: 320px;
-    height: 380px;
+    height: 440px;
     padding: 36px;
     background: #fff;
     border-radius: 3px;

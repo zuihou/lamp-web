@@ -16,6 +16,7 @@ export default {
   login: {
     title: 'zuihou-admin-cloud',
     logIn: '立即登录',
+    tenant: '企业',
     username: '账号',
     password: '密码',
     code: '验证码',
@@ -145,6 +146,7 @@ export default {
     title: 'zuihou-admin'
   },
   tips: {
+    systemError: '系统维护中，请稍微再试~',
     usernameShouldNotBeEmpty: '用户名不能为空',
     passwordShouldNotBeEmpty: '密码不能为空',
     switchLanguageSuccess: '切换语言成功',

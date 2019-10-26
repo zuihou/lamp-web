@@ -16,6 +16,7 @@ export default {
   login: {
     title: 'zuihou-admin-cloud',
     logIn: 'Login',
+    tenant: 'tenant',
     username: 'Username',
     password: 'Password',
     code: 'Code',
@@ -145,6 +146,7 @@ export default {
     title: 'zuihou-ui System'
   },
   tips: {
+    systemError: 'System maintenance, please try again~',
     usernameShouldNotBeEmpty: 'Username can not be empty',
     passwordShouldNotBeEmpty: 'Password can not be empty',
     switchLanguageSuccess: 'Switch language successfully',

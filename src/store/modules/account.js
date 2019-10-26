@@ -4,14 +4,19 @@ export default {
   namespaced: true,
   state: {
     accessToken: db.get('ACCESS_TOKEN'),
-    token: db.get('TOKEN'),
     refreshToken: db.get('REFRESH_TOKEN'),
+    token: db.get('TOKEN'),
+    tenant: db.get('TENANT'),
     expireTime: db.get('EXPIRE_TIME', 0),
     user: db.get('USER'),
     permissions: db.get('PERMISSIONS') || [],
     routes: db.get('USER_ROUTER') || []
   },
   mutations: {
+    setTenant (state, val) {
+      db.save('TENANT', val)
+      state.accessToken = val
+    },
     setAccessToken (state, val) {
       db.save('ACCESS_TOKEN', val)
       state.accessToken = val

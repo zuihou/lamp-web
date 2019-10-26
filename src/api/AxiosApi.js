@@ -5,7 +5,8 @@ import db from '@/utils/localstorage'
 // 请求添加条件，如token
 axios.interceptors.request.use(
   config => {
-    config.headers.token = db.get('TOKEN') || ''
+    config.headers.token = db.get('TOKEN', '')
+    config.headers.tenant = db.get('TENANT', '')
     return config
   },
   error => {
