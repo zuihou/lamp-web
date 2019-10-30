@@ -3,7 +3,10 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   getCaptcha: `/authority/anno/captcha`,
   login: `/authority/anno/login`,
-  getRouter: `/authority/menu/router`
+  getRouter: `/authority/menu/router`,
+  loginLog: function (account) {
+    return `/authority/loginLog/success/${account}`
+  }
 }
 
 export default {
@@ -27,6 +30,13 @@ export default {
       method: 'GET',
       url: apiList.getRouter,
       formData: true,
+      data: data || {}
+    })
+  },
+  loginLog (data) {
+    return axiosApi({
+      method: 'GET',
+      url: apiList.loginLog(data),
       data: data || {}
     })
   }
