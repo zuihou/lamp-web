@@ -32,6 +32,20 @@ export default {
     github: 'Github Repository'
   },
   table: {
+    tenant: {
+      code: 'EnterpriseCode',
+      name: 'EnterpriseName',
+      type: 'Type',
+      status: 'Status',
+      duty: 'Duty',
+      expirationTime: 'ExpirationTime',
+      logo: 'Logo',
+      describe: 'Describe',
+      passwordExpire: 'PasswordExpire',
+      isMultipleLogin: 'IsCanMultipleLogin',
+      passwordErrorNum: 'PasswordErrorNum',
+      passwordErrorLockTime: 'PasswordErrorLockTime'
+    },
     user: {
       username: 'UserName',
       password: 'Password',
@@ -127,7 +141,9 @@ export default {
     templateDownload: 'Template Download',
     delete: 'Delete',
     resetPassword: 'RestPassword',
-    openInNewPage: 'New Page'
+    openInNewPage: 'New Page',
+    createTime: 'createTime',
+    updateTime: 'updateTime'
   },
   tagsView: {
     refresh: 'Refresh',

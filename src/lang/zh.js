@@ -32,6 +32,20 @@ export default {
     github: '项目地址'
   },
   table: {
+    tenant: {
+      code: '企业编码',
+      name: '企业名称',
+      type: '类型',
+      status: '状态',
+      duty: '责任人',
+      expirationTime: '有效期',
+      logo: 'logo',
+      describe: '企业简介',
+      passwordExpire: '密码有效期',
+      isMultipleLogin: '是否允许多地登录',
+      passwordErrorNum: '密码输错次数',
+      passwordErrorLockTime: '账号锁定时间'
+    },
     user: {
       username: '用户名',
       password: '密码',
@@ -127,7 +141,9 @@ export default {
     templateDownload: '模板下载',
     delete: '删除',
     resetPassword: '密码重置',
-    openInNewPage: '新页面打开'
+    openInNewPage: '新页面打开',
+    createTime: '创建时间',
+    updateTime: '修改时间'
   },
   tagsView: {
     refresh: '刷新当前',

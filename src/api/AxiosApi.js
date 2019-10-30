@@ -43,7 +43,7 @@ function handleError (error, reject) {
 }
 
 function handleSuccess (res, resolve) {
-  if (!res.data.isSuccess && res.data.msg) {
+  if (res.data.isError) {
     // 未登录
     debugger
     if (res.data.code === 40001) {
