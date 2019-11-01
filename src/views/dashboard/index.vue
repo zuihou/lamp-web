@@ -70,79 +70,45 @@
             >{{ $t('common.docDetails') }}</el-link>
           </div>
           <table>
-            <tr>
-              <td>
-                <div class="project-avatar-wrapper">
-                  <el-avatar class="project-avatar">{{ projects[0].avatar }}</el-avatar>
-                </div>
-                <div class="project-detail">
-                  <div class="project-name">{{ projects[0].name }}</div>
-                  <div class="project-desc">
-                    <p>{{ projects[0].des }}</p>
+            <template v-for="(project, index) in projects">
+              <tr v-if="index % 2 == 0" :key="project">
+                <td>
+                  <div class="project-avatar-wrapper">
+                    <el-avatar class="project-avatar">{{ projects[index].avatar }}</el-avatar>
                   </div>
-                </div>
-              </td>
-              <td>
-                <div class="project-avatar-wrapper">
-                  <el-avatar class="project-avatar">{{ projects[1].avatar }}</el-avatar>
-                </div>
-                <div class="project-detail">
-                  <div class="project-name">{{ projects[1].name }}</div>
-                  <div class="project-desc">
-                    <p>{{ projects[1].des }}</p>
+                  <div class="project-detail">
+                    <div class="project-name">{{ projects[index].name }}</div>
+                    <div class="project-desc">
+                      <p>{{ projects[index].des }}</p>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="project-avatar-wrapper">
-                  <el-avatar class="project-avatar">{{ projects[2].avatar }}</el-avatar>
-                </div>
-                <div class="project-detail">
-                  <div class="project-name">{{ projects[2].name }}</div>
-                  <div class="project-desc">
-                    <p>{{ projects[2].des }}</p>
+                </td>
+                <td>
+                  <div class="project-avatar-wrapper">
+                    <el-avatar class="project-avatar">{{ projects[index + 1].avatar }}</el-avatar>
                   </div>
-                </div>
-              </td>
-              <td>
-                <div class="project-avatar-wrapper">
-                  <el-avatar class="project-avatar">{{ projects[3].avatar }}</el-avatar>
-                </div>
-                <div class="project-detail">
-                  <div class="project-name">{{ projects[3].name }}</div>
-                  <div class="project-desc">
-                    <p>{{ projects[3].des }}</p>
+                  <div class="project-detail">
+                    <div class="project-name">{{ projects[index + 1].name }}</div>
+                    <div class="project-desc">
+                      <p>{{ projects[index + 1].des }}</p>
+                    </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="project-avatar-wrapper">
-                  <el-avatar class="project-avatar">{{ projects[4].avatar }}</el-avatar>
-                </div>
-                <div class="project-detail">
-                  <div class="project-name">{{ projects[4].name }}</div>
-                  <div class="project-desc">
-                    <p>{{ projects[4].des }}</p>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="project-avatar-wrapper">
-                  <el-avatar class="project-avatar">{{ projects[5].avatar }}</el-avatar>
-                </div>
-                <div class="project-detail">
-                  <div class="project-name">{{ projects[5].name }}</div>
-                  <div class="project-desc">
-                    <p>{{ projects[5].des }}</p>
-                  </div>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
+            </template>
           </table>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :xs="24" :sm="12">
+        <div class="app-container">
+          <div id="browser-count-chart" style="width: 100%;height: 20rem" />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="12">
+        <div class="app-container">
+          <div id="operating-system-count-chart" style="width: 100%;height: 20rem" />
         </div>
       </el-col>
     </el-row>
@@ -153,6 +119,7 @@ import echarts from 'echarts'
 import { parseTime } from '@/utils'
 import countTo from 'vue-count-to'
 import resize from '@/components/Charts/mixins/resize'
+import { simplePie, simpleBar } from '@/utils/chartsOption'
 import dashboardApi from '@/api/Dashboard.js'
 
 export default {
@@ -166,6 +133,11 @@ export default {
       todayVisit: 0,
       totalVisit: 0,
       chart: null,
+      chartOption: simpleBar(this.$t('common.visitTitle') + '\n'),
+      browserCountOption: simplePie("访问用户浏览器"),
+      operatingSystemCountOption: simplePie("访问用户操作系统"),
+      browserCountChart: null,
+      operatingSystemCountChart: null,
       projects: [
         {
           name: 'SpringBoot',
@@ -241,102 +213,99 @@ export default {
         this.todayIp = Number(data.todayIp)
         this.totalVisit = Number(data.totalVisitCount)
         this.todayVisit = Number(data.todayVisitCount)
-        const tenVisitCount = []
-        const dateArr = []
-        const tenUserVisitCount = []
 
-        for (const index in data.lastTenVisitCount) {
-          for (const key in data.lastTenVisitCount[index]) {
-            dateArr.push(key)
-            tenVisitCount.push(data.lastTenVisitCount[index][key])
-            tenUserVisitCount.push(data.lastTenUserVisitCount[index][key])
+        this.tenDaysData(data)
+        this.browserCount(data.browserCount)
+        this.operatingSystemCount(data.operatingSystemCount)
+      })
+    },
+    tenDaysData (data) {
+      const tenVisitCount = []
+      const dateArr = []
+      const tenUserVisitCount = []
+
+      for (let i = 9; i >= 0; i--) {
+        const time = parseTime(new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * i), '{y}-{m}-{d}')
+        let contain = false
+        for (const o of data.lastTenVisitCount) {
+          if (o.login_date === time) {
+            contain = true
+            tenVisitCount.push(o.count)
+            break
           }
         }
-        this.chart = echarts.init(document.getElementById('visit-count-chart'))
-        const option = {
-          backgroundColor: '#FFF',
-          title: {
-            text: this.$t('common.visitTitle') + '\n',
-            textStyle: {
-              fontSize: 14
-            }
-          },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'shadow'
-            }
-          },
-          legend: {
-            data: [this.$t('common.you'), this.$t('common.total')],
-            top: '18'
-          },
-          grid: {
-            left: '3%',
-            right: '5%',
-            bottom: '3%',
-            containLabel: true,
-            show: false
-          },
-          toolbox: {
-            feature: {
-              dataView: { show: false, readOnly: false }
-            }
-          },
-          xAxis: {
-            type: 'category',
-            boundaryGap: true,
-            splitLine: {
-              show: false
-            },
-            data: dateArr,
-            axisLine: {
-              lineStyle: {
-                color: '#333'
-              }
-            }
-          },
-          yAxis: [
-            {
-              type: 'value',
-              splitLine: {
-                lineStyle: {
-                  type: 'dashed',
-                  color: '#DDD'
-                }
-              },
-              axisLine: {
-                show: false,
-                lineStyle: {
-                  color: '#333'
-                }
-              },
-              nameTextStyle: {
-                color: '#999'
-              },
-              splitArea: {
-                show: false
-              }
-            }],
-          series: [
-            {
-              name: this.$t('common.you'),
-              type: 'bar',
-              barWidth: '25%',
-              color: 'rgb(0, 227, 150)',
-              data: tenUserVisitCount
-            },
-            {
-              name: this.$t('common.total'),
-              type: 'bar',
-              barWidth: '25%',
-              color: 'rgb(0, 143, 251)',
-              data: tenVisitCount
-            }
-          ]
+        if (!contain) {
+          tenVisitCount.push(0)
         }
-        this.chart.setOption(option)
+
+        let userContain = false
+        for (const o of data.lastTenUserVisitCount) {
+          if (o.login_date === time) {
+            userContain = true
+            tenUserVisitCount.push(o.count)
+            break
+          }
+        }
+        if (!userContain) {
+          tenUserVisitCount.push(0)
+        }
+        dateArr.push(time)
+      }
+
+      this.chart = echarts.init(document.getElementById('visit-count-chart'))
+      this.chartOption.legend.data = [this.$t('common.you'), this.$t('common.total')]
+      this.chartOption.xAxis.data = dateArr
+      this.chartOption.series.push({
+        name: this.$t('common.you'),
+        type: 'bar',
+        barWidth: '25%',
+        color: 'rgb(0, 227, 150)',
+        data: tenUserVisitCount
       })
+      this.chartOption.series.push({
+        name: this.$t('common.total'),
+        type: 'bar',
+        barWidth: '25%',
+        color: 'rgb(0, 143, 251)',
+        data: tenVisitCount
+      })
+      this.chart.setOption(this.chartOption)
+    },
+    browserCount (data) {
+      if (!data) {
+        return
+      }
+      const legend_data = []
+      const series_data = []
+      data.forEach(item => {
+        const browser = item.browser || '未知'
+        series_data.push({ value: item.count, name: browser })
+        legend_data.push(browser)
+      })
+
+      this.browserCountOption.series[0].data = series_data
+      this.browserCountOption.legend.data = legend_data
+
+      this.browserCountChart = echarts.init(document.getElementById('browser-count-chart'), 'westeros')
+      this.browserCountChart.setOption(this.browserCountOption)
+    },
+    operatingSystemCount (data) {
+      if (!data) {
+        return
+      }
+      const legend_data = []
+      const series_data = []
+      data.forEach(item => {
+        const browser = item.operating_system || '未知'
+        series_data.push({ value: item.count, name: browser })
+        legend_data.push(browser)
+      })
+
+      this.operatingSystemCountOption.series[0].data = series_data
+      this.operatingSystemCountOption.legend.data = legend_data
+
+      this.browserCountChart = echarts.init(document.getElementById('operating-system-count-chart'), 'westeros')
+      this.browserCountChart.setOption(this.operatingSystemCountOption)
     }
   }
 }

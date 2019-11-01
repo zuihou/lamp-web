@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-info">
-      <div class="title">zuihou-admin-ui</div>
+      <div class="title">zuihou-ui</div>
       <div class="sub-title">{{ $t('common.system') }}</div>
       <div class="desc">1. {{ $t('common.desc.a') }}</div>
       <div class="desc">2. {{ $t('common.desc.b') }}</div>
