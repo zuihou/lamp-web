@@ -13,7 +13,6 @@
             >
               <div class="user-wrapper">
                 <div class="user-header">
-                  <!-- <img alt='avatar' :src='avatar' /> -->
                   <el-avatar
                     :size="60"
                     fit="fill"
@@ -27,9 +26,10 @@
                 <div class="user-info">
                   <div class="random-message">
                     {{ welcomeMessage }}
+                    <span style="color:red">维护演示环境不易，请勿乱删乱改数据！</span>
                   </div>
                   <div class="user-dept">
-                    <span>{{ user.workDescribe ? user.workDescribe : $t('common.workDescribe') }}</span>
+                    <span>{{ user.workDescribe ? user.workDescribe : $t('common.noWorkDescribe') }}</span>
                   </div>
                   <div class="user-login-info">
                     {{ $t('common.lastLoginTime') }}：
