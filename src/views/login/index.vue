@@ -1,14 +1,30 @@
 <template>
   <div class="login-container">
     <div class="login-info">
-      <div class="title">zuihou-ui</div>
-      <div class="sub-title">{{ $t('common.system') }}</div>
-      <div class="desc">1. {{ $t('common.desc.a') }}</div>
-      <div class="desc">2. {{ $t('common.desc.b') }}</div>
-      <div class="desc">3. {{ $t('common.desc.c') }}</div>
-      <div class="desc">4. {{ $t('common.desc.d') }}</div>
-      <div class="desc">5. {{ $t('common.desc.e') }}</div>
-      <div class="desc">6. {{ $t('common.desc.f') }}</div>
+      <div class="title">
+        zuihou-ui
+      </div>
+      <div class="sub-title">
+        {{ $t('common.system') }}
+      </div>
+      <div class="desc">
+        1. {{ $t('common.desc.a') }}
+      </div>
+      <div class="desc">
+        2. {{ $t('common.desc.b') }}
+      </div>
+      <div class="desc">
+        3. {{ $t('common.desc.c') }}
+      </div>
+      <div class="desc">
+        4. {{ $t('common.desc.d') }}
+      </div>
+      <div class="desc">
+        5. {{ $t('common.desc.e') }}
+      </div>
+      <div class="desc">
+        6. {{ $t('common.desc.f') }}
+      </div>
     </div>
     <el-form
       ref="loginForm"
@@ -19,7 +35,9 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">{{ $t('login.title') }}</h3>
+        <h3 class="title">
+          {{ $t('login.title') }}
+        </h3>
         <lang-select class="set-language" />
       </div>
       <span v-if="login.type === &quot;up&quot;">
@@ -60,7 +78,10 @@
             @keyup.enter.native="handleLogin"
           />
         </el-form-item>
-        <el-form-item prop="code" class="code-input">
+        <el-form-item
+          prop="code"
+          class="code-input"
+        >
           <el-input
             ref="code"
             v-model="loginForm.code"
@@ -73,7 +94,12 @@
             @keyup.enter.native="handleLogin"
           />
         </el-form-item>
-        <img :src="imageCode" alt="codeImage" class="code-image" @click="getCodeImage">
+        <img
+          :src="imageCode"
+          alt="codeImage"
+          class="code-image"
+          @click="getCodeImage"
+        >
         <el-button
           :loading="loading"
           type="primary"
@@ -85,7 +111,10 @@
         {{ $t('login.chooseToSignIn') }}
         <div>
           <template v-for="(l, index) in logo">
-            <div :key="index" class="logo-wrapper">
+            <div
+              :key="index"
+              class="logo-wrapper"
+            >
               <img
                 :src="resolveLogo(l.img)"
                 alt
@@ -96,9 +125,18 @@
           </template>
         </div>
       </span>
-      <span v-if="login.type === &quot;bind&quot;" style="margin-top: -1rem">
-        <el-tabs v-model="tabActiveName" @tab-click="handleTabClick">
-          <el-tab-pane :label="$t(&quot;common.bindLogin&quot;)" name="bindLogin">
+      <span
+        v-if="login.type === &quot;bind&quot;"
+        style="margin-top: -1rem"
+      >
+        <el-tabs
+          v-model="tabActiveName"
+          @tab-click="handleTabClick"
+        >
+          <el-tab-pane
+            :label="$t(&quot;common.bindLogin&quot;)"
+            name="bindLogin"
+          >
             <el-form-item prop="bindAccount">
               <el-input
                 ref="bindAccount"
@@ -129,7 +167,10 @@
               @click.native.prevent="bindLogin"
             >{{ $t('common.bindLogin') }}</el-button>
           </el-tab-pane>
-          <el-tab-pane :label="$t(&quot;common.signLogin&quot;)" name="signLogin">
+          <el-tab-pane
+            :label="$t(&quot;common.signLogin&quot;)"
+            name="signLogin"
+          >
             <el-form-item prop="signAccount">
               <el-input
                 ref="signAccount"
@@ -162,7 +203,10 @@
           </el-tab-pane>
         </el-tabs>
       </span>
-      <el-dropdown class="login-type" placement="top-end">
+      <el-dropdown
+        class="login-type"
+        placement="top-end"
+      >
         <span class="el-dropdown-link">
           <el-link type="primary">{{ $t('login.ortherLoginType') }}</el-link>
         </span>
@@ -170,17 +214,24 @@
           <el-dropdown-item
             :disabled="login.type === &quot;up&quot;"
             @click.native="login.type = &quot;up&quot;"
-          >{{ $t('login.type.up') }}</el-dropdown-item>
+          >
+            {{ $t('login.type.up') }}
+          </el-dropdown-item>
           <el-dropdown-item
             :disabled="login.type === &quot;social&quot;"
             @click.native="login.type = &quot;social&quot;"
-          >{{ $t('login.type.social') }}</el-dropdown-item>
+          >
+            {{ $t('login.type.social') }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-form>
     <span class="login-footer">
       © 2019
-      <a target="_blank" href="https://github.com/zuihou">zuihou</a> - zuihou-admin-cloud
+      <a
+        target="_blank"
+        href="https://github.com/zuihou"
+      >zuihou</a> - zuihou-admin-cloud
     </span>
   </div>
 </template>
@@ -288,7 +339,7 @@ export default {
           }
         })
     },
-    handleTabClick (tab, event) {
+    handleTabClick (tab) {
       this.tabActiveName = tab.name
     },
     resolveLogo (logo) {
@@ -417,6 +468,10 @@ export default {
       // TODO 从后台拉取权限列表
       const permissions = [
         "user:view",
+        "user:add",
+        "user:update",
+        "user:delete",
+        "user:reset",
         "user:export",
         "role:view",
         "role:add",

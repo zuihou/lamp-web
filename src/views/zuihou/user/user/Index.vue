@@ -2,25 +2,41 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input
-        v-model="queryParams.username"
-        :placeholder="$t(&quot;table.user.username&quot;)"
+        v-model="queryParams.account"
+        :placeholder="$t(&quot;table.user.account&quot;)"
         class="filter-item search-item"
       />
       <el-input
-        v-model="queryParams.deptName"
-        :placeholder="$t(&quot;table.user.dept&quot;)"
+        v-model="queryParams.orgId"
+        :placeholder="$t(&quot;table.user.orgId&quot;)"
         class="filter-item search-item"
       />
       <el-date-picker
         v-model="queryParams.timeRange"
         :range-separator="null"
-        :start-placeholder="$t(&quot;table.user.createTime&quot;)"
-        value-format="yyyy-MM-dd"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        format="yyyy-MM-dd HH:mm:ss"
         class="filter-item search-item date-range-item"
         type="daterange"
       />
-      <el-button class="filter-item" type="primary" plain @click="search">{{ $t('table.search') }}</el-button>
-      <el-button class="filter-item" type="warning" plain @click="reset">{{ $t('table.reset') }}</el-button>
+      <el-button
+        class="filter-item"
+        type="primary"
+        plain
+        @click="search"
+      >
+        {{ $t('table.search') }}
+      </el-button>
+      <el-button
+        class="filter-item"
+        type="warning"
+        plain
+        @click="reset"
+      >
+        {{ $t('table.reset') }}
+      </el-button>
       <el-dropdown
         v-has-any-permission="[&quot;user:add&quot;,&quot;user:delete&quot;,&quot;user:reset&quot;,&quot;user:export&quot;]"
         trigger="click"
@@ -34,19 +50,27 @@
           <el-dropdown-item
             v-has-permission="[&quot;user:add&quot;]"
             @click.native="add"
-          >{{ $t('table.add') }}</el-dropdown-item>
+          >
+            {{ $t('table.add') }}
+          </el-dropdown-item>
           <el-dropdown-item
             v-has-permission="[&quot;user:delete&quot;]"
             @click.native="batchDelete"
-          >{{ $t('table.delete') }}</el-dropdown-item>
+          >
+            {{ $t('table.delete') }}
+          </el-dropdown-item>
           <el-dropdown-item
             v-has-permission="[&quot;user:reset&quot;]"
             @click.native="resetPassword"
-          >{{ $t('table.resetPassword') }}</el-dropdown-item>
+          >
+            {{ $t('table.resetPassword') }}
+          </el-dropdown-item>
           <el-dropdown-item
             v-has-permission="[&quot;user:export&quot;]"
             @click.native="exportExcel"
-          >{{ $t('table.export') }}</el-dropdown-item>
+          >
+            {{ $t('table.export') }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -62,13 +86,42 @@
       @selection-change="onSelectChange"
       @sort-change="sortChange"
     >
-      <el-table-column type="selection" align="center" width="40px" />
       <el-table-column
-        :label="$t(&quot;table.user.username&quot;)"
+        type="selection"
+        align="center"
+        width="40px"
+      />
+      <el-table-column
+        :label="$t(&quot;table.user.avatar&quot;)"
+        prop="avatar"
+        align="center"
+        width="100px"
+      >
+        <template slot-scope="scope">
+          <el-avatar
+            :key="scope.row.avatar"
+            fit="fill"
+            :src="scope.row.avatar"
+          >
+            <el-avatar>{{ scope.row.name | userAvatarFilter }}</el-avatar>
+          </el-avatar>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t(&quot;table.user.account&quot;)"
+        prop="account"
+        :show-overflow-tooltip="true"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.account }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t(&quot;table.user.name&quot;)"
         prop="name"
         :show-overflow-tooltip="true"
         align="center"
-        min-width="120px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
@@ -78,43 +131,61 @@
         :label="$t(&quot;table.user.sex&quot;)"
         prop="sex.desc"
         class-name="status-col"
+        width="70px"
       >
         <template slot-scope="{row}">
-          <el-tag :type="row.sex.code | sexFilter">{{ row.sex.desc }}</el-tag>
+          <el-tag :type="row.sex.code | sexFilter">
+            {{ row.sex.desc }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column
         :label="$t(&quot;table.user.email&quot;)"
         :show-overflow-tooltip="true"
         align="center"
-        min-width="150px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t(&quot;table.user.dept&quot;)" align="center" min-width="100px">
+      <el-table-column
+        :label="$t(&quot;table.user.orgId&quot;)"
+        align="center"
+        width="100px"
+      >
         <template slot-scope="scope">
           <span>{{ scope.row.orgId }}</span>
         </template>
       </el-table-column>
       <el-table-column
+        :label="$t(&quot;table.user.stationId&quot;)"
+        align="center"
+        width="100px"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.stationId }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         :label="$t(&quot;table.user.status&quot;)"
-        :filters="[{ text: $t(&quot;common.status.valid&quot;), value: &quot;1&quot; }, { text: $t(&quot;common.status.invalid&quot;), value: &quot;0&quot; }]"
+        :filters="[{ text: $t(&quot;common.status.valid&quot;), value: true }, { text: $t(&quot;common.status.invalid&quot;), value: false }]"
         :filter-method="filterStatus"
         class-name="status-col"
+        width="70px"
       >
         <template slot-scope="{row}">
           <el-tag
             :type="row.status | statusFilter"
-          >{{ row.status === '1' ? $t('common.status.valid') : $t('common.status.invalid') }}</el-tag>
+          >
+            {{ row.status ? $t('common.status.valid') : $t('common.status.invalid') }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column
         :label="$t(&quot;table.user.createTime&quot;)"
         prop="createTime"
         align="center"
-        min-width="180px"
+        width="160px"
         sortable="custom"
       >
         <template slot-scope="scope">
@@ -124,7 +195,7 @@
       <el-table-column
         :label="$t(&quot;table.operation&quot;)"
         align="center"
-        min-width="150px"
+        width="100px"
         class-name="small-padding fixed-width"
       >
         <template slot-scope="{row}">
@@ -136,7 +207,7 @@
           />
           <i
             v-hasPermission="[&quot;user:update&quot;]"
-            class="el-icon-setting table-operation"
+            class="el-icon-edit table-operation"
             style="color: #2db7f5;"
             @click="edit(row)"
           />
@@ -149,7 +220,9 @@
           <el-link
             v-has-no-permission="[&quot;user:view&quot;,&quot;user:update&quot;,&quot;user:delete&quot;]"
             class="no-perm"
-          >{{ $t('tips.noPermission') }}</el-link>
+          >
+            {{ $t('tips.noPermission') }}
+          </el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -163,11 +236,15 @@
     <user-edit
       ref="edit"
       :dialog-visible="dialog.isVisible"
-      :title="dialog.title"
+      :type="dialog.type"
       @success="editSuccess"
       @close="editClose"
     />
-    <user-view ref="view" :dialog-visible="userViewVisible" @close="viewClose" />
+    <user-view
+      ref="view"
+      :dialog-visible="userViewVisible"
+      @close="viewClose"
+    />
   </div>
 </template>
 
@@ -181,17 +258,21 @@ export default {
   name: 'UserManage',
   components: { Pagination, UserEdit, UserView },
   filters: {
+    userAvatarFilter (name) {
+      return name.charAt(0)
+    },
     sexFilter (status) {
       const map = {
-        "W": 'success',
-        "M": 'danger'
+        'W': 'success',
+        'M': 'danger',
+        'N': 'info'
       }
       return map[status] || 'info'
     },
     statusFilter (status) {
       const map = {
-        "0": 'danger',
-        "1": 'success'
+        false: 'danger',
+        true: 'success'
       }
       return map[status] || 'success'
     }
@@ -200,7 +281,7 @@ export default {
     return {
       dialog: {
         isVisible: false,
-        title: ''
+        type: 'add'
       },
       userViewVisible: false,
       tableKey: 0,
@@ -228,21 +309,8 @@ export default {
     this.fetch()
   },
   methods: {
-    transSex (sex) {
-      switch (sex) {
-        case '0':
-          return this.$t('common.sex.male')
-        case '1':
-          return this.$t('common.sex.female')
-        default:
-          return this.$t('common.sex.secret')
-      }
-    },
     filterStatus (value, row) {
       return row.status === value
-    },
-    filterSex (value, row) {
-      return row.sex === value
     },
     viewClose () {
       this.userViewVisible = false
@@ -276,10 +344,6 @@ export default {
         ...this.queryParams
       }, `user_${new Date().getTime()}.xlsx`)
     },
-    add () {
-      this.dialog.title = this.$t('common.add')
-      this.dialog.isVisible = true
-    },
     resetPassword () {
       if (!this.selection.length) {
         this.$message({
@@ -293,17 +357,17 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        const userNames = []
+        const ids = []
         this.selection.forEach((u) => {
-          userNames.push(u.username)
+          ids.push(u.id)
         })
-        this.$put('system/user/password/reset', {
-          usernames: userNames.join(',')
-        }).then(() => {
-          this.$message({
-            message: this.$t('tips.resetPasswordSuccess'),
-            type: 'success'
-          })
+        userApi.reset({ 'ids': ids }).then((res) => {
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t('tips.resetPasswordSuccess'),
+              type: 'success'
+            })
+          }
           this.clearSelections()
         })
       }).catch(() => {
@@ -328,13 +392,13 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        const userIds = []
+        const ids = []
         this.selection.forEach((u) => {
-          if (u.userId === this.currentUser.userId) {
+          if (u.id === this.currentUser.id) {
             contain = true
             return
           }
-          userIds.push(u.userId)
+          ids.push(u.id)
         })
         if (contain) {
           this.$message({
@@ -343,7 +407,7 @@ export default {
           })
           this.clearSelections()
         } else {
-          this.delete(userIds)
+          this.delete(ids)
         }
       }).catch(() => {
         this.clearSelections()
@@ -352,8 +416,8 @@ export default {
     clearSelections () {
       this.$refs.table.clearSelection()
     },
-    delete (userIds) {
-      this.$delete(`system/user/${userIds}`).then(() => {
+    delete (ids) {
+      userApi.delete({ 'ids': ids }).then(() => {
         this.$message({
           message: this.$t('tips.deleteSuccess'),
           type: 'success'
@@ -361,18 +425,18 @@ export default {
         this.search()
       })
     },
+    add () {
+      this.dialog.type = 'add'
+      this.dialog.isVisible = true
+      this.$refs.edit.setUser(false)
+    },
     view (row) {
       this.$refs.view.setUser(row)
       this.userViewVisible = true
     },
     edit (row) {
-      let roleId = []
-      if (row.roleId && typeof row.roleId === 'string') {
-        roleId = row.roleId.split(',')
-        row.roleId = roleId
-      }
       this.$refs.edit.setUser(row)
-      this.dialog.title = this.$t('common.edit')
+      this.dialog.type = 'edit'
       this.dialog.isVisible = true
     },
     fetch (params = {}) {

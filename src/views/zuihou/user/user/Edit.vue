@@ -1,69 +1,170 @@
 <template>
   <el-dialog
-    :title='title'
-    :width='width'
-    top='50px'
-    :close-on-click-modal='false'
-    :close-on-press-escape='false'
-    :visible.sync='isVisible'
+    :title="title"
+    :type="type"
+    :width="width"
+    top="50px"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    :visible.sync="isVisible"
   >
-    <el-form ref='form' :model='user' :rules='rules' label-position='right' label-width='100px'>
-      <el-form-item :label='$t("table.user.username")' prop='username'>
-        <el-input v-model='user.username' :readonly='user.userId === "" ? false : "readonly"' />
-      </el-form-item>
-      <el-form-item v-show='user.userId === ""' :label='$t("table.user.password")' prop='password'>
-        <el-tooltip
-          class='item'
-          effect='dark'
-          :content='$t("tips.defaultPassword")'
-          placement='top-start'
-        >
-          <el-input value='1234qwer' type='password' readonly />
-        </el-tooltip>
-      </el-form-item>
-      <el-form-item :label='$t("table.user.email")' prop='email'>
-        <el-input v-model='user.email' />
-      </el-form-item>
-      <el-form-item :label='$t("table.user.mobile")' prop='mobile'>
-        <el-input v-model='user.mobile' />
-      </el-form-item>
-      <el-form-item :label='$t("table.user.dept")' prop='deptId'>
-        <treeselect
-          v-model='user.deptId'
-          :multiple='false'
-          :options='depts'
-          :clear-value-text='$t("common.clear")'
-          placeholder=' '
-          style='width:100%'
+    <el-form
+      ref="form"
+      :model="user"
+      :rules="rules"
+      label-position="right"
+      label-width="100px"
+    >
+      <el-form-item
+        :label="$t(&quot;table.user.account&quot;)"
+        prop="account"
+      >
+        <el-input
+          v-model="user.account"
+          :readonly="type === &quot;add&quot; ? false : &quot;readonly&quot;"
         />
       </el-form-item>
-      <el-form-item :label='$t("table.user.role")' prop='roleId'>
-        <el-select v-model='user.roleId' multiple value placeholder style='width:100%'>
+      <el-form-item
+        :label="$t(&quot;table.user.name&quot;)"
+        prop="name"
+      >
+        <el-input v-model="user.name" />
+      </el-form-item>
+      <el-form-item
+        v-show="type === &quot;add&quot;"
+        :label="$t(&quot;table.user.password&quot;)"
+        prop="password"
+      >
+        <el-tooltip
+          class="item"
+          effect="dark"
+          :content="$t(&quot;tips.defaultPassword&quot;)"
+          placement="top-start"
+        >
+          <el-input
+            value="123456"
+            type="password"
+          />
+        </el-tooltip>
+      </el-form-item>
+      <el-form-item
+        :label="$t(&quot;table.user.avatar&quot;)"
+        prop="avatar"
+      >
+        <imgUpload
+          ref="imgFileRef"
+          list-type="picture-card"
+          :data="user.avatar"
+          :file-list="imgFileList"
+          :show-file-list="false"
+          :auto-upload="true"
+          @setId="setIdAndSubmit"
+        >
+          <i class="el-icon-plus" />
+        </imgUpload>
+      </el-form-item>
+      <el-form-item
+        :label="$t(&quot;table.user.orgId&quot;)"
+        prop="orgId"
+      >
+        <treeselect
+          v-model="user.orgId"
+          :multiple="false"
+          :options="orgList"
+          :load-options="loadListOptions"
+          :clear-value-text="$t(&quot;common.clear&quot;)"
+          :searchable="true"
+          placeholder=" "
+          style="width:100%"
+        />
+      </el-form-item>
+      <el-form-item
+        :label="$t(&quot;table.user.stationId&quot;)"
+        prop="orgId"
+      >
+        <el-select
+          v-model="user.stationId"
+          :multiple="false"
+          filterable
+          placeholder="请输入关键词"
+          :loading="remoteStationLoading"
+        >
           <el-option
-            v-for='item in roles'
-            :key='item.roleId'
-            :label='item.roleName'
-            :value='String(item.roleId)'
+            v-for="item in stationList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
-      <el-form-item :label='$t("table.user.sex")' prop='sex'>
-        <el-select v-model='user.sex' value placeholder style='width:100%'>
-          <el-option value='0' :label='$t("common.sex.male") ' />
-          <el-option value='1' :label='$t("common.sex.female") ' />
-          <el-option value='2' :label='$t("common.sex.secret") ' />
+      <el-form-item
+        :label="$t(&quot;table.user.email&quot;)"
+        prop="email"
+      >
+        <el-input v-model="user.email" />
+      </el-form-item>
+      <el-form-item
+        :label="$t(&quot;table.user.mobile&quot;)"
+        prop="mobile"
+      >
+        <el-input v-model="user.mobile" />
+      </el-form-item>
+      <el-form-item
+        :label="$t(&quot;table.user.sex&quot;)"
+        prop="sex"
+      >
+        <el-select
+          v-model="user.sex.code"
+          value
+          placeholder
+          style="width:100%"
+        >
+          <el-option
+            v-for="(item, key, index) in enums.Sex"
+            :key="index"
+            :label="item"
+            :value="key"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item :label='$t("table.user.status")' prop='status'>
-        <el-radio-group v-model='user.status'>
-          <el-radio label='1'>{{ $t('common.status.valid') }}</el-radio>
-          <el-radio label='0'>{{ $t('common.status.invalid') }}</el-radio>
+      <el-form-item
+        :label="$t(&quot;table.user.status&quot;)"
+        prop="status"
+      >
+        <el-radio-group v-model="user.status">
+          <el-radio :label="true">
+            {{ $t('common.status.valid') }}
+          </el-radio>
+          <el-radio :label="false">
+            {{ $t('common.status.invalid') }}
+          </el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item
+        :label="$t(&quot;table.user.workDescribe&quot;)"
+        prop="workDescribe"
+      >
+        <el-input v-model="user.workDescribe" />
+      </el-form-item>
     </el-form>
-    <div slot='footer' class='dialog-footer'>
-      <el-button type='warning' plain @click='isVisible = false'>{{ $t('common.cancel') }}</el-button>
-      <el-button type='primary' plain @click='submitForm'>{{ $t('common.confirm') }}</el-button>
+    <div
+      slot="footer"
+      class="dialog-footer"
+    >
+      <el-button
+        type="warning"
+        plain
+        @click="isVisible = false"
+      >
+        {{ $t('common.cancel') }}
+      </el-button>
+      <el-button
+        type="primary"
+        plain
+        @click="submitForm"
+      >
+        {{ $t('common.confirm') }}
+      </el-button>
     </div>
   </el-dialog>
 </template>
@@ -71,27 +172,41 @@
 import { validMobile } from '@/utils/my-validate'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import imgUpload from "@/components/zuihou/imgUpload"
+import userApi from '@/api/User.js'
+import orgApi from '@/api/Org.js'
+import stationApi from '@/api/Station.js'
 
 export default {
   name: 'UserEdit',
-  components: { Treeselect },
+  components: { Treeselect, imgUpload },
   props: {
     dialogVisible: {
       type: Boolean,
       default: false
     },
-    title: {
+    type: {
       type: String,
-      default: ''
+      default: 'add'
     }
   },
   data () {
     return {
+      remoteStationLoading: false,
       user: this.initUser(),
       screenWidth: 0,
       width: this.initWidth(),
-      depts: [],
-      roles: [],
+      orgList: [],
+      stationList: [],
+      imgFileList: [],
+      imgFileData: {
+        bizId: '',
+        bizType: 'USER_AVATAR'
+      },
+      // 图片文件总数
+      imgFileTotal: 0,
+      // 上传成功数
+      successNum: 0,
       rules: {
         username: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
@@ -137,11 +252,20 @@ export default {
         this.close()
         this.reset()
       }
+    },
+    enums () {
+      return this.$store.state.common.enums
+    },
+    title () {
+      return this.type === 'add' ? this.$t('common.add') : this.$t('common.edit')
     }
   },
+  watch: {
+    // 监听deptId
+    'user.orgId': 'orgSelect'
+  },
   mounted () {
-    // this.initDept()
-    // this.initRoles()
+    this.initOrg()
     window.onresize = () => {
       return (() => {
         this.width = this.initWidth()
@@ -151,15 +275,20 @@ export default {
   methods: {
     initUser () {
       return {
-        userId: '',
-        username: '',
-        password: '1234qwer',
+        id: '',
+        account: '',
+        name: '',
+        orgId: null,
+        stationId: null,
         email: '',
         mobile: '',
-        sex: '',
-        status: '1',
-        deptId: null,
-        roleId: []
+        sex: {
+          code: 'N'
+        },
+        status: true,
+        avatar: '',
+        workDescribe: '',
+        password: '123456'
       }
     },
     initWidth () {
@@ -172,71 +301,137 @@ export default {
         return '800px'
       }
     },
-    initDept () {
-      this.$get('system/dept').then((r) => {
-        this.depts = r.data.data.rows
-      }).catch((error) => {
-        console.error(error)
-        this.$message({
-          message: this.$t('tips.getDataFail'),
-          type: 'error'
+    initOrg () {
+      orgApi.allTree({ status: true })
+        .then((r) => {
+          if (r.isError) {
+            this.$message({
+              message: this.$t('tips.getDataFail'),
+              type: 'error'
+            })
+            return
+          }
+          this.orgList = r.data
+        }).catch(() => {
+          this.$message({
+            message: this.$t('tips.getDataFail'),
+            type: 'error'
+          })
         })
-      })
     },
-    initRoles () {
-      this.$get('system/role/options').then((r) => {
-        this.roles = r.data.data
-      }).catch((error) => {
-        console.error(error)
-        this.$message({
-          message: this.$t('tips.getDataFail'),
-          type: 'error'
+    loadListOptions ({ callback }) {
+      callback()
+    },
+    orgSelect (node) {
+      this.loadStation(node)
+    },
+    loadStation (orgId) {
+      if (orgId) {
+        stationApi.page({ orgId: orgId, status: true }).then((r) => {
+          if (r.isError) {
+            this.$message({
+              message: this.$t('tips.getDataFail'),
+              type: 'error'
+            })
+            return
+          }
+          this.stationList = r.data.records
+        }).catch(() => {
+          this.$message({
+            message: this.$t('tips.getDataFail'),
+            type: 'error'
+          })
         })
-      })
+      } else {
+        this.stationList = []
+      }
+    },
+    setIdAndSubmit (bizId, url) {
+      const vm = this
+      vm.successNum += 1
+      vm.imgFileData.bizId = bizId
+      vm.user.avatar = url
+      vm.user.id = bizId
+
+      if (vm.successNum === vm.imgFileTotal) {
+        vm.$store.state.hasLoading = false
+      }
     },
     setUser (val) {
-      this.user = { ...val }
+      const vm = this
+      if (val) {
+        vm.user = { ...val }
+      }
+      vm.imgFileData.bizId = vm.user['id']
+      vm.$nextTick(() => {
+        vm.$refs.imgFileRef.init({
+          bizId: vm.user['id'],
+          bizType: vm.imgFileData.bizType,
+          imageUrl: vm.user['avatar'],
+          isSingle: true,
+          isDetail: false
+        });
+      })
     },
     close () {
       this.$emit('close')
-    },
-    submitForm () {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          if (!this.user.userId) {
-            // create
-            this.user.roleId = this.user.roleId.join(',')
-            this.$post('system/user', { ...this.user }).then(() => {
-              this.isVisible = false
-              this.$message({
-                message: this.$t('tips.createSuccess'),
-                type: 'success'
-              })
-              this.$emit('success')
-            })
-          } else {
-            // update
-            this.user.roleId = this.user.roleId.join(',')
-            this.user.createTime = this.user.modifyTime = this.user.lastLoginTime = null
-            this.$put('system/user', { ...this.user }).then(() => {
-              this.isVisible = false
-              this.$message({
-                message: this.$t('tips.updateSuccess'),
-                type: 'success'
-              })
-              this.$emit('success')
-            })
-          }
-        } else {
-          return false
-        }
-      })
     },
     reset () {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
       this.user = this.initUser()
+      this.imgFileData.bizId = ''
+      this.$refs.imgFileRef.init({
+        bizId: '',
+        bizType: '',
+        imageUrl: '',
+        isSingle: true,
+        isDetail: false
+      })
+    },
+    submitForm () {
+      const vm = this
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          vm.editSubmit()
+        } else {
+          return false
+        }
+      })
+    },
+    editSubmit () {
+      const vm = this
+      if (vm.type === 'add') {
+        vm.save()
+      } else {
+        vm.update()
+      }
+    },
+    save () {
+      const vm = this
+      userApi.save(this.user).then((res) => {
+        if (res.isSuccess) {
+          vm.isVisible = false
+          vm.$message({
+            message: vm.$t('tips.createSuccess'),
+            type: 'success'
+          })
+          vm.$emit('success')
+        }
+      })
+    },
+    update () {
+      userApi.update(this.user).then((res) => {
+        if (res.isSuccess) {
+          this.isVisible = false
+          this.$message({
+            message: this.$t('tips.updateSuccess'),
+            type: 'success'
+          })
+          this.$emit('success')
+        }
+      })
     }
   }
 }

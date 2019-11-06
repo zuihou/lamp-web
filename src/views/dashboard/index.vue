@@ -1,16 +1,33 @@
 <template>
   <div class="main">
     <el-row :gutter="10">
-      <el-col :xs="24" :sm="24">
+      <el-col
+        :xs="24"
+        :sm="24"
+      >
         <div class="app-container user-container">
           <el-row :gutter="10">
-            <el-col :xs="24" :sm="12">
+            <el-col
+              :xs="24"
+              :sm="12"
+            >
               <div class="user-wrapper">
                 <div class="user-header">
-                  <img alt="avatar" :src="avatar">
+                  <!-- <img alt='avatar' :src='avatar' /> -->
+                  <el-avatar
+                    :size="60"
+                    fit="fill"
+                    :src="avatar"
+                  >
+                    <el-avatar :size="60">
+                      {{ user.name | userAvatarFilter }}
+                    </el-avatar>
+                  </el-avatar>
                 </div>
                 <div class="user-info">
-                  <div class="random-message">{{ welcomeMessage }}</div>
+                  <div class="random-message">
+                    {{ welcomeMessage }}
+                  </div>
                   <div class="user-dept">
                     <span>{{ user.workDescribe ? user.workDescribe : $t('common.workDescribe') }}</span>
                   </div>
@@ -23,27 +40,69 @@
                 </div>
               </div>
             </el-col>
-            <el-col :xs="24" :sm="12">
+            <el-col
+              :xs="24"
+              :sm="12"
+            >
               <div class="user-visits">
                 <el-row style="margin-bottom: .7rem">
-                  <el-col :span="4" :offset="4">{{ $t('common.todayIp') }}</el-col>
-                  <el-col :span="4" :offset="4">{{ $t('common.todayVisit') }}</el-col>
-                  <el-col :span="4" :offset="4">{{ $t('common.TotalVisit') }}</el-col>
+                  <el-col
+                    :span="4"
+                    :offset="4"
+                  >
+                    {{ $t('common.todayIp') }}
+                  </el-col>
+                  <el-col
+                    :span="4"
+                    :offset="4"
+                  >
+                    {{ $t('common.todayVisit') }}
+                  </el-col>
+                  <el-col
+                    :span="4"
+                    :offset="4"
+                  >
+                    {{ $t('common.TotalVisit') }}
+                  </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="4" :offset="4" class="num">
+                  <el-col
+                    :span="4"
+                    :offset="4"
+                    class="num"
+                  >
                     <el-link type="primary">
-                      <countTo :start-val="0" :end-val="todayIp" :duration="3000" />
+                      <countTo
+                        :start-val="0"
+                        :end-val="todayIp"
+                        :duration="3000"
+                      />
                     </el-link>
                   </el-col>
-                  <el-col :span="4" :offset="4" class="num">
+                  <el-col
+                    :span="4"
+                    :offset="4"
+                    class="num"
+                  >
                     <el-link type="primary">
-                      <countTo :start-val="0" :end-val="todayVisit" :duration="3000" />
+                      <countTo
+                        :start-val="0"
+                        :end-val="todayVisit"
+                        :duration="3000"
+                      />
                     </el-link>
                   </el-col>
-                  <el-col :span="4" :offset="4" class="num">
+                  <el-col
+                    :span="4"
+                    :offset="4"
+                    class="num"
+                  >
                     <el-link type="primary">
-                      <countTo :start-val="0" :end-val="totalVisit" :duration="3000" />
+                      <countTo
+                        :start-val="0"
+                        :end-val="totalVisit"
+                        :duration="3000"
+                      />
                     </el-link>
                   </el-col>
                 </el-row>
@@ -54,12 +113,21 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col :xs="24" :sm="12">
+      <el-col
+        :xs="24"
+        :sm="12"
+      >
         <div class="app-container">
-          <div id="visit-count-chart" style="width: 100%;height: 20rem" />
+          <div
+            id="visit-count-chart"
+            style="width: 100%;height: 20rem"
+          />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="12">
+      <el-col
+        :xs="24"
+        :sm="12"
+      >
         <div class="app-container project-wrapper">
           <div class="project-header">
             <el-link
@@ -67,17 +135,26 @@
               href="https://www.kancloud.cn/zuihou/zuihou-admin-cloud"
               target="_blank"
               style="float: right;"
-            >{{ $t('common.docDetails') }}</el-link>
+            >
+              {{ $t('common.docDetails') }}
+            </el-link>
           </div>
           <table>
             <template v-for="(project, index) in projects">
-              <tr v-if="index % 2 == 0" :key="project">
+              <tr
+                v-if="index % 2 == 0"
+                :key="index"
+              >
                 <td>
                   <div class="project-avatar-wrapper">
-                    <el-avatar class="project-avatar">{{ projects[index].avatar }}</el-avatar>
+                    <el-avatar class="project-avatar">
+                      {{ projects[index].avatar }}
+                    </el-avatar>
                   </div>
                   <div class="project-detail">
-                    <div class="project-name">{{ projects[index].name }}</div>
+                    <div class="project-name">
+                      {{ projects[index].name }}
+                    </div>
                     <div class="project-desc">
                       <p>{{ projects[index].des }}</p>
                     </div>
@@ -85,10 +162,14 @@
                 </td>
                 <td>
                   <div class="project-avatar-wrapper">
-                    <el-avatar class="project-avatar">{{ projects[index + 1].avatar }}</el-avatar>
+                    <el-avatar class="project-avatar">
+                      {{ projects[index + 1].avatar }}
+                    </el-avatar>
                   </div>
                   <div class="project-detail">
-                    <div class="project-name">{{ projects[index + 1].name }}</div>
+                    <div class="project-name">
+                      {{ projects[index + 1].name }}
+                    </div>
                     <div class="project-desc">
                       <p>{{ projects[index + 1].des }}</p>
                     </div>
@@ -101,14 +182,26 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col :xs="24" :sm="12">
+      <el-col
+        :xs="24"
+        :sm="12"
+      >
         <div class="app-container">
-          <div id="browser-count-chart" style="width: 100%;height: 20rem" />
+          <div
+            id="browser-count-chart"
+            style="width: 100%;height: 20rem"
+          />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="12">
+      <el-col
+        :xs="24"
+        :sm="12"
+      >
         <div class="app-container">
-          <div id="operating-system-count-chart" style="width: 100%;height: 20rem" />
+          <div
+            id="operating-system-count-chart"
+            style="width: 100%;height: 20rem"
+          />
         </div>
       </el-col>
     </el-row>
@@ -125,6 +218,11 @@ import dashboardApi from '@/api/Dashboard.js'
 export default {
   name: 'Dashboard',
   components: { countTo },
+  filters: {
+    userAvatarFilter (name) {
+      return name.charAt(0)
+    }
+  },
   mixins: [resize],
   data () {
     return {
@@ -142,32 +240,42 @@ export default {
         {
           name: 'SpringBoot',
           des: 'Spring Boot 2.1.2',
-          avatar: 'F'
+          avatar: 'SB'
         },
         {
           name: 'SpringCloud',
           des: 'Spring Cloud Greenwich.RELEASE',
-          avatar: 'F'
+          avatar: 'SC'
         },
         {
           name: 'Spring Cloud alibaba',
           des: 'SpringCloudAlibaba2.1.0.RELEASE & nacos & seata & Sentinel',
-          avatar: 'S'
+          avatar: 'SCA'
         },
         {
           name: 'Mybatis-Plus',
           des: 'Mybatis-plus 3.2.0：Mybatis 增强组件',
-          avatar: 'F'
+          avatar: 'MP'
         },
         {
           name: 'J2cache',
           des: 'J2cache2.7.8: 二级缓存框架',
-          avatar: 'F'
+          avatar: 'J'
         },
         {
           name: '文件存储API',
           des: '封装文件接口，实现本地存储、阿里云、FastDFS存储的配置化',
           avatar: 'F'
+        },
+        {
+          name: '监控',
+          des: '集成SpringBootAdmin、Zipkin、Redis、Mysql、定时任务等监控，对系统进行全方位监控护航',
+          avatar: 'M'
+        },
+        {
+          name: '容器技术',
+          des: '虚拟化容器技术，让迁移、部署更加方便快捷',
+          avatar: 'C'
         }
       ]
     }
@@ -177,8 +285,7 @@ export default {
       return this.$store.state.account.user
     },
     avatar () {
-      // return require(`@/assets/avatar/${this.user.photo}`)
-      return require(`@/assets/avatar/default.jpg`)
+      return this.$store.state.account.user.avatar
     }
   },
   mounted () {
@@ -224,7 +331,7 @@ export default {
       const dateArr = []
       const tenUserVisitCount = []
 
-      for (let i = 9; i >= 0; i--) {
+      for (let i = 9;i >= 0;i--) {
         const time = parseTime(new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * i), '{y}-{m}-{d}')
         let contain = false
         for (const o of data.lastTenVisitCount) {
@@ -325,15 +432,11 @@ export default {
     .user-header {
       display: inline-block;
       vertical-align: middle;
-      img {
-        width: 5rem;
-        margin: 0.5rem 1rem;
-        border-radius: 50%;
-      }
     }
     .user-info {
       display: inline-block;
       vertical-align: middle;
+      margin-left: 20px;
       .random-message {
         font-size: 1rem;
         margin-bottom: 0.5rem;
