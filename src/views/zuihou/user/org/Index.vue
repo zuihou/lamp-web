@@ -264,11 +264,13 @@ export default {
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-          orgApi.delete({ ids: checked }).then(() => {
-            this.$message({
-              message: this.$t('tips.deleteSuccess'),
-              type: 'success'
-            })
+          orgApi.delete({ ids: checked }).then((res) => {
+            if (res.isSuccess) {
+              this.$message({
+                message: this.$t('tips.deleteSuccess'),
+                type: 'success'
+              })
+            }
             this.reset()
           })
         }).catch(() => {

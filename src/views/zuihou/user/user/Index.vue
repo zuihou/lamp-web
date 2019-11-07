@@ -416,11 +416,13 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      userApi.delete({ 'ids': ids }).then(() => {
-        this.$message({
-          message: this.$t('tips.deleteSuccess'),
-          type: 'success'
-        })
+      userApi.delete({ 'ids': ids }).then((res) => {
+        if (res.isSuccess) {
+          this.$message({
+            message: this.$t('tips.deleteSuccess'),
+            type: 'success'
+          })
+        }
         this.search()
       })
     },

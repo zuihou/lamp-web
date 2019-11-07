@@ -130,7 +130,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.station.createTime&quot;)"
+        :label="$t(&quot;table.createTime&quot;)"
         prop="createTime"
         align="center"
         width="160px"
@@ -292,11 +292,13 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      stationApi.delete({ 'ids': ids }).then(() => {
-        this.$message({
-          message: this.$t('tips.deleteSuccess'),
-          type: 'success'
-        })
+      stationApi.delete({ 'ids': ids }).then((res) => {
+        if (res.isSuccess) {
+          this.$message({
+            message: this.$t('tips.deleteSuccess'),
+            type: 'success'
+          })
+        }
         this.search()
       })
     },
