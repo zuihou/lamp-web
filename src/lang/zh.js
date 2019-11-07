@@ -85,10 +85,19 @@ export default {
       orderNum: '排序',
       perms: '权限'
     },
-    dept: {
-      deptName: '部门名称',
+    org: {
+      name: '部门名称',
+      abbreviation: '简称',
+      describe: '描述',
       parentId: '上级ID',
-      orderNum: '排序'
+      sortValue: '排序',
+      status: '状态'
+    },
+    station: {
+      name: '岗位名称',
+      describe: '描述',
+      orgId: '组织',
+      status: '状态'
     },
     systemLog: {
       username: '操作人',

@@ -26,7 +26,7 @@
                 <div class="user-info">
                   <div class="random-message">
                     {{ welcomeMessage }}
-                    <span style="color:red">维护演示环境不易，请勿乱删乱改数据！</span>
+                    <span style="color:red">演示环境维护不易，请勿乱删乱改数据！</span>
                   </div>
                   <div class="user-dept">
                     <span>{{ user.workDescribe ? user.workDescribe : $t('common.noWorkDescribe') }}</span>

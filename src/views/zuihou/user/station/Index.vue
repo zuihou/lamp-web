@@ -2,13 +2,13 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input
-        v-model="queryParams.account"
-        :placeholder="$t(&quot;table.user.account&quot;)"
+        v-model="queryParams.name"
+        :placeholder="$t(&quot;table.station.name&quot;)"
         class="filter-item search-item"
       />
       <el-input
         v-model="queryParams.orgId"
-        :placeholder="$t(&quot;table.user.orgId&quot;)"
+        :placeholder="$t(&quot;table.station.orgId&quot;)"
         class="filter-item search-item"
       />
       <el-date-picker
@@ -38,7 +38,7 @@
         {{ $t('table.reset') }}
       </el-button>
       <el-dropdown
-        v-has-any-permission="[&quot;user:add&quot;,&quot;user:delete&quot;,&quot;user:reset&quot;,&quot;user:export&quot;]"
+        v-has-any-permission="[&quot;station:add&quot;,&quot;station:delete&quot;,&quot;station:export&quot;]"
         trigger="click"
         class="filter-item"
       >
@@ -48,25 +48,19 @@
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
-            v-has-permission="[&quot;user:add&quot;]"
+            v-has-permission="[&quot;station:add&quot;]"
             @click.native="add"
           >
             {{ $t('table.add') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;user:delete&quot;]"
+            v-has-permission="[&quot;station:delete&quot;]"
             @click.native="batchDelete"
           >
             {{ $t('table.delete') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;user:reset&quot;]"
-            @click.native="resetPassword"
-          >
-            {{ $t('table.resetPassword') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;user:export&quot;]"
+            v-has-permission="[&quot;station:export&quot;]"
             @click.native="exportExcel"
           >
             {{ $t('table.export') }}
@@ -92,33 +86,7 @@
         width="40px"
       />
       <el-table-column
-        :label="$t(&quot;table.user.avatar&quot;)"
-        prop="avatar"
-        align="center"
-        width="100px"
-      >
-        <template slot-scope="scope">
-          <el-avatar
-            :key="scope.row.avatar"
-            fit="fill"
-            :src="scope.row.avatar"
-          >
-            <el-avatar>{{ scope.row.name | userAvatarFilter }}</el-avatar>
-          </el-avatar>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.account&quot;)"
-        prop="account"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.account }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.name&quot;)"
+        :label="$t(&quot;table.station.name&quot;)"
         prop="name"
         :show-overflow-tooltip="true"
         align="center"
@@ -128,28 +96,17 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.sex&quot;)"
-        prop="sex.desc"
-        class-name="status-col"
-        width="70px"
-      >
-        <template slot-scope="{row}">
-          <el-tag :type="row.sex.code | sexFilter">
-            {{ row.sex.desc }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.email&quot;)"
+        :label="$t(&quot;table.station.describe&quot;)"
+        prop="describe"
         :show-overflow-tooltip="true"
         align="center"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.email }}</span>
+          <span>{{ scope.row.describe }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.orgId&quot;)"
+        :label="$t(&quot;table.station.orgId&quot;)"
         align="center"
         width="100px"
       >
@@ -158,16 +115,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.stationId&quot;)"
-        align="center"
-        width="100px"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.stationId }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.status&quot;)"
+        :label="$t(&quot;table.station.status&quot;)"
         :filters="[{ text: $t(&quot;common.status.valid&quot;), value: true }, { text: $t(&quot;common.status.invalid&quot;), value: false }]"
         :filter-method="filterStatus"
         class-name="status-col"
@@ -182,7 +130,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.createTime&quot;)"
+        :label="$t(&quot;table.station.createTime&quot;)"
         prop="createTime"
         align="center"
         width="160px"
@@ -200,25 +148,19 @@
       >
         <template slot-scope="{row}">
           <i
-            v-hasPermission="[&quot;user:view&quot;]"
-            class="el-icon-view table-operation"
-            style="color: #87d068;"
-            @click="view(row)"
-          />
-          <i
-            v-hasPermission="[&quot;user:update&quot;]"
+            v-hasPermission="[&quot;station:update&quot;]"
             class="el-icon-edit table-operation"
             style="color: #2db7f5;"
             @click="edit(row)"
           />
           <i
-            v-hasPermission="[&quot;user:delete&quot;]"
+            v-hasPermission="[&quot;station:delete&quot;]"
             class="el-icon-delete table-operation"
             style="color: #f50;"
             @click="singleDelete(row)"
           />
           <el-link
-            v-has-no-permission="[&quot;user:view&quot;,&quot;user:update&quot;,&quot;user:delete&quot;]"
+            v-has-no-permission="[&quot;station:update&quot;,&quot;station:delete&quot;]"
             class="no-perm"
           >
             {{ $t('tips.noPermission') }}
@@ -233,42 +175,25 @@
       :limit.sync="pagination.size"
       @pagination="fetch"
     />
-    <user-edit
+    <station-edit
       ref="edit"
       :dialog-visible="dialog.isVisible"
       :type="dialog.type"
       @success="editSuccess"
       @close="editClose"
     />
-    <user-view
-      ref="view"
-      :dialog-visible="userViewVisible"
-      @close="viewClose"
-    />
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination'
-import UserEdit from './Edit'
-import UserView from './View'
-import userApi from '@/api/User.js'
+import StationEdit from './Edit'
+import stationApi from '@/api/Station.js'
 
 export default {
-  name: 'UserManage',
-  components: { Pagination, UserEdit, UserView },
+  name: 'StationManage',
+  components: { Pagination, StationEdit },
   filters: {
-    userAvatarFilter (name) {
-      return name.charAt(0)
-    },
-    sexFilter (status) {
-      const map = {
-        'W': 'success',
-        'M': 'danger',
-        'N': 'info'
-      }
-      return map[status] || 'info'
-    },
     statusFilter (status) {
       const map = {
         false: 'danger',
@@ -283,9 +208,8 @@ export default {
         isVisible: false,
         type: 'add'
       },
-      userViewVisible: false,
       tableKey: 0,
-      total: 0,
+      // total: 0,
       queryParams: {},
       sort: {},
       selection: [],
@@ -301,9 +225,7 @@ export default {
     }
   },
   computed: {
-    currentUser () {
-      return this.$store.state.account.user
-    }
+
   },
   mounted () {
     this.fetch()
@@ -311,9 +233,6 @@ export default {
   methods: {
     filterStatus (value, row) {
       return row.status === value
-    },
-    viewClose () {
-      this.userViewVisible = false
     },
     editClose () {
       this.dialog.isVisible = false
@@ -343,36 +262,6 @@ export default {
         type: 'warning'
       })
     },
-    resetPassword () {
-      if (!this.selection.length) {
-        this.$message({
-          message: this.$t('tips.noDataSelected'),
-          type: 'warning'
-        })
-        return
-      }
-      this.$confirm(this.$t('tips.confirmRestPassword'), this.$t('common.tips'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
-        const ids = []
-        this.selection.forEach((u) => {
-          ids.push(u.id)
-        })
-        userApi.reset({ 'ids': ids }).then((res) => {
-          if (res.isSuccess) {
-            this.$message({
-              message: this.$t('tips.resetPasswordSuccess'),
-              type: 'success'
-            })
-          }
-          this.clearSelections()
-        })
-      }).catch(() => {
-        this.clearSelections()
-      })
-    },
     singleDelete (row) {
       this.$refs.table.toggleRowSelection(row, true)
       this.batchDelete()
@@ -385,7 +274,6 @@ export default {
         })
         return
       }
-      let contain = false
       this.$confirm(this.$t('tips.confirmDelete'), this.$t('common.tips'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
@@ -393,21 +281,9 @@ export default {
       }).then(() => {
         const ids = []
         this.selection.forEach((u) => {
-          if (u.id === this.currentUser.id) {
-            contain = true
-            return
-          }
           ids.push(u.id)
         })
-        if (contain) {
-          this.$message({
-            message: this.$t('tips.containCurrentUser'),
-            type: 'warning'
-          })
-          this.clearSelections()
-        } else {
-          this.delete(ids)
-        }
+        this.delete(ids)
       }).catch(() => {
         this.clearSelections()
       })
@@ -416,7 +292,7 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      userApi.delete({ 'ids': ids }).then(() => {
+      stationApi.delete({ 'ids': ids }).then(() => {
         this.$message({
           message: this.$t('tips.deleteSuccess'),
           type: 'success'
@@ -427,14 +303,10 @@ export default {
     add () {
       this.dialog.type = 'add'
       this.dialog.isVisible = true
-      this.$refs.edit.setUser(false)
-    },
-    view (row) {
-      this.$refs.view.setUser(row)
-      this.userViewVisible = true
+      this.$refs.edit.setStation(false)
     },
     edit (row) {
-      this.$refs.edit.setUser(row)
+      this.$refs.edit.setStation(row)
       this.dialog.type = 'edit'
       this.dialog.isVisible = true
     },
@@ -446,7 +318,7 @@ export default {
         params.startCreateTime = this.queryParams.timeRange[0]
         params.endCreateTime = this.queryParams.timeRange[1]
       }
-      userApi.findUserPage(params)
+      stationApi.findPage(params)
         .then((r) => {
           if (r.isError) {
             return

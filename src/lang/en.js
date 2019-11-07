@@ -85,10 +85,19 @@ export default {
       orderNum: 'Order',
       perms: 'Permissions'
     },
-    dept: {
-      deptName: 'DeptName',
+    org: {
+      name: 'Name',
+      abbreviation: 'Abbreviation',
+      describe: 'Describe',
       parentId: 'ParentId',
-      orderNum: 'Order'
+      sortValue: 'SortValue',
+      status: 'Status'
+    },
+    station: {
+      name: 'Name',
+      describe: 'Describe',
+      orgId: 'Org',
+      status: 'Status'
     },
     systemLog: {
       username: 'UserName',
