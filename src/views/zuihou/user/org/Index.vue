@@ -111,10 +111,7 @@
                 :label="$t(&quot;table.org.name&quot;)"
                 prop="name"
               >
-                <el-input
-                  v-model="org.name"
-                  :readonly="org.id === &quot;&quot; ? false : &quot;readonly&quot;"
-                />
+                <el-input v-model="org.name" />
               </el-form-item>
               <el-form-item
                 :label="$t(&quot;table.org.abbreviation&quot;)"
@@ -238,7 +235,6 @@ export default {
     },
     add () {
       this.resetForm()
-      debugger
       const checked = this.$refs.orgTree.getCheckedKeys()
       if (checked.length > 1) {
         this.$message({

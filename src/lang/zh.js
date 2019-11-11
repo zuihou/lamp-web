@@ -76,14 +76,24 @@ export default {
       perms: '角色权限'
     },
     menu: {
-      parentId: '上级ID',
-      menuName: '名称',
+      id: 'ID',
+      name: '名称',
+      describe: '描述',
+      code: '权限编码',
+      isPublic: '是否公有',
+      path: '路由URI',
       type: '类型',
-      icon: '图标',
       component: '组件',
-      path: 'URL',
-      orderNum: '排序',
-      perms: '权限'
+      isEnable: '是否启用',
+      sortValue: '排序',
+      parentId: '上级ID',
+      icon: '图标',
+      group: '分组'
+    },
+    resource: {
+      code: '编码',
+      name: '名称',
+      describe: '描述'
     },
     org: {
       name: '部门名称',
@@ -144,11 +154,12 @@ export default {
       field3: '字段3',
       createTime: '导入时间'
     },
+    status: '状态',
     refresh: '刷新',
     operation: '操作',
     search: '搜索',
     reset: '重置',
-    more: '更多操作',
+    more: '更多',
     add: '添加',
     export: '导出',
     import: '导入',

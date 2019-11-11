@@ -76,14 +76,24 @@ export default {
       perms: 'Permissions'
     },
     menu: {
-      parentId: 'ParentId',
-      menuName: 'Name',
+      id: 'ID',
+      name: 'Name',
+      describe: 'Describe',
+      code: 'Permissions',
+      isPublic: 'IsPublic',
+      path: 'Router Uri',
       type: 'Type',
-      icon: 'Icon',
       component: 'Component',
-      path: 'URL',
-      orderNum: 'Order',
-      perms: 'Permissions'
+      isEnable: 'IsEnable',
+      sortValue: 'Order',
+      parentId: 'ParentId',
+      icon: 'Icon',
+      group: 'Group'
+    },
+    resource: {
+      code: 'Code',
+      name: 'Name',
+      describe: 'Describe'
     },
     org: {
       name: 'Name',
@@ -144,6 +154,7 @@ export default {
       field3: 'Field 3',
       createTime: 'Import Time'
     },
+    status: 'Status',
     refresh: 'Refresh',
     operation: 'Operation',
     search: 'Search',
