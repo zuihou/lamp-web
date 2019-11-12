@@ -498,6 +498,8 @@ export default {
         "role:update",
         "role:delete",
         "role:export",
+        "role:auth",
+        "role:config",
         "client:view",
         "client:add",
         "client:decrypt",

@@ -70,10 +70,14 @@ export default {
       social: 'Third Party Account'
     },
     role: {
-      roleName: 'RoleName',
-      remark: 'Description',
+      code: 'Code',
+      name: 'Name',
+      describe: 'Describe',
+      status: 'Status',
+      readonly: 'Readonly',
       createTime: 'CreateTime',
-      perms: 'Permissions'
+      dsType: 'DsType',
+      orgList: 'Org'
     },
     menu: {
       id: 'ID',

@@ -187,7 +187,7 @@ export default {
       rules: {
         name: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
-          { min: 3, max: 10, message: this.$t('rules.range3to10'), trigger: 'blur' }
+          { min: 1, max: 255, message: this.$t('rules.range3to10'), trigger: 'blur' }
         ]
       }
     }

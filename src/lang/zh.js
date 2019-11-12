@@ -70,10 +70,14 @@ export default {
       social: '第三方账号'
     },
     role: {
-      roleName: '角色名称',
-      remark: '角色描述',
+      code: '编码',
+      name: '角色名称',
+      describe: '角色描述',
+      status: '状态',
+      readonly: '是否内置',
       createTime: '创建时间',
-      perms: '角色权限'
+      dsType: '数据范围',
+      orgList: '组织'
     },
     menu: {
       id: 'ID',
