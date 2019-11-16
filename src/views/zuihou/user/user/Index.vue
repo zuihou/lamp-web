@@ -185,7 +185,7 @@
         :label="$t(&quot;table.user.createTime&quot;)"
         prop="createTime"
         align="center"
-        width="160px"
+        width="170px"
         sortable="custom"
       >
         <template slot-scope="scope">

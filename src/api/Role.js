@@ -78,6 +78,12 @@ export default {
       method: 'GET'
     })
   },
+  findAuthorityIdByRoleId (roleId) {
+    return axiosApi({
+      url: `/authority/role/authority/${roleId}`,
+      method: 'GET'
+    })
+  },
   saveRoleAuthority (data) {
     return axiosApi({
       ...apiList.saveRoleAuthority,

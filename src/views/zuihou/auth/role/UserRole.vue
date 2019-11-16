@@ -49,6 +49,7 @@
       <el-button
         type="primary"
         plain
+        :disabled="disabled"
         @click="submitForm"
       >
         {{ $t('common.confirm') }}
@@ -76,6 +77,7 @@ export default {
       width: this.initWidth(),
       userList: [],
       userIdList: [],
+      disabled: false,
       rules: {
 
       },
@@ -152,7 +154,7 @@ export default {
     setUserRole (val) {
       const vm = this
       vm.userRole.roleId = val.id
-
+      vm.disabled = val.readonly
       roleApi.findUserIdByRoleId(val.id)
         .then((res) => {
           vm.userRole.userIdList = res.data
@@ -167,6 +169,7 @@ export default {
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
       this.userRole = this.initUserRole()
+      this.disabled = false
     },
     submitForm () {
       const vm = this

@@ -294,11 +294,11 @@ export default {
     },
     editSubmit () {
       const vm = this
-      if (this.orgHidden) {
+      if (this.orgHidden && this.role.orgList) {
         this.role.orgList.length = 0
+      } else {
+        this.role.orgList = this.$refs.orgTree.getCheckedKeys()
       }
-
-      this.role.orgList = this.$refs.orgTree.getCheckedKeys()
 
       if (vm.type === 'add') {
         vm.save()

@@ -327,7 +327,7 @@ export default {
     },
     loadStation (orgId) {
       if (orgId) {
-        stationApi.page({ orgId: orgId, status: true }).then((r) => {
+        stationApi.findPage({ orgId: orgId, status: true }).then((r) => {
           if (r.isError) {
             this.$message({
               message: this.$t('tips.getDataFail'),

@@ -441,7 +441,7 @@ export default {
           .then(res => {
             if (res.isSuccess) {
               that.saveLoginData(res.data.token)
-              that.saveUserInfo(res.data.user)
+              that.saveUserInfo(res.data.user, res.data.permissionsList)
               that.loginSuccessCallback(res.data.user)
               that.$message({
                 message: this.$t('tips.loginSuccess'),
@@ -463,62 +463,62 @@ export default {
       const expireTime = current.setTime(current.getTime() + 1000 * token.expire)
       this.$store.commit('account/setExpireTime', expireTime)
     },
-    saveUserInfo (user) {
+    saveUserInfo (user, permissionsList) {
       this.$store.commit('account/setUser', user)
       // TODO 从后台拉取权限列表
-      const permissions = [
-        "org:view",
-        "org:add",
-        "org:update",
-        "org:delete",
-        "org:export",
-        "user:view",
-        "user:add",
-        "user:update",
-        "user:delete",
-        "user:reset",
-        "user:export",
-        "station:view",
-        "station:add",
-        "station:update",
-        "station:delete",
-        "station:export",
-        "menu:view",
-        "menu:add",
-        "menu:update",
-        "menu:delete",
-        "menu:export",
-        "resource:view",
-        "resource:add",
-        "resource:update",
-        "resource:delete",
-        "resource:export",
-        "role:view",
-        "role:add",
-        "role:update",
-        "role:delete",
-        "role:export",
-        "role:auth",
-        "role:config",
-        "client:view",
-        "client:add",
-        "client:decrypt",
-        "log:view",
-        "log:export",
-        "monitor:loginlog",
-        "loginlog:export",
-        "monitor:register",
-        "monitor:zipkin",
-        "monitor:kibana",
-        "mobitor:admin",
-        "monitor:swagger",
-        "grafana:view",
-        "gen:config",
-        "gen:generate",
-        "gen:generate:gen",
-        "others:eximport"
-      ]
-      this.$store.commit('account/setPermissions', permissions)
+      // const permissions = [
+      //   "org:view",
+      //   "org:add",
+      //   "org:update",
+      //   "org:delete",
+      //   "org:export",
+      //   "user:view",
+      //   "user:add",
+      //   "user:update",
+      //   "user:delete",
+      //   "user:reset",
+      //   "user:export",
+      //   "station:view",
+      //   "station:add",
+      //   "station:update",
+      //   "station:delete",
+      //   "station:export",
+      //   "menu:view",
+      //   "menu:add",
+      //   "menu:update",
+      //   "menu:delete",
+      //   "menu:export",
+      //   "resource:view",
+      //   "resource:add",
+      //   "resource:update",
+      //   "resource:delete",
+      //   "resource:export",
+      //   "role:view",
+      //   "role:add",
+      //   "role:update",
+      //   "role:delete",
+      //   "role:export",
+      //   "role:auth",
+      //   "role:config",
+      //   "client:view",
+      //   "client:add",
+      //   "client:decrypt",
+      //   "log:view",
+      //   "log:export",
+      //   "monitor:loginlog",
+      //   "loginlog:export",
+      //   "monitor:register",
+      //   "monitor:zipkin",
+      //   "monitor:kibana",
+      //   "mobitor:admin",
+      //   "monitor:swagger",
+      //   "grafana:view",
+      //   "gen:config",
+      //   "gen:generate",
+      //   "gen:generate:gen",
+      //   "others:eximport"
+      // ]
+      this.$store.commit('account/setPermissions', permissionsList)
     },
     loginSuccessCallback (user) {
       // 登录成功后的回调，记录登录日志，最后登录时间等

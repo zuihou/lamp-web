@@ -172,7 +172,9 @@
             style="color: #2db7f5;"
             @click="edit(row)"
           />
-          <el-dropdown>
+          <el-dropdown
+            v-has-any-permission="[&quot;role:update&quot;,&quot;role:delete&quot;,&quot;role:auth&quot;,&quot;role:config&quot;]"
+          >
             <span class="el-dropdown-link">
               {{ $t('table.more') }}
               <i class="el-icon-arrow-down el-icon--right" />
@@ -203,7 +205,7 @@
           </el-dropdown>
 
           <el-link
-            v-has-no-permission="[&quot;role:update&quot;,&quot;role:delete&quot;]"
+            v-has-no-permission="[&quot;role:update&quot;,&quot;role:delete&quot;,&quot;role:auth&quot;,&quot;role:config&quot;]"
             class="no-perm"
           >
             {{ $t('tips.noPermission') }}
@@ -231,6 +233,12 @@
       @success="userRoleSuccess"
       @close="userRoleClose"
     />
+    <role-authority
+      ref="roleAuthority"
+      :dialog-visible="roleAuthorityDialog.isVisible"
+      @success="roleAuthoritySuccess"
+      @close="roleAuthorityClose"
+    />
   </div>
 </template>
 
@@ -238,11 +246,12 @@
 import Pagination from '@/components/Pagination'
 import RoleEdit from './Edit'
 import UserRole from './UserRole'
+import RoleAuthority from './RoleAuthority'
 import roleApi from '@/api/Role.js'
 
 export default {
   name: 'RoleManage',
-  components: { Pagination, RoleEdit, UserRole },
+  components: { Pagination, RoleEdit, UserRole, RoleAuthority },
   filters: {
     statusFilter (status) {
       const map = {
@@ -259,6 +268,9 @@ export default {
         type: 'add'
       },
       userRoleDialog: {
+        isVisible: false
+      },
+      roleAuthorityDialog: {
         isVisible: false
       },
       tableKey: 0,
@@ -293,10 +305,16 @@ export default {
     userRoleClose () {
       this.userRoleDialog.isVisible = false
     },
+    roleAuthorityClose () {
+      this.roleAuthorityDialog.isVisible = false
+    },
     editSuccess () {
       this.search()
     },
     userRoleSuccess () {
+      this.search()
+    },
+    roleAuthoritySuccess () {
       this.search()
     },
     onSelectChange (selection) {
