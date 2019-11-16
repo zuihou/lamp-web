@@ -225,7 +225,7 @@ export default {
     onlyChooseOne: '只能选择一个节点作为父节点',
     noNodeSelected: '请先选择节点',
     confirmDeleteNode: '选中节点及其子结点将被永久删除, 是否继续？',
-    iframeGrant: '用户名：FEBS 密码：123456',
+    iframeGrant: '用户名：zuihou 密码：zuihou',
     notEqual: '两次输入不一致',
     oldPasswordIncorrect: '原密码不正确',
     uploadSuccess: '上传成功',

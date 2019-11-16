@@ -225,7 +225,7 @@ export default {
     onlyChooseOne: 'Only one node can be selected as the parent node',
     noNodeSelected: 'Please select a node first',
     confirmDeleteNode: 'The selected node and its child nodes will be permanently deleted. Continue?',
-    iframeGrant: 'Userame: zuihou Password: 123456',
+    iframeGrant: 'Userame: zuihou Password: zuihou',
     notEqual: 'Inconsistent values entered twice',
     oldPasswordIncorrect: 'Old password incorrect',
     uploadSuccess: 'Upload Successfully',

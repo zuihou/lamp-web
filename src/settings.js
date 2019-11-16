@@ -1,13 +1,17 @@
 module.exports = {
   title: 'zuihou-ui',
-  // Spring Boot Admin控制台地址
-  springBootAdminUrl: 'http://localhost:8401',
-  // Swagger UI 地址
-  swaggerUrl: 'http://localhost:8760/api/gate/swagger-ui.html',
-  // zipkin 控制台地址
-  zipkinUrl: 'http://localhost:8402',
-  // kibana 控制台地址
-  kibanaUrl: 'http://192.168.33.10:5601',
-  // 第三方登录接口地址
-  socialLoginUrl: 'https://apicloud.mrbird.cn:8301/auth/social/login'
+  druid: {
+    authority: {
+      "development": 'http://127.0.0.1:8764/druid',
+      "production": 'http://tangyh.top:8764/druid',
+    },
+    file: {
+      "development": 'http://127.0.0.1:8765/druid',
+      "production": 'http://tangyh.top:8765/druid',
+    },
+    msgs: {
+      "development": 'http://127.0.0.1:8768/druid',
+      "production": 'http://tangyh.top:8768/druid',
+    }
+  }
 }
