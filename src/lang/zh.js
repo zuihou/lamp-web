@@ -113,23 +113,34 @@ export default {
       orgId: '组织',
       status: '状态'
     },
-    systemLog: {
-      username: '操作人',
-      operation: '操作描述',
-      createTime: '操作时间',
-      time: '耗时',
-      method: '操作方法',
+    optLog: {
+      requestIp: 'IP',
+      type: '类型',
+      userName: '操作人',
+      description: '操作描述',
+      classPath: '类路径',
+      actionMethod: '请求方法',
+      requestUri: '请求地址',
+      httpMethod: '请求类型',
       params: '方法参数',
-      ip: 'IP',
-      location: '操作地点'
+      result: '返回值',
+      exDesc: '异常详情信息',
+      consumingTime: '消耗时间',
+      startTime: '开始时间',
+      finishTime: '完成时间',
+      ua: '浏览器请求头'
     },
     loginLog: {
-      username: '用户名',
-      loginTime: '登录时间',
-      ip: 'IP',
-      location: '登录地点',
-      system: '登录系统',
-      browser: '浏览器'
+      userName: '姓名',
+      account: '账号',
+      requestIp: 'IP',
+      description: '描述',
+      loginDate: '登录时间',
+      ua: '浏览器请求头',
+      browser: '浏览器',
+      browserVersion: '浏览器版本',
+      operatingSystem: '操作系统',
+      location: '地区'
     },
     gen: {
       config: {

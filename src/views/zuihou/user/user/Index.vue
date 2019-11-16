@@ -285,7 +285,6 @@ export default {
       },
       userViewVisible: false,
       tableKey: 0,
-      total: 0,
       queryParams: {},
       sort: {},
       selection: [],

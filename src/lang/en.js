@@ -113,23 +113,34 @@ export default {
       orgId: 'Org',
       status: 'Status'
     },
-    systemLog: {
-      username: 'UserName',
-      operation: 'Description',
-      createTime: 'CreateTime',
-      time: 'Duration',
-      method: 'Method',
-      params: 'parameter',
-      ip: 'IP',
-      location: 'Location'
+    optLog: {
+      requestIp: 'IP',
+      type: 'type',
+      userName: 'userName',
+      description: 'description',
+      classPath: 'classPath',
+      actionMethod: 'actionMethod',
+      requestUri: 'requestUri',
+      httpMethod: 'httpMethod',
+      params: 'params',
+      result: 'result',
+      exDesc: 'exDesc',
+      consumingTime: 'consumingTime',
+      startTime: 'startTime',
+      finishTime: 'finishTime',
+      ua: 'ua'
     },
     loginLog: {
-      username: 'UserName',
-      loginTime: 'LoginTime',
-      ip: 'IP',
-      location: 'Location',
-      system: 'System',
-      browser: 'Browser'
+      userName: 'userName',
+      account: 'account',
+      requestIp: 'IP',
+      description: 'description',
+      loginDate: 'loginDate',
+      ua: 'ua',
+      browser: 'browser',
+      browserVersion: 'browserVersion',
+      operatingSystem: 'operatingSystem',
+      location: 'location'
     },
     gen: {
       config: {
