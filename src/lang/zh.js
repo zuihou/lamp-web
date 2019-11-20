@@ -142,6 +142,23 @@ export default {
       operatingSystem: '操作系统',
       location: '地区'
     },
+    attachment: {
+      bizId: '业务ID',
+      bizType: '业务类型',
+      dataType: '数据类型',
+      submittedFileName: '文件名',
+      group: '组',
+      path: '路径',
+      relativePath: '相对路径',
+      url: '访问链接',
+      fileMd5: 'md5',
+      contextType: '类型',
+      filename: '唯一文件名',
+      ext: '后缀',
+      size: '大小',
+      orgId: '组织',
+      icon: '图标'
+    },
     gen: {
       config: {
         author: '作者名称',
@@ -178,6 +195,8 @@ export default {
     add: '添加',
     export: '导出',
     import: '导入',
+    upload: '上传',
+    download: '下载',
     templateDownload: '模板下载',
     delete: '删除',
     resetPassword: '密码重置',
@@ -242,6 +261,7 @@ export default {
   },
   rules: {
     require: '不能为空',
+    range0to255: '长度在 0 到 255 个字符',
     range2to10: '长度在 2 到 10 个字符',
     range3to10: '长度在 3 到 10 个字符',
     range3to20: '长度在 3 到 20 个字符',
@@ -277,6 +297,7 @@ export default {
     cancel: '取消',
     add: '新增',
     edit: '修改',
+    upload: '上传',
     yes: '是',
     no: '否',
     sex: {

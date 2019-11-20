@@ -312,19 +312,19 @@ export default {
       return `${time}, ${this.user.name}, ${welcomeArr[index]}`
     },
     initIndexData: function () {
-      dashboardApi.getVisitList({}).then((r) => {
-        if (r.isError) {
-          return
-        }
-        const data = r.data
-        this.todayIp = Number(data.todayIp)
-        this.totalVisit = Number(data.totalVisitCount)
-        this.todayVisit = Number(data.todayVisitCount)
+      dashboardApi.getVisitList({})
+        .then((response) => {
+          const res = response.data
 
-        this.tenDaysData(data)
-        this.browserCount(data.browserCount)
-        this.operatingSystemCount(data.operatingSystemCount)
-      })
+          const data = res.data
+          this.todayIp = Number(data.todayIp)
+          this.totalVisit = Number(data.totalVisitCount)
+          this.todayVisit = Number(data.todayVisitCount)
+
+          this.tenDaysData(data)
+          this.browserCount(data.browserCount)
+          this.operatingSystemCount(data.operatingSystemCount)
+        })
     },
     tenDaysData (data) {
       const tenVisitCount = []

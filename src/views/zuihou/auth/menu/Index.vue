@@ -486,8 +486,9 @@ export default {
       }
     },
     initMenuTree () {
-      menuApi.allTree().then((r) => {
-        this.menuTree = r.data
+      menuApi.allTree().then((response) => {
+        const res = response.data
+        this.menuTree = res.data
       })
     },
     initMenu () {
@@ -546,28 +547,32 @@ export default {
     },
     save () {
       console.log(this.menu.component)
-      menuApi.save(this.menu).then((res) => {
-        if (res.isSuccess) {
-          this.$message({
-            message: this.$t('tips.createSuccess'),
-            type: 'success'
-          })
-        }
-        this.reset()
-      })
+      menuApi.save(this.menu)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t('tips.createSuccess'),
+              type: 'success'
+            })
+          }
+          this.reset()
+        })
 
     },
     update () {
       console.log(this.menu)
-      menuApi.update(this.menu).then((res) => {
-        if (res.isSuccess) {
-          this.$message({
-            message: this.$t('tips.updateSuccess'),
-            type: 'success'
-          })
-        }
-        this.reset()
-      })
+      menuApi.update(this.menu)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t('tips.updateSuccess'),
+              type: 'success'
+            })
+          }
+          this.reset()
+        })
     },
     reset () {
       this.initMenuTree()
@@ -606,17 +611,19 @@ export default {
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-          menuApi.delete({ ids: checked }).then((res) => {
-            if (res.isSuccess) {
-              this.$message({
-                message: this.$t('tips.deleteSuccess'),
-                type: 'success'
-              })
-            }
-            this.reset()
-            this.resourceQueryParams.menuId = null
-            this.resourceReset()
-          })
+          menuApi.delete({ ids: checked })
+            .then((response) => {
+              const res = response.data
+              if (res.isSuccess) {
+                this.$message({
+                  message: this.$t('tips.deleteSuccess'),
+                  type: 'success'
+                })
+              }
+              this.reset()
+              this.resourceQueryParams.menuId = null
+              this.resourceReset()
+            })
         }).catch(() => {
           this.$refs.menuTree.$refs.treeRef.setCheckedKeys([])
         })
@@ -658,7 +665,8 @@ export default {
         type: 'warning'
       }).then(() => {
         const ids = this.resourceSelection.map((item) => item.id)
-        resourceApi.delete({ ids: ids }).then((res) => {
+        resourceApi.delete({ ids: ids }).then((response) => {
+          const res = response.data
           if (res.isSuccess) {
             this.$message({
               message: this.$t('tips.deleteSuccess'),
@@ -693,11 +701,9 @@ export default {
       if (params.menuId) {
         this.resourceLoading = true
         resourceApi.findPage(params)
-          .then((r) => {
-            if (r.isError) {
-              return
-            }
-            this.resourceTableData = r.data
+          .then((response) => {
+            const res = response.data
+            this.resourceTableData = res.data
             this.resourceLoading = false
           })
       } else {
@@ -714,11 +720,9 @@ export default {
       this.resourceSelection = selection
     },
     resourceEditClose () {
-      debugger
       this.dialog.isVisible = false
     },
     resourceEditSuccess () {
-      debugger
       this.resourceSearch()
     }
   }

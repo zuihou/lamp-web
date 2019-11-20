@@ -369,16 +369,17 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      debugger
-      roleApi.delete({ ids: ids }).then((res) => {
-        if (res.isSuccess) {
-          this.$message({
-            message: this.$t('tips.deleteSuccess'),
-            type: 'success'
-          })
-        }
-        this.search()
-      })
+      roleApi.delete({ ids: ids })
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t('tips.deleteSuccess'),
+              type: 'success'
+            })
+          }
+          this.search()
+        })
     },
     add () {
       this.dialog.type = 'add'
@@ -399,12 +400,10 @@ export default {
         params.endCreateTime = this.queryParams.timeRange[1]
       }
       roleApi.findPage(params)
-        .then((r) => {
-          if (r.isError) {
-            return
-          }
-          this.tableData = r.data
+        .then((response) => {
+          const res = response.data
           this.loading = false
+          this.tableData = res.data
         })
     },
     sortChange (val) {

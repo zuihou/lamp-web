@@ -359,15 +359,17 @@ export default {
         this.selection.forEach((u) => {
           ids.push(u.id)
         })
-        userApi.reset({ 'ids': ids }).then((res) => {
-          if (res.isSuccess) {
-            this.$message({
-              message: this.$t('tips.resetPasswordSuccess'),
-              type: 'success'
-            })
-          }
-          this.clearSelections()
-        })
+        userApi.reset({ 'ids': ids })
+          .then((response) => {
+            const res = response.data
+            if (res.isSuccess) {
+              this.$message({
+                message: this.$t('tips.resetPasswordSuccess'),
+                type: 'success'
+              })
+            }
+            this.clearSelections()
+          })
       }).catch(() => {
         this.clearSelections()
       })
@@ -415,15 +417,17 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      userApi.delete({ 'ids': ids }).then((res) => {
-        if (res.isSuccess) {
-          this.$message({
-            message: this.$t('tips.deleteSuccess'),
-            type: 'success'
-          })
-        }
-        this.search()
-      })
+      userApi.delete({ 'ids': ids })
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t('tips.deleteSuccess'),
+              type: 'success'
+            })
+          }
+          this.search()
+        })
     },
     add () {
       this.dialog.type = 'add'
@@ -447,13 +451,14 @@ export default {
         params.startCreateTime = this.queryParams.timeRange[0]
         params.endCreateTime = this.queryParams.timeRange[1]
       }
+      window.location.hash = '/login'
       userApi.findUserPage(params)
-        .then((r) => {
-          if (r.isError) {
-            return
-          }
-          this.tableData = r.data
+        .then((response) => {
+          const res = response.data
           this.loading = false
+          if (res.isSuccess) {
+            this.tableData = res.data
+          }
         })
     },
     sortChange (val) {

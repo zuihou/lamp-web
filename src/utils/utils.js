@@ -53,3 +53,22 @@ export const readUserAgent = ua => {
   }
   return data
 }
+
+// 格式化文件大小 单位：Bytes、KB、MB、GB
+const renderSize = value => {
+  if (null == value || value == '') {
+    return "0 Bytes"
+  }
+  var unitArr = new Array("Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+  var index = 0
+  var srcsize = parseFloat(value)
+  index = Math.floor(Math.log(srcsize) / Math.log(1024))
+  var size = srcsize / Math.pow(1024, index)
+  size = size.toFixed(2)
+  if (unitArr[index]) {
+    return size + unitArr[index]
+  }
+  return '文件太大'
+}
+
+export { renderSize }

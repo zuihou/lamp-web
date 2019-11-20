@@ -374,9 +374,10 @@ export default {
       this.loading = true
 
       optLogApi.page(params)
-        .then((r) => {
-          this.tableData = r.data
+        .then((response) => {
+          const res = response.data
           this.loading = false
+          this.tableData = res.data
         })
     },
     singleDelete (row) {
@@ -407,11 +408,14 @@ export default {
     },
     delete (logIds) {
       optLogApi.delete({ ids: logIds })
-        .then(() => {
-          this.$message({
-            message: this.$t('tips.deleteSuccess'),
-            type: 'success'
-          })
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t('tips.deleteSuccess'),
+              type: 'success'
+            })
+          }
           this.search()
         })
     },

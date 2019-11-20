@@ -25,8 +25,8 @@ axios.interceptors.response.use(
 )
 
 function handleError (error, reject) {
+  debugger
   if (error.code === 'ECONNABORTED') {
-    debugger
     Message({
       message: '请求超时'
     })
@@ -45,19 +45,19 @@ function handleError (error, reject) {
 function handleSuccess (res, resolve) {
   if (res.data.isError) {
     // 未登录
-    debugger
     if (res.data.code === 40001) {
+      debugger
       MessageBox.alert(res.data.msg, '提醒', {
         confirmButtonText: '确定',
         callback: () => {
-          window.location.hash = '/login'
+          // window.location.hash = '/login'
         }
       })
     } else {
       Message.error(res.data.msg)
     }
   }
-  resolve(res.data)
+  resolve(res)
 }
 
 // http请求
@@ -79,6 +79,7 @@ const httpServer = (opts) => {
     responseType: opts.responseType || '',
     timeout: 20000
   }
+
   const dataRequest = ['PUT', 'POST', 'PATCH']
   if (dataRequest.includes(method)) {
     httpDefaultOpts.data = opts.data || {}

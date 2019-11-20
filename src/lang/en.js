@@ -142,6 +142,23 @@ export default {
       operatingSystem: 'operatingSystem',
       location: 'location'
     },
+    attachment: {
+      bizId: 'bizId',
+      bizType: 'bizType',
+      dataType: 'dataType',
+      submittedFileName: 'submittedFileName',
+      group: 'group',
+      path: 'path',
+      relativePath: 'relativePath',
+      url: 'url',
+      fileMd5: 'fileMd5',
+      contextType: 'contextType',
+      filename: 'filename',
+      ext: 'ext',
+      size: 'size',
+      orgId: 'orgId',
+      icon: 'icon'
+    },
     gen: {
       config: {
         author: 'Author',
@@ -178,6 +195,8 @@ export default {
     add: 'Add',
     export: 'Export',
     import: 'Import',
+    upload: 'Upload',
+    download: 'Download',
     templateDownload: 'Template Download',
     delete: 'Delete',
     resetPassword: 'RestPassword',
@@ -242,6 +261,7 @@ export default {
   },
   rules: {
     require: 'Can\'t be empty',
+    range0to255: '0 to 255 characters in length',
     range2to10: '2 to 10 characters in length',
     range3to10: '3 to 10 characters in length',
     range3to20: '3 to 20 characters in length',
@@ -277,6 +297,7 @@ export default {
     cancel: 'Cancel',
     add: 'Create',
     edit: 'Modify',
+    upload: 'Upload',
     username: 'User Name',
     dept: 'Department',
     createTime: 'Create Time',

@@ -149,13 +149,15 @@ export default {
           {
             validator: (rule, value, callback) => {
               if (!this.type === 'add' && value.trim().length > 0) {
-                roleApi.check(value).then((r) => {
-                  if (r.data) {
-                    callback('编码重复')
-                  } else {
-                    callback()
-                  }
-                })
+                roleApi.check(value)
+                  .then((response) => {
+                    const res = response.data
+                    if (res.data) {
+                      callback('编码重复')
+                    } else {
+                      callback()
+                    }
+                  })
               } else {
                 callback()
               }
@@ -235,20 +237,10 @@ export default {
     },
     initOrg () {
       orgApi.allTree({ status: true })
-        .then((r) => {
-          if (r.isError) {
-            this.$message({
-              message: this.$t('tips.getDataFail'),
-              type: 'error'
-            })
-            return
-          }
-          this.orgList = r.data
-        }).catch(() => {
-          this.$message({
-            message: this.$t('tips.getDataFail'),
-            type: 'error'
-          })
+        .then((response) => {
+          const res = response.data
+
+          this.orgList = res.data
         })
     },
     loadListOptions ({ callback }) {
@@ -261,7 +253,8 @@ export default {
         this.orgHidden = val.dsType.code !== 'CUSTOMIZE'
         if (!this.orgHidden) {
           roleApi.get(val.id)
-            .then(res => {
+            .then((response) => {
+              const res = response.data
               if (res.isSuccess) {
                 this.role.orgList = res.data.orgList
                 this.$refs.orgTree.setCheckedKeys(res.data.orgList)
@@ -308,28 +301,32 @@ export default {
     },
     save () {
       const vm = this
-      roleApi.save(this.role).then((res) => {
-        if (res.isSuccess) {
-          vm.isVisible = false
-          vm.$message({
-            message: vm.$t('tips.createSuccess'),
-            type: 'success'
-          })
-          vm.$emit('success')
-        }
-      })
+      roleApi.save(this.role)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            vm.isVisible = false
+            vm.$message({
+              message: vm.$t('tips.createSuccess'),
+              type: 'success'
+            })
+            vm.$emit('success')
+          }
+        })
     },
     update () {
-      roleApi.update(this.role).then((res) => {
-        if (res.isSuccess) {
-          this.isVisible = false
-          this.$message({
-            message: this.$t('tips.updateSuccess'),
-            type: 'success'
-          })
-          this.$emit('success')
-        }
-      })
+      roleApi.update(this.role)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.isVisible = false
+            this.$message({
+              message: this.$t('tips.updateSuccess'),
+              type: 'success'
+            })
+            this.$emit('success')
+          }
+        })
     },
     dsTypeChange (value) {
       this.orgHidden = value !== 'CUSTOMIZE'

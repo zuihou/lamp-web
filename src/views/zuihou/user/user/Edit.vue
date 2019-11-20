@@ -214,13 +214,15 @@ export default {
           {
             validator: (rule, value, callback) => {
               if (!this.user.userId) {
-                this.$get(`system/user/check/${value}`).then((r) => {
-                  if (!r.data) {
-                    callback(this.$t('rules.usernameExist'))
-                  } else {
-                    callback()
-                  }
-                })
+                this.$get(`system/user/check/${value}`)
+                  .then((response) => {
+                    const res = response.data
+                    if (!res.data) {
+                      callback(this.$t('rules.usernameExist'))
+                    } else {
+                      callback()
+                    }
+                  })
               } else {
                 callback()
               }
@@ -303,20 +305,9 @@ export default {
     },
     initOrg () {
       orgApi.allTree({ status: true })
-        .then((r) => {
-          if (r.isError) {
-            this.$message({
-              message: this.$t('tips.getDataFail'),
-              type: 'error'
-            })
-            return
-          }
-          this.orgList = r.data
-        }).catch(() => {
-          this.$message({
-            message: this.$t('tips.getDataFail'),
-            type: 'error'
-          })
+        .then((response) => {
+          const res = response.data
+          this.orgList = res.data
         })
     },
     loadListOptions ({ callback }) {
@@ -327,21 +318,11 @@ export default {
     },
     loadStation (orgId) {
       if (orgId) {
-        stationApi.findPage({ orgId: orgId, status: true }).then((r) => {
-          if (r.isError) {
-            this.$message({
-              message: this.$t('tips.getDataFail'),
-              type: 'error'
-            })
-            return
-          }
-          this.stationList = r.data.records
-        }).catch(() => {
-          this.$message({
-            message: this.$t('tips.getDataFail'),
-            type: 'error'
+        stationApi.findPage({ orgId: orgId, status: true })
+          .then((response) => {
+            const res = response.data
+            this.stationList = res.data.records
           })
-        })
       } else {
         this.stationList = []
       }
@@ -410,28 +391,32 @@ export default {
     },
     save () {
       const vm = this
-      userApi.save(this.user).then((res) => {
-        if (res.isSuccess) {
-          vm.isVisible = false
-          vm.$message({
-            message: vm.$t('tips.createSuccess'),
-            type: 'success'
-          })
-          vm.$emit('success')
-        }
-      })
+      userApi.save(this.user)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            vm.isVisible = false
+            vm.$message({
+              message: vm.$t('tips.createSuccess'),
+              type: 'success'
+            })
+            vm.$emit('success')
+          }
+        })
     },
     update () {
-      userApi.update(this.user).then((res) => {
-        if (res.isSuccess) {
-          this.isVisible = false
-          this.$message({
-            message: this.$t('tips.updateSuccess'),
-            type: 'success'
-          })
-          this.$emit('success')
-        }
-      })
+      userApi.update(this.user)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.isVisible = false
+            this.$message({
+              message: this.$t('tips.updateSuccess'),
+              type: 'success'
+            })
+            this.$emit('success')
+          }
+        })
     }
   }
 }

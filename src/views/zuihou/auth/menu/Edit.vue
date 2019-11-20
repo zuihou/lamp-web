@@ -192,20 +192,22 @@ export default {
     },
     save () {
       const vm = this
-      resourceApi.save(this.resource).then((res) => {
-        if (res.isSuccess) {
-          debugger
-          vm.isVisible = false
-          vm.$message({
-            message: vm.$t('tips.createSuccess'),
-            type: 'success'
-          })
-          vm.$emit('success')
-        }
-      })
+      resourceApi.save(this.resource)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            vm.isVisible = false
+            vm.$message({
+              message: vm.$t('tips.createSuccess'),
+              type: 'success'
+            })
+            vm.$emit('success')
+          }
+        })
     },
     update () {
-      resourceApi.update(this.resource).then((res) => {
+      resourceApi.update(this.resource).then((response) => {
+        const res = response.data
         if (res.isSuccess) {
           this.isVisible = false
           this.$message({

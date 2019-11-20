@@ -209,8 +209,9 @@ export default {
     },
     initOrgTree () {
       orgApi.allTree({})
-        .then((r) => {
-          this.orgTree = r.data
+        .then((response) => {
+          const res = response.data
+          this.orgTree = res.data
         })
     },
     exportExcel () {
@@ -260,15 +261,17 @@ export default {
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-          orgApi.delete({ ids: checked }).then((res) => {
-            if (res.isSuccess) {
-              this.$message({
-                message: this.$t('tips.deleteSuccess'),
-                type: 'success'
-              })
-            }
-            this.reset()
-          })
+          orgApi.delete({ ids: checked })
+            .then((response) => {
+              const res = response.data
+              if (res.isSuccess) {
+                this.$message({
+                  message: this.$t('tips.deleteSuccess'),
+                  type: 'success'
+                })
+              }
+              this.reset()
+            })
         }).catch(() => {
           this.$refs.orgTree.setCheckedKeys([])
         })
@@ -296,22 +299,31 @@ export default {
       })
     },
     save () {
-      orgApi.save({ ...this.org }).then(() => {
-        this.$message({
-          message: this.$t('tips.createSuccess'),
-          type: 'success'
+      orgApi.save({ ...this.org })
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t('tips.createSuccess'),
+              type: 'success'
+            })
+          }
+
+          this.reset()
         })
-        this.reset()
-      })
     },
     update () {
-      orgApi.update({ ...this.org }).then(() => {
-        this.$message({
-          message: this.$t('tips.updateSuccess'),
-          type: 'success'
+      orgApi.update({ ...this.org })
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t('tips.updateSuccess'),
+              type: 'success'
+            })
+          }
+          this.reset()
         })
-        this.reset()
-      })
     },
     resetForm () {
       this.$refs.form.clearValidate()

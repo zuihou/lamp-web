@@ -135,15 +135,10 @@ export default {
     },
     initUserList () {
       userApi.findUserPage({ current: 1, size: 100000, status: true })
-        .then((r) => {
-          if (r.isError) {
-            this.$message({
-              message: this.$t('tips.getDataFail'),
-              type: 'error'
-            })
-            return
-          }
-          this.userList = r.data.records
+        .then((response) => {
+          const res = response.data
+
+          this.userList = res.data.records
         }).catch(() => {
           this.$message({
             message: this.$t('tips.getDataFail'),
@@ -156,7 +151,8 @@ export default {
       vm.userRole.roleId = val.id
       vm.disabled = val.readonly
       roleApi.findUserIdByRoleId(val.id)
-        .then((res) => {
+        .then((response) => {
+          const res = response.data
           vm.userRole.userIdList = res.data
         })
 
@@ -185,16 +181,18 @@ export default {
       const vm = this
       console.log(this.userRole)
 
-      roleApi.saveUserRole(this.userRole).then((res) => {
-        if (res.isSuccess) {
-          vm.isVisible = false
-          vm.$message({
-            message: vm.$t('tips.createSuccess'),
-            type: 'success'
-          })
-          vm.$emit('success')
-        }
-      })
+      roleApi.saveUserRole(this.userRole)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            vm.isVisible = false
+            vm.$message({
+              message: vm.$t('tips.createSuccess'),
+              type: 'success'
+            })
+            vm.$emit('success')
+          }
+        })
     },
     filterMethod (query, item) {
       return item.name.indexOf(query) > -1 || item.account.indexOf(query) > -1

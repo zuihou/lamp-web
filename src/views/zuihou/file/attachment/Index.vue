@@ -2,13 +2,8 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input
-        v-model="queryParams.name"
-        :placeholder="$t(&quot;table.station.name&quot;)"
-        class="filter-item search-item"
-      />
-      <el-input
-        v-model="queryParams.orgId"
-        :placeholder="$t(&quot;table.station.orgId&quot;)"
+        v-model="queryParams.submittedFileName"
+        :placeholder="$t(&quot;table.attachment.submittedFileName&quot;)"
         class="filter-item search-item"
       />
       <el-date-picker
@@ -38,7 +33,7 @@
         {{ $t('table.reset') }}
       </el-button>
       <el-dropdown
-        v-has-any-permission="[&quot;station:add&quot;,&quot;station:delete&quot;,&quot;station:export&quot;]"
+        v-has-any-permission="[&quot;file:add&quot;,&quot;file:delete&quot;,&quot;file:download&quot;]"
         trigger="click"
         class="filter-item"
       >
@@ -48,22 +43,22 @@
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
-            v-has-permission="[&quot;station:add&quot;]"
-            @click.native="add"
+            v-has-permission="[&quot;file:add&quot;]"
+            @click.native="upload"
           >
-            {{ $t('table.add') }}
+            {{ $t('table.upload') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;station:delete&quot;]"
+            v-has-permission="[&quot;file:delete&quot;]"
             @click.native="batchDelete"
           >
             {{ $t('table.delete') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;station:export&quot;]"
-            @click.native="exportExcel"
+            v-has-permission="[&quot;file:download&quot;]"
+            @click.native="batchDownload"
           >
-            {{ $t('table.export') }}
+            {{ $t('table.download') }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -86,47 +81,59 @@
         width="40px"
       />
       <el-table-column
-        :label="$t(&quot;table.station.name&quot;)"
-        prop="name"
+        :label="$t(&quot;table.attachment.submittedFileName&quot;)"
+        prop="submittedFileName"
         :show-overflow-tooltip="true"
-        align="center"
+        align="left"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <div @click="onView(scope.row)">
+            <i
+              :class="scope.row.icon"
+              class="button-list"
+            />
+            <span>{{ scope.row.submittedFileName }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.station.describe&quot;)"
-        prop="describe"
+        :label="$t(&quot;table.attachment.dataType&quot;)"
+        prop="dataType"
         :show-overflow-tooltip="true"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.describe }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.station.orgId&quot;)"
         align="center"
         width="100px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.orgId }}</span>
+          <span>{{ scope.row.dataType.desc }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.station.status&quot;)"
-        :filters="[{ text: $t(&quot;common.status.valid&quot;), value: true }, { text: $t(&quot;common.status.invalid&quot;), value: false }]"
-        :filter-method="filterStatus"
-        class-name="status-col"
-        width="70px"
+        :label="$t(&quot;table.attachment.bizType&quot;)"
+        align="center"
+        :show-overflow-tooltip="true"
+        width="120px"
       >
-        <template slot-scope="{row}">
-          <el-tag
-            :type="row.status | statusFilter"
-          >
-            {{ row.status ? $t('common.status.valid') : $t('common.status.invalid') }}
-          </el-tag>
+        <template slot-scope="scope">
+          <span>{{ scope.row.bizType }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :show-overflow-tooltip="true"
+        :label="$t(&quot;table.attachment.bizId&quot;)"
+        align="center"
+        width="180px"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.bizId }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t(&quot;table.attachment.size&quot;)"
+        align="center"
+        width="100px"
+      >
+        <template slot-scope="scope">
+          <span>{{ formatSize(scope.row) }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -148,19 +155,19 @@
       >
         <template slot-scope="{row}">
           <i
-            v-hasPermission="[&quot;station:update&quot;]"
-            class="el-icon-edit table-operation"
-            style="color: #2db7f5;"
-            @click="edit(row)"
+            v-hasPermission="[&quot;file:download&quot;]"
+            class="el-icon-download table-operation"
+            style="color: #f50;"
+            @click="singleDownload(row)"
           />
           <i
-            v-hasPermission="[&quot;station:delete&quot;]"
+            v-hasPermission="[&quot;file:delete&quot;]"
             class="el-icon-delete table-operation"
             style="color: #f50;"
             @click="singleDelete(row)"
           />
           <el-link
-            v-has-no-permission="[&quot;station:update&quot;,&quot;station:delete&quot;]"
+            v-has-no-permission="[&quot;file:update&quot;,&quot;file:delete&quot;]"
             class="no-perm"
           >
             {{ $t('tips.noPermission') }}
@@ -175,35 +182,44 @@
       :limit.sync="pagination.size"
       @pagination="fetch"
     />
-    <station-edit
+    <attachment-edit
       ref="edit"
       :dialog-visible="dialog.isVisible"
       :type="dialog.type"
       @success="editSuccess"
       @close="editClose"
     />
+    <el-dialog :visible.sync="dialogVisible">
+      <img
+        v-if="dialogImageUrl"
+        :key="dialogImageUrl"
+        width="100%"
+        height="500px"
+        :src="dialogImageUrl"
+        alt="图片飞到火星了"
+        @error="errorImage()"
+      >
+      <span v-else>图片飞到火星了~</span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination'
-import StationEdit from './Edit'
-import stationApi from '@/api/Station.js'
+import AttachmentEdit from './Edit'
+import attachmentApi from '@/api/Attachment.js'
+import { renderSize } from '@/utils/utils'
 
 export default {
-  name: 'StationManage',
-  components: { Pagination, StationEdit },
+  name: 'AttachmentManage',
+  components: { Pagination, AttachmentEdit },
   filters: {
-    statusFilter (status) {
-      const map = {
-        false: 'danger',
-        true: 'success'
-      }
-      return map[status] || 'success'
-    }
+
   },
   data () {
     return {
+      dialogVisible: false,
+      dialogImageUrl: '',
       dialog: {
         isVisible: false,
         type: 'add'
@@ -231,6 +247,14 @@ export default {
     this.fetch()
   },
   methods: {
+    errorImage () {
+      let img = event.srcElement
+      img.src = require('@/assets/404_images/404_image.jpeg')
+      img.onerror = null; //防止闪图
+    },
+    formatSize (row) {
+      return renderSize(row.size)
+    },
     filterStatus (value, row) {
       return row.status === value
     },
@@ -256,15 +280,35 @@ export default {
       this.$refs.table.clearFilter()
       this.search()
     },
-    exportExcel () {
-      this.$message({
-        message: '待完善',
-        type: 'warning'
-      })
+    singleDownload (row) {
+      this.$refs.table.toggleRowSelection(row, true)
+      this.batchDownload()
     },
     singleDelete (row) {
       this.$refs.table.toggleRowSelection(row, true)
       this.batchDelete()
+    },
+    batchDownload () {
+      if (!this.selection.length) {
+        this.$message({
+          message: this.$t('tips.noDataSelected'),
+          type: 'warning'
+        })
+        return
+      }
+      this.$confirm('确认下载吗？', this.$t('common.tips'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        const ids = []
+        this.selection.forEach((u) => {
+          ids.push(u.id)
+        })
+        this.download(ids)
+      }).catch(() => {
+        this.clearSelections()
+      })
     },
     batchDelete () {
       if (!this.selection.length) {
@@ -291,26 +335,75 @@ export default {
     clearSelections () {
       this.$refs.table.clearSelection()
     },
-    delete (ids) {
-      stationApi.delete({ 'ids': ids })
+    download (ids) {
+      attachmentApi.download({ ids: ids })
         .then((response) => {
           const res = response.data
-          if (res.isSuccess) {
-            this.$message({
-              message: this.$t('tips.deleteSuccess'),
-              type: 'success'
-            })
+          const type = res.type
+          if (type.includes('application/json')) {
+            let reader = new FileReader()
+            reader.onload = e => {
+              if (e.target.readyState === 2) {
+                let data = JSON.parse(e.target.result)
+                this.$message({
+                  message: data.msg,
+                  type: 'warning'
+                })
+              }
+            }
+            reader.readAsText(res)
+          } else {
+            let disposition = response.headers["content-disposition"]
+            let fileName = '下载文件.zip'
+            if (disposition) {
+              let respcds = disposition.split(";")
+              for (let i = 0;i < respcds.length;i++) {
+                let header = respcds[i]
+                if (header !== null && header !== "") {
+                  let headerValue = header.split("=")
+                  if (headerValue !== null && headerValue.length > 0) {
+                    if (headerValue[0].toLowerCase() === "filename") {
+                      fileName = decodeURI(headerValue[1])
+                      break
+                    }
+                  }
+                }
+              }
+            }
+            let blob = new Blob([res])
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = fileName
+            link.click()
+            window.URL.revokeObjectURL(link.href)
           }
-          this.search()
+
+          this.clearSelections()
         })
     },
-    add () {
-      this.dialog.type = 'add'
+    delete (ids) {
+      attachmentApi.delete({ 'ids': ids }).then((response) => {
+        const res = response.data
+        if (res.isSuccess) {
+          this.$message({
+            message: this.$t('tips.deleteSuccess'),
+            type: 'success'
+          })
+        }
+        this.search()
+      })
+    },
+    onView (row) {
+      this.dialogImageUrl = row.url
+      this.dialogVisible = true
+    },
+    upload () {
+      this.dialog.type = 'upload'
       this.dialog.isVisible = true
-      this.$refs.edit.setStation(false)
+      this.$refs.edit.setAttachment(false)
     },
     edit (row) {
-      this.$refs.edit.setStation(row)
+      this.$refs.edit.setAttachment(row)
       this.dialog.type = 'edit'
       this.dialog.isVisible = true
     },
@@ -322,7 +415,7 @@ export default {
         params.startCreateTime = this.queryParams.timeRange[0]
         params.endCreateTime = this.queryParams.timeRange[1]
       }
-      stationApi.findPage(params)
+      attachmentApi.page(params)
         .then((response) => {
           const res = response.data
           this.loading = false
@@ -341,4 +434,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.file-breadcrumb {
+  margin: 10px 0px 20px;
+}
+.page {
+  text-align: center;
+  margin-top: 5px;
+}
+.button-list {
+  margin-right: 10px;
+  font-size: 20px !important;
+  color: #22a2ed;
+  vertical-align: middle;
+}
+.title {
+  color: #777;
+  font-size: 2em;
+  border-bottom: 1px solid #e5e5e5;
+}
 </style>

@@ -176,15 +176,16 @@ export default {
     },
     initOrg () {
       orgApi.allTree({ status: true })
-        .then((r) => {
-          if (r.isError) {
+        .then((response) => {
+          const res = response.data
+          if (res.isError) {
             this.$message({
               message: this.$t('tips.getDataFail'),
               type: 'error'
             })
             return
           }
-          this.orgList = r.data
+          this.orgList = res.data
         }).catch(() => {
           this.$message({
             message: this.$t('tips.getDataFail'),
@@ -230,28 +231,32 @@ export default {
     },
     save () {
       const vm = this
-      stationApi.save(this.station).then((res) => {
-        if (res.isSuccess) {
-          vm.isVisible = false
-          vm.$message({
-            message: vm.$t('tips.createSuccess'),
-            type: 'success'
-          })
-          vm.$emit('success')
-        }
-      })
+      stationApi.save(this.station)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            vm.isVisible = false
+            vm.$message({
+              message: vm.$t('tips.createSuccess'),
+              type: 'success'
+            })
+            vm.$emit('success')
+          }
+        })
     },
     update () {
-      stationApi.update(this.station).then((res) => {
-        if (res.isSuccess) {
-          this.isVisible = false
-          this.$message({
-            message: this.$t('tips.updateSuccess'),
-            type: 'success'
-          })
-          this.$emit('success')
-        }
-      })
+      stationApi.update(this.station)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.isVisible = false
+            this.$message({
+              message: this.$t('tips.updateSuccess'),
+              type: 'success'
+            })
+            this.$emit('success')
+          }
+        })
     }
   }
 }

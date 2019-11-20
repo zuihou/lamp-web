@@ -214,11 +214,9 @@ export default {
       vm.loading = true
 
       resourceApi.findPage({ current: 1, size: 10000, menuId: data.id })
-        .then((r) => {
-          if (r.isError) {
-            return
-          }
-          vm.tableData = r.data
+        .then((response) => {
+          const res = response.data
+          vm.tableData = res.data
           vm.loading = false
           vm.displayTable()
         })
@@ -246,20 +244,9 @@ export default {
     },
     initMenuTree () {
       menuApi.allTree()
-        .then((r) => {
-          if (r.isError) {
-            this.$message({
-              message: this.$t('tips.getDataFail'),
-              type: 'error'
-            })
-            return
-          }
-          this.menuTree = r.data
-        }).catch(() => {
-          this.$message({
-            message: this.$t('tips.getDataFail'),
-            type: 'error'
-          })
+        .then((response) => {
+          const res = response.data
+          this.menuTree = res.data
         })
     },
     initRoleAuthority () {
@@ -284,7 +271,8 @@ export default {
       vm.roleAuthority.roleId = val.id
       vm.disabled = val.readonly
       roleApi.findAuthorityIdByRoleId(val.id)
-        .then((res) => {
+        .then((response) => {
+          const res = response.data
           vm.roleAuthority.menuIdList = res.data.menuIdList
           vm.roleAuthority.resourceIdList = res.data.resourceIdList
           vm.$refs.menuTree.setCheckedKeys(res.data.menuIdList)
@@ -320,16 +308,18 @@ export default {
       this.roleAuthority.menuIdList = vm.$refs.menuTree.getHalfCheckedKeys().concat(vm.$refs.menuTree.getCheckedKeys())
       this.roleAuthority.resourceIdList = vm.selection.map(item => item.id)
 
-      roleApi.saveRoleAuthority(this.roleAuthority).then((res) => {
-        if (res.isSuccess) {
-          vm.isVisible = false
-          vm.$message({
-            message: vm.$t('tips.createSuccess'),
-            type: 'success'
-          })
-          vm.$emit('success')
-        }
-      })
+      roleApi.saveRoleAuthority(this.roleAuthority)
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            vm.isVisible = false
+            vm.$message({
+              message: vm.$t('tips.createSuccess'),
+              type: 'success'
+            })
+            vm.$emit('success')
+          }
+        })
     },
     checkMenu (data, node) {
       if (node.checkedKeys.length === 0) { //取消

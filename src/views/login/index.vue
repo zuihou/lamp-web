@@ -312,7 +312,8 @@ export default {
   methods: {
     getCodeImage () {
       loginApi.getCaptcha(this.randomId)
-        .then(res => {
+        .then((response) => {
+          const res = response.data
           if (res.byteLength <= 100) {
             this.$message({
               message: this.$t('tips.systemError'),
@@ -438,7 +439,8 @@ export default {
         const that = this
         that.loginForm['key'] = that.randomId
         loginApi.login(this.loginForm)
-          .then(res => {
+          .then((response) => {
+            const res = response.data
             if (res.isSuccess) {
               that.saveLoginData(res.data.token)
               that.saveUserInfo(res.data.user, res.data.permissionsList)
@@ -524,7 +526,8 @@ export default {
       // 登录成功后的回调，记录登录日志，最后登录时间等
       // this.$get(`system/user/success/${account}`).catch((e) => { console.log(e) })
       commonApi.dictionaryEnums()
-        .then(res => {
+        .then((response) => {
+          const res = response.data
           if (res.isSuccess) {
             this.$store.commit('common/setEnums', res.data)
           }
