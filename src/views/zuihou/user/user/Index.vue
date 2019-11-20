@@ -451,7 +451,6 @@ export default {
         params.startCreateTime = this.queryParams.timeRange[0]
         params.endCreateTime = this.queryParams.timeRange[1]
       }
-      window.location.hash = '/login'
       userApi.findUserPage(params)
         .then((response) => {
           const res = response.data
