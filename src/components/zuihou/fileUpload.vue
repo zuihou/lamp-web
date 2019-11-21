@@ -69,7 +69,7 @@ export default {
       type: Object,
       default: function () {
         return {
-          id: "",
+          id: null,
           bizId: "",
           bizType: "",
           isSingle: false
@@ -85,6 +85,12 @@ export default {
       removeFileAry: [],
       // 新增附件列表
       addFileAry: [],
+      // 上传成功的文件数
+      successNum: 0,
+      // 上传失败的文件数
+      errorNum: 0,
+      // 已上传的文件数
+      uploadTotalNum: 0,
       // 是否上传失败
       isUploadError: false,
       action: `${process.env.VUE_APP_BASE_API}/file/attachment/upload`
@@ -102,8 +108,9 @@ export default {
     // 附件初始化
     init ({ id, bizId, bizType, isSingle, isDetail }) {
       const vm = this
+      debugger
       vm.fileOtherData.bizId = bizId
-      vm.fileOtherData.id = id
+      vm.fileOtherData.id = id || ""
       vm.fileOtherData.bizType = bizType
       vm.fileOtherData.isSingle = isSingle || false
       vm.fileList.length = 0
@@ -113,19 +120,33 @@ export default {
       if (isDetail) {
         vm.getAttachment()
       }
+      vm.successNum = 0
+      vm.errorNum = 0
+      vm.uploadTotalNum = 0
+      vm.$refs[vm.uploadRef].clearFiles()
     },
-    // 附件上传成功回调
-    handleChange (file) {
+
+    handleChange (file, fileList) {
       debugger
       const vm = this
       if (file.response) {
+        vm.uploadTotalNum += 1
         if (file.response.isSuccess) {
           vm.fileOtherData.bizId = file.response.data.bizId
-          vm.$emit("setId", file.response.data.bizId)
+          vm.successNum += 1
         } else {
-          vm.$message.error(file.response.msg)
+          setTimeout(() => {
+            vm.$message({
+              message: file.name + '上传失败，原因：\n' + file.response.msg,
+              type: 'error',
+              showClose: true,
+              duration: 6000
+            })
+          }, 0)
           vm.isUploadError = false
+          vm.errorNum += 1
         }
+        vm.$emit("setId", vm.uploadTotalNum === fileList.length, file.response)
       } else {
         if (vm.accept) {
           const ary = vm.accept.split(",")
@@ -261,9 +282,10 @@ export default {
       }
     },
     // 附件上传服务器触发方法
-    submitFile (bizId, bizType) {
+    submitFile (id, bizId, bizType) {
       debugger
       const vm = this
+      vm.fileOtherData.id = id
       if (bizId) {
         vm.fileOtherData.bizId = bizId
         vm.isUpload = true

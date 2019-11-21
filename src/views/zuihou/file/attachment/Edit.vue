@@ -70,6 +70,7 @@
       <el-button
         type="primary"
         plain
+        :disabled="disabled"
         @click="submitForm"
       >
         {{ $t('common.confirm') }}
@@ -101,6 +102,7 @@ export default {
       screenWidth: 0,
       width: this.initWidth(),
       fileLength: 0,
+      disabled: false,
       rules: {
         bizType: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
@@ -182,13 +184,18 @@ export default {
     },
     close () {
       this.$emit('close')
-      this.$refs.fileRef.init("", "")
     },
     reset () {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
       this.attachment = this.initAttachment()
+      this.$refs.fileRef.init({
+        id: "",
+        bizId: "",
+        bizType: "",
+      })
+
     },
     submitForm () {
       const vm = this
@@ -202,18 +209,20 @@ export default {
     },
     editSubmit () {
       const vm = this
-      vm.$refs.fileRef.submitFile(this.attachment.bizId, this.attachment.bizType)
+      vm.disabled = true
+      vm.$refs.fileRef.submitFile(this.attachment.id, this.attachment.bizId, this.attachment.bizType)
     },
-    setIdAndSubmit (bizId, url) {
-      debugger
+    setIdAndSubmit (isUploadCompleted) {
       const vm = this
-      console.log(bizId, url)
-      vm.isVisible = false
-      vm.$message({
-        message: vm.$t('tips.createSuccess'),
-        type: 'success'
-      })
-      vm.$emit('success')
+      if (isUploadCompleted) {
+        vm.disabled = false
+        vm.isVisible = false
+        vm.$message({
+          message: vm.$t('tips.createSuccess'),
+          type: 'success'
+        })
+        vm.$emit('success')
+      }
     }
 
   }

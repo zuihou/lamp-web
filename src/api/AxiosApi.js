@@ -50,7 +50,7 @@ function handleSuccess (res, resolve) {
       MessageBox.alert(res.data.msg, '提醒', {
         confirmButtonText: '确定',
         callback: () => {
-          // window.location.hash = '/login'
+          window.location.hash = '/login'
         }
       })
     } else {

@@ -209,6 +209,7 @@ import Pagination from '@/components/Pagination'
 import AttachmentEdit from './Edit'
 import attachmentApi from '@/api/Attachment.js'
 import { renderSize } from '@/utils/utils'
+import { onlinePreview } from '@/settings'
 
 export default {
   name: 'AttachmentManage',
@@ -394,8 +395,9 @@ export default {
       })
     },
     onView (row) {
-      this.dialogImageUrl = row.url
-      this.dialogVisible = true
+      if (row.url) {
+        window.open(onlinePreview + encodeURIComponent(row.url))
+      }
     },
     upload () {
       this.dialog.type = 'upload'
@@ -419,9 +421,6 @@ export default {
         .then((response) => {
           const res = response.data
           this.loading = false
-          if (res.isError) {
-            return
-          }
           this.tableData = res.data
         })
     },
