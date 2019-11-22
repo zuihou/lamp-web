@@ -2,13 +2,18 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input
-        v-model="queryParams.code"
-        :placeholder="$t(&quot;table.role.code&quot;)"
+        v-model="queryParams.templateId"
+        :placeholder="$t(&quot;table.smsTask.templateId&quot;)"
         class="filter-item search-item"
       />
       <el-input
-        v-model="queryParams.name"
-        :placeholder="$t(&quot;table.role.name&quot;)"
+        v-model="queryParams.topic"
+        :placeholder="$t(&quot;table.smsTask.topic&quot;)"
+        class="filter-item search-item"
+      />
+      <el-input
+        v-model="queryParams.context"
+        :placeholder="$t(&quot;table.smsTask.context&quot;)"
         class="filter-item search-item"
       />
       <el-date-picker
@@ -38,7 +43,7 @@
         {{ $t('table.reset') }}
       </el-button>
       <el-dropdown
-        v-has-any-permission="[&quot;role:add&quot;,&quot;role:delete&quot;,&quot;role:export&quot;]"
+        v-has-any-permission="[&quot;smsTask:add&quot;,&quot;smsTask:delete&quot;,&quot;smsTask:export&quot;]"
         trigger="click"
         class="filter-item"
       >
@@ -48,19 +53,19 @@
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
-            v-has-permission="[&quot;role:add&quot;]"
+            v-has-permission="[&quot;smsTask:add&quot;]"
             @click.native="add"
           >
             {{ $t('table.add') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;role:delete&quot;]"
+            v-has-permission="[&quot;smsTask:delete&quot;]"
             @click.native="batchDelete"
           >
             {{ $t('table.delete') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;role:export&quot;]"
+            v-has-permission="[&quot;smsTask:export&quot;]"
             @click.native="exportExcel"
           >
             {{ $t('table.export') }}
@@ -79,6 +84,7 @@
       style="width: 100%;"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
+      @filter-change="filterChange"
     >
       <el-table-column
         type="selection"
@@ -86,73 +92,80 @@
         width="40px"
       />
       <el-table-column
-        :label="$t(&quot;table.role.code&quot;)"
-        prop="code"
-        align="center"
-        width="200px"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.role.name&quot;)"
-        prop="name"
+        :label="$t(&quot;table.smsTask.templateId&quot;)"
+        prop="templateId"
         :show-overflow-tooltip="true"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.role.describe&quot;)"
-        prop="describe"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.describe }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.role.dsType&quot;)"
         align="center"
         width="100px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.dsType.desc }}</span>
+          <span>{{ scope.row.templateId }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.role.readonly&quot;)"
+        :label="$t(&quot;table.smsTask.receiver&quot;)"
+        prop="receiver"
+        :show-overflow-tooltip="true"
         align="center"
-        width="80px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.readonly ? '是' : '否' }}</span>
+          <span>{{ scope.row.receiver }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.role.status&quot;)"
-        :filters="[{ text: $t(&quot;common.status.valid&quot;), value: true }, { text: $t(&quot;common.status.invalid&quot;), value: false }]"
-        :filter-method="filterStatus"
+        :label="$t(&quot;table.smsTask.topic&quot;)"
+        :show-overflow-tooltip="true"
+        align="center"
+        width="100px"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.topic }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t(&quot;table.smsTask.context&quot;)"
+        :show-overflow-tooltip="true"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.context }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t(&quot;table.smsTask.status&quot;)"
+        :filters="statusFilters"
+        column-key="status"
+        :filter-multiple="false"
+        :show-overflow-tooltip="true"
         class-name="status-col"
-        width="70px"
+        width="100px"
       >
         <template slot-scope="{row}">
-          <el-tag
-            :type="row.status | statusFilter"
-          >
-            {{ row.status ? $t('common.status.valid') : $t('common.status.invalid') }}
+          <el-tag :type="row.status | statusFilter">
+            {{ row.status.desc }}
           </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t(&quot;table.smsTask.draft&quot;)"
+        prop="draft"
+        :show-overflow-tooltip="true"
+        align="center"
+        width="170px"
+      >
+        <template slot-scope="scope">
+          <!-- <span v-if='scope.row.sendTime'> -->
+          <!-- <el-tooltip class='item' effect='dark' content='row.sendTime' placement='top'>是</el-tooltip> -->
+          <!-- </span> -->
+          <!-- <span v-else>否</span> -->
+          <span>{{ scope.row.sendTime ? '是' : '否' }}</span>
         </template>
       </el-table-column>
       <el-table-column
         :label="$t(&quot;table.createTime&quot;)"
         prop="createTime"
         align="center"
-        width="160px"
+        width="170px"
         sortable="custom"
       >
         <template slot-scope="scope">
@@ -167,45 +180,19 @@
       >
         <template slot-scope="{row}">
           <i
-            v-hasPermission="[&quot;role:update&quot;]"
+            v-hasPermission="[&quot;smsTask:update&quot;]"
             class="el-icon-edit table-operation"
             style="color: #2db7f5;"
             @click="edit(row)"
           />
-          <el-dropdown
-            v-has-any-permission="[&quot;role:delete&quot;,&quot;role:auth&quot;,&quot;role:config&quot;]"
-          >
-            <span class="el-dropdown-link">
-              {{ $t('table.more') }}
-              <i class="el-icon-arrow-down el-icon--right" />
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-hasPermission="[&quot;role:delete&quot;]"
-                icon="el-icon-delete"
-                @click.native="singleDelete(row)"
-              >
-                删除
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-hasPermission="[&quot;role:auth&quot;]"
-                icon="el-icon-user"
-                @click.native="authUser(row)"
-              >
-                授权
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-hasPermission="[&quot;role:config&quot;]"
-                icon="el-icon-setting"
-                @click.native="authResource(row)"
-              >
-                配置
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-
+          <i
+            v-hasPermission="[&quot;smsTask:delete&quot;]"
+            class="el-icon-delete table-operation"
+            style="color: #f50;"
+            @click="singleDelete(row)"
+          />
           <el-link
-            v-has-no-permission="[&quot;role:update&quot;,&quot;role:delete&quot;,&quot;role:auth&quot;,&quot;role:config&quot;]"
+            v-has-no-permission="[&quot;smsTask:update&quot;,&quot;smsTask:delete&quot;]"
             class="no-perm"
           >
             {{ $t('tips.noPermission') }}
@@ -220,43 +207,31 @@
       :limit.sync="pagination.size"
       @pagination="fetch"
     />
-    <role-edit
+    <sms-task-edit
       ref="edit"
       :dialog-visible="dialog.isVisible"
       :type="dialog.type"
       @success="editSuccess"
       @close="editClose"
     />
-    <user-role
-      ref="userRole"
-      :dialog-visible="userRoleDialog.isVisible"
-      @success="userRoleSuccess"
-      @close="userRoleClose"
-    />
-    <role-authority
-      ref="roleAuthority"
-      :dialog-visible="roleAuthorityDialog.isVisible"
-      @success="roleAuthoritySuccess"
-      @close="roleAuthorityClose"
-    />
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination'
-import RoleEdit from './Edit'
-import UserRole from './UserRole'
-import RoleAuthority from './RoleAuthority'
-import roleApi from '@/api/Role.js'
+import SmsTaskEdit from './Edit'
+import smsTaskApi from '@/api/SmsTask.js'
+import { converEnum } from '@/utils/utils'
 
 export default {
-  name: 'RoleManage',
-  components: { Pagination, RoleEdit, UserRole, RoleAuthority },
+  name: 'StationManage',
+  components: { Pagination, SmsTaskEdit },
   filters: {
     statusFilter (status) {
       const map = {
-        false: 'danger',
-        true: 'success'
+        WAITING: 'danger',
+        SUCCESS: 'success',
+        FAIL: 'error'
       }
       return map[status] || 'success'
     }
@@ -267,14 +242,7 @@ export default {
         isVisible: false,
         type: 'add'
       },
-      userRoleDialog: {
-        isVisible: false
-      },
-      roleAuthorityDialog: {
-        isVisible: false
-      },
       tableKey: 0,
-      // total: 0,
       queryParams: {},
       sort: {},
       selection: [],
@@ -290,31 +258,28 @@ export default {
     }
   },
   computed: {
-
+    statusFilters () {
+      return converEnum(this.$store.state.common.enums.TaskStatus)
+    }
   },
   mounted () {
     this.fetch()
   },
   methods: {
+    draftSohw (row) {
+      if (row.sendTime) {
+        return `<el-tooltip class='item' effect='dark' content='row.sendTime' placement='top' >是</el-tooltip>`
+      } else {
+        return `否`
+      }
+    },
     filterStatus (value, row) {
       return row.status === value
     },
     editClose () {
       this.dialog.isVisible = false
     },
-    userRoleClose () {
-      this.userRoleDialog.isVisible = false
-    },
-    roleAuthorityClose () {
-      this.roleAuthorityDialog.isVisible = false
-    },
     editSuccess () {
-      this.search()
-    },
-    userRoleSuccess () {
-      this.search()
-    },
-    roleAuthoritySuccess () {
       this.search()
     },
     onSelectChange (selection) {
@@ -369,7 +334,7 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      roleApi.delete({ ids: ids })
+      smsTaskApi.delete({ 'ids': ids })
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
@@ -384,10 +349,10 @@ export default {
     add () {
       this.dialog.type = 'add'
       this.dialog.isVisible = true
-      this.$refs.edit.setRole(false)
+      this.$refs.edit.setStation(false)
     },
     edit (row) {
-      this.$refs.edit.setRole(row)
+      this.$refs.edit.setStation(row)
       this.dialog.type = 'edit'
       this.dialog.isVisible = true
     },
@@ -399,10 +364,13 @@ export default {
         params.startCreateTime = this.queryParams.timeRange[0]
         params.endCreateTime = this.queryParams.timeRange[1]
       }
-      roleApi.findPage(params)
+      smsTaskApi.page(params)
         .then((response) => {
           const res = response.data
           this.loading = false
+          if (res.isError) {
+            return
+          }
           this.tableData = res.data
         })
     },
@@ -411,13 +379,11 @@ export default {
       this.sort.order = val.order
       this.search()
     },
-    authResource (row) {
-      this.roleAuthorityDialog.isVisible = true
-      this.$refs.roleAuthority.setRoleAuthority(row)
-    },
-    authUser (row) {
-      this.userRoleDialog.isVisible = true
-      this.$refs.userRole.setUserRole(row)
+    filterChange (filters) {
+      for (const key in filters) {
+        this.queryParams[key] = filters[key][0]
+      }
+      this.search()
     }
   }
 }

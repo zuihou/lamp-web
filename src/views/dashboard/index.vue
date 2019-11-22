@@ -26,7 +26,14 @@
                 <div class="user-info">
                   <div class="random-message">
                     {{ welcomeMessage }}
-                    <span style="color:red">演示环境维护不易，请勿乱删乱改数据！</span>
+                    帮我
+                    <span style="color:red">
+                      <a
+                        href="https://github.com/zuihou/zuihou-admin-cloud"
+                        target="_blank"
+                      >点个star</a>
+                    </span>
+                    吧~
                   </div>
                   <div class="user-dept">
                     <span>{{ user.workDescribe ? user.workDescribe : $t('common.noWorkDescribe') }}</span>
@@ -297,17 +304,8 @@ export default {
       const date = new Date()
       const hour = date.getHours()
       const time = hour < 6 ? this.$t('common.goodMorning') : (hour <= 11 ? this.$t('common.goodMorning') : (hour <= 13 ? this.$t('common.goodAfternoon') : (hour <= 18 ? this.$t('common.goodAfternoon') : this.$t('common.goodEvening'))))
-      const welcomeArr = [
-        this.$t('common.randomMessage.a'),
-        this.$t('common.randomMessage.b'),
-        this.$t('common.randomMessage.c'),
-        this.$t('common.randomMessage.d'),
-        this.$t('common.randomMessage.e'),
-        this.$t('common.randomMessage.f'),
-        this.$t('common.randomMessage.g'),
-        this.$t('common.randomMessage.h'),
-        this.$t('common.randomMessage.i')
-      ]
+
+      const welcomeArr = Array.from({ length: 10 }, (v, i) => this.$t('common.randomMessage.' + i))
       const index = Math.floor((Math.random() * welcomeArr.length))
       return `${time}, ${this.user.name}, ${welcomeArr[index]}`
     },

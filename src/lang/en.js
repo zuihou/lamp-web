@@ -159,6 +159,30 @@ export default {
       orgId: 'orgId',
       icon: 'icon'
     },
+    smsTemplate: {
+      providerType: 'providerType',
+      appId: 'appId',
+      appSecret: 'appSecret',
+      url: 'url',
+      customCode: 'customCode',
+      name: 'name',
+      content: 'content',
+      templateParams: 'templateParams',
+      templateCode: 'templateCode',
+      signName: 'signName',
+      templateDescribe: 'templateDescribe'
+    },
+    smsTask: {
+      templateId: 'templateId',
+      status: 'status',
+      sourceType: 'sourceType',
+      receiver: 'receiver',
+      topic: 'topic',
+      templateParams: 'templateParams',
+      sendTime: 'sendTime',
+      context: 'context',
+      draft: 'isDraft'
+    },
     gen: {
       config: {
         author: 'Author',
@@ -329,15 +353,16 @@ export default {
     goodAfternoon: 'Good afternoon',
     goodEvening: 'Good evening',
     randomMessage: {
-      a: 'Have a coffee break☕',
-      b: 'Do you want to play LOL with your friends?',
-      c: 'How many bugs🐞 did you write today?',
-      d: 'Have you chatted in the group today?',
-      e: 'What delicious food did you eat today?',
-      f: 'Have you smiled today?😊',
-      g: 'Have you solved the problem for others today?',
-      h: 'What are you going to eat?',
-      i: 'Do you want to watch movies on weekends?'
+      0: '帮我帮我帮我帮我帮我帮我帮我',
+      1: 'Have a coffee break☕',
+      2: 'Do you want to play LOL with your friends?',
+      3: 'How many bugs🐞 did you write today?',
+      4: 'Have you chatted in the group today?',
+      5: 'What delicious food did you eat today?',
+      6: 'Have you smiled today?😊',
+      7: 'Have you solved the problem for others today?',
+      8: 'What are you going to eat?',
+      9: 'Do you want to watch movies on weekends?'
     },
     docDetails: 'Learn more',
     allProject: 'All Projects',

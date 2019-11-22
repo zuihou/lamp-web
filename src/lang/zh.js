@@ -159,6 +159,30 @@ export default {
       orgId: '组织',
       icon: '图标'
     },
+    smsTemplate: {
+      providerType: '类型',
+      appId: '应用ID',
+      appSecret: '应用密码',
+      url: 'SMS服务域名',
+      customCode: '模板编码',
+      name: '模板名称',
+      content: '模板内容',
+      templateParams: '模板参数',
+      templateCode: '模板CODE',
+      signName: '模板签名',
+      templateDescribe: '模板描述'
+    },
+    smsTask: {
+      templateId: '短信模板',
+      status: '执行状态',
+      sourceType: '来源类型',
+      receiver: '接收者',
+      topic: '主题',
+      templateParams: '模板参数',
+      sendTime: '发送时间',
+      context: '发送内容',
+      draft: '是否草稿'
+    },
     gen: {
       config: {
         author: '作者名称',
@@ -326,15 +350,16 @@ export default {
     goodAfternoon: '下午好',
     goodEvening: '晚上好',
     randomMessage: {
-      a: '喝杯咖啡休息下吧☕',
-      b: '要不要和朋友打局LOL',
-      c: '今天又写了几个Bug🐞呢',
-      d: '今天在群里吹水了吗',
-      e: '今天吃了什么好吃的呢',
-      f: '今天您微笑了吗😊',
-      g: '今天帮别人解决问题了吗',
-      h: '准备吃些什么呢',
-      i: '周末要不要去看电影？'
+      0: '帮我帮我帮我帮我帮我帮我帮我',
+      1: '喝杯咖啡休息下吧☕',
+      2: '要不要和朋友打局LOL',
+      3: '今天又写了几个Bug🐞呢',
+      4: '今天在群里吹水了吗',
+      5: '今天吃了什么好吃的呢',
+      6: '今天您微笑了吗😊',
+      7: '今天帮别人解决问题了吗',
+      8: '准备吃些什么呢',
+      9: '周末要不要去看电影？'
     },
     docDetails: '了解更多',
     allProject: '所有项目',

@@ -14,6 +14,12 @@
 
     <div class="right-menu">
       <template v-if="device!==&quot;mobile&quot;">
+        <div
+          class="right-menu-item"
+          style="color:red"
+        >
+          演示环境维护不易，请勿乱删乱改数据！
+        </div>
         <search
           id="header-search"
           class="right-menu-item"
