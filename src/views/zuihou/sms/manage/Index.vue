@@ -12,8 +12,8 @@
         class="filter-item search-item"
       />
       <el-input
-        v-model="queryParams.context"
-        :placeholder="$t(&quot;table.smsTask.context&quot;)"
+        v-model="queryParams.content"
+        :placeholder="$t(&quot;table.smsTask.content&quot;)"
         class="filter-item search-item"
       />
       <el-date-picker
@@ -43,7 +43,7 @@
         {{ $t('table.reset') }}
       </el-button>
       <el-dropdown
-        v-has-any-permission="[&quot;smsTask:add&quot;,&quot;smsTask:delete&quot;,&quot;smsTask:export&quot;]"
+        v-has-any-permission="[&quot;sms:manage:add&quot;,&quot;sms:manage:delete&quot;,&quot;sms:manage:export&quot;]"
         trigger="click"
         class="filter-item"
       >
@@ -52,20 +52,19 @@
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
+          <router-link :to="{path:&quot;/sms/manage/edit&quot;,query: {type: &quot;add&quot;}}">
+            <el-dropdown-item v-has-permission="[&quot;sms:manage:add&quot;]">
+              {{ $t('table.add') }}
+            </el-dropdown-item>
+          </router-link>
           <el-dropdown-item
-            v-has-permission="[&quot;smsTask:add&quot;]"
-            @click.native="add"
-          >
-            {{ $t('table.add') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;smsTask:delete&quot;]"
+            v-has-permission="[&quot;sms:manage:delete&quot;]"
             @click.native="batchDelete"
           >
             {{ $t('table.delete') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;smsTask:export&quot;]"
+            v-has-permission="[&quot;sms:manage:export&quot;]"
             @click.native="exportExcel"
           >
             {{ $t('table.export') }}
@@ -123,12 +122,12 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.smsTask.context&quot;)"
+        :label="$t(&quot;table.smsTask.content&quot;)"
         :show-overflow-tooltip="true"
         align="center"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.context }}</span>
+          <span>{{ scope.row.content }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -140,25 +139,38 @@
         class-name="status-col"
         width="100px"
       >
-        <template slot-scope="{row}">
-          <el-tag :type="row.status | statusFilter">
-            {{ row.status.desc }}
-          </el-tag>
+        <template slot-scope="scope">
+          <span v-if="scope.row.sendTime">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              :content="&quot;发送时间: &quot;+ scope.row.sendTime"
+              placement="top"
+            >
+              <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status.desc }}</el-tag>
+            </el-tooltip>
+          </span>
+          <span v-else>
+            <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status.desc }}</el-tag>
+          </span>
         </template>
       </el-table-column>
       <el-table-column
         :label="$t(&quot;table.smsTask.draft&quot;)"
         prop="draft"
-        :show-overflow-tooltip="true"
+        column-key="draft"
+        :filters="[{ text: $t(&quot;common.yes&quot;), value: &quot;true&quot; }, { text: $t(&quot;common.no&quot;), value: &quot;false&quot; }]"
+        :filter-multiple="false"
         align="center"
-        width="170px"
+        width="100px"
       >
         <template slot-scope="scope">
-          <!-- <span v-if='scope.row.sendTime'> -->
-          <!-- <el-tooltip class='item' effect='dark' content='row.sendTime' placement='top'>是</el-tooltip> -->
-          <!-- </span> -->
-          <!-- <span v-else>否</span> -->
-          <span>{{ scope.row.sendTime ? '是' : '否' }}</span>
+          <span>
+            <el-tag
+              slot
+              :type="scope.row.draft?&quot;danger&quot;:&quot;success&quot;"
+            >{{ scope.row.draft ? '是' : '否' }}</el-tag>
+          </span>
         </template>
       </el-table-column>
       <el-table-column
@@ -180,19 +192,26 @@
       >
         <template slot-scope="{row}">
           <i
-            v-hasPermission="[&quot;smsTask:update&quot;]"
+            v-show="row.draft"
+            v-hasPermission="[&quot;sms:manage:update&quot;]"
             class="el-icon-edit table-operation"
             style="color: #2db7f5;"
             @click="edit(row)"
           />
           <i
-            v-hasPermission="[&quot;smsTask:delete&quot;]"
+            v-hasPermission="[&quot;sms:manage:update&quot;]"
+            class="el-icon-copy-document table-operation"
+            style="color: #909399;"
+            @click="copy(row)"
+          />
+          <i
+            v-hasPermission="[&quot;sms:manage:delete&quot;]"
             class="el-icon-delete table-operation"
             style="color: #f50;"
             @click="singleDelete(row)"
           />
           <el-link
-            v-has-no-permission="[&quot;smsTask:update&quot;,&quot;smsTask:delete&quot;]"
+            v-has-no-permission="[&quot;sms:manage:update&quot;,&quot;sms:manage:delete&quot;]"
             class="no-perm"
           >
             {{ $t('tips.noPermission') }}
@@ -207,25 +226,17 @@
       :limit.sync="pagination.size"
       @pagination="fetch"
     />
-    <sms-task-edit
-      ref="edit"
-      :dialog-visible="dialog.isVisible"
-      :type="dialog.type"
-      @success="editSuccess"
-      @close="editClose"
-    />
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination'
-import SmsTaskEdit from './Edit'
 import smsTaskApi from '@/api/SmsTask.js'
 import { converEnum } from '@/utils/utils'
 
 export default {
   name: 'StationManage',
-  components: { Pagination, SmsTaskEdit },
+  components: { Pagination },
   filters: {
     statusFilter (status) {
       const map = {
@@ -262,25 +273,17 @@ export default {
       return converEnum(this.$store.state.common.enums.TaskStatus)
     }
   },
+  watch: {
+    $route () {
+      this.fetch()
+    }
+  },
   mounted () {
     this.fetch()
   },
   methods: {
-    draftSohw (row) {
-      if (row.sendTime) {
-        return `<el-tooltip class='item' effect='dark' content='row.sendTime' placement='top' >是</el-tooltip>`
-      } else {
-        return `否`
-      }
-    },
     filterStatus (value, row) {
       return row.status === value
-    },
-    editClose () {
-      this.dialog.isVisible = false
-    },
-    editSuccess () {
-      this.search()
     },
     onSelectChange (selection) {
       this.selection = selection
@@ -346,15 +349,23 @@ export default {
           this.search()
         })
     },
-    add () {
-      this.dialog.type = 'add'
-      this.dialog.isVisible = true
-      this.$refs.edit.setStation(false)
+    copy (row) {
+      this.$router.push({
+        path: '/sms/manage/edit',
+        query: {
+          id: row.id,
+          type: 'copy'
+        }
+      })
     },
     edit (row) {
-      this.$refs.edit.setStation(row)
-      this.dialog.type = 'edit'
-      this.dialog.isVisible = true
+      this.$router.push({
+        path: '/sms/manage/edit',
+        query: {
+          id: row.id,
+          type: 'edit'
+        }
+      })
     },
     fetch (params = {}) {
       this.loading = true

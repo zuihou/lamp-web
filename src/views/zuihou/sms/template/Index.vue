@@ -53,7 +53,7 @@
         {{ $t('table.reset') }}
       </el-button>
       <el-dropdown
-        v-has-any-permission="[&quot;smsTemplate:add&quot;,&quot;smsTemplate:delete&quot;,&quot;smsTemplate:export&quot;]"
+        v-has-any-permission="[&quot;sms:template:add&quot;,&quot;sms:template:delete&quot;,&quot;sms:template:export&quot;]"
         trigger="click"
         class="filter-item"
       >
@@ -63,19 +63,19 @@
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
-            v-has-permission="[&quot;smsTemplate:add&quot;]"
+            v-has-permission="[&quot;sms:template:add&quot;]"
             @click.native="add"
           >
             {{ $t('table.add') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;smsTemplate:delete&quot;]"
+            v-has-permission="[&quot;sms:template:delete&quot;]"
             @click.native="batchDelete"
           >
             {{ $t('table.delete') }}
           </el-dropdown-item>
           <el-dropdown-item
-            v-has-permission="[&quot;smsTemplate:export&quot;]"
+            v-has-permission="[&quot;sms:template:export&quot;]"
             @click.native="exportExcel"
           >
             {{ $t('table.export') }}
@@ -202,19 +202,19 @@
       >
         <template slot-scope="{row}">
           <i
-            v-hasPermission="[&quot;smsTemplate:update&quot;]"
+            v-hasPermission="[&quot;sms:template:update&quot;]"
             class="el-icon-edit table-operation"
             style="color: #2db7f5;"
             @click="edit(row)"
           />
           <i
-            v-hasPermission="[&quot;smsTemplate:delete&quot;]"
+            v-hasPermission="[&quot;sms:template:delete&quot;]"
             class="el-icon-delete table-operation"
             style="color: #f50;"
             @click="singleDelete(row)"
           />
           <el-link
-            v-has-no-permission="[&quot;smsTemplate:update&quot;,&quot;smsTemplate:delete&quot;]"
+            v-has-no-permission="[&quot;sms:template:update&quot;,&quot;sms:template:delete&quot;]"
             class="no-perm"
           >
             {{ $t('tips.noPermission') }}

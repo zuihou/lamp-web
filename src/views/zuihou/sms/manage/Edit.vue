@@ -1,183 +1,384 @@
 <template>
-  <el-dialog
-    :title="title"
-    :type="type"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    :visible.sync="isVisible"
-  >
+  <div class="app-container">
     <el-form
       ref="form"
+      status-icon
       :model="smsTask"
       :rules="rules"
       label-position="right"
       label-width="100px"
     >
       <el-form-item
-        :label="$t(&quot;table.smsTask.name&quot;)"
-        prop="name"
+        :label="$t(&quot;table.smsTask.templateId&quot;)"
+        prop="templateId"
       >
-        <el-input v-model="smsTask.name" />
+        <el-select
+          v-model="smsTask.templateId"
+          :multiple="false"
+          filterable
+          placeholder="请输入关键词"
+          style="width:300px;"
+          @change="changeTemplate"
+        >
+          <el-option
+            v-for="item in smsTemplateList"
+            :key="item.id"
+            :label="item.name + &quot;(&quot;+item.customCode+&quot;)&quot;"
+            :value="item.id"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item
-        :label="$t(&quot;table.smsTask.orgId&quot;)"
-        prop="orgId"
+        :label="$t(&quot;table.smsTask.receiver&quot;)"
+        prop="receiver"
       >
-        <el-input v-model="smsTask.name" />
+        <el-tag
+          v-for="tag in receiverList"
+          :key="tag"
+          closable
+          :disable-transitions="false"
+          @close="handleClose(tag)"
+        >
+          {{ tag }}
+        </el-tag>
+        <el-input
+          v-if="receiverVisible"
+          ref="saveTagInput"
+          v-model="receiver"
+          class="input-new-tag"
+          @keyup.enter.native="handleInputConfirm"
+          @blur="handleInputConfirm"
+        />
+        <el-button
+          v-else
+          class="button-new-tag"
+          @click="showInput"
+        >
+          添加
+        </el-button>
       </el-form-item>
       <el-form-item
-        :label="$t(&quot;table.smsTask.status&quot;)"
-        prop="status"
+        :label="$t(&quot;table.smsTask.topic&quot;)"
+        prop="topic"
       >
-        <el-radio-group v-model="smsTask.status">
-          <el-radio :label="true">
-            {{ $t('common.status.valid') }}
-          </el-radio>
-          <el-radio :label="false">
-            {{ $t('common.status.invalid') }}
-          </el-radio>
+        <el-input v-model="smsTask.topic" />
+      </el-form-item>
+      <el-form-item
+        :label="$t(&quot;table.smsTask.content&quot;)"
+        prop="content2"
+      >
+        <el-row class="message">
+          <el-col
+            :xs="24"
+            :sm="12"
+            style="margin-top: 10px;"
+          >
+            <el-form-item
+              v-for="(item, key, index) in smsTask.templateParam"
+              :key="index"
+              :label="key"
+              prop="content"
+            >
+              <el-input
+                :value="item"
+                maxlength="255"
+                @input="(value)=>{templateCode(value,key,index)}"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col
+            :xs="24"
+            :sm="12"
+            style="margin-top: 10px;"
+          >
+            <el-form-item label="预览：">
+              <div
+                class="article"
+                v-html="smsTask.content"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form-item>
+      <el-form-item
+        label="定时发送"
+        prop="sendTime"
+      >
+        <el-radio-group
+          v-model="timing"
+          size="medium"
+        >
+          <el-radio-button :label="false">
+            否
+          </el-radio-button>
+          <el-radio-button :label="true">
+            是
+          </el-radio-button>
         </el-radio-group>
-      </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTask.describe&quot;)"
-        prop="describe"
-      >
-        <el-input v-model="smsTask.describe" />
+        <el-date-picker
+          v-show="timing"
+          v-model="smsTask.sendTime"
+          style="margin-left:20px"
+          type="datetime"
+          format="yyyy-MM-dd HH:mm:ss"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          placeholder="选择发送时间"
+          align="right"
+          :picker-options="pickerOptions"
+        />
       </el-form-item>
     </el-form>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
+    <div class="dialog-footer">
       <el-button
         type="primary"
         plain
-        @click="submitForm"
+        :disabled="disabled"
+        @click="submitForm(false)"
       >
-        {{ $t('common.confirm') }}
+        立即发送
+      </el-button>
+      <el-button
+        type="warning"
+        plain
+        :disabled="disabled"
+        @click="submitForm(true)"
+      >
+        存草稿
       </el-button>
     </div>
-  </el-dialog>
+    <aside class="tips">
+      模板提示：
+      <p>1.长度不超过500字，单条短信超过70字后，按67字/条分多条计费；</p>
+      <p>2.短信模板内容不能包含【】符号。</p>
+    </aside>
+  </div>
 </template>
 <script>
-
+import smsTemplateApi from '@/api/SmsTemplate.js'
 import smsTaskApi from '@/api/SmsTask.js'
+import { validMobile } from '@/utils/my-validate'
 
 export default {
   name: 'SmsTaskEdit',
   components: {},
   props: {
-    dialogVisible: {
-      type: Boolean,
-      default: false
-    },
-    type: {
-      type: String,
-      default: 'add'
-    }
+
   },
   data () {
     return {
+      type: 'add',
       smsTask: this.initSmsTask(),
-      screenWidth: 0,
-      width: this.initWidth(),
+      smsTemplateList: [],
+      receiverList: [],
+      receiverVisible: false,
+      receiver: '',
+      timing: false,
+      disabled: false,
+      smsTemplate: '',
       rules: {
-        name: [
+        topic: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
-          { min: 1, max: 255, message: this.$t('rules.range4to10'), trigger: 'blur' },
-          {
-            validator: (rule, value, callback) => {
-              if (!this.smsTask.id) {
-                // this.$get(`system/user/check/${value}`).then((r) => {
-                //   if (!r.data) {
-                //     callback(this.$t('rules.usernameExist'))
-                //   } else {
-                //     callback()
-                //   }
-                // })
-              } else {
-                // callback()
-              }
-              callback()
-            }, trigger: 'blur'
-          }
+          { min: 1, max: 255, message: this.$t('rules.range4to10'), trigger: 'blur' }
         ],
-        status: { required: true, message: this.$t('rules.require'), trigger: 'blur' }
+        templateId: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
+        sendTime: {
+          validator: (rule, value, callback) => {
+            const vm = this
+            if (vm.timing) {
+              if (vm.smsTask.sendTime) {
+                callback()
+              } else {
+                callback('请选择发送日期')
+              }
+            } else {
+              callback()
+            }
+          }, trigger: 'change'
+        }
+      },
+      pickerOptions: {
+        shortcuts: [{
+          text: '一小时后',
+          onClick (picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 1)
+            picker.$emit('pick', date)
+          }
+        }, {
+          text: '明天',
+          onClick (picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24)
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周后',
+          onClick (picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date);
+          }
+        }]
       }
     }
   },
   computed: {
-    isVisible: {
-      get () {
-        return this.dialogVisible
-      },
-      set () {
-        this.close()
-        this.reset()
-      }
-    },
-    title () {
-      return this.type === 'add' ? this.$t('common.add') : this.$t('common.edit')
-    }
+
   },
   watch: {
+    $route () {
+      console.log('route')
+      this.loadSmsTask()
+    }
+  },
+  created () {
 
   },
   mounted () {
-    window.onresize = () => {
-      return (() => {
-        this.width = this.initWidth()
-      })()
-    }
+    //在vue的mount阶段执行的函数都是顺序执行，不会阻塞的，所以如果希望mount阶段的函数也是阻塞的，需要额外写一个async函数，然后把需要同步执行的函数写到里面，然后在mount阶段调用这个额外写的函数
+    this.initSmsTemplateList()
   },
   methods: {
+    async loadSmsTask () {
+      const type = this.$route.query.type
+      const id = this.$route.query.id
+      this.type = type
+      if (type) {// 切换到别的页面时，无需重置表单
+        // this.smsTask = this.initSmsTask()
+        this.reset()
+      }
+
+      if (id) {
+        await smsTaskApi.get(id)
+          .then(response => {
+            const res = response.data
+            this.smsTask = res.data
+            if (type !== 'edit') {
+              this.smsTask.id = ''
+            }
+            this.changeTemplate(this.smsTask.templateId)
+            this.receiverList = this.smsTask.receiver.split(",")
+
+            if (this.smsTask.templateParams) {
+              this.smsTask.templateParam = JSON.parse(this.smsTask.templateParams)
+            }
+            console.log('回显')
+            console.log(this.smsTemplateList)
+            this.smsTemplate = this.smsTemplateList.find(item => item.id === this.smsTask.templateId)
+          })
+      }
+    },
+    changeTemplate (id) {
+      const vm = this
+      // vm.preSearch()
+      if (id) {
+        //遍历模板添加文本框
+        for (const item of vm.smsTemplateList) {
+          if (item.id === id) {
+            let templateParam = {}
+            if (typeof (item.templateParams) == 'string') {
+              templateParam = JSON.parse(item.templateParams)
+            } else {
+              templateParam = item.templateParams
+            }
+
+            for (const prop in templateParam) {
+              templateParam[prop] = ''
+            }
+            vm.smsTemplate = item
+            vm.smsTask.templateParam = templateParam
+            vm.smsTask.content = item.content
+            break
+          }
+        }
+        vm.changeContent()
+      }
+    },
+    //模板文本框输入内容
+    templateCode (val, key) {
+      const vm = this
+      vm.smsTask.templateParam[key] = val
+      vm.changeContent()
+    },
+    //短信内容处理
+    changeContent () {
+      const vm = this
+      if (!vm.smsTemplate) {
+        return
+      }
+      const type = vm.smsTemplate.providerType.code
+      let content = vm.smsTemplate.content
+
+      for (const key in vm.smsTask.templateParam) {
+        let strs = ''
+        if (type == "TENCENT") {
+          strs = '{' + key + '}'
+        } else {
+          strs = '${' + key + '}'
+        }
+        if (vm.smsTask.templateParam[key]) {
+          content = content.replace(strs, vm.smsTask.templateParam[key])
+        }
+      }
+      vm.smsTask.content = content
+    },
+    async initSmsTemplateList () {
+      await smsTemplateApi.page({ current: 1, size: 10000 })
+        .then(response => {
+          const res = response.data
+          this.smsTemplateList = res.data.records
+          console.log('list 加载')
+        })
+      await this.loadSmsTask()  // 顺序不能变
+    },
     initSmsTask () {
       return {
-        id: '',
-        name: '',
-        orgId: null,
-        status: true,
-        describe: ''
+        templateId: '',
+        receiver: '',
+        topic: '',
+        templateParam: {},
+        sendTime: null,
+        content: '',
+        draft: false,
       }
-    },
-    initWidth () {
-      this.screenWidth = document.body.clientWidth
-      if (this.screenWidth < 991) {
-        return '90%'
-      } else if (this.screenWidth < 1400) {
-        return '45%'
-      } else {
-        return '800px'
-      }
-    },
-    setSmsTask (val) {
-      const vm = this
-      if (val) {
-        vm.smsTask = { ...val }
-      }
-    },
-    close () {
-      this.$emit('close')
     },
     reset () {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
       this.smsTask = this.initSmsTask()
+      this.receiverList = []
     },
-    submitForm () {
+    submitForm (draft) {
       const vm = this
+      if (vm.smsTask.templateParam && Object.keys(vm.smsTask.templateParam).length > 0) {
+        let flag = false
+        for (const key in vm.smsTask.templateParam) {
+          if (!vm.smsTask.templateParam[key]) {
+            flag = true
+            break
+          }
+        }
+        if (flag) {
+          vm.$message({
+            message: '发送内容不能为空',
+            type: 'error'
+          })
+          return
+        }
+
+      } else {
+        vm.$message({
+          message: '发送内容不能为空',
+          type: 'error'
+        })
+        return
+      }
+
       this.$refs.form.validate((valid) => {
         if (valid) {
+          vm.smsTask.draft = draft
+          vm.smsTask.receiver = vm.receiverList.join(',')
           vm.editSubmit()
         } else {
           return false
@@ -186,43 +387,121 @@ export default {
     },
     editSubmit () {
       const vm = this
-      if (vm.type === 'add') {
-        vm.save()
-      } else {
+      if (vm.type === 'edit') {
         vm.update()
+      } else {
+        vm.save()
       }
     },
     save () {
       const vm = this
-      smsTaskApi.save(this.smsTask)
+      vm.disabled = true
+      smsTaskApi.save(vm.smsTask)
         .then((response) => {
+          vm.disabled = false
           const res = response.data
           if (res.isSuccess) {
-            vm.isVisible = false
             vm.$message({
               message: vm.$t('tips.createSuccess'),
               type: 'success'
             })
-            vm.$emit('success')
+            vm.reset()
+            vm.$router.push('/sms/manage')
           }
         })
     },
     update () {
-      smsTaskApi.update(this.smsTask)
+      const vm = this
+      vm.disabled = true
+      smsTaskApi.update(vm.smsTask)
         .then((response) => {
+          vm.disabled = false
           const res = response.data
           if (res.isSuccess) {
-            this.isVisible = false
-            this.$message({
-              message: this.$t('tips.updateSuccess'),
+            vm.$message({
+              message: vm.$t('tips.createSuccess'),
               type: 'success'
             })
-            this.$emit('success')
+            vm.reset()
+            vm.$router.push('/sms/manage')
           }
         })
+    },
+    handleClose (tag) {
+      this.receiverList.splice(this.receiverList.indexOf(tag), 1)
+    },
+    showInput () {
+      this.receiverVisible = true
+      this.$nextTick(() => {
+        this.$refs.saveTagInput.$refs.input.focus()
+      });
+    },
+    handleInputConfirm () {
+      const vm = this
+      // 正则校验
+      let inputValue = vm.receiver
+      if (inputValue) {
+        if (!validMobile(inputValue)) {
+          this.$message({
+            message: '该手机号不合法',
+            type: 'error'
+          })
+          vm.$refs.saveTagInput.focus()
+          return
+        }
+
+        if (this.receiverList.indexOf(inputValue) === -1) {
+          vm.receiverList.push(inputValue)
+          vm.receiverVisible = false
+          vm.receiver = ''
+        } else {
+          this.$message({
+            message: '该账号已经存在',
+            type: 'error'
+          })
+          vm.$refs.saveTagInput.focus()
+        }
+      } else {
+        this.receiverVisible = false
+      }
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.el-tag {
+  margin-right: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 120px;
+  vertical-align: bottom;
+}
+.message {
+  border: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+aside {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.tips {
+  border: 1px solid #ddd;
+  margin-left: 18px;
+}
+.tips p {
+  text-indent: 20px;
+  padding: 0;
+  margin: 0px;
+}
+.article {
+  font-size: 12px;
+  height: auto;
+}
 </style>

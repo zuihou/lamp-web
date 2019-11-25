@@ -5,7 +5,7 @@
     :width="width"
     top="50px"
     :close-on-click-modal="false"
-    :close-on-press-escape="false"
+    :close-on-press-escape="true"
     :visible.sync="isVisible"
   >
     <el-form

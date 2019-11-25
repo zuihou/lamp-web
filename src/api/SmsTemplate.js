@@ -16,6 +16,10 @@ const apiList = {
   delete: {
     url: `/msgs/smsTemplate`,
     method: 'DELETE'
+  },
+  check: {
+    url: `/msgs/smsTemplate/check`,
+    method: 'GET'
   }
 
 }
@@ -43,6 +47,13 @@ export default {
   delete (data) {
     return axiosApi({
       ...apiList.delete,
+      data
+    })
+  },
+  check (customCode) {
+    const data = { customCode: customCode }
+    return axiosApi({
+      ...apiList.check,
       data
     })
   }

@@ -17,7 +17,6 @@ const apiList = {
     url: `/msgs/smsTask`,
     method: 'DELETE'
   }
-
 }
 
 export default {
@@ -44,6 +43,12 @@ export default {
     return axiosApi({
       ...apiList.delete,
       data
+    })
+  },
+  get (id) {
+    return axiosApi({
+      url: `/msgs/smsTask/${id}`,
+      method: 'GET'
     })
   }
 }

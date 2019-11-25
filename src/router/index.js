@@ -55,6 +55,15 @@ const constRouter = [
         component: () => import('@/views/profile/index'),
         name: 'Profile',
         meta: { title: 'profile', icon: 'user', noCache: true }
+      },
+      {
+        hidden: true,
+        path: '/sms/manage/edit',
+        component: () => import('@/views/zuihou/sms/manage/Edit'),
+        name: 'smsEdit',
+        meta: {
+          title: '发送短信', icon: '', noCache: true
+        }
       }
     ]
   },

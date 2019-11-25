@@ -180,7 +180,7 @@ export default {
       topic: '主题',
       templateParams: '模板参数',
       sendTime: '发送时间',
-      context: '发送内容',
+      content: '发送内容',
       draft: '是否草稿'
     },
     gen: {

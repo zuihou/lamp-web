@@ -180,7 +180,7 @@ export default {
       topic: 'topic',
       templateParams: 'templateParams',
       sendTime: 'sendTime',
-      context: 'context',
+      content: 'content',
       draft: 'isDraft'
     },
     gen: {
