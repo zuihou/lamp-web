@@ -183,6 +183,16 @@ export default {
       content: 'content',
       draft: 'isDraft'
     },
+    smsSendStatus: {
+      taskId: 'task',
+      sendStatus: 'sendStatus',
+      receiver: 'receiver',
+      bizId: 'bizId',
+      ext: 'ext',
+      code: 'code',
+      message: 'message',
+      fee: 'fee'
+    },
     gen: {
       config: {
         author: 'Author',

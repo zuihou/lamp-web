@@ -183,6 +183,16 @@ export default {
       content: '发送内容',
       draft: '是否草稿'
     },
+    smsSendStatus: {
+      taskId: '任务',
+      sendStatus: '发送状态',
+      receiver: '接收者手机号',
+      bizId: '发送回执',
+      ext: '发送返回',
+      code: '状态码',
+      message: '状态码的描述',
+      fee: '计费条数'
+    },
     gen: {
       config: {
         author: '作者名称',

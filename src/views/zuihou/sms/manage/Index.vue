@@ -192,6 +192,12 @@
       >
         <template slot-scope="{row}">
           <i
+            v-hasPermission="[&quot;sms:manage:view&quot;]"
+            class="el-icon-view table-operation"
+            style="color: #2db7f5;"
+            @click="view(row)"
+          />
+          <i
             v-show="row.draft"
             v-hasPermission="[&quot;sms:manage:update&quot;]"
             class="el-icon-edit table-operation"
@@ -199,7 +205,7 @@
             @click="edit(row)"
           />
           <i
-            v-hasPermission="[&quot;sms:manage:update&quot;]"
+            v-hasPermission="[&quot;sms:manage:copy&quot;]"
             class="el-icon-copy-document table-operation"
             style="color: #909399;"
             @click="copy(row)"
@@ -211,7 +217,7 @@
             @click="singleDelete(row)"
           />
           <el-link
-            v-has-no-permission="[&quot;sms:manage:update&quot;,&quot;sms:manage:delete&quot;]"
+            v-has-no-permission="[&quot;sms:manage:update&quot;,&quot;sms:manage:delete&quot;,&quot;sms:manage:copy&quot;,&quot;sms:manage:view&quot;]"
             class="no-perm"
           >
             {{ $t('tips.noPermission') }}
@@ -355,6 +361,15 @@ export default {
         query: {
           id: row.id,
           type: 'copy'
+        }
+      })
+    },
+    view (row) {
+      this.$router.push({
+        path: '/sms/manage/edit',
+        query: {
+          id: row.id,
+          type: 'view'
         }
       })
     },

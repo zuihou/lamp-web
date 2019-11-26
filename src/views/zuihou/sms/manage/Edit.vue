@@ -8,26 +8,53 @@
       label-position="right"
       label-width="100px"
     >
-      <el-form-item
-        :label="$t(&quot;table.smsTask.templateId&quot;)"
-        prop="templateId"
-      >
-        <el-select
-          v-model="smsTask.templateId"
-          :multiple="false"
-          filterable
-          placeholder="请输入关键词"
-          style="width:300px;"
-          @change="changeTemplate"
+      <el-row>
+        <el-col
+          :xs="24"
+          :sm="12"
+          style="margin-top: 10px;"
         >
-          <el-option
-            v-for="item in smsTemplateList"
-            :key="item.id"
-            :label="item.name + &quot;(&quot;+item.customCode+&quot;)&quot;"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
+          <el-form-item
+            :label="$t(&quot;table.smsTask.templateId&quot;)"
+            prop="templateId"
+          >
+            <el-select
+              v-model="smsTask.templateId"
+              :multiple="false"
+              filterable
+              placeholder="请输入关键词"
+              style="width:300px;"
+              :disabled="type===&quot;view&quot;"
+              @change="changeTemplate"
+            >
+              <el-option
+                v-for="item in smsTemplateList"
+                :key="item.id"
+                :label="item.name + &quot;(&quot;+item.customCode+&quot;)&quot;"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col
+          :xs="24"
+          :sm="12"
+          style="margin-top: 10px;"
+        >
+          <el-form-item
+            v-show="type===&quot;view&quot;"
+            :label="$t(&quot;table.smsTask.status&quot;)"
+            prop="status"
+          >
+            <el-tag
+              :type="smsTask.status | statusFilter"
+              :disabled="type===&quot;view&quot;"
+            >
+              {{ smsTask.status.desc }}
+            </el-tag>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item
         :label="$t(&quot;table.smsTask.receiver&quot;)"
         prop="receiver"
@@ -35,8 +62,8 @@
         <el-tag
           v-for="tag in receiverList"
           :key="tag"
-          closable
           :disable-transitions="false"
+          :closable="type!==&quot;view&quot;"
           @close="handleClose(tag)"
         >
           {{ tag }}
@@ -46,12 +73,14 @@
           ref="saveTagInput"
           v-model="receiver"
           class="input-new-tag"
+          :disabled="type===&quot;view&quot;"
           @keyup.enter.native="handleInputConfirm"
           @blur="handleInputConfirm"
         />
         <el-button
           v-else
           class="button-new-tag"
+          :disabled="type===&quot;view&quot;"
           @click="showInput"
         >
           添加
@@ -61,7 +90,10 @@
         :label="$t(&quot;table.smsTask.topic&quot;)"
         prop="topic"
       >
-        <el-input v-model="smsTask.topic" />
+        <el-input
+          v-model="smsTask.topic"
+          :disabled="type===&quot;view&quot;"
+        />
       </el-form-item>
       <el-form-item
         :label="$t(&quot;table.smsTask.content&quot;)"
@@ -82,6 +114,7 @@
               <el-input
                 :value="item"
                 maxlength="255"
+                :disabled="type===&quot;view&quot;"
                 @input="(value)=>{templateCode(value,key,index)}"
               />
             </el-form-item>
@@ -100,36 +133,71 @@
           </el-col>
         </el-row>
       </el-form-item>
-      <el-form-item
-        label="定时发送"
-        prop="sendTime"
-      >
-        <el-radio-group
-          v-model="timing"
-          size="medium"
+      <el-row>
+        <el-col
+          :xs="24"
+          :sm="12"
+          style="margin-top: 10px;"
         >
-          <el-radio-button :label="false">
-            否
-          </el-radio-button>
-          <el-radio-button :label="true">
-            是
-          </el-radio-button>
-        </el-radio-group>
-        <el-date-picker
-          v-show="timing"
-          v-model="smsTask.sendTime"
-          style="margin-left:20px"
-          type="datetime"
-          format="yyyy-MM-dd HH:mm:ss"
-          value-format="yyyy-MM-dd HH:mm:ss"
-          placeholder="选择发送时间"
-          align="right"
-          :picker-options="pickerOptions"
-        />
-      </el-form-item>
+          <el-form-item
+            label="定时发送"
+            prop="sendTime"
+          >
+            <el-radio-group
+              v-model="timing"
+              size="medium"
+              :disabled="type===&quot;view&quot;"
+            >
+              <el-radio-button :label="false">
+                否
+              </el-radio-button>
+              <el-radio-button :label="true">
+                是
+              </el-radio-button>
+            </el-radio-group>
+            <el-date-picker
+              v-show="timing"
+              v-model="smsTask.sendTime"
+              :disabled="type===&quot;view&quot;"
+              style="margin-left:20px"
+              type="datetime"
+              format="yyyy-MM-dd HH:mm:ss"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              placeholder="选择发送时间"
+              align="right"
+              :picker-options="pickerOptions"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col
+          :xs="24"
+          :sm="12"
+          style="margin-top: 10px;"
+        >
+          <el-form-item
+            v-show="type===&quot;view&quot;"
+            label="是否草稿"
+            prop="draft"
+          >
+            <el-radio-group
+              v-model="smsTask.draft"
+              size="medium"
+              :disabled="type===&quot;view&quot;"
+            >
+              <el-radio-button :label="false">
+                否
+              </el-radio-button>
+              <el-radio-button :label="true">
+                是
+              </el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <div class="dialog-footer">
       <el-button
+        v-show="type!==&quot;view&quot;"
         type="primary"
         plain
         :disabled="disabled"
@@ -138,6 +206,7 @@
         立即发送
       </el-button>
       <el-button
+        v-show="type!==&quot;view&quot;"
         type="warning"
         plain
         :disabled="disabled"
@@ -146,26 +215,49 @@
         存草稿
       </el-button>
     </div>
-    <aside class="tips">
+    <aside
+      v-show="type!==&quot;view&quot;"
+      class="tips"
+    >
       模板提示：
       <p>1.长度不超过500字，单条短信超过70字后，按67字/条分多条计费；</p>
       <p>2.短信模板内容不能包含【】符号。</p>
     </aside>
+    <div v-show="type===&quot;view&quot;">
+      <send-status-index
+        ref="statusList"
+        :dialog-visible="dialog.isVisible"
+      />
+    </div>
   </div>
 </template>
 <script>
 import smsTemplateApi from '@/api/SmsTemplate.js'
 import smsTaskApi from '@/api/SmsTask.js'
 import { validMobile } from '@/utils/my-validate'
+import SendStatusIndex from './SendStatusIndex'
 
 export default {
   name: 'SmsTaskEdit',
-  components: {},
+  components: { SendStatusIndex },
+  filters: {
+    statusFilter (status) {
+      const map = {
+        WAITING: 'danger',
+        SUCCESS: 'success',
+        FAIL: 'error'
+      }
+      return map[status] || 'success'
+    }
+  },
   props: {
 
   },
   data () {
     return {
+      dialog: {
+        isVisible: false
+      },
       type: 'add',
       smsTask: this.initSmsTask(),
       smsTemplateList: [],
@@ -175,6 +267,7 @@ export default {
       timing: false,
       disabled: false,
       smsTemplate: '',
+      content: '',
       rules: {
         topic: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
@@ -227,18 +320,23 @@ export default {
   },
   watch: {
     $route () {
-      console.log('route')
-      this.loadSmsTask()
+      this.initSmsTemplateList()
+      this.loadSendStatus()
     }
-  },
-  created () {
-
   },
   mounted () {
     //在vue的mount阶段执行的函数都是顺序执行，不会阻塞的，所以如果希望mount阶段的函数也是阻塞的，需要额外写一个async函数，然后把需要同步执行的函数写到里面，然后在mount阶段调用这个额外写的函数
     this.initSmsTemplateList()
+    this.loadSendStatus()
   },
   methods: {
+    loadSendStatus () {
+      const type = this.$route.query.type
+      const id = this.$route.query.id
+      if (type === 'view') {
+        this.$refs.statusList.setTaskId(id)
+      }
+    },
     async loadSmsTask () {
       const type = this.$route.query.type
       const id = this.$route.query.id
@@ -247,12 +345,17 @@ export default {
         // this.smsTask = this.initSmsTask()
         this.reset()
       }
+      if (type === 'view') {
+        this.disabled = true
+      } else {
+        this.disabled = false
+      }
 
       if (id) {
         await smsTaskApi.get(id)
           .then(response => {
             const res = response.data
-            this.smsTask = res.data
+            this.smsTask = { ...this.smsTask, ...res.data }
             if (type !== 'edit') {
               this.smsTask.id = ''
             }
@@ -262,9 +365,16 @@ export default {
             if (this.smsTask.templateParams) {
               this.smsTask.templateParam = JSON.parse(this.smsTask.templateParams)
             }
-            console.log('回显')
-            console.log(this.smsTemplateList)
+            this.smsTask.content = res.data.content
+            console.log('查询')
+            if (this.smsTask.sendTime) {
+              this.timing = true
+            } else {
+              this.timing = false
+            }
+
             this.smsTemplate = this.smsTemplateList.find(item => item.id === this.smsTask.templateId)
+
           })
       }
     },
@@ -286,8 +396,12 @@ export default {
               templateParam[prop] = ''
             }
             vm.smsTemplate = item
-            vm.smsTask.templateParam = templateParam
-            vm.smsTask.content = item.content
+            if (vm.type !== 'view') {
+              console.log('赋值')
+              vm.smsTask.templateParam = templateParam
+              // vm.smsTask.content = item.content
+              this.content = item.content
+            }
             break
           }
         }
@@ -320,7 +434,10 @@ export default {
           content = content.replace(strs, vm.smsTask.templateParam[key])
         }
       }
-      vm.smsTask.content = content
+      if (vm.type !== 'view') {
+        console.log('赋值')
+        vm.smsTask.content = content
+      }
     },
     async initSmsTemplateList () {
       await smsTemplateApi.page({ current: 1, size: 10000 })
@@ -340,6 +457,10 @@ export default {
         sendTime: null,
         content: '',
         draft: false,
+        status: {
+          code: '',
+          desc: ''
+        }
       }
     },
     reset () {
@@ -377,16 +498,19 @@ export default {
 
       this.$refs.form.validate((valid) => {
         if (valid) {
-          vm.smsTask.draft = draft
-          vm.smsTask.receiver = vm.receiverList.join(',')
-          vm.editSubmit()
+          vm.editSubmit(draft)
         } else {
           return false
         }
       })
     },
-    editSubmit () {
+    editSubmit (draft) {
       const vm = this
+      vm.smsTask.draft = draft
+      vm.smsTask.receiver = vm.receiverList.join(',')
+      if (!vm.timing) {
+        vm.smsTask.sendTime = null
+      }
       if (vm.type === 'edit') {
         vm.update()
       } else {
