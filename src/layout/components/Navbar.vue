@@ -111,7 +111,16 @@ export default {
       return this.$store.state.setting.sidebar
     },
     avatar () {
-      return this.$store.state.account.user.avatar
+      const user = this.$store.state.account.user
+      if (!user["avatar"]) {
+        return require(`@/assets/avatar/default.jpg`)
+      } else {
+        if (user["avatar"].startsWith('http://') || user["avatar"].startsWith('https://')) {
+          return user["avatar"]
+        } else {
+          return require(`@/assets/avatar/${user.avatar}`)
+        }
+      }
     },
     name () {
       return this.$store.state.account.user.name

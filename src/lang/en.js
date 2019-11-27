@@ -378,6 +378,8 @@ export default {
     allProject: 'All Projects',
     noDept: 'No department',
     noRole: 'No role',
+    noEmail: 'No Email',
+    noMobile: 'No Mobile',
     noWorkDescribe: `This guy's lazy.He didn't leave anything.`,
     firstLogin: 'First login',
     todayIp: 'Today IP',

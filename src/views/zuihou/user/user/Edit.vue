@@ -275,6 +275,17 @@ export default {
     }
   },
   methods: {
+    myAvatar (avatar) {
+      if (!avatar) {
+        return require(`@/assets/avatar/default.jpg`)
+      } else {
+        if (avatar.startsWith('http://') || avatar.startsWith('https://')) {
+          return avatar
+        } else {
+          return require(`@/assets/avatar/${avatar}`)
+        }
+      }
+    },
     initUser () {
       return {
         id: '',
@@ -348,7 +359,7 @@ export default {
         vm.$refs.imgFileRef.init({
           bizId: vm.user['id'],
           bizType: vm.imgFileData.bizType,
-          imageUrl: vm.user['avatar'],
+          imageUrl: vm.myAvatar(vm.user['avatar']),
           isSingle: true,
           isDetail: false
         });

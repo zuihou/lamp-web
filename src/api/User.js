@@ -13,6 +13,10 @@ const apiList = {
     method: 'PUT',
     url: `/authority/user`
   },
+  avatar: {
+    method: 'PUT',
+    url: `/authority/user/avatar`
+  },
   delete: {
     method: 'DELETE',
     url: `/authority/user`
@@ -20,6 +24,10 @@ const apiList = {
   reset: {
     method: 'GET',
     url: `/authority/user/reset`
+  },
+  updatePassword: {
+    method: 'PUT',
+    url: `/authority/user/password`
   }
 }
 
@@ -43,6 +51,12 @@ export default {
       data
     })
   },
+  updatePassword (data) {
+    return axiosApi({
+      ...apiList.updatePassword,
+      data
+    })
+  },
   delete (data) {
     return axiosApi({
       ...apiList.delete,
@@ -52,6 +66,12 @@ export default {
   reset (data) {
     return axiosApi({
       ...apiList.reset,
+      data
+    })
+  },
+  avatar (data) {
+    return axiosApi({
+      ...apiList.avatar,
       data
     })
   }

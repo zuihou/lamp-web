@@ -101,7 +101,7 @@
           <el-avatar
             :key="scope.row.avatar"
             fit="fill"
-            :src="scope.row.avatar"
+            :src="myAvatar(scope.row.avatar)"
           >
             <el-avatar>{{ scope.row.name | userAvatarFilter }}</el-avatar>
           </el-avatar>
@@ -308,6 +308,17 @@ export default {
     this.fetch()
   },
   methods: {
+    myAvatar (avatar) {
+      if (!avatar) {
+        return require(`@/assets/avatar/default.jpg`)
+      } else {
+        if (avatar.startsWith('http://') || avatar.startsWith('https://')) {
+          return avatar
+        } else {
+          return require(`@/assets/avatar/${avatar}`)
+        }
+      }
+    },
     filterStatus (value, row) {
       return row.status === value
     },

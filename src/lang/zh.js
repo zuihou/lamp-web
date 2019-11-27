@@ -373,6 +373,8 @@ export default {
     },
     docDetails: '了解更多',
     allProject: '所有项目',
+    noEmail: '暂无邮箱',
+    noMobile: '暂无手机',
     noDept: '暂无部门',
     noRole: '暂无角色',
     noWorkDescribe: '这家伙很懒，什么也没留下~',

@@ -292,7 +292,16 @@ export default {
       return this.$store.state.account.user
     },
     avatar () {
-      return this.$store.state.account.user.avatar
+      if (!this.user["avatar"]) {
+        return require(`@/assets/avatar/default.jpg`)
+      } else {
+        if (this.user["avatar"].startsWith('http://') || this.user["avatar"].startsWith('https://')) {
+          return this.user["avatar"]
+        } else {
+          return require(`@/assets/avatar/${this.user.avatar}`)
+        }
+      }
+      // return this.$store.state.account.user.avatar
     }
   },
   mounted () {

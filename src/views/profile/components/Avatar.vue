@@ -1,39 +1,89 @@
 <template>
   <el-dialog
     class="update-avatar"
-    :title="$t('common.changeAvatar')"
+    :title="$t(&quot;common.changeAvatar&quot;)"
     :width="width"
     top="50px"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :visible.sync="isVisible"
   >
-    <el-tabs v-model="activeName" class="avatar-tabs">
-      <el-tab-pane :label="$t('common.hthz')" name="first">
+    <el-tabs
+      v-model="activeName"
+      class="avatar-tabs"
+    >
+      <el-tab-pane
+        :label="$t(&quot;common.hthz&quot;)"
+        name="first"
+      >
         <template v-for="(avatar, index) in hthz">
-          <div :key="index" class="avatar-wrapper">
-            <img :alt="$t('common.ctc')" :src="resolveAvatar(avatar)" @click="change(avatar)">
+          <div
+            :key="index"
+            class="avatar-wrapper"
+          >
+            <img
+              :alt="$t(&quot;common.ctc&quot;)"
+              :src="resolveAvatar(avatar)"
+              @click="change(avatar)"
+            >
           </div>
         </template>
       </el-tab-pane>
-      <el-tab-pane :label="$t('common.al')" name="second">
+      <el-tab-pane
+        :label="$t(&quot;common.al&quot;)"
+        name="second"
+      >
         <template v-for="(avatar, index) in al">
-          <div :key="index" class="avatar-wrapper">
-            <img :alt="$t('common.ctc')" :src="resolveAvatar(avatar)" @click="change(avatar)">
+          <div
+            :key="index"
+            class="avatar-wrapper"
+          >
+            <img
+              :alt="$t(&quot;common.ctc&quot;)"
+              :src="resolveAvatar(avatar)"
+              @click="change(avatar)"
+            >
           </div>
         </template>
       </el-tab-pane>
-      <el-tab-pane :label="$t('common.lm')" name="third">
+      <el-tab-pane
+        :label="$t(&quot;common.lm&quot;)"
+        name="third"
+      >
         <template v-for="(avatar, index) in lm">
-          <div :key="index" class="avatar-wrapper">
-            <img :alt="$t('common.ctc')" :src="resolveAvatar(avatar)" @click="change(avatar)">
+          <div
+            :key="index"
+            class="avatar-wrapper"
+          >
+            <img
+              :alt="$t(&quot;common.ctc&quot;)"
+              :src="resolveAvatar(avatar)"
+              @click="change(avatar)"
+            >
           </div>
         </template>
+      </el-tab-pane>
+      <el-tab-pane
+        label="上传"
+        name="fourth"
+      >
+        <imgUpload
+          ref="imgFileRef"
+          list-type="picture-card"
+          :data="myAvatar"
+          :show-file-list="false"
+          :auto-upload="true"
+          @setId="setIdAndSubmit"
+        >
+          <i class="el-icon-plus" />
+        </imgUpload>
       </el-tab-pane>
     </el-tabs>
   </el-dialog>
 </template>
 <script>
+import imgUpload from "@/components/zuihou/imgUpload"
+import userApi from '@/api/User.js'
 const hthz = [
   'default.jpg', '1d22f3e41d284f50b2c8fc32e0788698.jpeg',
   '2dd7a2d09fa94bf8b5c52e5318868b4d9.jpg', '2dd7a2d09fa94bf8b5c52e5318868b4df.jpg',
@@ -59,14 +109,16 @@ const lm = [
 ]
 export default {
   name: 'Avatar',
+  components: { imgUpload },
   props: {
     dialogVisible: {
       type: Boolean,
       default: false
     }
   },
-  data() {
+  data () {
     return {
+      myAvatar: '',
       activeName: 'first',
       screenWidth: 0,
       updating: false,
@@ -78,26 +130,51 @@ export default {
   },
   computed: {
     isVisible: {
-      get() {
+      get () {
         return this.dialogVisible
       },
-      set() {
+      set () {
         this.close()
       }
+    },
+    user () {
+      return this.$store.state.account.user
     }
   },
-  mounted() {
+  mounted () {
     window.onresize = () => {
       return (() => {
         this.width = this.initWidth()
       })()
     }
+
   },
   methods: {
-    resolveAvatar(avatar) {
+    init () {
+      let avatar = ''
+      if (this.user["avatar"] && (this.user["avatar"].startsWith('http://') || this.user["avatar"].startsWith('https://'))) {
+        avatar = this.user["avatar"]
+      }
+      debugger
+
+      this.$nextTick(() => {
+        this.$refs.imgFileRef.init({
+          bizId: '',
+          bizType: 'USER_AVATAR',
+          imageUrl: avatar,
+          isSingle: true,
+          isDetail: false
+        })
+      })
+    },
+    setIdAndSubmit (bizId, url) {
+      this.myAvatar = url
+      this.change(url)
+    },
+    resolveAvatar (avatar) {
       return require(`@/assets/avatar/${avatar}`)
     },
-    change(avatar) {
+    change (avatar) {
       if (this.updating) {
         this.$message({
           message: this.$t('tips.updating'),
@@ -106,22 +183,23 @@ export default {
         return
       }
       this.updating = true
-      this.$put('system/user/avatar', {
-        username: this.$store.state.account.user.username,
-        avatar
-      }).then(() => {
-        this.$emit('success', avatar)
-        this.updating = false
-      }).catch((r) => {
-        console.error(r)
-        this.$message({
-          message: this.$t('tips.updateFailed'),
-          type: 'error'
+
+      userApi.avatar({ id: this.$store.state.account.user.id, avatar: avatar })
+        .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.$emit('success', avatar)
+          }
+          this.updating = false
+        }).catch(() => {
+          this.$message({
+            message: this.$t('tips.updateFailed'),
+            type: 'error'
+          })
+          this.updating = false
         })
-        this.updating = false
-      })
     },
-    initWidth() {
+    initWidth () {
       this.screenWidth = document.body.clientWidth
       if (this.screenWidth < 991) {
         return '90%'
@@ -131,26 +209,26 @@ export default {
         return '820px'
       }
     },
-    close() {
+    close () {
       this.$emit('close')
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-  .update-avatar {
-    padding: 0 1rem 1rem 1rem!important;
-    .avatar-tabs {
-      .avatar-wrapper {
+.update-avatar {
+  padding: 0 1rem 1rem 1rem !important;
+  .avatar-tabs {
+    .avatar-wrapper {
+      display: inline-block;
+      img {
+        width: 5rem;
+        border-radius: 50%;
         display: inline-block;
-        img {
-          width: 5rem;
-          border-radius: 50%;
-          display: inline-block;
-          margin: .5rem;
-          cursor: pointer;
-        }
+        margin: 0.5rem;
+        cursor: pointer;
       }
     }
   }
+}
 </style>
