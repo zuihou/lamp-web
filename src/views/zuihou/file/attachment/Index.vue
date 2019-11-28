@@ -226,13 +226,13 @@ export default {
         type: 'add'
       },
       tableKey: 0,
-      // total: 0,
       queryParams: {},
       sort: {},
       selection: [],
       // 以下已修改
       loading: false,
       tableData: {
+        records: [],
         total: 0
       },
       pagination: {
@@ -421,7 +421,11 @@ export default {
         .then((response) => {
           const res = response.data
           this.loading = false
-          this.tableData = res.data
+          if (res.isSuccess) {
+            this.tableData = res.data
+          }
+        }).catch(() => {
+          this.loading = false
         })
     },
     sortChange (val) {

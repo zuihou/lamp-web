@@ -81,7 +81,7 @@
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import stationApi from '@/api/Station.js'
-import orgApi from '@/api/Org.js'
+
 
 export default {
   name: 'StationEdit',
@@ -147,7 +147,6 @@ export default {
 
   },
   mounted () {
-    this.initOrg()
     window.onresize = () => {
       return (() => {
         this.width = this.initWidth()
@@ -174,30 +173,12 @@ export default {
         return '800px'
       }
     },
-    initOrg () {
-      orgApi.allTree({ status: true })
-        .then((response) => {
-          const res = response.data
-          if (res.isError) {
-            this.$message({
-              message: this.$t('tips.getDataFail'),
-              type: 'error'
-            })
-            return
-          }
-          this.orgList = res.data
-        }).catch(() => {
-          this.$message({
-            message: this.$t('tips.getDataFail'),
-            type: 'error'
-          })
-        })
-    },
     loadListOptions ({ callback }) {
       callback()
     },
-    setStation (val) {
+    setStation (val, orgs) {
       const vm = this
+      vm.orgList = orgs
       if (val) {
         vm.station = { ...val }
       }

@@ -320,8 +320,10 @@ export default {
   },
   watch: {
     $route () {
-      this.initSmsTemplateList()
-      this.loadSendStatus()
+      if (this.$route.path === '/sms/manage') {
+        this.initSmsTemplateList()
+        this.loadSendStatus()
+      }
     }
   },
   mounted () {
@@ -443,7 +445,9 @@ export default {
       await smsTemplateApi.page({ current: 1, size: 10000 })
         .then(response => {
           const res = response.data
-          this.smsTemplateList = res.data.records
+          if (res.isSuccess) {
+            this.smsTemplateList = res.data.records
+          }
           console.log('list 加载')
         })
       await this.loadSmsTask()  // 顺序不能变

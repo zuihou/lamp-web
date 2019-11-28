@@ -174,7 +174,6 @@ import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import imgUpload from "@/components/zuihou/imgUpload"
 import userApi from '@/api/User.js'
-import orgApi from '@/api/Org.js'
 import stationApi from '@/api/Station.js'
 
 export default {
@@ -264,10 +263,9 @@ export default {
   },
   watch: {
     // 监听deptId
-    'user.orgId': 'orgSelect'
+    'user.orgId': 'orgSelect',
   },
   mounted () {
-    this.initOrg()
     window.onresize = () => {
       return (() => {
         this.width = this.initWidth()
@@ -314,13 +312,7 @@ export default {
         return '800px'
       }
     },
-    initOrg () {
-      orgApi.allTree({ status: true })
-        .then((response) => {
-          const res = response.data
-          this.orgList = res.data
-        })
-    },
+
     loadListOptions ({ callback }) {
       callback()
     },
@@ -349,11 +341,12 @@ export default {
         vm.$store.state.hasLoading = false
       }
     },
-    setUser (val) {
+    setUser (val, orgs) {
       const vm = this
       if (val) {
         vm.user = { ...val }
       }
+      vm.orgList = orgs
       vm.imgFileData.bizId = vm.user['id']
       vm.$nextTick(() => {
         vm.$refs.imgFileRef.init({

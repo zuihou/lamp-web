@@ -6,10 +6,15 @@
         :placeholder="$t(&quot;table.user.account&quot;)"
         class="filter-item search-item"
       />
-      <el-input
+      <treeselect
         v-model="queryParams.orgId"
-        :placeholder="$t(&quot;table.user.orgId&quot;)"
         class="filter-item search-item"
+        :multiple="false"
+        :options="orgList"
+        :load-options="loadListOptions"
+        :clear-value-text="$t(&quot;common.clear&quot;)"
+        :searchable="true"
+        placeholder="组织"
       />
       <el-date-picker
         v-model="queryParams.timeRange"
@@ -250,13 +255,16 @@
 
 <script>
 import Pagination from '@/components/Pagination'
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import UserEdit from './Edit'
 import UserView from './View'
 import userApi from '@/api/User.js'
+import orgApi from '@/api/Org.js'
 
 export default {
   name: 'UserManage',
-  components: { Pagination, UserEdit, UserView },
+  components: { Pagination, UserEdit, UserView, Treeselect },
   filters: {
     userAvatarFilter (name) {
       return name.charAt(0)
@@ -279,6 +287,7 @@ export default {
   },
   data () {
     return {
+      orgList: [],
       dialog: {
         isVisible: false,
         type: 'add'
@@ -304,10 +313,26 @@ export default {
       return this.$store.state.account.user
     }
   },
+  watch: {
+    $route () {
+      if (this.$route.path === '/user/user') {
+        this.initOrg()
+      }
+    }
+  },
   mounted () {
+    console.log('init mounted')
     this.fetch()
+    this.initOrg()
   },
   methods: {
+    initOrg () {
+      orgApi.allTree({ status: true })
+        .then((response) => {
+          const res = response.data
+          this.orgList = res.data
+        })
+    },
     myAvatar (avatar) {
       if (!avatar) {
         return require(`@/assets/avatar/default.jpg`)
@@ -333,6 +358,9 @@ export default {
     },
     onSelectChange (selection) {
       this.selection = selection
+    },
+    loadListOptions ({ callback }) {
+      callback()
     },
     search () {
       this.fetch({
@@ -443,14 +471,14 @@ export default {
     add () {
       this.dialog.type = 'add'
       this.dialog.isVisible = true
-      this.$refs.edit.setUser(false)
+      this.$refs.edit.setUser(false, this.orgList)
     },
     view (row) {
-      this.$refs.view.setUser(row)
+      this.$refs.view.setUser(row, this.orgList)
       this.userViewVisible = true
     },
     edit (row) {
-      this.$refs.edit.setUser(row)
+      this.$refs.edit.setUser(row, this.orgList)
       this.dialog.type = 'edit'
       this.dialog.isVisible = true
     },

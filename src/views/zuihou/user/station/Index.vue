@@ -6,10 +6,15 @@
         :placeholder="$t(&quot;table.station.name&quot;)"
         class="filter-item search-item"
       />
-      <el-input
+      <treeselect
         v-model="queryParams.orgId"
-        :placeholder="$t(&quot;table.station.orgId&quot;)"
         class="filter-item search-item"
+        :multiple="false"
+        :options="orgList"
+        :load-options="loadListOptions"
+        :clear-value-text="$t(&quot;common.clear&quot;)"
+        :searchable="true"
+        :placeholder="$t(&quot;table.station.orgId&quot;)"
       />
       <el-date-picker
         v-model="queryParams.timeRange"
@@ -186,13 +191,16 @@
 </template>
 
 <script>
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import Pagination from '@/components/Pagination'
 import StationEdit from './Edit'
 import stationApi from '@/api/Station.js'
+import orgApi from '@/api/Org.js'
 
 export default {
   name: 'StationManage',
-  components: { Pagination, StationEdit },
+  components: { Pagination, StationEdit, Treeselect },
   filters: {
     statusFilter (status) {
       const map = {
@@ -210,6 +218,7 @@ export default {
       },
       tableKey: 0,
       // total: 0,
+      orgList: [],
       queryParams: {},
       sort: {},
       selection: [],
@@ -227,10 +236,33 @@ export default {
   computed: {
 
   },
+  watch: {
+    $route () {
+      if (this.$route.path === '/user/station') {
+        this.initOrg()
+      }
+    }
+  },
   mounted () {
+    this.initOrg()
     this.fetch()
   },
   methods: {
+    initOrg () {
+      orgApi.allTree({ status: true })
+        .then((response) => {
+          const res = response.data
+          this.orgList = res.data
+        }).catch(() => {
+          this.$message({
+            message: this.$t('tips.getDataFail'),
+            type: 'error'
+          })
+        })
+    },
+    loadListOptions ({ callback }) {
+      callback()
+    },
     filterStatus (value, row) {
       return row.status === value
     },
@@ -307,10 +339,10 @@ export default {
     add () {
       this.dialog.type = 'add'
       this.dialog.isVisible = true
-      this.$refs.edit.setStation(false)
+      this.$refs.edit.setStation(false, this.orgList)
     },
     edit (row) {
-      this.$refs.edit.setStation(row)
+      this.$refs.edit.setStation(row, this.orgList)
       this.dialog.type = 'edit'
       this.dialog.isVisible = true
     },
