@@ -31,6 +31,7 @@ export const hasNoPermission = {
     Vue.directive('hasNoPermission', {
       bind (el, binding, vnode) {
         const permissions = vnode.context.$store.state.account.permissions
+
         const value = binding.value
         let flag = true
         for (const v of value) {

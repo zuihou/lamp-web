@@ -315,14 +315,14 @@ export default {
     invalidURL: '不是有效的URL'
   },
   common: {
-    system: '分布式微服务权限系统',
+    system: '微服务SaaS脚手架',
     desc: {
       a: '基于Spring Boot 2.1.2 & Spring Cloud Greenwich.RELEASE',
       b: '使用Jwt自定义统一认证',
-      c: '认证服务器资源服务器分离，方便拓展',
+      c: '企业级设计和配置，拒绝demo项目',
       d: '前后端分离架构，提高软件开发效率',
       e: '集成多种监控，为微服务保驾护航',
-      f: '提供详细的文档，手把手教你从零搭建到部署'
+      f: '提供详细的文档&视频教程，手把手教你从零搭建到部署'
     },
     view: '查看',
     tips: '提示',

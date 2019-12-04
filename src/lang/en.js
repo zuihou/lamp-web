@@ -315,11 +315,11 @@ export default {
     invalidURL: 'URL is invalid'
   },
   common: {
-    system: 'Microservice Auth System',
+    system: 'Microservice SaaS System',
     desc: {
       a: 'Based on Spring Boot 2.1.2 & Spring Cloud Greenwich.RELEASE',
-      b: 'Use Spring Cloud OAuth2 Unified Authentication',
-      c: 'Authentication server resource server separation, easy to expand',
+      b: 'Use Jwt Unified Authentication',
+      c: 'Enterprise design and configuration, deny demo project',
       d: 'Front-end separation architecture for increased efficiency',
       e: 'Integrate multiple monitoring to escort microservices',
       f: 'Provide detailed documentation and teach you how to build it'
