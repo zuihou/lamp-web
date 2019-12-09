@@ -25,6 +25,39 @@
       <div class="desc">
         6. {{ $t('common.desc.f') }}
       </div>
+      <div class="desc">
+        7.
+        <a
+          href="http://tangyh.top:180/zuihou-admin-ui"
+          target="_blank"
+        >开发&运营后台</a>
+      </div>
+      <div class="desc">
+        8. 源码：
+        <a
+          href="https://github.com/zuihou/zuihou-admin-cloud"
+          target="_blank"
+        >github</a>、
+        <a
+          href="https://gitee.com/zuihou111/zuihou-admin-cloud"
+          target="_blank"
+        >gitee</a>、
+        <a
+          href="https://gitee.com/zuihou111/zuihou-ui"
+          target="_blank"
+        >ui</a>、
+        <a
+          href="https://gitee.com/zuihou111/zuihou-admin-ui"
+          target="_blank"
+        >zuihou-admin-ui</a>
+      </div>
+      <div class="desc">
+        9. 前端项目基于：
+        <a
+          href="https://github.com/wuyouzhuguli/FEBS-Cloud-Web"
+          target="_blank"
+        >FEBS-Cloud-Web</a>
+      </div>
     </div>
     <el-form
       ref="loginForm"
@@ -586,6 +619,7 @@ $light_gray: #eee;
 
 .login-container {
   background: url(../../assets/background.jpg) 50% no-repeat;
+  // background-color: #2d3a4b;
   background-size: cover;
   width: 100%;
   height: 100vh;
