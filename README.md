@@ -1,56 +1,134 @@
 ### zuihou-ui
 
-zuihou-ui 是[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)微服务权限系统的前端项目，基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。详细介绍参见：[https://www.kancloud.cn/zuihou/zuihou-admin-cloud](https://www.kancloud.cn/zuihou/zuihou-admin-cloud/)
+zuihou-ui 是[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)微服务权限系统的 `租户后台`，基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
+
+所谓`租户后台`，即是给租户（客户）使用，而`开发&运营后台`则是给使用此框架的公司内部人员维护项目使用。
+
+## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢!!
 
 ## 项目代码地址
 
-[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud
+微服务后端 代码：
 
-[github] https://github.com/zuihou/zuihou-admin-cloud (由于某种特殊原因，下载代码有时非常慢)
+| 项目          | gitee                                          | github                                       |
+| ------------- | ---------------------------------------------- | -------------------------------------------- |
+| 微服务项目    | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud |
+| 单体项目      | https://gitee.com/zuihou111/zuihou-admin-boot  | https://github.com/zuihou/zuihou-admin-boot  |
+| 租户后台      | https://gitee.com/zuihou111/zuihou-ui          | https://github.com/zuihou/zuihou-ui          |
+| 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui    | https://github.com/zuihou/zuihou-admin-ui    |
+| 代码生成器    | 无                                             | https://github.com/zuihou/zuihou-generator   |
 
-[前端] https://github.com/zuihou/zuihou-ui
+## 演示地址
 
-[前端] https://gitee.com/zuihou111/zuihou-ui
+| 项目          | 演示地址                               | 管理员账号       | 普通账号   |
+| ------------- | -------------------------------------- | ---------------- | ---------- |
+| 租户后台      | http://tangyh.top:10000/zuihou-ui/     | zuihou/zuihou    | test/zuiou |
+| 开发&运营后台 | http://tangyh.top:180/zuihou-admin-ui/ | demoAdmin/zuihou | 无         |
 
-[代码生成器] https://github.com/zuihou/zuihou-generator
+> 演示环境中内置租户没有写入权限，若要在演示环境测试增删改，请到`开发&运营后台`自行创建租户后测试
 
-[原型] http://zuihou111.gitee.io/zuihou-admin-rp/
+## 老版本演示地址，代码已经不在更新
 
-[介绍文档] https://zuihou.github.io/zuihou-admin-cloud/
+| 项目         | 演示地址                                       | 管理员账号    | 警告！       |
+| ------------ | ---------------------------------------------- | ------------- | ------------ |
+| 后台         | http://42.202.130.216:10000/zuihou-ui          | zuihou/zuihou | 请勿修改数据 |
+| 注册中心     | http://42.202.130.216:10000/nacos/             | nacos/nacos   | 请勿修改数据 |
+| swagger 文档 | http://42.202.130.216:10000/api/gate/doc.html  | 无            | 请勿修改数据 |
+| 定时任务     | http://42.202.130.216:10000/zuihou-jobs-server | zuihou/zuihou | 请勿修改数据 |
+| 监控中心     | http://42.202.130.216:10000/zuihou-monitor/    | zuihou/zuihou | 请勿修改数据 |
+| 链路调用     | http://42.202.130.216:10000/zipkin/            | 无            | 请勿修改数据 |
 
-## 演示地址 (账号密码均为： zuihou/zuihou) （演示账号没有写权限，只能查询）
+## 项目截图：
 
-[演示环境] http://42.202.130.216:10000/zuihou-ui
+| 预览                                                   | 预览                                                   |
+| ------------------------------------------------------ | ------------------------------------------------------ |
+| ![SBA监控.png](image/项目相关/开发%26运营后台预览.png) | ![SBA监控.png](image/项目相关/租户后台预览.png)        |
+| ![SBA监控.png](image/监控界面/sba.png)                 | ![SBA监控.png](image/监控界面/zipkin.png)              |
+| ![swagger.png](image/项目相关/swagger获取token.jpg)    | ![admin-api.png](image/项目相关/admin-api.png)         |
+| ![SBA监控.png](image/1000star.png)                     | ![定时任务.png](image/项目相关/zuihou-jobs-server.png) |
 
-[注册中心] http://42.202.130.216:10000/nacos/
+## 技术栈
 
-[在线文档] http://42.202.130.216:10000/api/gate/doc.html
+- Vue
+- ES6
+- Webpack
+- Vue-cli
+- Vue-router
+- Vuex
+- Axios
+- Element-UI
+- ECharts
 
-[定时任务] http://42.202.130.216:10000/zuihou-jobs-server
+## 功能点介绍:
 
-[监控中心] http://42.202.130.216:10000/zuihou-monitor/
+- **服务注册&发现与调用：**
 
-[全链路监控中心] http://42.202.130.216:10000/zipkin/
+基于 Nacos 来实现的服务注册与发现，使用使用 Feign 来实现服务互调, 可以做到使用 HTTP 请求远程调用时能与调用本地方法一样的编码体验，开发者完全感知不到这是远程方法，更感知不到这是个 HTTP 请求。
 
-## 交流群： 63202894
+- **服务鉴权:**
 
-`一键加群` <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+通过 JWT 的方式来加强服务之间调度的权限验证，保证内部服务的安全性。
 
-![qq群.png](images/qq群.png)
+- **负载均衡：**
 
-## 期待您的加入：
+将服务保留的 rest 进行代理和网关控制，除了平常经常使用的 node.js、nginx 外，Spring Cloud 系列的 zuul 和 rebbion，可以帮我们进行正常的网关管控和负载均衡。其中扩展和借鉴国外项目的扩展基于 JWT 的 Zuul 限流插件，方面进行限流。
 
-    1，前端  （急需！！只要你懂点vue、热爱开源，请加入我们的队伍吧）
-    2，后端
-    3，土豪哥哥(求赞助服务器)
-    4，有想要合作或者赞助服务器的朋友加群（63202894）联系群主
+- **熔断机制：**
 
-## 如何贡献代码
+因为采取了服务的分布，为了避免服务之间的调用“雪崩”，采用了 Hystrix 的作为熔断器，避免了服务之间的“雪崩”。
 
-    1，Fork
-    2，修改代码后提交pr
-    3，等待合并
-    4，合并超过5次的朋友，直接拉为项目开发者
+- **监控：**
+
+利用 Spring Boot Admin 来监控各个独立 Service 的运行状态；利用 turbine 来实时查看接口的运行状态和调用频率；通过 Zipkin 来查看各个服务之间的调用链等。
+
+- **数据权限**
+
+利用基于 Mybatis 的 DataScopeInterceptor 拦截器实现了简单的数据权限
+
+- **SaaS 的无感解决方案**
+
+使用 Mybatis 拦截器实现对所有 SQL 的拦截，修改默认的 Schema，从而实现多租户数据隔离的目的。
+
+- **二级缓存**
+
+采用 J2Cache 操作缓存，第一级缓存使用内存(Caffeine)，第二级缓存使用 Redis。 由于大量的缓存读取会导致 L2 的网络成为整个系统的瓶颈，因此 L1 的目标是降低对 L2 的读取次数。
+该缓存框架主要用于集群环境中。单机也可使用，用于避免应用重启导致的缓存冷启动后对后端业务的冲击。
+
+- **优雅的 Bean 转换**
+
+采用 Dozer 组件来对 DTO、DO、PO 等对象的优化转换
+
+- **前后端统一表单验证**
+
+严谨的表单验证通常需要 前端+后端同时验证， 但传统的项目，均只能前后端各做一次检验， 后期规则变更，又得前后端同时修改。
+故在`hibernate-validator`的基础上封装了`zuihou-validator-starter`起步依赖，提供一个通用接口，可以获取需要校验表单的规则，然后前端使用后端返回的规则，
+以后若规则改变，只需要后端修改即可。
+
+- **防跨站脚本攻击（XSS）**
+- **当前用户信息注入器**
+- **在线 API**
+
+由于原生 swagger-ui 某些功能支持不够友好，故采用了国内开源的`swagger-bootstrap-ui`，并制作了 stater，方便 springboot 用户使用。
+
+- **代码生成器**
+
+基于 Mybatis-plus-generator 自定义了一套代码生成器， 通过配置数据库字段的注释，自动生成枚举类、数据字典注解、SaveDTO、UpdateDTO、表单验证规则注解、Swagger 注解等。
+
+- **定时任务调度器**：
+
+基于 xxl-jobs 进行了功能增强。（如：指定时间发送任务、执行器和调度器合并项目、多数据源）
+
+- **大文件/断点/分片续传**
+
+前端采用 webupload.js、后端采用 NIO 实现了大文件断点分片续传，启动 Eureka、Zuul、File 服务后，直接打开 docs/chunkUploadDemo/demo.html 即可进行测试。
+经测试，本地限制堆栈最大内存 128M 启动 File 服务,5 分钟内能成功上传 4.6G+的大文件，正式服耗时则会受到用户带宽和服务器带宽的影响，时间比较长。
+
+- **分布式事务**  
+  集成了阿里的分布式事务中间件：seata，以 **高效** 并且对业务 **0 侵入** 的方式，解决 微服务 场景下面临的分布式事务问题。
+
+## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+
+http://doc.tangyh.top/zuihou-admin-cloud
 
 ## 版本参考，
 
@@ -109,3 +187,21 @@ npm run test
 ```
 npm run lint
 ```
+
+## 交流群： 63202894
+
+![qq群.png](images/qq群.png) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+
+## 期待您的加入：
+
+    1，前端  （急需！！只要你懂点vue、热爱开源，请加入我们的队伍吧）
+    2，后端
+    3，土豪哥哥(求赞助服务器)
+    4，有想要合作或者赞助服务器的朋友加群（63202894）联系群主
+
+## 如何贡献代码
+
+    1，Fork
+    2，修改代码后提交pr
+    3，等待合并
+    4，合并超过5次的朋友，直接拉为项目开发者
