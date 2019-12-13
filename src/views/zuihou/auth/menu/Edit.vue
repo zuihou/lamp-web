@@ -1,11 +1,11 @@
 <template>
   <el-dialog
+    :close-on-click-modal="false"
     :title="title"
     :type="type"
+    :visible.sync="isVisible"
     :width="width"
     top="50px"
-    :close-on-click-modal="false"
-    :visible.sync="isVisible"
   >
     <el-form
       ref="form"
@@ -15,12 +15,12 @@
       label-width="100px"
     >
       <el-form-item
-        :label="$t(&quot;table.resource.code&quot;)"
+        :label="$t('table.resource.code')"
         prop="code"
       >
         <el-input
           v-model="resource.code"
-          :disabled="type===&quot;edit&quot;"
+          :disabled="type==='edit'"
           @keyup.enter.native="submitForm"
         />
         <p class="note">
@@ -31,14 +31,14 @@
         </p>
       </el-form-item>
       <el-form-item
-        :label="$t(&quot;table.resource.name&quot;)"
+        :label="$t('table.resource.name')"
         prop="name"
         @keyup.enter.native="submitForm"
       >
         <el-input v-model="resource.name" />
       </el-form-item>
       <el-form-item
-        :label="$t(&quot;table.resource.describe&quot;)"
+        :label="$t('table.resource.describe')"
         prop="describe"
         @keyup.enter.native="submitForm"
       >
@@ -50,15 +50,15 @@
       class="dialog-footer"
     >
       <el-button
-        type="warning"
         plain
+        type="warning"
         @click="isVisible = false"
       >
         {{ $t('common.cancel') }}
       </el-button>
       <el-button
-        type="primary"
         plain
+        type="primary"
         @click="submitForm"
       >
         {{ $t('common.confirm') }}
