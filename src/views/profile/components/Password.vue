@@ -1,47 +1,16 @@
 <template>
-  <el-form
-    ref="form"
-    :model="p"
-    :rules="rules"
-    label-position="right"
-    label-width="80px"
-    class="form"
-  >
-    <el-form-item
-      :label="$t(&quot;table.user.oldPassword&quot;)"
-      prop="oldPassword"
-    >
-      <el-input
-        v-model="p.oldPassword"
-        type="password"
-      />
+  <el-form :model="p" :rules="rules" class="form" label-position="right" label-width="80px" ref="form">
+    <el-form-item :label="$t('table.user.oldPassword')" prop="oldPassword">
+      <el-input type="password" v-model="p.oldPassword" />
     </el-form-item>
-    <el-form-item
-      :label="$t(&quot;table.user.newPassword&quot;)"
-      prop="password"
-    >
-      <el-input
-        v-model="p.password"
-        type="password"
-      />
+    <el-form-item :label="$t('table.user.newPassword')" prop="password">
+      <el-input type="password" v-model="p.password" />
     </el-form-item>
-    <el-form-item
-      :label="$t(&quot;table.user.confirmPassword&quot;)"
-      prop="confirmPassword"
-    >
-      <el-input
-        v-model="p.confirmPassword"
-        type="password"
-      />
+    <el-form-item :label="$t('table.user.confirmPassword')" prop="confirmPassword">
+      <el-input type="password" v-model="p.confirmPassword" />
     </el-form-item>
     <el-form-item>
-      <el-button
-        type="primary"
-        plain
-        @click="submit"
-      >
-        {{ $t('common.edit') }}
-      </el-button>
+      <el-button @click="submit" plain type="primary">{{ $t('common.edit') }}</el-button>
     </el-form-item>
   </el-form>
 </template>

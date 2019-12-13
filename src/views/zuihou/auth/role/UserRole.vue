@@ -1,58 +1,27 @@
 <template>
-  <el-dialog
-    :title="title"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :visible.sync="isVisible"
-  >
-    <el-form
-      ref="form"
-      :model="userRole"
-      :rules="rules"
-      label-position="right"
-      label-width="100px"
-    >
-      <el-form-item
-        label="用户"
-        prop="userIdList"
-      >
+  <el-dialog :close-on-click-modal="false" :title="title" :visible.sync="isVisible" :width="width" top="50px">
+    <el-form :model="userRole" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item label="用户" prop="userIdList">
         <el-transfer
-          v-model="userRole.userIdList"
-          style="text-align: left; display: inline-block"
+          :data="userList"
+          :filter-method="filterMethod"
           :props="{
-            key: &quot;id&quot;,
-            label: &quot;name&quot;
+            key: 'id',
+            label: 'name'
           }"
           :render-content="renderFunc"
-          :titles="[&quot;全部用户&quot;, &quot;已选用户&quot;]"
-          filterable
-          :filter-method="filterMethod"
-          filter-placeholder="用户名"
           :right-default-checked="userRole.userIdList"
-          :data="userList"
+          :titles="['全部用户', '已选用户']"
+          filter-placeholder="用户名"
+          filterable
+          style="text-align: left; display: inline-block"
+          v-model="userRole.userIdList"
         />
       </el-form-item>
     </el-form>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        plain
-        :disabled="disabled"
-        @click="submitForm"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button :disabled="disabled" @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>

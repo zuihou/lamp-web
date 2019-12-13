@@ -1,170 +1,63 @@
 <template>
-  <el-dialog
-    :title="title"
-    :type="type"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :close-on-press-escape="true"
-    :visible.sync="isVisible"
-  >
-    <el-form
-      ref="form"
-      :model="user"
-      :rules="rules"
-      label-position="right"
-      label-width="100px"
-    >
-      <el-form-item
-        :label="$t(&quot;table.user.account&quot;)"
-        prop="account"
-      >
-        <el-input
-          v-model="user.account"
-          :readonly="type === &quot;add&quot; ? false : &quot;readonly&quot;"
-        />
+  <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
+    <el-form :model="user" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item :label="$t('table.user.account')" prop="account">
+        <el-input :readonly="type === 'add' ? false : 'readonly'" v-model="user.account" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.name&quot;)"
-        prop="name"
-      >
+      <el-form-item :label="$t('table.user.name')" prop="name">
         <el-input v-model="user.name" />
       </el-form-item>
-      <el-form-item
-        v-show="type === &quot;add&quot;"
-        :label="$t(&quot;table.user.password&quot;)"
-        prop="password"
-      >
-        <el-tooltip
-          class="item"
-          effect="dark"
-          :content="$t(&quot;tips.defaultPassword&quot;)"
-          placement="top-start"
-        >
-          <el-input
-            value="123456"
-            type="password"
-          />
+      <el-form-item :label="$t('table.user.password')" prop="password" v-show="type === 'add'">
+        <el-tooltip :content="$t('tips.defaultPassword')" class="item" effect="dark" placement="top-start">
+          <el-input type="password" value="123456" />
         </el-tooltip>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.avatar&quot;)"
-        prop="avatar"
-      >
-        <imgUpload
-          ref="imgFileRef"
-          list-type="picture-card"
-          :data="user.avatar"
-          :file-list="imgFileList"
-          :show-file-list="false"
-          :auto-upload="true"
-          @setId="setIdAndSubmit"
-        >
+      <el-form-item :label="$t('table.user.avatar')" prop="avatar">
+        <imgUpload :auto-upload="true" :data="user.avatar" :file-list="imgFileList" :show-file-list="false" @setId="setIdAndSubmit" list-type="picture-card" ref="imgFileRef">
           <i class="el-icon-plus" />
         </imgUpload>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.orgId&quot;)"
-        prop="orgId"
-      >
+      <el-form-item :label="$t('table.user.orgId')" prop="orgId">
         <treeselect
-          v-model="user.orgId"
+          :clear-value-text="$t('common.clear')"
+          :load-options="loadListOptions"
           :multiple="false"
           :options="orgList"
-          :load-options="loadListOptions"
-          :clear-value-text="$t(&quot;common.clear&quot;)"
           :searchable="true"
           placeholder=" "
           style="width:100%"
+          v-model="user.orgId"
         />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.stationId&quot;)"
-        prop="orgId"
-      >
-        <el-select
-          v-model="user.stationId"
-          :multiple="false"
-          filterable
-          placeholder="请输入关键词"
-          :loading="remoteStationLoading"
-        >
-          <el-option
-            v-for="item in stationList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
+      <el-form-item :label="$t('table.user.stationId')" prop="orgId">
+        <el-select :loading="remoteStationLoading" :multiple="false" filterable placeholder="请输入关键词" v-model="user.stationId">
+          <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in stationList" />
         </el-select>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.email&quot;)"
-        prop="email"
-      >
+      <el-form-item :label="$t('table.user.email')" prop="email">
         <el-input v-model="user.email" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.mobile&quot;)"
-        prop="mobile"
-      >
+      <el-form-item :label="$t('table.user.mobile')" prop="mobile">
         <el-input v-model="user.mobile" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.sex&quot;)"
-        prop="sex"
-      >
-        <el-select
-          v-model="user.sex.code"
-          value
-          placeholder
-          style="width:100%"
-        >
-          <el-option
-            v-for="(item, key, index) in enums.Sex"
-            :key="index"
-            :label="item"
-            :value="key"
-          />
+      <el-form-item :label="$t('table.user.sex')" prop="sex">
+        <el-select placeholder style="width:100%" v-model="user.sex.code" value>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.Sex" />
         </el-select>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.status&quot;)"
-        prop="status"
-      >
+      <el-form-item :label="$t('table.user.status')" prop="status">
         <el-radio-group v-model="user.status">
-          <el-radio :label="true">
-            {{ $t('common.status.valid') }}
-          </el-radio>
-          <el-radio :label="false">
-            {{ $t('common.status.invalid') }}
-          </el-radio>
+          <el-radio :label="true">{{ $t('common.status.valid') }}</el-radio>
+          <el-radio :label="false">{{ $t('common.status.invalid') }}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.user.workDescribe&quot;)"
-        prop="workDescribe"
-      >
+      <el-form-item :label="$t('table.user.workDescribe')" prop="workDescribe">
         <el-input v-model="user.workDescribe" />
       </el-form-item>
     </el-form>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        plain
-        @click="submitForm"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>

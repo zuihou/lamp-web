@@ -1,12 +1,7 @@
 <template>
   <div class="block">
     <el-timeline>
-      <el-timeline-item
-        v-for="(item,index) of timeline"
-        :key="index"
-        :timestamp="item.createTime"
-        placement="top"
-      >
+      <el-timeline-item :key="index" :timestamp="item.createTime" placement="top" v-for="(item,index) of timeline">
         <el-card>
           <p>
             <el-icon class="el-icon-link" />

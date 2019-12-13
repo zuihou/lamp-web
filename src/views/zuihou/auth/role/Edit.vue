@@ -1,119 +1,44 @@
 <template>
-  <el-dialog
-    :title="title"
-    :type="type"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :visible.sync="isVisible"
-  >
-    <el-form
-      ref="form"
-      :model="role"
-      :rules="rules"
-      label-position="right"
-      label-width="100px"
-    >
-      <el-form-item
-        :label="$t(&quot;table.role.code&quot;)"
-        prop="name"
-      >
-        <el-input
-          v-model="role.code"
-          :disabled="type===&quot;edit&quot; || role.readonly"
-        />
+  <el-dialog :close-on-click-modal="false" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
+    <el-form :model="role" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item :label="$t('table.role.code')" prop="name">
+        <el-input :disabled="type==='edit' || role.readonly" v-model="role.code" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.role.name&quot;)"
-        prop="name"
-      >
-        <el-input
-          v-model="role.name"
-          :disabled="role.readonly"
-        />
+      <el-form-item :label="$t('table.role.name')" prop="name">
+        <el-input :disabled="role.readonly" v-model="role.name" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.role.status&quot;)"
-        prop="status"
-      >
-        <el-radio-group
-          v-model="role.status"
-          :disabled="role.readonly"
-        >
-          <el-radio-button :label="true">
-            {{ $t('common.status.valid') }}
-          </el-radio-button>
-          <el-radio-button :label="false">
-            {{ $t('common.status.invalid') }}
-          </el-radio-button>
+      <el-form-item :label="$t('table.role.status')" prop="status">
+        <el-radio-group :disabled="role.readonly" v-model="role.status">
+          <el-radio-button :label="true">{{ $t('common.status.valid') }}</el-radio-button>
+          <el-radio-button :label="false">{{ $t('common.status.invalid') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.role.describe&quot;)"
-        prop="describe"
-      >
-        <el-input
-          v-model="role.describe"
-          :disabled="role.readonly"
-        />
+      <el-form-item :label="$t('table.role.describe')" prop="describe">
+        <el-input :disabled="role.readonly" v-model="role.describe" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.role.dsType&quot;)"
-        prop="dsType"
-      >
-        <el-radio-group
-          v-model="role.dsType.code"
-          :disabled="role.readonly"
-          @change="dsTypeChange"
-        >
-          <el-radio-button
-            v-for="(item, key, index) in enums.DataScopeType"
-            :key="index"
-            :label="key"
-            :value="key"
-          >
-            {{ item }}
-          </el-radio-button>
+      <el-form-item :label="$t('table.role.dsType')" prop="dsType">
+        <el-radio-group :disabled="role.readonly" @change="dsTypeChange" v-model="role.dsType.code">
+          <el-radio-button :key="index" :label="key" :value="key" v-for="(item, key, index) in enums.DataScopeType">{{ item }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item
-        :hidden="orgHidden"
-        :label="$t(&quot;table.role.orgList&quot;)"
-        prop="orgList"
-      >
+      <el-form-item :hidden="orgHidden" :label="$t('table.role.orgList')" prop="orgList">
         <el-tree
-          ref="orgTree"
-          :disabled="role.readonly"
-          :data="orgList"
-          :default-expanded-keys="role.orgList"
-          :default-checked-keys="role.orgList"
-          show-checkbox
-          node-key="id"
-          :expand-on-click-node="false"
           :check-strictly="true"
+          :data="orgList"
+          :default-checked-keys="role.orgList"
+          :default-expanded-keys="role.orgList"
+          :disabled="role.readonly"
+          :expand-on-click-node="false"
           highlight-current
+          node-key="id"
+          ref="orgTree"
+          show-checkbox
         />
       </el-form-item>
     </el-form>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        plain
-        :disabled="role.readonly"
-        @click="submitForm"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button :disabled="role.readonly" @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>

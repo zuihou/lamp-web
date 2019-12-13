@@ -1,37 +1,13 @@
 <template>
-  <el-tabs
-    v-model="activeName"
-    @tab-click="handleClick"
-  >
-    <el-tab-pane
-      label="权限服务"
-      name="first"
-    >
-      <i-frame
-        ref="authorityDruid"
-        :src="authorityDruid"
-        @refresh="authorityRefresh"
-      />
+  <el-tabs @tab-click="handleClick" v-model="activeName">
+    <el-tab-pane label="权限服务" name="first">
+      <i-frame :src="authorityDruid" @refresh="authorityRefresh" ref="authorityDruid" />
     </el-tab-pane>
-    <el-tab-pane
-      label="文件服务"
-      name="second"
-    >
-      <i-frame
-        ref="fileDruid"
-        :src="fileDruid"
-        @refresh="fileRefresh"
-      />
+    <el-tab-pane label="文件服务" name="second">
+      <i-frame :src="fileDruid" @refresh="fileRefresh" ref="fileDruid" />
     </el-tab-pane>
-    <el-tab-pane
-      label="消息服务"
-      name="third"
-    >
-      <i-frame
-        ref="msgsDruid"
-        :src="msgsDruid"
-        @refresh="msgsRefresh"
-      />
+    <el-tab-pane label="消息服务" name="third">
+      <i-frame :src="msgsDruid" @refresh="msgsRefresh" ref="msgsDruid" />
     </el-tab-pane>
   </el-tabs>
 </template>

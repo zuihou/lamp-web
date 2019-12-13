@@ -1,41 +1,23 @@
 <template>
-  <el-dialog
-    :title="$t(&quot;common.view&quot;)"
-    :width="width"
-    :visible.sync="isVisible"
-    class="user-view"
-  >
+  <el-dialog :title="$t('common.view')" :visible.sync="isVisible" :width="width" class="user-view">
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="24"
-      >
+      <el-col :sm="24" :xs="24">
         <div class="img-wrapper">
-          <el-avatar
-            :key="user.avatar"
-            fit="fill"
-            :src="user.avatar"
-          >
+          <el-avatar :key="user.avatar" :src="user.avatar" fit="fill">
             <el-avatar>{{ user.name | userAvatarFilter }}</el-avatar>
           </el-avatar>
         </div>
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-user" />
           <span>{{ $t('table.user.account') +'：' }}</span>
           {{ user.account }}
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-suitcase" />
           <span>{{ $t('table.user.name') +'：' }}</span>
@@ -44,20 +26,14 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-user" />
           <span>{{ $t('table.user.email') +'：' }}</span>
           {{ user.email }}
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-suitcase" />
           <span>{{ $t('table.user.mobile') +'：' }}</span>
@@ -66,20 +42,14 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-trophy" />
           <span>{{ $t('table.user.orgId') +'：' }}</span>
           {{ user.orgId }}
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-phone-outline" />
           <span>{{ $t('table.user.stationId') +'：' }}</span>
@@ -88,20 +58,14 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-star-off" />
           <span>{{ $t('table.user.sex') +'：' }}</span>
           {{ user.sex.desc }}
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-bangzhu" />
           <span>{{ $t('table.user.status') +'：' }}</span>
@@ -110,20 +74,14 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-time" />
           <span>{{ $t('table.user.createTime') +'：' }}</span>
           {{ user.createTime }}
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-brush" />
           <span>{{ $t('table.user.updateTime') +'：' }}</span>
@@ -132,20 +90,14 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-date" />
           <span>{{ $t('table.user.lastLoginTime') +'：' }}</span>
           {{ user.lastLoginTime ? user.lastLoginTime: $t('tips.neverLogin') }}
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-date" />
           <span>{{ $t('table.user.passwordExpireTime') +'：' }}</span>
@@ -154,20 +106,14 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-date" />
           <span>{{ $t('table.user.passwordErrorLastTime') +'：' }}</span>
           {{ user.passwordErrorLastTime }}
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-date" />
           <span>{{ $t('table.user.passwordErrorNum') +'：' }}</span>
@@ -176,10 +122,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="24"
-      >
+      <el-col :sm="24" :xs="24">
         <div class="view-item">
           <i class="el-icon-document" />
           <span>{{ $t('table.user.workDescribe') +'：' }}</span>

@@ -1,126 +1,51 @@
 <template>
-  <el-dialog
-    :title="$t(&quot;table.menu.icon&quot;)"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :visible.sync="isVisible"
-  >
-    <el-input
-      v-model="name"
-      placeholder="icon"
-      class="filter-item search-item"
-      clearable
-      @keyup.native="searchIcon"
-    />
-    <el-tabs
-      v-model="activeName"
-      style="margin-top: -1rem;"
-    >
-      <el-tab-pane
-        :label="$t(&quot;common.tab.common&quot;)"
-        name="first"
-      >
+  <el-dialog :close-on-click-modal="false" :title="$t('table.menu.icon')" :visible.sync="isVisible" :width="width" top="50px">
+    <el-input @keyup.native="searchIcon" class="filter-item search-item" clearable placeholder="icon" v-model="name" />
+    <el-tabs style="margin-top: -1rem;" v-model="activeName">
+      <el-tab-pane :label="$t('common.tab.common')" name="first">
         <ul>
-          <li
-            v-for="icon in icons.commonIcons"
-            :key="icon"
-            class="icons-item"
-          >
-            <span :class="{&quot;active&quot;:activeIndex === icon}">
-              <el-icon
-                :class="icon"
-                :title="icon"
-                @click.native="chooseIcon(icon)"
-                @dblclick.native="confirm"
-              />
+          <li :key="icon" class="icons-item" v-for="icon in icons.commonIcons">
+            <span :class="{'active':activeIndex === icon}">
+              <el-icon :class="icon" :title="icon" @click.native="chooseIcon(icon)" @dblclick.native="confirm" />
             </span>
             <p>{{ icon }}</p>
           </li>
         </ul>
       </el-tab-pane>
-      <el-tab-pane
-        :label="$t(&quot;common.tab.directivity&quot;)"
-        name="second"
-      >
+      <el-tab-pane :label="$t('common.tab.directivity')" name="second">
         <ul>
-          <li
-            v-for="icon in icons.directivityIcons"
-            :key="icon"
-          >
-            <span :class="{&quot;active&quot;:activeIndex === icon}">
-              <el-icon
-                :class="icon"
-                :title="icon"
-                @click.native="chooseIcon(icon)"
-                @dblclick.native="confirm"
-              />
+          <li :key="icon" v-for="icon in icons.directivityIcons">
+            <span :class="{'active':activeIndex === icon}">
+              <el-icon :class="icon" :title="icon" @click.native="chooseIcon(icon)" @dblclick.native="confirm" />
             </span>
             <p>{{ icon }}</p>
           </li>
         </ul>
       </el-tab-pane>
-      <el-tab-pane
-        :label="$t(&quot;common.tab.solid&quot;)"
-        name="third"
-      >
+      <el-tab-pane :label="$t('common.tab.solid')" name="third">
         <ul>
-          <li
-            v-for="icon in icons.solidIcons"
-            :key="icon"
-          >
-            <span :class="{&quot;active&quot;:activeIndex === icon}">
-              <el-icon
-                :class="icon"
-                :title="icon"
-                @click.native="chooseIcon(icon)"
-                @dblclick.native="confirm"
-              />
+          <li :key="icon" v-for="icon in icons.solidIcons">
+            <span :class="{'active':activeIndex === icon}">
+              <el-icon :class="icon" :title="icon" @click.native="chooseIcon(icon)" @dblclick.native="confirm" />
             </span>
             <p>{{ icon }}</p>
           </li>
         </ul>
       </el-tab-pane>
-      <el-tab-pane
-        :label="$t(&quot;common.tab.food&quot;)"
-        name="fourth"
-      >
+      <el-tab-pane :label="$t('common.tab.food')" name="fourth">
         <ul>
-          <li
-            v-for="icon in icons.foodIcons"
-            :key="icon"
-          >
-            <span :class="{&quot;active&quot;:activeIndex === icon}">
-              <el-icon
-                :class="icon"
-                :title="icon"
-                @click.native="chooseIcon(icon)"
-                @dblclick.native="confirm"
-              />
+          <li :key="icon" v-for="icon in icons.foodIcons">
+            <span :class="{'active':activeIndex === icon}">
+              <el-icon :class="icon" :title="icon" @click.native="chooseIcon(icon)" @dblclick.native="confirm" />
             </span>
             <p>{{ icon }}</p>
           </li>
         </ul>
       </el-tab-pane>
     </el-tabs>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        plain
-        @click="confirm"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button @click="confirm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>

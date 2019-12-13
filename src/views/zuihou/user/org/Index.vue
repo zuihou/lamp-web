@@ -1,173 +1,64 @@
 <template>
   <div class="org">
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="app-container">
           <div class="filter-container">
-            <el-input
-              v-model="name"
-              :placeholder="$t(&quot;table.org.name&quot;)"
-              class="filter-item search-item"
-            />
-            <el-button
-              class="filter-item"
-              type="primary"
-              plain
-              @click="search"
-            >
-              {{ $t('table.search') }}
-            </el-button>
-            <el-button
-              class="filter-item"
-              type="warning"
-              plain
-              @click="reset"
-            >
-              {{ $t('table.reset') }}
-            </el-button>
-            <el-dropdown
-              v-has-any-permission="[&quot;org:add&quot;,&quot;org:delete&quot;,&quot;org:export&quot;]"
-              trigger="click"
-              class="filter-item"
-            >
+            <el-input :placeholder="$t('table.org.name')" class="filter-item search-item" v-model="name" />
+            <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+            <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+            <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['org:add','org:delete','org:export']">
               <el-button>
                 {{ $t('table.more') }}
                 <i class="el-icon-arrow-down el-icon--right" />
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-has-permission="[&quot;org:add&quot;]"
-                  @click.native="add"
-                >
-                  {{ $t('table.add') }}
-                </el-dropdown-item>
-                <el-dropdown-item
-                  v-has-permission="[&quot;org:delete&quot;]"
-                  @click.native="deleteOrg"
-                >
-                  {{ $t('table.delete') }}
-                </el-dropdown-item>
-                <el-dropdown-item
-                  v-has-permission="[&quot;org:export&quot;]"
-                  @click.native="exportExcel"
-                >
-                  {{ $t('table.export') }}
-                </el-dropdown-item>
+                <el-dropdown-item @click.native="add" v-has-permission="['org:add']">{{ $t('table.add') }}</el-dropdown-item>
+                <el-dropdown-item @click.native="deleteOrg" v-has-permission="['org:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+                <el-dropdown-item @click.native="exportExcel" v-has-permission="['org:export']">{{ $t('table.export') }}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
-          <el-tree
-            ref="orgTree"
-            :data="orgTree"
-            :check-strictly="true"
-            show-checkbox
-            highlight-current
-            default-expand-all
-            node-key="id"
-            :filter-node-method="filterNode"
-            @node-click="nodeClick"
-          />
+          <el-tree :check-strictly="true" :data="orgTree" :filter-node-method="filterNode" @node-click="nodeClick" default-expand-all highlight-current node-key="id" ref="orgTree" show-checkbox />
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <el-card class="box-card">
-          <div
-            slot="header"
-            class="clearfix"
-          >
+          <div class="clearfix" slot="header">
             <span>{{ org.id === '' ? this.$t('common.add') : this.$t('common.edit') }}</span>
           </div>
           <div>
-            <el-form
-              ref="form"
-              :model="org"
-              :rules="rules"
-              label-position="right"
-              label-width="100px"
-            >
-              <el-form-item
-                :label="$t(&quot;table.org.parentId&quot;)"
-                prop="parentId"
-              >
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  :content="$t(&quot;tips.topId&quot;)"
-                  placement="top-start"
-                >
-                  <el-input
-                    v-model="org.parentId"
-                    readonly
-                  />
+            <el-form :model="org" :rules="rules" label-position="right" label-width="100px" ref="form">
+              <el-form-item :label="$t('table.org.parentId')" prop="parentId">
+                <el-tooltip :content="$t('tips.topId')" class="item" effect="dark" placement="top-start">
+                  <el-input readonly v-model="org.parentId" />
                 </el-tooltip>
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.org.name&quot;)"
-                prop="name"
-              >
+              <el-form-item :label="$t('table.org.name')" prop="name">
                 <el-input v-model="org.name" />
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.org.abbreviation&quot;)"
-                prop="abbreviation"
-              >
+              <el-form-item :label="$t('table.org.abbreviation')" prop="abbreviation">
                 <el-input v-model="org.abbreviation" />
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.org.describe&quot;)"
-                prop="describe"
-              >
+              <el-form-item :label="$t('table.org.describe')" prop="describe">
                 <el-input v-model="org.describe" />
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.org.status&quot;)"
-                prop="status"
-              >
+              <el-form-item :label="$t('table.org.status')" prop="status">
                 <el-radio-group v-model="org.status">
-                  <el-radio :label="true">
-                    {{ $t('common.status.valid') }}
-                  </el-radio>
-                  <el-radio :label="false">
-                    {{ $t('common.status.invalid') }}
-                  </el-radio>
+                  <el-radio :label="true">{{ $t('common.status.valid') }}</el-radio>
+                  <el-radio :label="false">{{ $t('common.status.invalid') }}</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.org.sortValue&quot;)"
-                prop="sortValue"
-              >
-                <el-input-number
-                  v-model="org.sortValue"
-                  :min="0"
-                  :max="100"
-                  @change="handleNumChange"
-                />
+              <el-form-item :label="$t('table.org.sortValue')" prop="sortValue">
+                <el-input-number :max="100" :min="0" @change="handleNumChange" v-model="org.sortValue" />
               </el-form-item>
             </el-form>
           </div>
         </el-card>
-        <el-card
-          class="box-card"
-          style="margin-top: -2rem;"
-        >
+        <el-card class="box-card" style="margin-top: -2rem;">
           <el-row>
-            <el-col
-              :span="24"
-              style="text-align: right"
-            >
-              <el-button
-                type="primary"
-                plain
-                @click="submit"
-              >
-                {{ org.id === '' ? this.$t('common.add') : this.$t('common.edit') }}
-              </el-button>
+            <el-col :span="24" style="text-align: right">
+              <el-button @click="submit" plain type="primary">{{ org.id === '' ? this.$t('common.add') : this.$t('common.edit') }}</el-button>
             </el-col>
           </el-row>
         </el-card>

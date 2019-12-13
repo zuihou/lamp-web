@@ -1,192 +1,85 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="queryParams.name"
-        :placeholder="$t(&quot;table.station.name&quot;)"
-        class="filter-item search-item"
-      />
+      <el-input :placeholder="$t('table.station.name')" class="filter-item search-item" v-model="queryParams.name" />
       <treeselect
-        v-model="queryParams.orgId"
-        class="filter-item search-item"
+        :clear-value-text="$t('common.clear')"
+        :load-options="loadListOptions"
         :multiple="false"
         :options="orgList"
-        :load-options="loadListOptions"
-        :clear-value-text="$t(&quot;common.clear&quot;)"
+        :placeholder="$t('table.station.orgId')"
         :searchable="true"
-        :placeholder="$t(&quot;table.station.orgId&quot;)"
+        class="filter-item search-item"
+        v-model="queryParams.orgId"
       />
       <el-date-picker
-        v-model="queryParams.timeRange"
         :range-separator="null"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        format="yyyy-MM-dd HH:mm:ss"
         class="filter-item search-item date-range-item"
+        end-placeholder="结束日期"
+        format="yyyy-MM-dd HH:mm:ss"
+        start-placeholder="开始日期"
         type="daterange"
+        v-model="queryParams.timeRange"
+        value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button
-        class="filter-item"
-        type="primary"
-        plain
-        @click="search"
-      >
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button
-        class="filter-item"
-        type="warning"
-        plain
-        @click="reset"
-      >
-        {{ $t('table.reset') }}
-      </el-button>
-      <el-dropdown
-        v-has-any-permission="[&quot;station:add&quot;,&quot;station:delete&quot;,&quot;station:export&quot;]"
-        trigger="click"
-        class="filter-item"
-      >
+      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['station:add','station:delete','station:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-has-permission="[&quot;station:add&quot;]"
-            @click.native="add"
-          >
-            {{ $t('table.add') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;station:delete&quot;]"
-            @click.native="batchDelete"
-          >
-            {{ $t('table.delete') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;station:export&quot;]"
-            @click.native="exportExcel"
-          >
-            {{ $t('table.export') }}
-          </el-dropdown-item>
+          <el-dropdown-item @click.native="add" v-has-permission="['station:add']">{{ $t('table.add') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['station:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['station:export']">{{ $t('table.export') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
 
-    <el-table
-      ref="table"
-      :key="tableKey"
-      v-loading="loading"
-      :data="tableData.records"
-      border
-      fit
-      style="width: 100%;"
-      @selection-change="onSelectChange"
-      @sort-change="sortChange"
-    >
-      <el-table-column
-        type="selection"
-        align="center"
-        width="40px"
-      />
-      <el-table-column
-        :label="$t(&quot;table.station.name&quot;)"
-        prop="name"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
+    <el-table :data="tableData.records" :key="tableKey" @selection-change="onSelectChange" @sort-change="sortChange" border fit ref="table" style="width: 100%;" v-loading="loading">
+      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column :label="$t('table.station.name')" :show-overflow-tooltip="true" align="center" prop="name">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.station.describe&quot;)"
-        prop="describe"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
+      <el-table-column :label="$t('table.station.describe')" :show-overflow-tooltip="true" align="center" prop="describe">
         <template slot-scope="scope">
           <span>{{ scope.row.describe }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.station.orgId&quot;)"
-        align="center"
-        width="100px"
-      >
+      <el-table-column :label="$t('table.station.orgId')" align="center" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.orgId }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.station.status&quot;)"
-        :filters="[{ text: $t(&quot;common.status.valid&quot;), value: true }, { text: $t(&quot;common.status.invalid&quot;), value: false }]"
         :filter-method="filterStatus"
+        :filters="[{ text: $t('common.status.valid'), value: true }, { text: $t('common.status.invalid'), value: false }]"
+        :label="$t('table.station.status')"
         class-name="status-col"
         width="70px"
       >
         <template slot-scope="{row}">
-          <el-tag
-            :type="row.status | statusFilter"
-          >
-            {{ row.status ? $t('common.status.valid') : $t('common.status.invalid') }}
-          </el-tag>
+          <el-tag :type="row.status | statusFilter">{{ row.status ? $t('common.status.valid') : $t('common.status.invalid') }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.createTime&quot;)"
-        prop="createTime"
-        align="center"
-        width="160px"
-        sortable="custom"
-      >
+      <el-table-column :label="$t('table.createTime')" align="center" prop="createTime" sortable="custom" width="160px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.operation&quot;)"
-        align="center"
-        width="100px"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
-          <i
-            v-hasPermission="[&quot;station:update&quot;]"
-            class="el-icon-edit table-operation"
-            style="color: #2db7f5;"
-            @click="edit(row)"
-          />
-          <i
-            v-hasPermission="[&quot;station:delete&quot;]"
-            class="el-icon-delete table-operation"
-            style="color: #f50;"
-            @click="singleDelete(row)"
-          />
-          <el-link
-            v-has-no-permission="[&quot;station:update&quot;,&quot;station:delete&quot;]"
-            class="no-perm"
-          >
-            {{ $t('tips.noPermission') }}
-          </el-link>
+          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['station:update']" />
+          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['station:delete']" />
+          <el-link class="no-perm" v-has-no-permission="['station:update','station:delete']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="tableData.total>0"
-      :total="Number(tableData.total)"
-      :page.sync="pagination.current"
-      :limit.sync="pagination.size"
-      @pagination="fetch"
-    />
-    <station-edit
-      ref="edit"
-      :dialog-visible="dialog.isVisible"
-      :type="dialog.type"
-      @success="editSuccess"
-      @close="editClose"
-    />
+    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
+    <station-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="editClose" @success="editSuccess" ref="edit" />
   </div>
 </template>
 

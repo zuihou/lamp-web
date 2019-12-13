@@ -1,26 +1,14 @@
 <template>
   <div class="main">
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="24"
-      >
+      <el-col :sm="24" :xs="24">
         <div class="app-container user-container">
           <el-row :gutter="10">
-            <el-col
-              :xs="24"
-              :sm="12"
-            >
+            <el-col :sm="12" :xs="24">
               <div class="user-wrapper">
                 <div class="user-header">
-                  <el-avatar
-                    :size="60"
-                    fit="fill"
-                    :src="avatar"
-                  >
-                    <el-avatar :size="60">
-                      {{ user.name | userAvatarFilter }}
-                    </el-avatar>
+                  <el-avatar :size="60" :src="avatar" fit="fill">
+                    <el-avatar :size="60">{{ user.name | userAvatarFilter }}</el-avatar>
                   </el-avatar>
                 </div>
                 <div class="user-info">
@@ -28,10 +16,7 @@
                     {{ welcomeMessage }}
                     帮我
                     <span style="color:red">
-                      <a
-                        href="https://github.com/zuihou/zuihou-admin-cloud"
-                        target="_blank"
-                      >点个star</a>
+                      <a href="https://github.com/zuihou/zuihou-admin-cloud" target="_blank">点个star</a>
                     </span>
                     吧~
                   </div>
@@ -40,76 +25,32 @@
                   </div>
                   <div class="user-login-info">
                     {{ $t('common.lastLoginTime') }}：
-                    <span
-                      id="last-login-time"
-                    >{{ user.lastLoginTime ? user.lastLoginTime : $t('common.firstLogin') }}</span>
+                    <span id="last-login-time">{{ user.lastLoginTime ? user.lastLoginTime : $t('common.firstLogin') }}</span>
                   </div>
                 </div>
               </div>
             </el-col>
-            <el-col
-              :xs="24"
-              :sm="12"
-            >
+            <el-col :sm="12" :xs="24">
               <div class="user-visits">
                 <el-row style="margin-bottom: .7rem">
-                  <el-col
-                    :span="4"
-                    :offset="4"
-                  >
-                    {{ $t('common.todayIp') }}
-                  </el-col>
-                  <el-col
-                    :span="4"
-                    :offset="4"
-                  >
-                    {{ $t('common.todayVisit') }}
-                  </el-col>
-                  <el-col
-                    :span="4"
-                    :offset="4"
-                  >
-                    {{ $t('common.TotalVisit') }}
-                  </el-col>
+                  <el-col :offset="4" :span="4">{{ $t('common.todayIp') }}</el-col>
+                  <el-col :offset="4" :span="4">{{ $t('common.todayVisit') }}</el-col>
+                  <el-col :offset="4" :span="4">{{ $t('common.TotalVisit') }}</el-col>
                 </el-row>
                 <el-row>
-                  <el-col
-                    :span="4"
-                    :offset="4"
-                    class="num"
-                  >
+                  <el-col :offset="4" :span="4" class="num">
                     <el-link type="primary">
-                      <countTo
-                        :start-val="0"
-                        :end-val="todayIp"
-                        :duration="3000"
-                      />
+                      <countTo :duration="3000" :end-val="todayIp" :start-val="0" />
                     </el-link>
                   </el-col>
-                  <el-col
-                    :span="4"
-                    :offset="4"
-                    class="num"
-                  >
+                  <el-col :offset="4" :span="4" class="num">
                     <el-link type="primary">
-                      <countTo
-                        :start-val="0"
-                        :end-val="todayVisit"
-                        :duration="3000"
-                      />
+                      <countTo :duration="3000" :end-val="todayVisit" :start-val="0" />
                     </el-link>
                   </el-col>
-                  <el-col
-                    :span="4"
-                    :offset="4"
-                    class="num"
-                  >
+                  <el-col :offset="4" :span="4" class="num">
                     <el-link type="primary">
-                      <countTo
-                        :start-val="0"
-                        :end-val="totalVisit"
-                        :duration="3000"
-                      />
+                      <countTo :duration="3000" :end-val="totalVisit" :start-val="0" />
                     </el-link>
                   </el-col>
                 </el-row>
@@ -120,48 +61,25 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="app-container">
-          <div
-            id="visit-count-chart"
-            style="width: 100%;height: 20rem"
-          />
+          <div id="visit-count-chart" style="width: 100%;height: 20rem" />
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="app-container project-wrapper">
           <div class="project-header">
-            <el-link
-              type="primary"
-              href="https://www.kancloud.cn/zuihou/zuihou-admin-cloud"
-              target="_blank"
-              style="float: right;"
-            >
-              {{ $t('common.docDetails') }}
-            </el-link>
+            <el-link href="https://www.kancloud.cn/zuihou/zuihou-admin-cloud" style="float: right;" target="_blank" type="primary">{{ $t('common.docDetails') }}</el-link>
           </div>
           <table>
             <template v-for="(project, index) in projects">
-              <tr
-                v-if="index % 2 == 0"
-                :key="index"
-              >
+              <tr :key="index" v-if="index % 2 == 0">
                 <td>
                   <div class="project-avatar-wrapper">
-                    <el-avatar class="project-avatar">
-                      {{ projects[index].avatar }}
-                    </el-avatar>
+                    <el-avatar class="project-avatar">{{ projects[index].avatar }}</el-avatar>
                   </div>
                   <div class="project-detail">
-                    <div class="project-name">
-                      {{ projects[index].name }}
-                    </div>
+                    <div class="project-name">{{ projects[index].name }}</div>
                     <div class="project-desc">
                       <p>{{ projects[index].des }}</p>
                     </div>
@@ -169,14 +87,10 @@
                 </td>
                 <td>
                   <div class="project-avatar-wrapper">
-                    <el-avatar class="project-avatar">
-                      {{ projects[index + 1].avatar }}
-                    </el-avatar>
+                    <el-avatar class="project-avatar">{{ projects[index + 1].avatar }}</el-avatar>
                   </div>
                   <div class="project-detail">
-                    <div class="project-name">
-                      {{ projects[index + 1].name }}
-                    </div>
+                    <div class="project-name">{{ projects[index + 1].name }}</div>
                     <div class="project-desc">
                       <p>{{ projects[index + 1].des }}</p>
                     </div>
@@ -189,26 +103,14 @@
       </el-col>
     </el-row>
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="app-container">
-          <div
-            id="browser-count-chart"
-            style="width: 100%;height: 20rem"
-          />
+          <div id="browser-count-chart" style="width: 100%;height: 20rem" />
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="12"
-      >
+      <el-col :sm="12" :xs="24">
         <div class="app-container">
-          <div
-            id="operating-system-count-chart"
-            style="width: 100%;height: 20rem"
-          />
+          <div id="operating-system-count-chart" style="width: 100%;height: 20rem" />
         </div>
       </el-col>
     </el-row>

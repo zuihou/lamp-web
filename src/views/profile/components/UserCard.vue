@@ -1,32 +1,16 @@
 <template>
   <el-card style="margin-bottom:20px;">
-    <div
-      slot="header"
-      class="clearfix"
-    >
+    <div class="clearfix" slot="header">
       <span>{{ $t('common.aboutMe') }}</span>
     </div>
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb
-          :image="avatar"
-          :height="&quot;100px&quot;"
-          :width="&quot;100px&quot;"
-          :hoverable="false"
-        >
-          <el-link
-            type="primary"
-            class="change-avatar"
-            @click="openAvatar"
-          >
-            {{ $t('common.changeAvatar') }}
-          </el-link>
+        <pan-thumb :height="'100px'" :hoverable="false" :image="avatar" :width="'100px'">
+          <el-link @click="openAvatar" class="change-avatar" type="primary">{{ $t('common.changeAvatar') }}</el-link>
         </pan-thumb>
       </div>
       <div class="box-center">
-        <div class="user-name text-center">
-          {{ user.name }}
-        </div>
+        <div class="user-name text-center">{{ user.name }}</div>
         <div class="user-role text-center text-muted">
           <span>{{ user.email ? user.email : $t('common.noEmail') }}</span> ·
           <span>{{ user.mobile ? user.mobile : $t('common.noMobile') }}</span>
@@ -40,9 +24,7 @@
           <span>{{ $t('table.user.workDescribe') }}</span>
         </div>
         <div class="user-bio-section-body">
-          <div class="text-muted">
-            {{ user.workDescribe ? user.workDescribe: $t('tips.nothing') }}
-          </div>
+          <div class="text-muted">{{ user.workDescribe ? user.workDescribe: $t('tips.nothing') }}</div>
         </div>
       </div>
       <div class="user-education user-bio-section">
@@ -53,39 +35,16 @@
         <div class="user-bio-section-body">
           <div class="text-muted">
             <template v-for="(l, index) in logo">
-              <div
-                :key="index"
-                class="logo-wrapper"
-              >
-                <img
-                  v-if="l.bind"
-                  :src="resolveLogo(l.img)"
-                  :class="{ &quot;radius&quot;: l.radius }"
-                  alt
-                  :title="$t(&quot;common.unbind&quot;)"
-                  @click="unbind(l.name)"
-                >
-                <img
-                  v-else
-                  :src="resolveLogo(l.img)"
-                  :class="{ &quot;radius&quot;: l.radius }"
-                  alt
-                  :title="$t(&quot;common.bind&quot;)"
-                  class="unbind"
-                  @click="bind(l.name)"
-                >
+              <div :key="index" class="logo-wrapper">
+                <img :class="{ 'radius': l.radius }" :src="resolveLogo(l.img)" :title="$t('common.unbind')" @click="unbind(l.name)" alt v-if="l.bind" />
+                <img :class="{ 'radius': l.radius }" :src="resolveLogo(l.img)" :title="$t('common.bind')" @click="bind(l.name)" alt class="unbind" v-else />
               </div>
             </template>
           </div>
         </div>
       </div>
     </div>
-    <avatar
-      ref="myAvatar"
-      :dialog-visible="dialogVisible"
-      @close="dialogVisible = false"
-      @success="changeSuccess"
-    />
+    <avatar :dialog-visible="dialogVisible" @close="dialogVisible = false" @success="changeSuccess" ref="myAvatar" />
   </el-card>
 </template>
 

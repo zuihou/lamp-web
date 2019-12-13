@@ -1,30 +1,15 @@
 <template>
-  <el-dialog
-    :close-on-click-modal="false"
-    :title="title"
-    :type="type"
-    :visible.sync="isVisible"
-    :width="width"
-    top="50px"
-  >
+  <el-dialog :close-on-click-modal="false" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
     <el-form :model="resource" :rules="rules" label-position="right" label-width="100px" ref="form">
       <el-form-item :label="$t('table.resource.code')" prop="code">
-        <el-input
-          :disabled="type==='edit'"
-          @keyup.enter.native="submitForm"
-          v-model="resource.code"
-        />
+        <el-input :disabled="type==='edit'" @keyup.enter.native="submitForm" v-model="resource.code" />
         <p class="note">建议使用:作为分隔符，并以view、add、update、delete、export、import、download、upload等关键词结尾</p>
         <p class="note">如：menu:add、 resource:view、 file:upload</p>
       </el-form-item>
       <el-form-item :label="$t('table.resource.name')" @keyup.enter.native="submitForm" prop="name">
         <el-input v-model="resource.name" />
       </el-form-item>
-      <el-form-item
-        :label="$t('table.resource.describe')"
-        @keyup.enter.native="submitForm"
-        prop="describe"
-      >
+      <el-form-item :label="$t('table.resource.describe')" @keyup.enter.native="submitForm" prop="describe">
         <el-input v-model="resource.describe" />
       </el-form-item>
     </el-form>

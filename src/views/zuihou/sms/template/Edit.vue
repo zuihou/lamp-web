@@ -1,121 +1,49 @@
 <template>
-  <el-dialog
-    :title="title"
-    :type="type"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :close-on-press-escape="true"
-    :visible.sync="isVisible"
-  >
-    <el-form
-      ref="form"
-      :model="smsTemplate"
-      :rules="rules"
-      label-position="right"
-      label-width="100px"
-    >
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.providerType&quot;)"
-        prop="providerType"
-      >
-        <el-select
-          v-model="smsTemplate.providerType.code"
-          value
-          placeholder
-          style="width:100%"
-        >
-          <el-option
-            v-for="(item, key, index) in enums.ProviderType"
-            :key="index"
-            :label="item"
-            :value="key"
-          />
+  <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
+    <el-form :model="smsTemplate" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item :label="$t('table.smsTemplate.providerType')" prop="providerType">
+        <el-select placeholder style="width:100%" v-model="smsTemplate.providerType.code" value>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.ProviderType" />
         </el-select>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.appId&quot;)"
-        prop="appId"
-      >
+      <el-form-item :label="$t('table.smsTemplate.appId')" prop="appId">
         <el-input v-model="smsTemplate.appId" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.appSecret&quot;)"
-        prop="appSecret"
-      >
+      <el-form-item :label="$t('table.smsTemplate.appSecret')" prop="appSecret">
         <el-input v-model="smsTemplate.appSecret" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.url&quot;)"
-        prop="url"
-      >
+      <el-form-item :label="$t('table.smsTemplate.url')" prop="url">
         <el-input v-model="smsTemplate.url" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.customCode&quot;)"
-        prop="customCode"
-      >
-        <el-input
-          v-model="smsTemplate.customCode"
-          :disabled="type === &quot;edit&quot;"
-        />
+      <el-form-item :label="$t('table.smsTemplate.customCode')" prop="customCode">
+        <el-input :disabled="type === 'edit'" v-model="smsTemplate.customCode" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.name&quot;)"
-        prop="name"
-      >
+      <el-form-item :label="$t('table.smsTemplate.name')" prop="name">
         <el-input v-model="smsTemplate.name" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.content&quot;)"
-        prop="content"
-      >
+      <el-form-item :label="$t('table.smsTemplate.content')" prop="content">
         <el-input v-model="smsTemplate.content" />
         <aside>
           百度云：使用 ${xx} 作为占位符
-          <br>
+          <br />
           阿里云：使用 ${xx} 作为占位符
-          <br>
+          <br />
           腾讯云：使用 {xx} 作为占位符
         </aside>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.templateCode&quot;)"
-        prop="templateCode"
-      >
+      <el-form-item :label="$t('table.smsTemplate.templateCode')" prop="templateCode">
         <el-input v-model="smsTemplate.templateCode" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.signName&quot;)"
-        prop="signName"
-      >
+      <el-form-item :label="$t('table.smsTemplate.signName')" prop="signName">
         <el-input v-model="smsTemplate.signName" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTemplate.templateDescribe&quot;)"
-        prop="templateDescribe"
-      >
+      <el-form-item :label="$t('table.smsTemplate.templateDescribe')" prop="templateDescribe">
         <el-input v-model="smsTemplate.templateDescribe" />
       </el-form-item>
     </el-form>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        plain
-        @click="submitForm"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>

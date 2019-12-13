@@ -1,255 +1,110 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="queryParams.account"
-        :placeholder="$t(&quot;table.user.account&quot;)"
-        class="filter-item search-item"
-      />
+      <el-input :placeholder="$t('table.user.account')" class="filter-item search-item" v-model="queryParams.account" />
       <treeselect
-        v-model="queryParams.orgId"
-        class="filter-item search-item"
+        :clear-value-text="$t('common.clear')"
+        :load-options="loadListOptions"
         :multiple="false"
         :options="orgList"
-        :load-options="loadListOptions"
-        :clear-value-text="$t(&quot;common.clear&quot;)"
         :searchable="true"
+        class="filter-item search-item"
         placeholder="组织"
+        v-model="queryParams.orgId"
       />
       <el-date-picker
-        v-model="queryParams.timeRange"
         :range-separator="null"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        format="yyyy-MM-dd HH:mm:ss"
         class="filter-item search-item date-range-item"
+        end-placeholder="结束日期"
+        format="yyyy-MM-dd HH:mm:ss"
+        start-placeholder="开始日期"
         type="daterange"
+        v-model="queryParams.timeRange"
+        value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button
-        class="filter-item"
-        type="primary"
-        plain
-        @click="search"
-      >
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button
-        class="filter-item"
-        type="warning"
-        plain
-        @click="reset"
-      >
-        {{ $t('table.reset') }}
-      </el-button>
-      <el-dropdown
-        v-has-any-permission="[&quot;user:add&quot;,&quot;user:delete&quot;,&quot;user:reset&quot;,&quot;user:export&quot;]"
-        trigger="click"
-        class="filter-item"
-      >
+      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['user:add','user:delete','user:reset','user:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-has-permission="[&quot;user:add&quot;]"
-            @click.native="add"
-          >
-            {{ $t('table.add') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;user:delete&quot;]"
-            @click.native="batchDelete"
-          >
-            {{ $t('table.delete') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;user:reset&quot;]"
-            @click.native="resetPassword"
-          >
-            {{ $t('table.resetPassword') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;user:export&quot;]"
-            @click.native="exportExcel"
-          >
-            {{ $t('table.export') }}
-          </el-dropdown-item>
+          <el-dropdown-item @click.native="add" v-has-permission="['user:add']">{{ $t('table.add') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['user:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="resetPassword" v-has-permission="['user:reset']">{{ $t('table.resetPassword') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['user:export']">{{ $t('table.export') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
 
-    <el-table
-      ref="table"
-      :key="tableKey"
-      v-loading="loading"
-      :data="tableData.records"
-      border
-      fit
-      style="width: 100%;"
-      @selection-change="onSelectChange"
-      @sort-change="sortChange"
-    >
-      <el-table-column
-        type="selection"
-        align="center"
-        width="40px"
-      />
-      <el-table-column
-        :label="$t(&quot;table.user.avatar&quot;)"
-        prop="avatar"
-        align="center"
-        width="100px"
-      >
+    <el-table :data="tableData.records" :key="tableKey" @selection-change="onSelectChange" @sort-change="sortChange" border fit ref="table" style="width: 100%;" v-loading="loading">
+      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column :label="$t('table.user.avatar')" align="center" prop="avatar" width="100px">
         <template slot-scope="scope">
-          <el-avatar
-            :key="scope.row.avatar"
-            fit="fill"
-            :src="myAvatar(scope.row.avatar)"
-          >
+          <el-avatar :key="scope.row.avatar" :src="myAvatar(scope.row.avatar)" fit="fill">
             <el-avatar>{{ scope.row.name | userAvatarFilter }}</el-avatar>
           </el-avatar>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.account&quot;)"
-        prop="account"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
+      <el-table-column :label="$t('table.user.account')" :show-overflow-tooltip="true" align="center" prop="account">
         <template slot-scope="scope">
           <span>{{ scope.row.account }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.name&quot;)"
-        prop="name"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
+      <el-table-column :label="$t('table.user.name')" :show-overflow-tooltip="true" align="center" prop="name">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.sex&quot;)"
-        prop="sex.desc"
-        class-name="status-col"
-        width="70px"
-      >
+      <el-table-column :label="$t('table.user.sex')" class-name="status-col" prop="sex.desc" width="70px">
         <template slot-scope="{row}">
-          <el-tag :type="row.sex.code | sexFilter">
-            {{ row.sex.desc }}
-          </el-tag>
+          <el-tag :type="row.sex.code | sexFilter">{{ row.sex.desc }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.email&quot;)"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
+      <el-table-column :label="$t('table.user.email')" :show-overflow-tooltip="true" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.orgId&quot;)"
-        align="center"
-        width="100px"
-      >
+      <el-table-column :label="$t('table.user.orgId')" align="center" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.orgId }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.stationId&quot;)"
-        align="center"
-        width="100px"
-      >
+      <el-table-column :label="$t('table.user.stationId')" align="center" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.stationId }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.user.status&quot;)"
-        :filters="[{ text: $t(&quot;common.status.valid&quot;), value: true }, { text: $t(&quot;common.status.invalid&quot;), value: false }]"
         :filter-method="filterStatus"
+        :filters="[{ text: $t('common.status.valid'), value: true }, { text: $t('common.status.invalid'), value: false }]"
+        :label="$t('table.user.status')"
         class-name="status-col"
         width="70px"
       >
         <template slot-scope="{row}">
-          <el-tag
-            :type="row.status | statusFilter"
-          >
-            {{ row.status ? $t('common.status.valid') : $t('common.status.invalid') }}
-          </el-tag>
+          <el-tag :type="row.status | statusFilter">{{ row.status ? $t('common.status.valid') : $t('common.status.invalid') }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.user.createTime&quot;)"
-        prop="createTime"
-        align="center"
-        width="170px"
-        sortable="custom"
-      >
+      <el-table-column :label="$t('table.user.createTime')" align="center" prop="createTime" sortable="custom" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.operation&quot;)"
-        align="center"
-        width="100px"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
-          <i
-            v-hasPermission="[&quot;user:view&quot;]"
-            class="el-icon-view table-operation"
-            style="color: #87d068;"
-            @click="view(row)"
-          />
-          <i
-            v-hasPermission="[&quot;user:update&quot;]"
-            class="el-icon-edit table-operation"
-            style="color: #2db7f5;"
-            @click="edit(row)"
-          />
-          <i
-            v-hasPermission="[&quot;user:delete&quot;]"
-            class="el-icon-delete table-operation"
-            style="color: #f50;"
-            @click="singleDelete(row)"
-          />
-          <el-link
-            v-has-no-permission="[&quot;user:view&quot;,&quot;user:update&quot;,&quot;user:delete&quot;]"
-            class="no-perm"
-          >
-            {{ $t('tips.noPermission') }}
-          </el-link>
+          <i @click="view(row)" class="el-icon-view table-operation" style="color: #87d068;" v-hasPermission="['user:view']" />
+          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['user:update']" />
+          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['user:delete']" />
+          <el-link class="no-perm" v-has-no-permission="['user:view','user:update','user:delete']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="tableData.total>0"
-      :total="Number(tableData.total)"
-      :page.sync="pagination.current"
-      :limit.sync="pagination.size"
-      @pagination="fetch"
-    />
-    <user-edit
-      ref="edit"
-      :dialog-visible="dialog.isVisible"
-      :type="dialog.type"
-      @success="editSuccess"
-      @close="editClose"
-    />
-    <user-view
-      ref="view"
-      :dialog-visible="userViewVisible"
-      @close="viewClose"
-    />
+    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
+    <user-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="editClose" @success="editSuccess" ref="edit" />
+    <user-view :dialog-visible="userViewVisible" @close="viewClose" ref="view" />
   </div>
 </template>
 

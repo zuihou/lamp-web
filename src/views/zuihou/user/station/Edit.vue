@@ -1,79 +1,34 @@
 <template>
-  <el-dialog
-    :title="title"
-    :type="type"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :close-on-press-escape="true"
-    :visible.sync="isVisible"
-  >
-    <el-form
-      ref="form"
-      :model="station"
-      :rules="rules"
-      label-position="right"
-      label-width="100px"
-    >
-      <el-form-item
-        :label="$t(&quot;table.station.name&quot;)"
-        prop="name"
-      >
+  <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
+    <el-form :model="station" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item :label="$t('table.station.name')" prop="name">
         <el-input v-model="station.name" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.station.orgId&quot;)"
-        prop="orgId"
-      >
+      <el-form-item :label="$t('table.station.orgId')" prop="orgId">
         <treeselect
-          v-model="station.orgId"
+          :clear-value-text="$t('common.clear')"
+          :load-options="loadListOptions"
           :multiple="false"
           :options="orgList"
-          :load-options="loadListOptions"
-          :clear-value-text="$t(&quot;common.clear&quot;)"
           :searchable="true"
           placeholder=" "
           style="width:100%"
+          v-model="station.orgId"
         />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.station.status&quot;)"
-        prop="status"
-      >
+      <el-form-item :label="$t('table.station.status')" prop="status">
         <el-radio-group v-model="station.status">
-          <el-radio :label="true">
-            {{ $t('common.status.valid') }}
-          </el-radio>
-          <el-radio :label="false">
-            {{ $t('common.status.invalid') }}
-          </el-radio>
+          <el-radio :label="true">{{ $t('common.status.valid') }}</el-radio>
+          <el-radio :label="false">{{ $t('common.status.invalid') }}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.station.describe&quot;)"
-        prop="describe"
-      >
+      <el-form-item :label="$t('table.station.describe')" prop="describe">
         <el-input v-model="station.describe" />
       </el-form-item>
     </el-form>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        plain
-        @click="submitForm"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>

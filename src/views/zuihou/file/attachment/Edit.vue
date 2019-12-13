@@ -1,79 +1,23 @@
 <template>
-  <el-dialog
-    v-el-drag-dialog
-    :title="title"
-    :type="type"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :visible.sync="isVisible"
-    @dragDialog="handleDrag"
-  >
-    <el-form
-      ref="form"
-      :model="attachment"
-      :rules="rules"
-      label-position="right"
-      label-width="100px"
-    >
-      <el-form-item
-        :label="$t(&quot;table.attachment.bizId&quot;)"
-        prop="bizId"
-      >
+  <el-dialog :close-on-click-modal="false" :title="title" :type="type" :visible.sync="isVisible" :width="width" @dragDialog="handleDrag" top="50px" v-el-drag-dialog>
+    <el-form :model="attachment" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item :label="$t('table.attachment.bizId')" prop="bizId">
         <el-input v-model="attachment.bizId" />
       </el-form-item>
 
-      <el-form-item
-        :label="$t(&quot;table.attachment.bizType&quot;)"
-        prop="bizType"
-      >
+      <el-form-item :label="$t('table.attachment.bizType')" prop="bizType">
         <el-input v-model="attachment.bizType" />
       </el-form-item>
-      <el-form-item
-        label="文件"
-        prop="fileLength"
-      >
-        <fileUpload
-          ref="fileRef"
-          :auto-upload="false"
-          @setId="setIdAndSubmit"
-          @fileLengthVaild="fileLengthVaild"
-        >
-          <el-button
-            slot="trigger"
-            size="small"
-            type="primary"
-          >
-            选取文件
-          </el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip"
-          >
-            文件不超过500MB
-          </div>
+      <el-form-item label="文件" prop="fileLength">
+        <fileUpload :auto-upload="false" @fileLengthVaild="fileLengthVaild" @setId="setIdAndSubmit" ref="fileRef">
+          <el-button size="small" slot="trigger" type="primary">选取文件</el-button>
+          <div class="el-upload__tip" slot="tip">文件不超过500MB</div>
         </fileUpload>
       </el-form-item>
     </el-form>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        plain
-        :disabled="disabled"
-        @click="submitForm"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button :disabled="disabled" @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>

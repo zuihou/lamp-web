@@ -2,34 +2,19 @@
   <div class="app-container">
     <div v-if="user">
       <el-row :gutter="20">
-        <el-col
-          :span="8"
-          :xs="24"
-        >
+        <el-col :span="8" :xs="24">
           <user-card :user="user" />
         </el-col>
-        <el-col
-          :span="16"
-          :xs="24"
-        >
+        <el-col :span="16" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane
-                :label="$t(&quot;common.timeline&quot;)"
-                name="timeline"
-              >
+              <el-tab-pane :label="$t('common.timeline')" name="timeline">
                 <timeline :user="user" />
               </el-tab-pane>
-              <el-tab-pane
-                :label="$t(&quot;common.account&quot;)"
-                name="account"
-              >
+              <el-tab-pane :label="$t('common.account')" name="account">
                 <account :user="user" />
               </el-tab-pane>
-              <el-tab-pane
-                :label="$t(&quot;common.password&quot;)"
-                name="password"
-              >
+              <el-tab-pane :label="$t('common.password')" name="password">
                 <password :user="user" />
               </el-tab-pane>
             </el-tabs>

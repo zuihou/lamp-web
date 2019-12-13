@@ -1,65 +1,24 @@
 <template>
-  <el-form
-    ref="form"
-    :model="user"
-    :rules="rules"
-    label-position="right"
-    label-width="80px"
-    class="form"
-  >
-    <el-form-item
-      :label="$t(&quot;table.user.name&quot;)"
-      prop="email"
-    >
+  <el-form :model="user" :rules="rules" class="form" label-position="right" label-width="80px" ref="form">
+    <el-form-item :label="$t('table.user.name')" prop="email">
       <el-input v-model="user.name" />
     </el-form-item>
-    <el-form-item
-      :label="$t(&quot;table.user.email&quot;)"
-      prop="email"
-    >
+    <el-form-item :label="$t('table.user.email')" prop="email">
       <el-input v-model="user.email" />
     </el-form-item>
-    <el-form-item
-      :label="$t(&quot;table.user.mobile&quot;)"
-      prop="mobile"
-    >
+    <el-form-item :label="$t('table.user.mobile')" prop="mobile">
       <el-input v-model="user.mobile" />
     </el-form-item>
-    <el-form-item
-      :label="$t(&quot;table.user.sex&quot;)"
-      prop="sex"
-    >
-      <el-select
-        v-model="user.sex.code"
-        value
-        placeholder
-      >
-        <el-option
-          v-for="(item, key, index) in enums.Sex"
-          :key="index"
-          :label="item"
-          :value="key"
-        />
+    <el-form-item :label="$t('table.user.sex')" prop="sex">
+      <el-select placeholder v-model="user.sex.code" value>
+        <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.Sex" />
       </el-select>
     </el-form-item>
-    <el-form-item
-      :label="$t(&quot;table.user.workDescribe&quot;)"
-      prop="workDescribe"
-    >
-      <el-input
-        v-model="user.workDescribe"
-        type="textarea"
-        rows="3"
-      />
+    <el-form-item :label="$t('table.user.workDescribe')" prop="workDescribe">
+      <el-input rows="3" type="textarea" v-model="user.workDescribe" />
     </el-form-item>
     <el-form-item>
-      <el-button
-        type="primary"
-        plain
-        @click="submit"
-      >
-        {{ $t('common.edit') }}
-      </el-button>
+      <el-button @click="submit" plain type="primary">{{ $t('common.edit') }}</el-button>
     </el-form-item>
   </el-form>
 </template>

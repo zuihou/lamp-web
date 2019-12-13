@@ -1,80 +1,29 @@
 <template>
-  <el-dialog
-    class="update-avatar"
-    :title="$t(&quot;common.changeAvatar&quot;)"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    :visible.sync="isVisible"
-  >
-    <el-tabs
-      v-model="activeName"
-      class="avatar-tabs"
-    >
-      <el-tab-pane
-        :label="$t(&quot;common.hthz&quot;)"
-        name="first"
-      >
+  <el-dialog :close-on-click-modal="false" :close-on-press-escape="false" :title="$t('common.changeAvatar')" :visible.sync="isVisible" :width="width" class="update-avatar" top="50px">
+    <el-tabs class="avatar-tabs" v-model="activeName">
+      <el-tab-pane :label="$t('common.hthz')" name="first">
         <template v-for="(avatar, index) in hthz">
-          <div
-            :key="index"
-            class="avatar-wrapper"
-          >
-            <img
-              :alt="$t(&quot;common.ctc&quot;)"
-              :src="resolveAvatar(avatar)"
-              @click="change(avatar)"
-            >
+          <div :key="index" class="avatar-wrapper">
+            <img :alt="$t('common.ctc')" :src="resolveAvatar(avatar)" @click="change(avatar)" />
           </div>
         </template>
       </el-tab-pane>
-      <el-tab-pane
-        :label="$t(&quot;common.al&quot;)"
-        name="second"
-      >
+      <el-tab-pane :label="$t('common.al')" name="second">
         <template v-for="(avatar, index) in al">
-          <div
-            :key="index"
-            class="avatar-wrapper"
-          >
-            <img
-              :alt="$t(&quot;common.ctc&quot;)"
-              :src="resolveAvatar(avatar)"
-              @click="change(avatar)"
-            >
+          <div :key="index" class="avatar-wrapper">
+            <img :alt="$t('common.ctc')" :src="resolveAvatar(avatar)" @click="change(avatar)" />
           </div>
         </template>
       </el-tab-pane>
-      <el-tab-pane
-        :label="$t(&quot;common.lm&quot;)"
-        name="third"
-      >
+      <el-tab-pane :label="$t('common.lm')" name="third">
         <template v-for="(avatar, index) in lm">
-          <div
-            :key="index"
-            class="avatar-wrapper"
-          >
-            <img
-              :alt="$t(&quot;common.ctc&quot;)"
-              :src="resolveAvatar(avatar)"
-              @click="change(avatar)"
-            >
+          <div :key="index" class="avatar-wrapper">
+            <img :alt="$t('common.ctc')" :src="resolveAvatar(avatar)" @click="change(avatar)" />
           </div>
         </template>
       </el-tab-pane>
-      <el-tab-pane
-        label="上传"
-        name="fourth"
-      >
-        <imgUpload
-          ref="imgFileRef"
-          list-type="picture-card"
-          :data="myAvatar"
-          :show-file-list="false"
-          :auto-upload="true"
-          @setId="setIdAndSubmit"
-        >
+      <el-tab-pane label="上传" name="fourth">
+        <imgUpload :auto-upload="true" :data="myAvatar" :show-file-list="false" @setId="setIdAndSubmit" list-type="picture-card" ref="imgFileRef">
           <i class="el-icon-plus" />
         </imgUpload>
       </el-tab-pane>

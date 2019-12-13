@@ -1,75 +1,39 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="queryParams.receiver"
-        :placeholder="$t(&quot;table.smsSendStatus.receiver&quot;)"
-        class="filter-item search-item"
-      />
-      <el-input
-        v-model="queryParams.bizId"
-        :placeholder="$t(&quot;table.smsSendStatus.bizId&quot;)"
-        class="filter-item search-item"
-      />
-      <el-input
-        v-model="queryParams.ext"
-        :placeholder="$t(&quot;table.smsSendStatus.ext&quot;)"
-        class="filter-item search-item"
-      />
-      <el-button
-        class="filter-item"
-        type="primary"
-        plain
-        @click="search"
-      >
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button
-        class="filter-item"
-        type="warning"
-        plain
-        @click="reset"
-      >
-        {{ $t('table.reset') }}
-      </el-button>
+      <el-input :placeholder="$t('table.smsSendStatus.receiver')" class="filter-item search-item" v-model="queryParams.receiver" />
+      <el-input :placeholder="$t('table.smsSendStatus.bizId')" class="filter-item search-item" v-model="queryParams.bizId" />
+      <el-input :placeholder="$t('table.smsSendStatus.ext')" class="filter-item search-item" v-model="queryParams.ext" />
+      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
     </div>
 
     <el-table
-      ref="table"
-      :key="tableKey"
-      v-loading="loading"
       :data="tableData.records"
-      border
-      fit
-      style="width: 100%;"
+      :key="tableKey"
+      @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      @filter-change="filterChange"
+      border
+      fit
+      ref="table"
+      style="width: 100%;"
+      v-loading="loading"
     >
-      <el-table-column
-        type="selection"
-        align="center"
-        width="40px"
-      />
-      <el-table-column
-        :label="$t(&quot;table.smsSendStatus.receiver&quot;)"
-        prop="receiver"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="120px"
-      >
+      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column :label="$t('table.smsSendStatus.receiver')" :show-overflow-tooltip="true" align="center" prop="receiver" width="120px">
         <template slot-scope="scope">
           <span>{{ scope.row.receiver }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.smsSendStatus.sendStatus&quot;)"
-        prop="sendStatus"
-        column-key="sendStatus"
-        :filters="sendStatusFilters"
         :filter-multiple="false"
+        :filters="sendStatusFilters"
+        :label="$t('table.smsSendStatus.sendStatus')"
         :show-overflow-tooltip="true"
         align="center"
+        column-key="sendStatus"
+        prop="sendStatus"
         width="100px"
       >
         <template slot-scope="scope">
@@ -77,75 +41,38 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        :label="$t(&quot;table.smsSendStatus.bizId&quot;)"
-        prop="bizId"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
+      <el-table-column :label="$t('table.smsSendStatus.bizId')" :show-overflow-tooltip="true" align="center" prop="bizId">
         <template slot-scope="scope">
           <span>{{ scope.row.bizId }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.smsSendStatus.ext&quot;)"
-        prop="ext"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="150px"
-      >
+      <el-table-column :label="$t('table.smsSendStatus.ext')" :show-overflow-tooltip="true" align="center" prop="ext" width="150px">
         <template slot-scope="scope">
           <span>{{ scope.row.ext }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.smsSendStatus.code&quot;)"
-        prop="code"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="120px"
-      >
+      <el-table-column :label="$t('table.smsSendStatus.code')" :show-overflow-tooltip="true" align="center" prop="code" width="120px">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.smsSendStatus.message&quot;)"
-        align="center"
-        :show-overflow-tooltip="true"
-      >
+      <el-table-column :label="$t('table.smsSendStatus.message')" :show-overflow-tooltip="true" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.message }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.smsSendStatus.fee&quot;)"
-        align="center"
-        width="80px"
-      >
+      <el-table-column :label="$t('table.smsSendStatus.fee')" align="center" width="80px">
         <template slot-scope="scope">
           <span>{{ scope.row.fee }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.createTime&quot;)"
-        prop="createTime"
-        align="center"
-        width="170px"
-        sortable="custom"
-      >
+      <el-table-column :label="$t('table.createTime')" align="center" prop="createTime" sortable="custom" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="tableData.total>0"
-      :total="Number(tableData.total)"
-      :page.sync="pagination.current"
-      :limit.sync="pagination.size"
-      @pagination="fetch"
-    />
+    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
   </div>
 </template>
 

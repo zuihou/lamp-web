@@ -1,257 +1,116 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="queryParams.userName"
-        :placeholder="$t(&quot;table.optLog.userName&quot;)"
-        class="filter-item search-item"
-      />
-      <el-input
-        v-model="queryParams.requestIp"
-        :placeholder="$t(&quot;table.optLog.requestIp&quot;)"
-        class="filter-item search-item"
-      />
+      <el-input :placeholder="$t('table.optLog.userName')" class="filter-item search-item" v-model="queryParams.userName" />
+      <el-input :placeholder="$t('table.optLog.requestIp')" class="filter-item search-item" v-model="queryParams.requestIp" />
       <el-date-picker
-        v-model="queryParams.timeRange"
         :range-separator="null"
-        :start-placeholder="$t(&quot;table.createTime&quot;)"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        format="yyyy-MM-dd HH:mm:ss"
+        :start-placeholder="$t('table.createTime')"
         class="filter-item search-item date-range-item"
+        format="yyyy-MM-dd HH:mm:ss"
         type="datetimerange"
+        v-model="queryParams.timeRange"
+        value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button
-        class="filter-item"
-        type="primary"
-        plain
-        @click="search"
-      >
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button
-        class="filter-item"
-        type="warning"
-        plain
-        @click="reset"
-      >
-        {{ $t('table.reset') }}
-      </el-button>
-      <el-dropdown
-        v-has-any-permission="[&quot;optLog:delete&quot;,&quot;optLog:export&quot;]"
-        trigger="click"
-        class="filter-item"
-      >
+      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['optLog:delete','optLog:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-has-permission="[&quot;optLog:delete&quot;]"
-            @click.native="batchDelete"
-          >
-            {{ $t('table.delete') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;optLog:export&quot;]"
-            @click.native="exportExcel"
-          >
-            {{ $t('table.export') }}
-          </el-dropdown-item>
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['optLog:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['optLog:export']">{{ $t('table.export') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <el-table
-      ref="table"
-      :key="tableKey"
-      v-loading="loading"
       :data="tableData.records"
-      border
-      fit
-      style="width: 100%;"
+      :key="tableKey"
+      @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      @filter-change="filterChange"
+      border
+      fit
+      ref="table"
+      style="width: 100%;"
+      v-loading="loading"
     >
-      <el-table-column
-        type="selection"
-        align="center"
-        width="40px"
-      />
-      <el-table-column
-        :label="$t(&quot;table.optLog.userName&quot;)"
-        prop="userName"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="100px"
-      >
+      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column :label="$t('table.optLog.userName')" :show-overflow-tooltip="true" align="center" prop="userName" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.userName }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.optLog.requestUri&quot;)"
-        prop="requestUri"
-        :show-overflow-tooltip="true"
-        align="left"
-        min-width="120px"
-      >
+      <el-table-column :label="$t('table.optLog.requestUri')" :show-overflow-tooltip="true" align="left" min-width="120px" prop="requestUri">
         <template slot-scope="scope">
           <span>{{ scope.row.requestUri }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.optLog.httpMethod&quot;)"
-        prop="httpMethod"
-        column-key="httpMethod"
-        :filters="httpMethodFilters"
         :filter-multiple="false"
+        :filters="httpMethodFilters"
+        :label="$t('table.optLog.httpMethod')"
         :show-overflow-tooltip="true"
         align="center"
+        column-key="httpMethod"
+        prop="httpMethod"
         width="100px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.httpMethod.desc }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.optLog.requestIp&quot;)"
-        prop="requestIp"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="100px"
-      >
+      <el-table-column :label="$t('table.optLog.requestIp')" :show-overflow-tooltip="true" align="center" prop="requestIp" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.requestIp }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.optLog.description&quot;)"
-        prop="description"
-        :show-overflow-tooltip="true"
-        align="center"
-        min-width="100px"
-      >
+      <el-table-column :label="$t('table.optLog.description')" :show-overflow-tooltip="true" align="center" min-width="100px" prop="description">
         <template slot-scope="scope">
           <span>{{ scope.row.description }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        :label="$t(&quot;table.optLog.type&quot;)"
-        prop="type"
-        column-key="type"
-        :show-overflow-tooltip="true"
-        :filters="typeFilters"
-        :filter-multiple="false"
-        align="center"
-        width="80px"
-      >
+      <el-table-column :filter-multiple="false" :filters="typeFilters" :label="$t('table.optLog.type')" :show-overflow-tooltip="true" align="center" column-key="type" prop="type" width="80px">
         <template slot-scope="scope">
           <span>
-            <el-badge
-              is-dot
-              class="item"
-              :type="(scope.row.type && scope.row.type.code == &quot;OPT&quot;)? &quot;success&quot;:&quot;danger&quot; "
-            />
+            <el-badge :type="(scope.row.type && scope.row.type.code == 'OPT')? 'success':'danger' " class="item" is-dot />
             {{ scope.row.type.desc }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.optLog.actionMethod&quot;)"
-        prop="actionMethod"
-        :show-overflow-tooltip="true"
-        align="center"
-        min-width="120px"
-      >
+      <el-table-column :label="$t('table.optLog.actionMethod')" :show-overflow-tooltip="true" align="center" min-width="120px" prop="actionMethod">
         <template slot-scope="scope">
           <span>{{ scope.row.classPath + '.' + scope.row.actionMethod }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        :label="$t(&quot;table.optLog.startTime&quot;)"
-        prop="startTime"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="170px"
-        sortable="custom"
-      >
+      <el-table-column :label="$t('table.optLog.startTime')" :show-overflow-tooltip="true" align="center" prop="startTime" sortable="custom" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.startTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.optLog.consumingTime&quot;)"
-        prop="consumingTime"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="110px"
-      >
+      <el-table-column :label="$t('table.optLog.consumingTime')" :show-overflow-tooltip="true" align="center" prop="consumingTime" width="110px">
         <template slot-scope="{row}">
-          <el-tag :type="row.consumingTime | timeFilter">
-            {{ transTime(row.consumingTime) }}
-          </el-tag>
+          <el-tag :type="row.consumingTime | timeFilter">{{ transTime(row.consumingTime) }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="ua"
-        label="终端 | 浏览器"
-        width="120"
-        :formatter="uaForamt"
-      />
-      <el-table-column
-        :label="$t(&quot;table.operation&quot;)"
-        align="center"
-        width="110px"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column :formatter="uaForamt" label="终端 | 浏览器" prop="ua" width="120" />
+      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="110px">
         <template slot-scope="{row}">
-          <i
-            v-has-permission="[&quot;optLog:delete&quot;]"
-            class="el-icon-delete table-operation"
-            style="color: #f50;"
-            @click="singleDelete(row)"
-          />
-          <i
-            v-has-permission="[&quot;optLog:view&quot;]"
-            class="el-icon-view table-operation"
-            style="color: #f50;"
-            @click="onView(row)"
-          />
-          <el-link
-            v-has-no-permission="[&quot;optLog:delete&quot;,&quot;optLog:view&quot;]"
-            class="no-perm"
-          >
-            {{ $t('tips.noPermission') }}
-          </el-link>
+          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-has-permission="['optLog:delete']" />
+          <i @click="onView(row)" class="el-icon-view table-operation" style="color: #f50;" v-has-permission="['optLog:view']" />
+          <el-link class="no-perm" v-has-no-permission="['optLog:delete','optLog:view']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="tableData.total>0"
-      :total="Number(tableData.total)"
-      :page.sync="pagination.current"
-      :limit.sync="pagination.size"
-      @pagination="fetch"
-    />
+    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
 
-    <el-drawer
-      v-model="currentRow"
-      :visible.sync="drawer"
-      :before-close="closeDrawer"
-      direction="rtl"
-    >
-      <div
-        slot="title"
-        class="clearfix"
-      >
-        <el-badge
-          is-dot
-          class="item"
-          :type="(currentRow.type && currentRow.type.code == &quot;OPT&quot;)? &quot;success&quot;:&quot;danger&quot; "
-        />
+    <el-drawer :before-close="closeDrawer" :visible.sync="drawer" direction="rtl" v-model="currentRow">
+      <div class="clearfix" slot="title">
+        <el-badge :type="(currentRow.type && currentRow.type.code == 'OPT')? 'success':'danger' " class="item" is-dot />
         {{ currentRow.type ? currentRow.type.desc : '' }}
         {{ currentRow.requestUri }}
       </div>
@@ -264,9 +123,7 @@
 
           <div class="box-item">
             <span class="field-label">请求参数:</span>
-            <aside style>
-              {{ currentRow.params }}
-            </aside>
+            <aside style>{{ currentRow.params }}</aside>
           </div>
 
           <div class="box-item">
@@ -275,10 +132,7 @@
               <pre style="white-space: pre-wrap;">{{ currentRow.result ? JSON.stringify(JSON.parse(currentRow.result), null, 4) : '' }}</pre>
             </aside>
           </div>
-          <div
-            v-if="currentRow.type && currentRow.type[&quot;code&quot;]===&quot;EX&quot;"
-            class="box-item"
-          >
+          <div class="box-item" v-if="currentRow.type && currentRow.type['code']==='EX'">
             <span class="field-label">错误信息:</span>
             <aside>{{ currentRow.exDetail }}</aside>
           </div>

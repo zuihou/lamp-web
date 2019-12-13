@@ -1,204 +1,79 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="queryParams.submittedFileName"
-        :placeholder="$t(&quot;table.attachment.submittedFileName&quot;)"
-        class="filter-item search-item"
-      />
+      <el-input :placeholder="$t('table.attachment.submittedFileName')" class="filter-item search-item" v-model="queryParams.submittedFileName" />
       <el-date-picker
-        v-model="queryParams.timeRange"
         :range-separator="null"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        format="yyyy-MM-dd HH:mm:ss"
         class="filter-item search-item date-range-item"
+        end-placeholder="结束日期"
+        format="yyyy-MM-dd HH:mm:ss"
+        start-placeholder="开始日期"
         type="daterange"
+        v-model="queryParams.timeRange"
+        value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button
-        class="filter-item"
-        type="primary"
-        plain
-        @click="search"
-      >
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button
-        class="filter-item"
-        type="warning"
-        plain
-        @click="reset"
-      >
-        {{ $t('table.reset') }}
-      </el-button>
-      <el-dropdown
-        v-has-any-permission="[&quot;file:add&quot;,&quot;file:delete&quot;,&quot;file:download&quot;]"
-        trigger="click"
-        class="filter-item"
-      >
+      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['file:add','file:delete','file:download']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-has-permission="[&quot;file:add&quot;]"
-            @click.native="upload"
-          >
-            {{ $t('table.upload') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;file:delete&quot;]"
-            @click.native="batchDelete"
-          >
-            {{ $t('table.delete') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;file:download&quot;]"
-            @click.native="batchDownload"
-          >
-            {{ $t('table.download') }}
-          </el-dropdown-item>
+          <el-dropdown-item @click.native="upload" v-has-permission="['file:add']">{{ $t('table.upload') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['file:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="batchDownload" v-has-permission="['file:download']">{{ $t('table.download') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
 
-    <el-table
-      ref="table"
-      :key="tableKey"
-      v-loading="loading"
-      :data="tableData.records"
-      border
-      fit
-      style="width: 100%;"
-      @selection-change="onSelectChange"
-      @sort-change="sortChange"
-    >
-      <el-table-column
-        type="selection"
-        align="center"
-        width="40px"
-      />
-      <el-table-column
-        :label="$t(&quot;table.attachment.submittedFileName&quot;)"
-        prop="submittedFileName"
-        :show-overflow-tooltip="true"
-        align="left"
-      >
+    <el-table :data="tableData.records" :key="tableKey" @selection-change="onSelectChange" @sort-change="sortChange" border fit ref="table" style="width: 100%;" v-loading="loading">
+      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column :label="$t('table.attachment.submittedFileName')" :show-overflow-tooltip="true" align="left" prop="submittedFileName">
         <template slot-scope="scope">
           <div @click="onView(scope.row)">
-            <i
-              :class="scope.row.icon"
-              class="button-list"
-            />
+            <i :class="scope.row.icon" class="button-list" />
             <span>{{ scope.row.submittedFileName }}</span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.attachment.dataType&quot;)"
-        prop="dataType"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="100px"
-      >
+      <el-table-column :label="$t('table.attachment.dataType')" :show-overflow-tooltip="true" align="center" prop="dataType" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.dataType.desc }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.attachment.bizType&quot;)"
-        align="center"
-        :show-overflow-tooltip="true"
-        width="120px"
-      >
+      <el-table-column :label="$t('table.attachment.bizType')" :show-overflow-tooltip="true" align="center" width="120px">
         <template slot-scope="scope">
           <span>{{ scope.row.bizType }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :show-overflow-tooltip="true"
-        :label="$t(&quot;table.attachment.bizId&quot;)"
-        align="center"
-        width="180px"
-      >
+      <el-table-column :label="$t('table.attachment.bizId')" :show-overflow-tooltip="true" align="center" width="180px">
         <template slot-scope="scope">
           <span>{{ scope.row.bizId }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.attachment.size&quot;)"
-        align="center"
-        width="100px"
-      >
+      <el-table-column :label="$t('table.attachment.size')" align="center" width="100px">
         <template slot-scope="scope">
           <span>{{ formatSize(scope.row) }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.createTime&quot;)"
-        prop="createTime"
-        align="center"
-        width="160px"
-        sortable="custom"
-      >
+      <el-table-column :label="$t('table.createTime')" align="center" prop="createTime" sortable="custom" width="160px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.operation&quot;)"
-        align="center"
-        width="100px"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
-          <i
-            v-hasPermission="[&quot;file:download&quot;]"
-            class="el-icon-download table-operation"
-            style="color: #f50;"
-            @click="singleDownload(row)"
-          />
-          <i
-            v-hasPermission="[&quot;file:delete&quot;]"
-            class="el-icon-delete table-operation"
-            style="color: #f50;"
-            @click="singleDelete(row)"
-          />
-          <el-link
-            v-has-no-permission="[&quot;file:update&quot;,&quot;file:delete&quot;]"
-            class="no-perm"
-          >
-            {{ $t('tips.noPermission') }}
-          </el-link>
+          <i @click="singleDownload(row)" class="el-icon-download table-operation" style="color: #f50;" v-hasPermission="['file:download']" />
+          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['file:delete']" />
+          <el-link class="no-perm" v-has-no-permission="['file:update','file:delete']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="tableData.total>0"
-      :total="Number(tableData.total)"
-      :page.sync="pagination.current"
-      :limit.sync="pagination.size"
-      @pagination="fetch"
-    />
-    <attachment-edit
-      ref="edit"
-      :dialog-visible="dialog.isVisible"
-      :type="dialog.type"
-      @success="editSuccess"
-      @close="editClose"
-    />
+    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
+    <attachment-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="editClose" @success="editSuccess" ref="edit" />
     <el-dialog :visible.sync="dialogVisible">
-      <img
-        v-if="dialogImageUrl"
-        :key="dialogImageUrl"
-        width="100%"
-        height="500px"
-        :src="dialogImageUrl"
-        alt="图片飞到火星了"
-        @error="errorImage()"
-      >
+      <img :key="dialogImageUrl" :src="dialogImageUrl" @error="errorImage()" alt="图片飞到火星了" height="500px" v-if="dialogImageUrl" width="100%" />
       <span v-else>图片飞到火星了~</span>
     </el-dialog>
   </div>

@@ -1,19 +1,10 @@
 <template>
   <div class="menu">
     <el-row :gutter="10">
-      <el-col
-        :xs="24"
-        :sm="6"
-      >
+      <el-col :sm="6" :xs="24">
         <div class="app-container">
           <div class="filter-container">
-            <el-input
-              v-model="name"
-              :placeholder="$t(&quot;table.menu.name&quot;)"
-              class="filter-item search-item"
-              clearable
-              @keyup.enter.native="search"
-            />
+            <el-input :placeholder="$t('table.menu.name')" @keyup.enter.native="search" class="filter-item search-item" clearable v-model="name" />
             <!-- <el-button
               class='filter-item'
               type='primary'
@@ -26,103 +17,45 @@
               plain
               @click='reset'
             >{{ $t('table.reset') }}</el-button>-->
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="新增/删除时，请先勾选菜单"
-              placement="right"
-            >
-              <el-dropdown
-                v-has-any-permission="[&quot;menu:add&quot;,&quot;menu:delete&quot;,&quot;menu:export&quot;]"
-                trigger="click"
-                class="filter-item"
-              >
+            <el-tooltip class="item" content="新增/删除时，请先勾选菜单" effect="dark" placement="right">
+              <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['menu:add','menu:delete','menu:export']">
                 <el-button>
                   {{ $t('table.more') }}
                   <i class="el-icon-arrow-down el-icon--right" />
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item
-                    v-has-permission="[&quot;menu:add&quot;]"
-                    @click.native="add"
-                  >
-                    {{ $t('table.add') }}
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    v-has-permission="[&quot;menu:delete&quot;]"
-                    @click.native="deleteMenu"
-                  >
-                    {{ $t('table.delete') }}
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    v-has-permission="[&quot;menu:export&quot;]"
-                    @click.native="exportExcel"
-                  >
-                    {{ $t('table.export') }}
-                  </el-dropdown-item>
+                  <el-dropdown-item @click.native="add" v-has-permission="['menu:add']">{{ $t('table.add') }}</el-dropdown-item>
+                  <el-dropdown-item @click.native="deleteMenu" v-has-permission="['menu:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+                  <el-dropdown-item @click.native="exportExcel" v-has-permission="['menu:export']">{{ $t('table.export') }}</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </el-tooltip>
           </div>
-          <commonTree
-            ref="menuTree"
-            :tree-data="menuTree"
-            @nodeClick="nodeClick"
-          >
+          <commonTree :tree-data="menuTree" @nodeClick="nodeClick" ref="menuTree">
             <template scope="treeNode">
               <span class="tree-icon">
-                <i :class="treeNode.data.icon ? treeNode.data.icon : &quot;el-icon-document&quot;" />
+                <i :class="treeNode.data.icon ? treeNode.data.icon : 'el-icon-document'" />
               </span>
               <span class="tree-icon">
-                <el-badge
-                  is-dot
-                  class="status-item"
-                  :type="treeNode.data.isEnable ? &quot;success&quot; :&quot;danger&quot;"
-                />
+                <el-badge :type="treeNode.data.isEnable ? 'success' :'danger'" class="status-item" is-dot />
               </span>
             </template>
           </commonTree>
         </div>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="8"
-      >
+      <el-col :sm="8" :xs="24">
         <el-card class="box-card">
-          <div
-            slot="header"
-            class="clearfix"
-          >
+          <div class="clearfix" slot="header">
             <span>{{ menu.id === '' ? this.$t('common.add') : this.$t('common.edit') }}</span>
           </div>
           <div>
-            <el-form
-              ref="form"
-              :model="menu"
-              :rules="rules"
-              label-position="right"
-              label-width="100px"
-            >
-              <el-form-item
-                :label="$t(&quot;table.menu.parentId&quot;)"
-                prop="parentId"
-              >
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  :content="$t(&quot;tips.topId&quot;)"
-                  placement="right"
-                >
-                  <el-input
-                    v-model="menu.parentId"
-                    readonly
-                  />
+            <el-form :model="menu" :rules="rules" label-position="right" label-width="100px" ref="form">
+              <el-form-item :label="$t('table.menu.parentId')" prop="parentId">
+                <el-tooltip :content="$t('tips.topId')" class="item" effect="dark" placement="right">
+                  <el-input readonly v-model="menu.parentId" />
                 </el-tooltip>
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.menu.name&quot;)"
-                prop="name"
-              >
+              <el-form-item :label="$t('table.menu.name')" prop="name">
                 <el-input v-model="menu.name" />
               </el-form-item>
               <!-- <el-form-item :label='$t("table.menu.type")' prop='type'>
@@ -131,248 +64,112 @@
                   <el-radio label='MENU'>菜单</el-radio>
                 </el-radio-group>
               </el-form-item>-->
-              <el-form-item
-                :label="$t(&quot;table.menu.path&quot;)"
-                prop="path"
-              >
-                <el-input
-                  v-model="menu.path"
-                  @keyup.native="menuPath"
-                />
+              <el-form-item :label="$t('table.menu.path')" prop="path">
+                <el-input @keyup.native="menuPath" v-model="menu.path" />
                 <span>{{ menuComponent }}</span>
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.menu.icon&quot;)"
-                prop="icon"
-              >
+              <el-form-item :label="$t('table.menu.icon')" prop="icon">
                 <el-input v-model="menu.icon">
-                  <el-button
-                    slot="append"
-                    icon="el-icon-brush"
-                    style="padding-left: 0;"
-                    @click="chooseIcons"
-                  />
+                  <el-button @click="chooseIcons" icon="el-icon-brush" slot="append" style="padding-left: 0;" />
                 </el-input>
               </el-form-item>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item
-                    :label="$t(&quot;table.status&quot;)"
-                    prop="isEnable"
-                  >
-                    <el-switch
-                      v-model="menu.isEnable"
-                      :active-text="$t(&quot;common.status.valid&quot;)"
-                      :inactive-text="$t(&quot;common.status.invalid&quot;)"
-                    />
+                  <el-form-item :label="$t('table.status')" prop="isEnable">
+                    <el-switch :active-text="$t('common.status.valid')" :inactive-text="$t('common.status.invalid')" v-model="menu.isEnable" />
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item
-                    :label="$t(&quot;table.menu.isPublic&quot;)"
-                    prop="isPublic"
-                  >
-                    <el-switch
-                      v-model="menu.isPublic"
-                      :active-text="$t(&quot;common.yes&quot;)"
-                      :inactive-text="$t(&quot;common.no&quot;)"
-                    />
+                  <el-form-item :label="$t('table.menu.isPublic')" prop="isPublic">
+                    <el-switch :active-text="$t('common.yes')" :inactive-text="$t('common.no')" v-model="menu.isPublic" />
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item
-                :label="$t(&quot;table.menu.sortValue&quot;)"
-                prop="sortValue"
-              >
-                <el-input-number
-                  v-model="menu.sortValue"
-                  :min="0"
-                  :max="100"
-                  @change="handleNumChange"
-                />
+              <el-form-item :label="$t('table.menu.sortValue')" prop="sortValue">
+                <el-input-number :max="100" :min="0" @change="handleNumChange" v-model="menu.sortValue" />
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.menu.group&quot;)"
-                prop="group"
-              >
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  content="用于区分多组菜单"
-                  placement="right"
-                >
+              <el-form-item :label="$t('table.menu.group')" prop="group">
+                <el-tooltip class="item" content="用于区分多组菜单" effect="dark" placement="right">
                   <el-input v-model="menu.group" />
                 </el-tooltip>
               </el-form-item>
-              <el-form-item
-                :label="$t(&quot;table.menu.describe&quot;)"
-                prop="describe"
-              >
+              <el-form-item :label="$t('table.menu.describe')" prop="describe">
                 <el-input v-model="menu.describe" />
               </el-form-item>
             </el-form>
           </div>
         </el-card>
-        <el-card
-          class="box-card"
-          style="margin-top: -2rem;"
-        >
+        <el-card class="box-card" style="margin-top: -2rem;">
           <el-row>
-            <el-col
-              :span="24"
-              style="text-align: right"
-            >
-              <el-button
-                type="primary"
-                plain
-                @click="submit"
-              >
-                {{ menu.id === '' ? this.$t('common.add') : this.$t('common.edit') }}
-              </el-button>
+            <el-col :span="24" style="text-align: right">
+              <el-button @click="submit" plain type="primary">{{ menu.id === '' ? this.$t('common.add') : this.$t('common.edit') }}</el-button>
             </el-col>
           </el-row>
         </el-card>
       </el-col>
 
-      <el-col
-        :xs="24"
-        :sm="10"
-      >
+      <el-col :sm="10" :xs="24">
         <el-card class="box-card">
           <div class="app-container">
             <div class="filter-container">
-              <el-input
-                v-model="resourceQueryParams.code"
-                :placeholder="$t(&quot;table.resource.code&quot;)"
-                class="filter-item search-item"
-              />
-              <el-input
-                v-model="resourceQueryParams.name"
-                :placeholder="$t(&quot;table.resource.name&quot;)"
-                class="filter-item search-item"
-              />
-              <el-button
-                class="filter-item"
-                type="primary"
-                plain
-                @click="resourceSearch"
-              >
-                {{ $t('table.search') }}
-              </el-button>
-              <el-dropdown
-                v-has-any-permission="[&quot;resource:add&quot;,&quot;resource:delete&quot;]"
-                trigger="click"
-                class="filter-item"
-              >
+              <el-input :placeholder="$t('table.resource.code')" class="filter-item search-item" v-model="resourceQueryParams.code" />
+              <el-input :placeholder="$t('table.resource.name')" class="filter-item search-item" v-model="resourceQueryParams.name" />
+              <el-button @click="resourceSearch" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+              <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['resource:add','resource:delete']">
                 <el-button>
                   {{ $t('table.more') }}
                   <i class="el-icon-arrow-down el-icon--right" />
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item
-                    v-has-permission="[&quot;resource:add&quot;]"
-                    :disabled="!menu.id"
-                    @click.native="resourceAdd"
-                  >
-                    {{ $t('table.add') }}
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    v-has-permission="[&quot;resource:delete&quot;]"
-                    @click.native="resourceBatchDelete"
-                  >
-                    {{ $t('table.delete') }}
-                  </el-dropdown-item>
+                  <el-dropdown-item :disabled="!menu.id" @click.native="resourceAdd" v-has-permission="['resource:add']">{{ $t('table.add') }}</el-dropdown-item>
+                  <el-dropdown-item @click.native="resourceBatchDelete" v-has-permission="['resource:delete']">{{ $t('table.delete') }}</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
 
             <el-table
-              ref="resourceTable"
-              :key="resourceTableKey"
-              v-loading="resourceLoading"
               :data="resourceTableData.records"
-              border
-              fit
-              style="width: 100%;"
+              :key="resourceTableKey"
               @selection-change="onResourceSelectChange"
               @sort-change="resourceSortChange"
+              border
+              fit
+              ref="resourceTable"
+              style="width: 100%;"
+              v-loading="resourceLoading"
             >
-              <el-table-column
-                type="selection"
-                align="center"
-                width="40px"
-              />
-              <el-table-column
-                :label="$t(&quot;table.resource.code&quot;)"
-                prop="code"
-                :show-overflow-tooltip="true"
-                align="center"
-              >
+              <el-table-column align="center" type="selection" width="40px" />
+              <el-table-column :label="$t('table.resource.code')" :show-overflow-tooltip="true" align="center" prop="code">
                 <template slot-scope="scope">
                   <span>{{ scope.row.code }}</span>
                 </template>
               </el-table-column>
-              <el-table-column
-                :label="$t(&quot;table.resource.name&quot;)"
-                prop="name"
-                :show-overflow-tooltip="true"
-                align="center"
-              >
+              <el-table-column :label="$t('table.resource.name')" :show-overflow-tooltip="true" align="center" prop="name">
                 <template slot-scope="scope">
                   <span>{{ scope.row.name }}</span>
                 </template>
               </el-table-column>
-              <el-table-column
-                :label="$t(&quot;table.operation&quot;)"
-                align="center"
-                width="100px"
-                class-name="small-padding fixed-width"
-              >
+              <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
                 <template slot-scope="{row}">
-                  <i
-                    v-hasPermission="[&quot;resource:update&quot;]"
-                    class="el-icon-edit table-operation"
-                    style="color: #2db7f5;"
-                    @click="resourceEdit(row)"
-                  />
-                  <i
-                    v-hasPermission="[&quot;resource:delete&quot;]"
-                    class="el-icon-delete table-operation"
-                    style="color: #f50;"
-                    @click="resourceSingleDelete(row)"
-                  />
-                  <el-link
-                    v-has-no-permission="[&quot;resource:update&quot;,&quot;resource:delete&quot;]"
-                    class="no-perm"
-                  >
-                    {{ $t('tips.noPermission') }}
-                  </el-link>
+                  <i @click="resourceEdit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['resource:update']" />
+                  <i @click="resourceSingleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['resource:delete']" />
+                  <el-link class="no-perm" v-has-no-permission="['resource:update','resource:delete']">{{ $t('tips.noPermission') }}</el-link>
                 </template>
               </el-table-column>
             </el-table>
             <pagination
-              v-show="resourceTableData.total>0"
-              :total="Number(resourceTableData.total)"
-              :page.sync="resourcePagination.current"
               :limit.sync="resourcePagination.size"
+              :page.sync="resourcePagination.current"
+              :total="Number(resourceTableData.total)"
               @pagination="resourceFetch"
+              v-show="resourceTableData.total>0"
             />
           </div>
         </el-card>
       </el-col>
     </el-row>
-    <Icons
-      :dialog-visible="iconVisible"
-      @close="iconVisible = false"
-      @choose="chooseIcon"
-    />
-    <resource-edit
-      ref="resourceEdit"
-      :dialog-visible="dialog.isVisible"
-      :type="dialog.type"
-      @success="resourceEditSuccess"
-      @close="resourceEditClose"
-    />
+    <Icons :dialog-visible="iconVisible" @choose="chooseIcon" @close="iconVisible = false" />
+    <resource-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="resourceEditClose" @success="resourceEditSuccess" ref="resourceEdit" />
   </div>
 </template>
 <script>

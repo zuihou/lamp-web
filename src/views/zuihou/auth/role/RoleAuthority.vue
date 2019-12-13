@@ -1,93 +1,43 @@
 <template>
-  <el-dialog
-    :title="title"
-    :width="width"
-    top="50px"
-    :close-on-click-modal="false"
-    :visible.sync="isVisible"
-  >
-    <el-form
-      ref="form"
-      :model="roleAuthority"
-      :rules="rules"
-      label-position="top"
-      label-width="100px"
-    >
+  <el-dialog :close-on-click-modal="false" :title="title" :visible.sync="isVisible" :width="width" top="50px">
+    <el-form :model="roleAuthority" :rules="rules" label-position="top" label-width="100px" ref="form">
       <el-scrollbar style="height:800px">
         <el-row :gutter="12">
           <el-col :span="8">
             <el-card class="box-card">
-              <el-form-item
-                label="菜单"
-                prop="menuIdList"
-              >
-                <div
-                  align="left"
-                  style="margin-left:24px;"
-                >
-                  <el-checkbox
-                    v-model="checkedMenu"
-                    :indeterminate="isIndeterminate"
-                    @change="checkedAll"
-                  />全选/反选
+              <el-form-item label="菜单" prop="menuIdList">
+                <div align="left" style="margin-left:24px;">
+                  <el-checkbox :indeterminate="isIndeterminate" @change="checkedAll" v-model="checkedMenu" />全选/反选
                 </div>
                 <el-tree
-                  ref="menuTree"
-                  :disabled="disabled"
-                  :data="menuTree"
-                  :default-expanded-keys="roleAuthority.menuIdList"
-                  :default-checked-keys="roleAuthority.menuIdList"
-                  show-checkbox
-                  node-key="id"
-                  :expand-on-click-node="false"
                   :check-strictly="true"
-                  highlight-current
-                  default-expand-all
-                  @node-click="nodeClick"
+                  :data="menuTree"
+                  :default-checked-keys="roleAuthority.menuIdList"
+                  :default-expanded-keys="roleAuthority.menuIdList"
+                  :disabled="disabled"
+                  :expand-on-click-node="false"
                   @check="checkMenu"
+                  @node-click="nodeClick"
+                  default-expand-all
+                  highlight-current
+                  node-key="id"
+                  ref="menuTree"
+                  show-checkbox
                 />
               </el-form-item>
             </el-card>
           </el-col>
           <el-col :span="16">
             <el-card class="box-card">
-              <el-form-item
-                label="资源"
-                prop="resourceIdList"
-              >
-                <el-table
-                  ref="table"
-                  :key="tableKey"
-                  v-loading="loading"
-                  :data="tableData.records"
-                  border
-                  fit
-                  style="width: 100%;"
-                  row-key="id"
-                  @select="onSelect"
-                >
-                  <el-table-column
-                    type="selection"
-                    :reserve-selection="true"
-                    align="center"
-                    width="40px"
-                  />
-                  <el-table-column
-                    :label="$t(&quot;table.resource.code&quot;)"
-                    prop="code"
-                    :show-overflow-tooltip="true"
-                    align="center"
-                  >
+              <el-form-item label="资源" prop="resourceIdList">
+                <el-table :data="tableData.records" :key="tableKey" @select="onSelect" @select-all="onAllSelect" border fit ref="table" row-key="id" style="width: 100%;" v-loading="loading">
+                  <el-table-column :reserve-selection="true" align="center" type="selection" width="40px" />
+                  <el-table-column :label="$t('table.resource.code')" :show-overflow-tooltip="true" align="center" prop="code">
                     <template slot-scope="scope">
                       <span>{{ scope.row.code }}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    :label="$t(&quot;table.resource.name&quot;)"
-                    prop="name"
-                    :show-overflow-tooltip="true"
-                    align="center"
-                  >
+                  <el-table-column :label="$t('table.resource.name')" :show-overflow-tooltip="true" align="center" prop="name">
                     <template slot-scope="scope">
                       <span>{{ scope.row.name }}</span>
                     </template>
@@ -99,25 +49,9 @@
         </el-row>
       </el-scrollbar>
     </el-form>
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <el-button
-        type="warning"
-        plain
-        @click="isVisible = false"
-      >
-        {{ $t('common.cancel') }}
-      </el-button>
-      <el-button
-        type="primary"
-        plain
-        :disabled="disabled"
-        @click="submitForm"
-      >
-        {{ $t('common.confirm') }}
-      </el-button>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
+      <el-button :disabled="disabled" @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>
@@ -229,6 +163,9 @@ export default {
           }
         })
       })
+    },
+    onAllSelect (selection) {
+      this.onSelect(selection)
     },
     onSelect (selection) {
       this.roleAuthority.resourceIdList = selection.map(item => item.id)

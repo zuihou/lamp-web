@@ -1,152 +1,73 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="queryParams.templateId"
-        :placeholder="$t(&quot;table.smsTask.templateId&quot;)"
-        class="filter-item search-item"
-      />
-      <el-input
-        v-model="queryParams.topic"
-        :placeholder="$t(&quot;table.smsTask.topic&quot;)"
-        class="filter-item search-item"
-      />
-      <el-input
-        v-model="queryParams.content"
-        :placeholder="$t(&quot;table.smsTask.content&quot;)"
-        class="filter-item search-item"
-      />
+      <el-input :placeholder="$t('table.smsTask.templateId')" class="filter-item search-item" v-model="queryParams.templateId" />
+      <el-input :placeholder="$t('table.smsTask.topic')" class="filter-item search-item" v-model="queryParams.topic" />
+      <el-input :placeholder="$t('table.smsTask.content')" class="filter-item search-item" v-model="queryParams.content" />
       <el-date-picker
-        v-model="queryParams.timeRange"
         :range-separator="null"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        format="yyyy-MM-dd HH:mm:ss"
         class="filter-item search-item date-range-item"
+        end-placeholder="结束日期"
+        format="yyyy-MM-dd HH:mm:ss"
+        start-placeholder="开始日期"
         type="daterange"
+        v-model="queryParams.timeRange"
+        value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button
-        class="filter-item"
-        type="primary"
-        plain
-        @click="search"
-      >
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button
-        class="filter-item"
-        type="warning"
-        plain
-        @click="reset"
-      >
-        {{ $t('table.reset') }}
-      </el-button>
-      <el-dropdown
-        v-has-any-permission="[&quot;sms:manage:add&quot;,&quot;sms:manage:delete&quot;,&quot;sms:manage:export&quot;]"
-        trigger="click"
-        class="filter-item"
-      >
+      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['sms:manage:add','sms:manage:delete','sms:manage:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <router-link :to="{path:&quot;/sms/manage/edit&quot;,query: {type: &quot;add&quot;}}">
-            <el-dropdown-item v-has-permission="[&quot;sms:manage:add&quot;]">
-              {{ $t('table.add') }}
-            </el-dropdown-item>
+          <router-link :to="{path:'/sms/manage/edit',query: {type: 'add'}}">
+            <el-dropdown-item v-has-permission="['sms:manage:add']">{{ $t('table.add') }}</el-dropdown-item>
           </router-link>
-          <el-dropdown-item
-            v-has-permission="[&quot;sms:manage:delete&quot;]"
-            @click.native="batchDelete"
-          >
-            {{ $t('table.delete') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;sms:manage:export&quot;]"
-            @click.native="exportExcel"
-          >
-            {{ $t('table.export') }}
-          </el-dropdown-item>
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['sms:manage:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['sms:manage:export']">{{ $t('table.export') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
 
     <el-table
-      ref="table"
-      :key="tableKey"
-      v-loading="loading"
       :data="tableData.records"
-      border
-      fit
-      style="width: 100%;"
+      :key="tableKey"
+      @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      @filter-change="filterChange"
+      border
+      fit
+      ref="table"
+      style="width: 100%;"
+      v-loading="loading"
     >
-      <el-table-column
-        type="selection"
-        align="center"
-        width="40px"
-      />
-      <el-table-column
-        :label="$t(&quot;table.smsTask.templateId&quot;)"
-        prop="templateId"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="100px"
-      >
+      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column :label="$t('table.smsTask.templateId')" :show-overflow-tooltip="true" align="center" prop="templateId" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.templateId }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.smsTask.receiver&quot;)"
-        prop="receiver"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
+      <el-table-column :label="$t('table.smsTask.receiver')" :show-overflow-tooltip="true" align="center" prop="receiver">
         <template slot-scope="scope">
           <span>{{ scope.row.receiver }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.smsTask.topic&quot;)"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="100px"
-      >
+      <el-table-column :label="$t('table.smsTask.topic')" :show-overflow-tooltip="true" align="center" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.topic }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.smsTask.content&quot;)"
-        :show-overflow-tooltip="true"
-        align="center"
-      >
+      <el-table-column :label="$t('table.smsTask.content')" :show-overflow-tooltip="true" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.content }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.smsTask.status&quot;)"
-        :filters="statusFilters"
-        column-key="status"
-        :filter-multiple="false"
-        :show-overflow-tooltip="true"
-        class-name="status-col"
-        width="100px"
-      >
+      <el-table-column :filter-multiple="false" :filters="statusFilters" :label="$t('table.smsTask.status')" :show-overflow-tooltip="true" class-name="status-col" column-key="status" width="100px">
         <template slot-scope="scope">
           <span v-if="scope.row.sendTime">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              :content="&quot;发送时间: &quot;+ scope.row.sendTime"
-              placement="top"
-            >
+            <el-tooltip :content="'发送时间: '+ scope.row.sendTime" class="item" effect="dark" placement="top">
               <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status.desc }}</el-tag>
             </el-tooltip>
           </span>
@@ -156,82 +77,36 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t(&quot;table.smsTask.draft&quot;)"
-        prop="draft"
-        column-key="draft"
-        :filters="[{ text: $t(&quot;common.yes&quot;), value: &quot;true&quot; }, { text: $t(&quot;common.no&quot;), value: &quot;false&quot; }]"
         :filter-multiple="false"
+        :filters="[{ text: $t('common.yes'), value: 'true' }, { text: $t('common.no'), value: 'false' }]"
+        :label="$t('table.smsTask.draft')"
         align="center"
+        column-key="draft"
+        prop="draft"
         width="100px"
       >
         <template slot-scope="scope">
           <span>
-            <el-tag
-              slot
-              :type="scope.row.draft?&quot;danger&quot;:&quot;success&quot;"
-            >{{ scope.row.draft ? '是' : '否' }}</el-tag>
+            <el-tag :type="scope.row.draft?'danger':'success'" slot>{{ scope.row.draft ? '是' : '否' }}</el-tag>
           </span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.createTime&quot;)"
-        prop="createTime"
-        align="center"
-        width="170px"
-        sortable="custom"
-      >
+      <el-table-column :label="$t('table.createTime')" align="center" prop="createTime" sortable="custom" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.operation&quot;)"
-        align="center"
-        width="100px"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
-          <i
-            v-hasPermission="[&quot;sms:manage:view&quot;]"
-            class="el-icon-view table-operation"
-            style="color: #2db7f5;"
-            @click="view(row)"
-          />
-          <i
-            v-show="row.draft"
-            v-hasPermission="[&quot;sms:manage:update&quot;]"
-            class="el-icon-edit table-operation"
-            style="color: #2db7f5;"
-            @click="edit(row)"
-          />
-          <i
-            v-hasPermission="[&quot;sms:manage:copy&quot;]"
-            class="el-icon-copy-document table-operation"
-            style="color: #909399;"
-            @click="copy(row)"
-          />
-          <i
-            v-hasPermission="[&quot;sms:manage:delete&quot;]"
-            class="el-icon-delete table-operation"
-            style="color: #f50;"
-            @click="singleDelete(row)"
-          />
-          <el-link
-            v-has-no-permission="[&quot;sms:manage:update&quot;,&quot;sms:manage:delete&quot;,&quot;sms:manage:copy&quot;,&quot;sms:manage:view&quot;]"
-            class="no-perm"
-          >
-            {{ $t('tips.noPermission') }}
-          </el-link>
+          <i @click="view(row)" class="el-icon-view table-operation" style="color: #2db7f5;" v-hasPermission="['sms:manage:view']" />
+          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['sms:manage:update']" v-show="row.draft" />
+          <i @click="copy(row)" class="el-icon-copy-document table-operation" style="color: #909399;" v-hasPermission="['sms:manage:copy']" />
+          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['sms:manage:delete']" />
+          <el-link class="no-perm" v-has-no-permission="['sms:manage:update','sms:manage:delete','sms:manage:copy','sms:manage:view']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="tableData.total>0"
-      :total="Number(tableData.total)"
-      :page.sync="pagination.current"
-      :limit.sync="pagination.size"
-      @pagination="fetch"
-    />
+    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
   </div>
 </template>
 

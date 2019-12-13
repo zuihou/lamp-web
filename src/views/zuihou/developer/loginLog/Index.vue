@@ -1,195 +1,78 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        v-model="queryParams.account"
-        :placeholder="$t(&quot;table.loginLog.account&quot;)"
-        class="filter-item search-item"
-      />
-      <el-input
-        v-model="queryParams.location"
-        :placeholder="$t(&quot;table.loginLog.location&quot;)"
-        class="filter-item search-item"
-      />
-      <el-input
-        v-model="queryParams.requestIp"
-        :placeholder="$t(&quot;table.loginLog.requestIp&quot;)"
-        class="filter-item search-item"
-      />
+      <el-input :placeholder="$t('table.loginLog.account')" class="filter-item search-item" v-model="queryParams.account" />
+      <el-input :placeholder="$t('table.loginLog.location')" class="filter-item search-item" v-model="queryParams.location" />
+      <el-input :placeholder="$t('table.loginLog.requestIp')" class="filter-item search-item" v-model="queryParams.requestIp" />
       <el-date-picker
-        v-model="queryParams.timeRange"
         :range-separator="null"
-        :start-placeholder="$t(&quot;table.createTime&quot;)"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        format="yyyy-MM-dd HH:mm:ss"
+        :start-placeholder="$t('table.createTime')"
         class="filter-item search-item date-range-item"
+        format="yyyy-MM-dd HH:mm:ss"
         type="datetimerange"
+        v-model="queryParams.timeRange"
+        value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button
-        class="filter-item"
-        type="primary"
-        plain
-        @click="search"
-      >
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button
-        class="filter-item"
-        type="warning"
-        plain
-        @click="reset"
-      >
-        {{ $t('table.reset') }}
-      </el-button>
-      <el-dropdown
-        v-has-any-permission="[&quot;loginLog:delete&quot;,&quot;loginLog:export&quot;]"
-        trigger="click"
-        class="filter-item"
-      >
+      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['loginLog:delete','loginLog:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-has-permission="[&quot;loginLog:delete&quot;]"
-            @click.native="batchDelete"
-          >
-            {{ $t('table.delete') }}
-          </el-dropdown-item>
-          <el-dropdown-item
-            v-has-permission="[&quot;loginLog:export&quot;]"
-            @click.native="exportExcel"
-          >
-            {{ $t('table.export') }}
-          </el-dropdown-item>
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['loginLog:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['loginLog:export']">{{ $t('table.export') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <el-table
-      ref="table"
-      :key="tableKey"
-      v-loading="loading"
-      :data="tableData.records"
-      border
-      fit
-      style="width: 100%;"
-      @selection-change="onSelectChange"
-      @sort-change="sortChange"
-    >
-      <el-table-column
-        type="selection"
-        align="center"
-        width="40px"
-      />
-      <el-table-column
-        :label="$t(&quot;table.loginLog.userName&quot;)"
-        prop="userName"
-        :show-overflow-tooltip="true"
-        align="center"
-        min-width="100px"
-      >
+    <el-table :data="tableData.records" :key="tableKey" @selection-change="onSelectChange" @sort-change="sortChange" border fit ref="table" style="width: 100%;" v-loading="loading">
+      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column :label="$t('table.loginLog.userName')" :show-overflow-tooltip="true" align="center" min-width="100px" prop="userName">
         <template slot-scope="scope">
           <span>{{ scope.row.userName }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.loginLog.requestIp&quot;)"
-        prop="requestIp"
-        :show-overflow-tooltip="true"
-        align="center"
-        min-width="100px"
-      >
+      <el-table-column :label="$t('table.loginLog.requestIp')" :show-overflow-tooltip="true" align="center" min-width="100px" prop="requestIp">
         <template slot-scope="scope">
           <span>{{ scope.row.requestIp }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.loginLog.browser&quot;)"
-        prop="browser"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="120px"
-      >
+      <el-table-column :label="$t('table.loginLog.browser')" :show-overflow-tooltip="true" align="center" prop="browser" width="120px">
         <template slot-scope="scope">
           <span>{{ scope.row.browser }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.loginLog.browserVersion&quot;)"
-        prop="browserVersion"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="120px"
-      >
+      <el-table-column :label="$t('table.loginLog.browserVersion')" :show-overflow-tooltip="true" align="center" prop="browserVersion" width="120px">
         <template slot-scope="scope">
           <span>{{ scope.row.browserVersion }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        :label="$t(&quot;table.loginLog.operatingSystem&quot;)"
-        prop="operatingSystem"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="170px"
-      >
+      <el-table-column :label="$t('table.loginLog.operatingSystem')" :show-overflow-tooltip="true" align="center" prop="operatingSystem" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.operatingSystem }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.loginLog.location&quot;)"
-        prop="location"
-        :show-overflow-tooltip="true"
-        align="center"
-        min-width="150px"
-      >
+      <el-table-column :label="$t('table.loginLog.location')" :show-overflow-tooltip="true" align="center" min-width="150px" prop="location">
         <template slot-scope="scope">
           <span>{{ scope.row.location }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.loginLog.loginDate&quot;)"
-        prop="createTime"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="170px"
-      >
+      <el-table-column :label="$t('table.loginLog.loginDate')" :show-overflow-tooltip="true" align="center" prop="createTime" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t(&quot;table.operation&quot;)"
-        align="center"
-        width="100px"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
-          <i
-            v-has-permission="[&quot;loginLog:delete&quot;]"
-            class="el-icon-delete table-operation"
-            style="color: #f50;"
-            @click="singleDelete(row)"
-          />
+          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-has-permission="['loginLog:delete']" />
 
-          <el-link
-            v-has-no-permission="[&quot;loginLog:delete&quot;]"
-            class="no-perm"
-          >
-            {{ $t('tips.noPermission') }}
-          </el-link>
+          <el-link class="no-perm" v-has-no-permission="['loginLog:delete']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="tableData.total>0"
-      :total="Number(tableData.total)"
-      :page.sync="pagination.current"
-      :limit.sync="pagination.size"
-      @pagination="fetch"
-    />
+    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
   </div>
 </template>
 <script>

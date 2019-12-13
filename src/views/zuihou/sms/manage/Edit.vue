@@ -1,233 +1,84 @@
 <template>
   <div class="app-container">
-    <el-form
-      ref="form"
-      status-icon
-      :model="smsTask"
-      :rules="rules"
-      label-position="right"
-      label-width="100px"
-    >
+    <el-form :model="smsTask" :rules="rules" label-position="right" label-width="100px" ref="form" status-icon>
       <el-row>
-        <el-col
-          :xs="24"
-          :sm="12"
-          style="margin-top: 10px;"
-        >
-          <el-form-item
-            :label="$t(&quot;table.smsTask.templateId&quot;)"
-            prop="templateId"
-          >
-            <el-select
-              v-model="smsTask.templateId"
-              :multiple="false"
-              filterable
-              placeholder="请输入关键词"
-              style="width:300px;"
-              :disabled="type===&quot;view&quot;"
-              @change="changeTemplate"
-            >
-              <el-option
-                v-for="item in smsTemplateList"
-                :key="item.id"
-                :label="item.name + &quot;(&quot;+item.customCode+&quot;)&quot;"
-                :value="item.id"
-              />
+        <el-col :sm="12" :xs="24" style="margin-top: 10px;">
+          <el-form-item :label="$t('table.smsTask.templateId')" prop="templateId">
+            <el-select :disabled="type==='view'" :multiple="false" @change="changeTemplate" filterable placeholder="请输入关键词" style="width:300px;" v-model="smsTask.templateId">
+              <el-option :key="item.id" :label="item.name + '('+item.customCode+')'" :value="item.id" v-for="item in smsTemplateList" />
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col
-          :xs="24"
-          :sm="12"
-          style="margin-top: 10px;"
-        >
-          <el-form-item
-            v-show="type===&quot;view&quot;"
-            :label="$t(&quot;table.smsTask.status&quot;)"
-            prop="status"
-          >
-            <el-tag
-              :type="smsTask.status | statusFilter"
-              :disabled="type===&quot;view&quot;"
-            >
-              {{ smsTask.status.desc }}
-            </el-tag>
+        <el-col :sm="12" :xs="24" style="margin-top: 10px;">
+          <el-form-item :label="$t('table.smsTask.status')" prop="status" v-show="type==='view'">
+            <el-tag :disabled="type==='view'" :type="smsTask.status | statusFilter">{{ smsTask.status.desc }}</el-tag>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item
-        :label="$t(&quot;table.smsTask.receiver&quot;)"
-        prop="receiver"
-      >
-        <el-tag
-          v-for="tag in receiverList"
-          :key="tag"
-          :disable-transitions="false"
-          :closable="type!==&quot;view&quot;"
-          @close="handleClose(tag)"
-        >
-          {{ tag }}
-        </el-tag>
-        <el-input
-          v-if="receiverVisible"
-          ref="saveTagInput"
-          v-model="receiver"
-          class="input-new-tag"
-          :disabled="type===&quot;view&quot;"
-          @keyup.enter.native="handleInputConfirm"
-          @blur="handleInputConfirm"
-        />
-        <el-button
-          v-else
-          class="button-new-tag"
-          :disabled="type===&quot;view&quot;"
-          @click="showInput"
-        >
-          添加
-        </el-button>
+      <el-form-item :label="$t('table.smsTask.receiver')" prop="receiver">
+        <el-tag :closable="type!=='view'" :disable-transitions="false" :key="tag" @close="handleClose(tag)" v-for="tag in receiverList">{{ tag }}</el-tag>
+        <el-input :disabled="type==='view'" @blur="handleInputConfirm" @keyup.enter.native="handleInputConfirm" class="input-new-tag" ref="saveTagInput" v-if="receiverVisible" v-model="receiver" />
+        <el-button :disabled="type==='view'" @click="showInput" class="button-new-tag" v-else>添加</el-button>
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTask.topic&quot;)"
-        prop="topic"
-      >
-        <el-input
-          v-model="smsTask.topic"
-          :disabled="type===&quot;view&quot;"
-        />
+      <el-form-item :label="$t('table.smsTask.topic')" prop="topic">
+        <el-input :disabled="type==='view'" v-model="smsTask.topic" />
       </el-form-item>
-      <el-form-item
-        :label="$t(&quot;table.smsTask.content&quot;)"
-        prop="content2"
-      >
+      <el-form-item :label="$t('table.smsTask.content')" prop="content2">
         <el-row class="message">
-          <el-col
-            :xs="24"
-            :sm="12"
-            style="margin-top: 10px;"
-          >
-            <el-form-item
-              v-for="(item, key, index) in smsTask.templateParam"
-              :key="index"
-              :label="key"
-              prop="content"
-            >
-              <el-input
-                :value="item"
-                maxlength="255"
-                :disabled="type===&quot;view&quot;"
-                @input="(value)=>{templateCode(value,key,index)}"
-              />
+          <el-col :sm="12" :xs="24" style="margin-top: 10px;">
+            <el-form-item :key="index" :label="key" prop="content" v-for="(item, key, index) in smsTask.templateParam">
+              <el-input :disabled="type==='view'" :value="item" @input="(value)=>{templateCode(value,key,index)}" maxlength="255" />
             </el-form-item>
           </el-col>
-          <el-col
-            :xs="24"
-            :sm="12"
-            style="margin-top: 10px;"
-          >
+          <el-col :sm="12" :xs="24" style="margin-top: 10px;">
             <el-form-item label="预览：">
-              <div
-                class="article"
-                v-html="smsTask.content"
-              />
+              <div class="article" v-html="smsTask.content" />
             </el-form-item>
           </el-col>
         </el-row>
       </el-form-item>
       <el-row>
-        <el-col
-          :xs="24"
-          :sm="12"
-          style="margin-top: 10px;"
-        >
-          <el-form-item
-            label="定时发送"
-            prop="sendTime"
-          >
-            <el-radio-group
-              v-model="timing"
-              size="medium"
-              :disabled="type===&quot;view&quot;"
-            >
-              <el-radio-button :label="false">
-                否
-              </el-radio-button>
-              <el-radio-button :label="true">
-                是
-              </el-radio-button>
+        <el-col :sm="12" :xs="24" style="margin-top: 10px;">
+          <el-form-item label="定时发送" prop="sendTime">
+            <el-radio-group :disabled="type==='view'" size="medium" v-model="timing">
+              <el-radio-button :label="false">否</el-radio-button>
+              <el-radio-button :label="true">是</el-radio-button>
             </el-radio-group>
             <el-date-picker
-              v-show="timing"
-              v-model="smsTask.sendTime"
-              :disabled="type===&quot;view&quot;"
+              :disabled="type==='view'"
+              :picker-options="pickerOptions"
+              align="right"
+              format="yyyy-MM-dd HH:mm:ss"
+              placeholder="选择发送时间"
               style="margin-left:20px"
               type="datetime"
-              format="yyyy-MM-dd HH:mm:ss"
+              v-model="smsTask.sendTime"
+              v-show="timing"
               value-format="yyyy-MM-dd HH:mm:ss"
-              placeholder="选择发送时间"
-              align="right"
-              :picker-options="pickerOptions"
             />
           </el-form-item>
         </el-col>
-        <el-col
-          :xs="24"
-          :sm="12"
-          style="margin-top: 10px;"
-        >
-          <el-form-item
-            v-show="type===&quot;view&quot;"
-            label="是否草稿"
-            prop="draft"
-          >
-            <el-radio-group
-              v-model="smsTask.draft"
-              size="medium"
-              :disabled="type===&quot;view&quot;"
-            >
-              <el-radio-button :label="false">
-                否
-              </el-radio-button>
-              <el-radio-button :label="true">
-                是
-              </el-radio-button>
+        <el-col :sm="12" :xs="24" style="margin-top: 10px;">
+          <el-form-item label="是否草稿" prop="draft" v-show="type==='view'">
+            <el-radio-group :disabled="type==='view'" size="medium" v-model="smsTask.draft">
+              <el-radio-button :label="false">否</el-radio-button>
+              <el-radio-button :label="true">是</el-radio-button>
             </el-radio-group>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <div class="dialog-footer">
-      <el-button
-        v-show="type!==&quot;view&quot;"
-        type="primary"
-        plain
-        :disabled="disabled"
-        @click="submitForm(false)"
-      >
-        立即发送
-      </el-button>
-      <el-button
-        v-show="type!==&quot;view&quot;"
-        type="warning"
-        plain
-        :disabled="disabled"
-        @click="submitForm(true)"
-      >
-        存草稿
-      </el-button>
+      <el-button :disabled="disabled" @click="submitForm(false)" plain type="primary" v-show="type!=='view'">立即发送</el-button>
+      <el-button :disabled="disabled" @click="submitForm(true)" plain type="warning" v-show="type!=='view'">存草稿</el-button>
     </div>
-    <aside
-      v-show="type!==&quot;view&quot;"
-      class="tips"
-    >
+    <aside class="tips" v-show="type!=='view'">
       模板提示：
       <p>1.长度不超过500字，单条短信超过70字后，按67字/条分多条计费；</p>
       <p>2.短信模板内容不能包含【】符号。</p>
     </aside>
-    <div v-show="type===&quot;view&quot;">
-      <send-status-index
-        ref="statusList"
-        :dialog-visible="dialog.isVisible"
-      />
+    <div v-show="type==='view'">
+      <send-status-index :dialog-visible="dialog.isVisible" ref="statusList" />
     </div>
   </div>
 </template>
