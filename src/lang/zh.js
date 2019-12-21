@@ -193,6 +193,20 @@ export default {
       message: '状态码的描述',
       fee: '计费条数'
     },
+    msgs: {
+      bizType: '业务类型',
+      bizId: '业务ID',
+      msgsCenterType: '消息类型',
+      title: '标题',
+      content: '内容',
+      author: '作者',
+      handlerUrl: '处理地址',
+      handlerParams: '处理参数',
+      isSingleHandle: '是否单人处理',
+      isDelete: '是否删除',
+      isRead: '是否已读',
+      readTime: '读消息的时间'
+    },
     gen: {
       config: {
         author: '作者名称',

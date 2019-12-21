@@ -1,7 +1,7 @@
 <template>
   <el-dialog :close-on-click-modal="false" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
     <el-form :model="role" :rules="rules" label-position="right" label-width="100px" ref="form">
-      <el-form-item :label="$t('table.role.code')" prop="name">
+      <el-form-item :label="$t('table.role.code')" prop="code">
         <el-input :disabled="type==='edit' || role.readonly" v-model="role.code" />
       </el-form-item>
       <el-form-item :label="$t('table.role.name')" prop="name">

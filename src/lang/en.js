@@ -193,6 +193,20 @@ export default {
       message: 'message',
       fee: 'fee'
     },
+    msgs: {
+      bizType: 'bizType',
+      bizId: 'bizId',
+      msgsCenterType: 'msgsCenterType',
+      title: 'title',
+      content: 'content',
+      author: 'author',
+      handlerUrl: 'handlerUrl',
+      handlerParams: 'handlerParams',
+      isSingleHandle: 'isSingleHandle',
+      isDelete: 'isDelete',
+      isRead: 'isRead',
+      readTime: 'readTime'
+    },
     gen: {
       config: {
         author: 'Author',
