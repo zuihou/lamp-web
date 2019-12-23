@@ -192,8 +192,16 @@ export default {
             const res = response.data
             if (res.isSuccess) {
               this.msgsCenterInfo.msgsCenterInfoDTO = res.data
+              if (this.msgsCenterInfo.msgsCenterInfoDTO.bizType === null) {
+                this.msgsCenterInfo.msgsCenterInfoDTO.bizType = { code: '' }
+              }
+              if (this.msgsCenterInfo.msgsCenterInfoDTO.msgsCenterType === null) {
+                this.msgsCenterInfo.msgsCenterInfoDTO.msgsCenterType = { code: '' }
+              }
             }
           })
+      } else {
+        this.reset()
       }
     },
     loadUserList () {
@@ -300,8 +308,17 @@ export default {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
-      this.$refs.content.setContent('')
       this.msgsCenterInfo = this.initMsgsCenterInfo()
+
+      //这里报错
+      // this.$nextTick(() =>
+      //   this.$refs.content.setContent('')
+      // )
+
+      // 设置设置的时间短了 也报错
+      setTimeout(() => {
+        this.$refs.content.setContent('')
+      }, 1000)
     },
     submitForm (draft) {
       const vm = this

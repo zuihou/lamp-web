@@ -25,7 +25,7 @@
             <el-dropdown-item v-has-permission="['msgs:add']">{{ $t('table.add') }}</el-dropdown-item>
           </router-link>
           <el-dropdown-item @click.native="batchDelete" v-has-permission="['msgs:delete']">{{ $t('table.delete') }}</el-dropdown-item>
-          <el-dropdown-item @click.native="batchMark" v-has-permission="['msgs:delete']">标记已读</el-dropdown-item>
+          <el-dropdown-item @click.native="batchMark" v-has-permission="['msgs:mark']">标记已读</el-dropdown-item>
           <el-dropdown-item @click.native="exportExcel" v-has-permission="['msgs:export']">{{ $t('table.export') }}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
