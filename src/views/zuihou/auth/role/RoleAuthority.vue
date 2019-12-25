@@ -146,7 +146,7 @@ export default {
       const vm = this
       vm.loading = true
 
-      resourceApi.findPage({ current: 1, size: 10000, menuId: data.id })
+      resourceApi.page({ current: 1, size: 10000, menuId: data.id })
         .then((response) => {
           const res = response.data
           vm.tableData = res.data

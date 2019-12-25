@@ -214,7 +214,7 @@ export default {
     },
     loadStation (orgId) {
       if (orgId) {
-        stationApi.findPage({ orgId: orgId, status: true })
+        stationApi.page({ orgId: orgId, status: true })
           .then((response) => {
             const res = response.data
             this.stationList = res.data.records

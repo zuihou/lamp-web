@@ -205,7 +205,7 @@ export default {
       }
     },
     loadUserList () {
-      userApi.findUserPage({ current: 1, size: 10000 })
+      userApi.page({ current: 1, size: 10000 })
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
@@ -216,7 +216,7 @@ export default {
         })
     },
     loadRoleList () {
-      roleApi.findPage({ current: 1, size: 10000 })
+      roleApi.page({ current: 1, size: 10000 })
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {

@@ -1,22 +1,18 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  page: `/authority/tenant/page`,
+  page: `/authority/systemApi/page`,
   update: {
     method: 'PUT',
-    url: `/authority/tenant`
+    url: `/authority/systemApi`
   },
   save: {
     method: 'POST',
-    url: `/authority/tenant`
+    url: `/authority/systemApi`
   },
-  saveInit: {
-    method: 'POST',
-    url: `/authority/tenant/init`
-  },
-  remove: {
+  delete: {
     method: 'DELETE',
-    url: `/authority/tenant/remove`
+    url: `/authority/systemApi`
   }
 }
 
@@ -35,21 +31,15 @@ export default {
       data
     })
   },
-  saveInit (data) {
-    return axiosApi({
-      ...apiList.saveInit,
-      data
-    })
-  },
   update (data) {
     return axiosApi({
       ...apiList.update,
       data
     })
   },
-  remove (data) {
+  delete (data) {
     return axiosApi({
-      ...apiList.remove,
+      ...apiList.delete,
       data
     })
   }

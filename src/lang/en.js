@@ -207,6 +207,31 @@ export default {
       isRead: 'isRead',
       readTime: 'readTime'
     },
+    systemApi: {
+      code: "code",
+      name: "name",
+      describe: "describe",
+      requestMethod: "requestMethod",
+      contentType: "contentType",
+      serviceId: "serviceId",
+      path: "path",
+      status: "status",
+      isPersist: "isPersist",
+      isAuth: "isAuth",
+      isOpen: "isOpen",
+      className: "className",
+      methodName: "methodName"
+    },
+    application: {
+      appKey: "appKey",
+      appSecret: "appSecret",
+      website: "website",
+      name: "name",
+      icon: "icon",
+      appType: "appType",
+      describe: "describe",
+      status: "status"
+    },
     gen: {
       config: {
         author: 'Author',

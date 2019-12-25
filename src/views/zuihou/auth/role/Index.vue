@@ -254,7 +254,7 @@ export default {
         params.startCreateTime = this.queryParams.timeRange[0]
         params.endCreateTime = this.queryParams.timeRange[1]
       }
-      roleApi.findPage(params)
+      roleApi.page(params)
         .then((response) => {
           const res = response.data
           this.loading = false

@@ -207,6 +207,31 @@ export default {
       isRead: '是否已读',
       readTime: '读消息的时间'
     },
+    systemApi: {
+      code: "接口编码",
+      name: "接口名称",
+      describe: "资源描述",
+      requestMethod: "请求方式",
+      contentType: "响应类型",
+      serviceId: "服务ID",
+      path: "请求路径",
+      status: "状态",
+      isPersist: "保留数据",
+      isAuth: "是否需要认证",
+      isOpen: "是否公开",
+      className: "类名",
+      methodName: "方法名"
+    },
+    application: {
+      appKey: "appKey",
+      appSecret: "appSecret",
+      website: "官网",
+      name: "应用名称",
+      icon: "应用图标",
+      appType: "类型",
+      describe: "备注",
+      status: "状态"
+    },
     gen: {
       config: {
         author: '作者名称',

@@ -1,7 +1,7 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  findUserPage: {
+  page: {
     method: 'GET',
     url: `/authority/user/page`
   },
@@ -32,9 +32,9 @@ const apiList = {
 }
 
 export default {
-  findUserPage (data) {
+  page (data) {
     return axiosApi({
-      ...apiList.findUserPage,
+      ...apiList.page,
       formData: true,
       data
     })

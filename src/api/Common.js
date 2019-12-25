@@ -13,14 +13,6 @@ export default {
     const tenant = db.get('TENANT', '')
     return `${process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX}${process.env.VUE_APP_BASE_API}/file/attachment/download/${data.bizType}/${data.bizId}?token=${token}&tenant=${tenant}`
   },
-  findPage (data) {
-    return axiosApi({
-      method: 'GET',
-      url: apiList.findPage,
-      formData: true,
-      data
-    })
-  },
   dictionaryEnums () {
     return axiosApi({
       method: 'GET',

@@ -20,7 +20,7 @@ const apiList = {
 }
 
 export default {
-  findPage (data) {
+  page (data) {
     return axiosApi({
       ...apiList.page,
       formData: true,

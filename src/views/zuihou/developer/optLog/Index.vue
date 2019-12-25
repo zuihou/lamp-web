@@ -101,7 +101,7 @@
       <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="110px">
         <template slot-scope="{row}">
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-has-permission="['optLog:delete']" />
-          <i @click="onView(row)" class="el-icon-view table-operation" style="color: #f50;" v-has-permission="['optLog:view']" />
+          <i @click="onView(row)" class="el-icon-view table-operation" style="color: #87d068;" v-has-permission="['optLog:view']" />
           <el-link class="no-perm" v-has-no-permission="['optLog:delete','optLog:view']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>

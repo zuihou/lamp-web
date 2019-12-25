@@ -102,7 +102,7 @@ export default {
       }
     },
     initUserList () {
-      userApi.findUserPage({ current: 1, size: 100000, status: true })
+      userApi.page({ current: 1, size: 100000, status: true })
         .then((response) => {
           const res = response.data
 

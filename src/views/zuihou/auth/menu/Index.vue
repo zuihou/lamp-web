@@ -497,7 +497,7 @@ export default {
       params = { ...this.resourceQueryParams, ...params }
       if (params.menuId) {
         this.resourceLoading = true
-        resourceApi.findPage(params)
+        resourceApi.page(params)
           .then((response) => {
             const res = response.data
             this.resourceTableData = res.data
