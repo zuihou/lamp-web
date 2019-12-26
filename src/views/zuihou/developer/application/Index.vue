@@ -51,12 +51,12 @@
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.application.website')" :show-overflow-tooltip="true" align="left" min-width="80px" prop="website">
+      <el-table-column :label="$t('table.application.website')" :show-overflow-tooltip="true" align="left" min-width="120px" prop="website">
         <template slot-scope="scope">
           <span>{{ scope.row.website }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.application.appType')" :show-overflow-tooltip="true" align="center" min-width="180px" prop="appType">
+      <el-table-column :label="$t('table.application.appType')" :show-overflow-tooltip="true" align="center" min-width="50px" prop="appType">
         <template slot-scope="scope">
           <span>{{ scope.row.appType ? scope.row.appType.desc : '' }}</span>
         </template>
@@ -87,7 +87,7 @@
     </el-table>
     <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
 
-    <system-api-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="editClose" @success="editSuccess" ref="edit" />
+    <application-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="editClose" @success="editSuccess" ref="edit" />
   </div>
 </template>
 <script>

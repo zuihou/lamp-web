@@ -1,19 +1,25 @@
 <template>
   <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
     <el-form :model="application" :rules="rules" label-position="right" label-width="100px" ref="form">
-      <el-form-item :label="$t('table.application.serviceId')" prop="serviceId">
-        <el-select :disabled="type==='view'" placeholder style="width:100%" v-model="application.serviceId" value>
-          <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in serviceList" />
-        </el-select>
+      <el-form-item :label="$t('table.application.appKey')" prop="appKey" v-show="type!=='add' ">
+        <el-input :disabled="type==='view' || type==='edit' " v-model="application.appKey" />
       </el-form-item>
-      <el-form-item :label="$t('table.application.code')" prop="code">
-        <el-input :disabled="type==='view' || type==='edit' " v-model="application.code" />
+      <el-form-item :label="$t('table.application.appSecret')" prop="appSecret" v-show="type!=='add' ">
+        <el-input :disabled="type==='view' || type==='edit' " v-model="application.appSecret" />
       </el-form-item>
       <el-form-item :label="$t('table.application.name')" prop="name">
         <el-input :disabled="type==='view'" v-model="application.name" />
       </el-form-item>
-      <el-form-item :label="$t('table.application.path')" prop="path">
-        <el-input :disabled="type==='view'" v-model="application.path" />
+      <el-form-item :label="$t('table.application.website')" prop="website">
+        <el-input :disabled="type==='view'" v-model="application.website" />
+      </el-form-item>
+      <el-form-item :label="$t('table.application.icon')" prop="icon">
+        <el-input :disabled="type==='icon'" v-model="application.icon" />
+      </el-form-item>
+      <el-form-item :label="$t('table.application.appType')" prop="appType">
+        <el-radio-group border="true" size="small" v-model="application.appType.code">
+          <el-radio-button :key="index" :label="key" :value="key" v-for="(item, key, index) in enums.ApplicationAppTypeEnum">{{ item }}</el-radio-button>
+        </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('table.application.status')" prop="status">
         <el-radio-group border="true" size="small" v-model="application.status">
@@ -22,20 +28,6 @@
         </el-radio-group>
         <aside class="tips">禁用：提示"请求地址,禁止访问!";</aside>
       </el-form-item>
-      <el-form-item :label="$t('table.application.isAuth')" prop="isAuth">
-        <el-radio-group size="small" v-model="application.isAuth">
-          <el-radio-button :label="true">{{ $t('common.yes') }}</el-radio-button>
-          <el-radio-button :label="false">{{ $t('common.no') }}</el-radio-button>
-        </el-radio-group>
-        <aside class="tips">是：未认证登录,提示"认证失败,请重新登录!";否: 不需要认证登录</aside>
-      </el-form-item>
-      <!-- <el-form-item :label="$t('table.application.isOpen')" prop="isOpen">
-        <el-radio-group size="small" v-model="application.isOpen">
-          <el-radio-button :label="true">{{ $t('common.yes') }}</el-radio-button>
-          <el-radio-button :label="false">{{ $t('common.no') }}</el-radio-button>
-        </el-radio-group>
-        <aside class="tips">否:提示"请求地址,拒绝访问!"</aside>
-      </el-form-item>-->
       <el-form-item :label="$t('table.application.describe')" prop="describe">
         <el-input v-model="application.describe" />
       </el-form-item>
@@ -78,11 +70,8 @@ export default {
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 255, message: this.$t('rules.range4to10'), trigger: 'blur' }
         ],
-        status: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
-        serviceId: [
-          { required: true, message: this.$t('rules.require'), trigger: 'blur' },
-          { min: 1, max: 50, message: this.$t('rules.range4to10'), trigger: 'blur' },
-        ]
+        status: { required: true, message: this.$t('rules.require'), trigger: 'blur' }
+
       },
       serviceList: [
         { id: "zuihou-authority-server", name: "权限服务" },
@@ -103,6 +92,9 @@ export default {
         this.reset()
       }
     },
+    enums () {
+      return this.$store.state.common.enums
+    },
     title () {
       return this.type === 'add' ? this.$t('common.add') : this.$t('common.edit')
     }
@@ -121,15 +113,14 @@ export default {
     initApplication () {
       return {
         id: '',
-        code: '',
+        appKey: '',
+        appSecret: '',
+        website: '',
+        name: '',
+        icon: '',
+        appType: { code: 'SERVER' },
         describe: '',
-        requestMethod: '',
-        contentType: '',
-        serviceId: '',
-        path: '',
         status: true,
-        isOpen: true,
-        isAuth: false
       }
     },
     initWidth () {
