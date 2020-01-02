@@ -39,14 +39,13 @@
   </el-dialog>
 </template>
 <script>
-import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import applicationApi from '@/api/Application.js'
 
 
 export default {
   name: 'ApplicationEdit',
-  components: { Treeselect },
+  components: {},
   props: {
     dialogVisible: {
       type: Boolean,

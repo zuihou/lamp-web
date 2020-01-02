@@ -157,7 +157,17 @@ registry=https://r.npm.taobao.org
 ```
 npm install --registry=https://registry.npm.taobao.org
 
-上面的命令报错？就试试：
+上面的命令报错？就逐个试试以下命令：
+
+npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+git config --global url."https://".insteadOf git://
+npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
+
+还不行？ 就用淘宝镜像吧...
+
+# 安装cnpm
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+
 
 cnpm install --registry=https://registry.npm.taobao.org
 ```
