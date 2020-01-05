@@ -13,7 +13,17 @@
         </el-tooltip>
       </el-form-item>
       <el-form-item :label="$t('table.user.avatar')" prop="avatar">
-        <imgUpload :auto-upload="true" :data="user.avatar" :file-list="imgFileList" :show-file-list="false" @setId="setIdAndSubmit" list-type="picture-card" ref="imgFileRef">
+        <imgUpload
+          :accept="accept"
+          :acceptSize="2*1024*1024"
+          :auto-upload="true"
+          :data="user.avatar"
+          :file-list="imgFileList"
+          :show-file-list="false"
+          @setId="setIdAndSubmit"
+          list-type="picture-card"
+          ref="imgFileRef"
+        >
           <i class="el-icon-plus" />
         </imgUpload>
       </el-form-item>
@@ -84,6 +94,7 @@ export default {
   },
   data () {
     return {
+      accept: "image/jpeg, image/gif, image/png",
       remoteStationLoading: false,
       user: this.initUser(),
       screenWidth: 0,

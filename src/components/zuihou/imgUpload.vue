@@ -1,40 +1,30 @@
 <template>
   <div>
     <el-upload
-      :ref="uploadRef"
-      class="avatar-uploader"
-      :class="{ limit: showUploadBtn }"
-      list-type="picture-card"
-      :multiple="multiple"
-      :auto-upload="autoUpload"
-      :headers="headers"
+      :accept="accept"
       :action="action"
+      :auto-upload="autoUpload"
+      :before-upload="beforeUpload"
+      :class="{ limit: showUploadBtn }"
       :data="fileOtherData"
       :file-list="imgFileList"
+      :headers="headers"
+      :limit="limit"
+      :multiple="multiple"
       :on-change="handleChange"
       :on-error="handleError"
-      :on-remove="handleRemove"
       :on-exceed="handleExceed"
-      :before-upload="beforeUpload"
+      :on-remove="handleRemove"
+      :ref="uploadRef"
       :show-file-list="showFileList"
-      :limit="limit"
+      class="avatar-uploader"
+      list-type="picture-card"
     >
-      <img
-        v-if="imageUrl"
-        :src="imageUrl"
-        class="avatar"
-      >
-      <i
-        v-else
-        class="el-icon-plus"
-      />
+      <img :src="imageUrl" class="avatar" v-if="imageUrl" />
+      <i class="el-icon-plus" v-else />
     </el-upload>
     <el-dialog :visible.sync="dialogVisible">
-      <img
-        width="100%"
-        :src="dialogImageUrl"
-        alt
-      >
+      <img :src="dialogImageUrl" alt width="100%" />
     </el-dialog>
   </div>
 </template>
@@ -71,7 +61,12 @@ export default {
     // 允许上传的文件类型
     accept: {
       type: String,
-      default: "JPG,JPEG,PNG,GIF,BMP,PDF"
+      default: "image/jpeg, image/gif, image/png, image/bmp"
+    },
+    // 允许上传的文件大小 单位：字节
+    acceptSize: {
+      type: Number,
+      default: null
     },
     // 默认额外上传数据
     fileOtherData: {
@@ -141,41 +136,57 @@ export default {
       vm.$store.state.hasLoading = true
     },
     // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
-    handleChange (file) {
+    handleChange (file, fileList) {
       const vm = this
       if (file.response) {
         if (file.response.isSuccess) {
-          vm.fileOtherData.bizId = file.response.data.bizId
-          vm.$emit("setId", file.response.data.bizId, file.response.data.url)
+          const remoteFile = file.response.data
+          vm.fileOtherData.bizId = remoteFile.bizId
+          vm.imageUrl = remoteFile.url
+          vm.$emit("setId", remoteFile.bizId, remoteFile.url)
         } else {
           vm.$message.error(file.response.msg)
           vm.isUploadError = false
         }
       } else {
-        const ary = vm.accept.split(",")
-        const fileType = file.name.split(".")
-        const length = fileType.length - 1
-        let isImg = false
-        ary.map(item => {
-          if (item.trim().toLowerCase() === fileType[length].toLowerCase()) {
-            isImg = true
-          }
-        })
-        if (!isImg) {
-          vm.$message.error("只能上传" + vm.accept + "格式的文件!")
-          //vm.imgFileList = []
-          vm.imgFileList.length = 0
-        } else {
-          if (!vm.isUploadError) {
-            if (!vm.showFileList) {
-              this.imageUrl = URL.createObjectURL(file.raw)
+
+        if (vm.acceptSize) {
+          const isLtAcceptSize = file.size > vm.acceptSize;
+          if (isLtAcceptSize) {
+            setTimeout(() => {
+              vm.$message.error("只能上传" + vm.renderSize(vm.acceptSize) + "的文件!已为您过滤文件：" + file.name)
+            }, 10)
+
+            fileList.forEach((item, index) => {
+              if (item.uid === file.uid) {
+                fileList.splice(index, 1)
+              }
+            })
+          } else {
+            if (!vm.isUploadError) {
+              vm.addFileAry.push(file.name)
             }
-            vm.addFileAry.push(file.name)
+            vm.isUploadError = false
           }
-          vm.isUploadError = false
         }
+
       }
       vm.$store.state.hasLoading = false
+    },
+    renderSize (value) {
+      if (null == value || value == '') {
+        return "0 Bytes"
+      }
+      const unitArr = new Array("Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+      let index = 0
+      let srcsize = parseFloat(value)
+      index = Math.floor(Math.log(srcsize) / Math.log(1024))
+      let size = srcsize / Math.pow(1024, index)
+      size = size.toFixed(2)
+      if (unitArr[index]) {
+        return size + unitArr[index]
+      }
+      return '文件太大'
     },
     // 附件上传失败
     handleError () {

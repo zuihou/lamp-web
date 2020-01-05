@@ -117,7 +117,7 @@ export default {
     setUserRole (val) {
       const vm = this
       vm.userRole.roleId = val.id
-      vm.disabled = val.readonly
+      // vm.disabled = val.readonly
       roleApi.findUserIdByRoleId(val.id)
         .then((response) => {
           const res = response.data

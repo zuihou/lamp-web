@@ -232,6 +232,21 @@ export default {
       describe: "备注",
       status: "状态"
     },
+    dictionary: {
+      code: "编码",
+      name: "名称",
+      describe: "描述",
+      status: "状态"
+    },
+    dictionaryItem: {
+      dictionaryId: "字典ID",
+      dictionaryCode: "字典编码",
+      code: "编码",
+      name: "名称",
+      describe: "描述",
+      status: "状态",
+      sortValue: "排序"
+    },
     gen: {
       config: {
         author: '作者名称',

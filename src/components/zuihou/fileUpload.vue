@@ -1,30 +1,25 @@
 <template>
   <div>
     <el-upload
-      :ref="uploadRef"
-      class="upload-demo"
-      :class="isUpload === false ? &quot;hidebtn&quot; : &quot;&quot;"
-      :multiple="multiple"
-      :auto-upload="autoUpload"
-      :headers="headers"
+      :accept="accept"
       :action="action"
+      :auto-upload="autoUpload"
+      :before-remove="beforeRemove"
+      :class="isUpload === false ? &quot;hidebtn&quot; : &quot;&quot;"
       :data="fileOtherData"
       :file-list="fileList"
-      :on-preview="handlePreview"
+      :headers="headers"
+      :limit="limit"
+      :multiple="multiple"
       :on-change="handleChange"
       :on-error="handleError"
-      :on-remove="handleRemove"
-      :before-remove="beforeRemove"
-      :limit="limit"
       :on-exceed="handleExceed"
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :ref="uploadRef"
+      class="upload-demo"
     >
-      <el-button
-        v-if="isUpload"
-        size="small"
-        type="primary"
-      >
-        点击上传
-      </el-button>
+      <el-button size="small" type="primary" v-if="isUpload">点击上传</el-button>
     </el-upload>
   </div>
 </template>
@@ -63,6 +58,11 @@ export default {
     accept: {
       type: String,
       default: ""
+    },
+    // 允许上传的文件大小 单位：字节
+    acceptSize: {
+      type: Number,
+      default: null
     },
     // 默认额外上传数据
     fileOtherData: {
@@ -148,20 +148,19 @@ export default {
         }
         vm.$emit("setId", vm.uploadTotalNum === fileList.length, file.response)
       } else {
-        if (vm.accept) {
-          const ary = vm.accept.split(",")
-          const fileType = file.name.split(".")
-          const length = fileType.length - 1
-          let trueFormat = false
-          ary.map(item => {
-            if (item.trim().toLowerCase() === fileType[length].toLowerCase()) {
-              trueFormat = true
-            }
-          })
-          if (!trueFormat) {
-            vm.$message.error("只能上传" + vm.accept + "格式的文件!")
-            debugger
-            vm.fileList = JSON.parse(JSON.stringify(vm.fileList))
+        if (vm.acceptSize) {
+          const isLtAcceptSize = file.size > vm.acceptSize;
+
+          if (isLtAcceptSize) {
+            setTimeout(() => {
+              vm.$message.error("只能上传" + vm.renderSize(vm.acceptSize) + "的文件!已为您过滤文件：" + file.name)
+            }, 10)
+
+            fileList.forEach((item, index) => {
+              if (item.uid === file.uid) {
+                fileList.splice(index, 1)
+              }
+            })
           } else {
             if (!vm.isUploadError) {
               vm.addFileAry.push(file.name)
@@ -184,6 +183,21 @@ export default {
       vm.$message.error("附件上传失败，请重试")
       vm.isUploadError = true
       vm.$store.state.hasLoading = false
+    },
+    renderSize (value) {
+      if (null == value || value == '') {
+        return "0 Bytes"
+      }
+      const unitArr = new Array("Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+      let index = 0
+      let srcsize = parseFloat(value)
+      index = Math.floor(Math.log(srcsize) / Math.log(1024))
+      let size = srcsize / Math.pow(1024, index)
+      size = size.toFixed(2)
+      if (unitArr[index]) {
+        return size + unitArr[index]
+      }
+      return '文件太大'
     },
     handlePreview (file) {
       if (file.bizId) {

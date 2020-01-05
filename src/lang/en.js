@@ -232,6 +232,21 @@ export default {
       describe: "describe",
       status: "status"
     },
+    dictionary: {
+      code: "code",
+      name: "name",
+      describe: "describe",
+      status: "status"
+    },
+    dictionaryItem: {
+      dictionaryId: "dictionaryId",
+      dictionaryCode: "dictionaryCode",
+      code: "code",
+      name: "name",
+      describe: "describe",
+      status: "status",
+      sortValue: "sortValue"
+    },
     gen: {
       config: {
         author: 'Author',

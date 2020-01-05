@@ -205,7 +205,7 @@ export default {
     setRoleAuthority (val) {
       const vm = this
       vm.roleAuthority.roleId = val.id
-      vm.disabled = val.readonly
+      // vm.disabled = val.readonly
       roleApi.findAuthorityIdByRoleId(val.id)
         .then((response) => {
           const res = response.data

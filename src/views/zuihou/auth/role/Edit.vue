@@ -2,22 +2,22 @@
   <el-dialog :close-on-click-modal="false" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
     <el-form :model="role" :rules="rules" label-position="right" label-width="100px" ref="form">
       <el-form-item :label="$t('table.role.code')" prop="code">
-        <el-input :disabled="type==='edit' || role.readonly" v-model="role.code" />
+        <el-input :disabled="type==='edit'" v-model="role.code" />
       </el-form-item>
       <el-form-item :label="$t('table.role.name')" prop="name">
-        <el-input :disabled="role.readonly" v-model="role.name" />
+        <el-input v-model="role.name" />
       </el-form-item>
       <el-form-item :label="$t('table.role.status')" prop="status">
-        <el-radio-group :disabled="role.readonly" v-model="role.status">
+        <el-radio-group v-model="role.status">
           <el-radio-button :label="true">{{ $t('common.status.valid') }}</el-radio-button>
           <el-radio-button :label="false">{{ $t('common.status.invalid') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('table.role.describe')" prop="describe">
-        <el-input :disabled="role.readonly" v-model="role.describe" />
+        <el-input v-model="role.describe" />
       </el-form-item>
       <el-form-item :label="$t('table.role.dsType')" prop="dsType">
-        <el-radio-group :disabled="role.readonly" @change="dsTypeChange" v-model="role.dsType.code">
+        <el-radio-group @change="dsTypeChange" v-model="role.dsType.code">
           <el-radio-button :key="index" :label="key" :value="key" v-for="(item, key, index) in enums.DataScopeType">{{ item }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
@@ -27,7 +27,6 @@
           :data="orgList"
           :default-checked-keys="role.orgList"
           :default-expanded-keys="role.orgList"
-          :disabled="role.readonly"
           :expand-on-click-node="false"
           highlight-current
           node-key="id"
@@ -38,7 +37,7 @@
     </el-form>
     <div class="dialog-footer" slot="footer">
       <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
-      <el-button :disabled="role.readonly" @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
+      <el-button @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
     </div>
   </el-dialog>
 </template>

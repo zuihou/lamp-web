@@ -9,9 +9,9 @@
         <el-input v-model="attachment.bizType" />
       </el-form-item>
       <el-form-item label="文件" prop="fileLength">
-        <fileUpload :auto-upload="false" @fileLengthVaild="fileLengthVaild" @setId="setIdAndSubmit" ref="fileRef">
+        <fileUpload :acceptSize="2*1024*1024" :auto-upload="false" :limit="5" @fileLengthVaild="fileLengthVaild" @setId="setIdAndSubmit" ref="fileRef">
           <el-button size="small" slot="trigger" type="primary">选取文件</el-button>
-          <div class="el-upload__tip" slot="tip">文件不超过500MB</div>
+          <div class="el-upload__tip" slot="tip">文件不超过2MB</div>
         </fileUpload>
       </el-form-item>
     </el-form>
@@ -41,6 +41,7 @@ export default {
   },
   data () {
     return {
+      accept: "image/jpeg, image/gif, image/png",
       attachment: this.initAttachment(),
       screenWidth: 0,
       width: this.initWidth(),
