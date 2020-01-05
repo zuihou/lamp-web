@@ -3,16 +3,7 @@
     <div class="filter-container">
       <el-input :placeholder="$t('table.dictionary.code')" class="filter-item search-item" v-model="queryParams.code" />
       <el-input :placeholder="$t('table.dictionary.name')" class="filter-item search-item" v-model="queryParams.name" />
-      <el-date-picker
-        :range-separator="null"
-        class="filter-item search-item date-range-item"
-        end-placeholder="结束日期"
-        format="yyyy-MM-dd HH:mm:ss"
-        start-placeholder="开始日期"
-        type="daterange"
-        v-model="queryParams.timeRange"
-        value-format="yyyy-MM-dd HH:mm:ss"
-      />
+
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
       <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['dict:add','dict:delete','dict:export']">
@@ -28,7 +19,19 @@
       </el-dropdown>
     </div>
 
-    <el-table :data="tableData.records" :key="tableKey" @selection-change="onSelectChange" @sort-change="sortChange" border fit ref="table" style="width: 100%;" v-loading="loading">
+    <el-table
+      :data="tableData.records"
+      :key="tableKey"
+      @row-click="rowClick"
+      @selection-change="onSelectChange"
+      @sort-change="sortChange"
+      border
+      fit
+      ref="table"
+      size="mini"
+      style="width: 100%;"
+      v-loading="loading"
+    >
       <el-table-column align="center" type="selection" width="40px" />
       <el-table-column :label="$t('table.dictionary.code')" :show-overflow-tooltip="true" align="center" prop="name">
         <template slot-scope="scope">
@@ -56,7 +59,7 @@
           <el-tag :type="row.status | statusFilter">{{ row.status ? $t('common.status.valid') : $t('common.status.invalid') }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.createTime')" align="center" prop="createTime" sortable="custom" width="160px">
+      <el-table-column :label="$t('table.createTime')" align="center" prop="createTime" sortable="custom" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
@@ -98,8 +101,6 @@ export default {
         type: 'add'
       },
       tableKey: 0,
-      // total: 0,
-      orgList: [],
       queryParams: {},
       sort: {},
       selection: [],
@@ -121,7 +122,6 @@ export default {
 
   },
   mounted () {
-
     this.fetch()
   },
   methods: {
@@ -142,6 +142,7 @@ export default {
         ...this.queryParams,
         ...this.sort
       })
+      this.$emit('dictionaryClick', { id: -1 })
     },
     reset () {
       this.queryParams = {}
@@ -201,10 +202,10 @@ export default {
     add () {
       this.dialog.type = 'add'
       this.dialog.isVisible = true
-      this.$refs.edit.setDictionary(false, this.orgList)
+      this.$refs.edit.setDictionary(false)
     },
     edit (row) {
-      this.$refs.edit.setDictionary(row, this.orgList)
+      this.$refs.edit.setDictionary(row)
       this.dialog.type = 'edit'
       this.dialog.isVisible = true
     },
@@ -212,10 +213,10 @@ export default {
       this.loading = true
       params.size = this.pagination.size
       params.current = this.pagination.current
-      if (this.queryParams.timeRange) {
-        params.startCreateTime = this.queryParams.timeRange[0]
-        params.endCreateTime = this.queryParams.timeRange[1]
-      }
+      // if (this.queryParams.timeRange) {
+      //   params.startCreateTime = this.queryParams.timeRange[0]
+      //   params.endCreateTime = this.queryParams.timeRange[1]
+      // }
       dictionaryApi.page(params)
         .then((response) => {
           const res = response.data
@@ -230,6 +231,9 @@ export default {
       this.sort.field = val.prop
       this.sort.order = val.order
       this.search()
+    },
+    rowClick (row) {
+      this.$emit('dictionaryClick', row)
     }
   }
 }

@@ -1,20 +1,26 @@
 <template>
   <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
-    <el-form :model="dictionary" :rules="rules" label-position="right" label-width="100px" ref="form">
-      <el-form-item :label="$t('table.dictionary.code')" prop="code">
-        <el-input :disabled="type==='edit'" v-model="dictionary.code" />
+    <el-form :model="dictionaryItem" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item :hidden="true" :label="$t('table.dictionaryItem.dictionaryId')" prop="dictionaryId">
+        <el-input :disabled="type==='edit'" v-model="dictionaryItem.dictionaryId" />
       </el-form-item>
-      <el-form-item :label="$t('table.dictionary.name')" prop="name">
-        <el-input v-model="dictionary.name" />
+      <el-form-item :label="$t('table.dictionaryItem.code')" prop="code">
+        <el-input :disabled="type==='edit'" v-model="dictionaryItem.code" />
       </el-form-item>
-      <el-form-item :label="$t('table.dictionary.status')" prop="status">
-        <el-radio-group v-model="dictionary.status">
+      <el-form-item :label="$t('table.dictionaryItem.name')" prop="name">
+        <el-input v-model="dictionaryItem.name" />
+      </el-form-item>
+      <el-form-item :label="$t('table.dictionaryItem.status')" prop="status">
+        <el-radio-group v-model="dictionaryItem.status">
           <el-radio :label="true">{{ $t('common.status.valid') }}</el-radio>
           <el-radio :label="false">{{ $t('common.status.invalid') }}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item :label="$t('table.dictionary.describe')" prop="describe">
-        <el-input v-model="dictionary.describe" />
+      <el-form-item :label="$t('table.dictionaryItem.sortValue')" prop="sortValue">
+        <el-input v-model="dictionaryItem.sortValue" />
+      </el-form-item>
+      <el-form-item :label="$t('table.dictionaryItem.describe')" prop="describe">
+        <el-input v-model="dictionaryItem.describe" />
       </el-form-item>
     </el-form>
     <div class="dialog-footer" slot="footer">
@@ -24,11 +30,11 @@
   </el-dialog>
 </template>
 <script>
-import dictionaryApi from '@/api/Dictionary.js'
+import dictionaryItemApi from '@/api/DictionaryItem.js'
 
 
 export default {
-  name: 'DictionaryEdit',
+  name: 'DictionaryItemEdit',
   components: {},
   props: {
     dialogVisible: {
@@ -42,10 +48,11 @@ export default {
   },
   data () {
     return {
-      dictionary: this.initDictionary(),
+      dictionaryItem: this.initDictionaryItem(),
       screenWidth: 0,
       width: this.initWidth(),
       rules: {
+        dictionaryId: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
         code: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 64, message: this.$t('rules.range4to10'), trigger: 'blur' }
@@ -86,12 +93,15 @@ export default {
     }
   },
   methods: {
-    initDictionary () {
+    initDictionaryItem () {
       return {
         id: '',
+        dictionaryId: null,
+        dictionaryCode: '',
         name: '',
         code: '',
         status: true,
+        sortValue: 1,
         describe: ''
       }
     },
@@ -105,10 +115,10 @@ export default {
         return '800px'
       }
     },
-    setDictionary (val) {
+    setDictionaryItem (val) {
       const vm = this
       if (val) {
-        vm.dictionary = { ...val }
+        vm.dictionaryItem = { ...val }
       }
     },
     close () {
@@ -118,7 +128,7 @@ export default {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
-      this.dictionary = this.initDictionary()
+      this.dictionaryItem = this.initDictionaryItem()
     },
     submitForm () {
       const vm = this
@@ -140,7 +150,7 @@ export default {
     },
     save () {
       const vm = this
-      dictionaryApi.save(this.dictionary)
+      dictionaryItemApi.save(this.dictionaryItem)
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
@@ -154,7 +164,7 @@ export default {
         })
     },
     update () {
-      dictionaryApi.update(this.dictionary)
+      dictionaryItemApi.update(this.dictionaryItem)
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
