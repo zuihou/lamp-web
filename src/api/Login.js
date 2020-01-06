@@ -21,7 +21,6 @@ export default {
     return axiosApi({
       method: 'POST',
       url: apiList.login,
-      formData: true,
       data
     })
   },
