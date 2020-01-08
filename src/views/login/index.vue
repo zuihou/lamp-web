@@ -548,6 +548,7 @@ export default {
             that.loading = false;
             that.getCodeImage();
 
+            this.$store.commit("account/setTenant", this.loginForm.tenant);
             loginApi.loginLog(that.loginForm.account, res.msg);
           }
         });
@@ -619,7 +620,8 @@ export default {
       // ]
       this.$store.commit("account/setPermissions", permissionsList);
     },
-    loginSuccessCallback(user, description) {
+    loginSuccessCallback(user) {
+      console.log(user);
       // 登录成功后的回调，记录登录日志，最后登录时间等
       // this.$get(`system/user/success/${account}`).catch((e) => { console.log(e) })
       commonApi.dictionaryEnums().then(response => {
