@@ -11,7 +11,6 @@
     "build:stage": "vue-cli-service build --mode staging",
     "preview": "node build/index.js --preview",
     "lint": "eslint --ext .js,.vue src",
-    "lint2": "eslint --fix  src/views/zuihou/auth/menu/Edit.vue",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
     "new": "plop"
   },

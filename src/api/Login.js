@@ -5,7 +5,7 @@ const apiList = {
   login: `/authority/anno/login`,
   getRouter: `/authority/menu/router`,
   loginLog: function (account) {
-    return `/authority/loginLog/success/${account}`
+    return `/authority/loginLog/anno/login/${account}`
   }
 }
 
@@ -32,11 +32,11 @@ export default {
       data: data || {}
     })
   },
-  loginLog (data) {
+  loginLog (account, description) {
     return axiosApi({
       method: 'GET',
-      url: apiList.loginLog(data),
-      data: data || {}
+      url: apiList.loginLog(account),
+      data: { description: description }
     })
   }
 }
