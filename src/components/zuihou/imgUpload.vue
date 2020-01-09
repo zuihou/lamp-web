@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import db from '@/utils/localstorage'
-import commonApi from "@/api/Common.js"
+import db from "@/utils/localstorage";
+import commonApi from "@/api/Common.js";
 export default {
   props: {
     uploadRef: {
@@ -71,16 +71,16 @@ export default {
     // 默认额外上传数据
     fileOtherData: {
       type: Object,
-      default: function () {
+      default: function() {
         return {
           bizId: "",
           bizType: "",
           isSingle: false
-        }
+        };
       }
     }
   },
-  data () {
+  data() {
     return {
       imageUrl: "",
       dialogImageUrl: "",
@@ -96,214 +96,226 @@ export default {
       isUploadError: false,
       fileLength: 0,
       action: `${process.env.VUE_APP_BASE_API}/file/attachment/upload`
-    }
+    };
   },
   computed: {
-    showUploadBtn () {
+    showUploadBtn() {
       return (
         this.showFileList &&
         this.addFileAry.length + this.imgFileList.length === this.limit
-      )
+      );
     },
-    headers () {
+    headers() {
       return {
-        token: db.get('TOKEN', ''),
-        tenant: db.get('TENANT', '')
-      }
+        token: db.get("TOKEN", ""),
+        tenant: db.get("TENANT", "")
+      };
     }
-
   },
   methods: {
     // 附件初始化
-    init ({ bizId, bizType, imageUrl, isSingle, isDetail }) {
-      const vm = this
-      vm.fileOtherData.bizId = bizId
-      vm.fileOtherData.bizType = bizType
-      vm.fileOtherData.isSingle = isSingle || false
+    init({ bizId, bizType, imageUrl, isSingle, isDetail }) {
+      const vm = this;
+      vm.fileOtherData.bizId = bizId;
+      vm.fileOtherData.bizType = bizType;
+      vm.fileOtherData.isSingle = isSingle || false;
       // vm.imgFileList = []
-      vm.imgFileList.length = 0
-      vm.removeFileAry = []
-      vm.addFileAry = []
-      vm.imageUrl = imageUrl
-      vm.isUploadError = false
+      vm.imgFileList.length = 0;
+      vm.removeFileAry = [];
+      vm.addFileAry = [];
+      vm.imageUrl = imageUrl;
+      vm.isUploadError = false;
       if (isDetail) {
-        vm.getAttachment()
+        vm.getAttachment();
       }
     },
     // 附件上传前触发
-    beforeUpload () {
-      const vm = this
-      vm.$store.state.hasLoading = true
+    beforeUpload() {
+      const vm = this;
+      vm.$store.state.hasLoading = true;
     },
     // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
-    handleChange (file, fileList) {
-      const vm = this
+    handleChange(file, fileList) {
+      const vm = this;
       if (file.response) {
         if (file.response.isSuccess) {
-          const remoteFile = file.response.data
-          vm.fileOtherData.bizId = remoteFile.bizId
-          vm.imageUrl = remoteFile.url
-          vm.$emit("setId", remoteFile.bizId, remoteFile.url)
+          const remoteFile = file.response.data;
+          vm.fileOtherData.bizId = remoteFile.bizId;
+          vm.imageUrl = remoteFile.url;
+          vm.$emit("setId", remoteFile.bizId, remoteFile.url);
         } else {
-          vm.$message.error(file.response.msg)
-          vm.isUploadError = false
+          vm.$message.error(file.response.msg);
+          vm.isUploadError = false;
         }
       } else {
-
         if (vm.acceptSize) {
           const isLtAcceptSize = file.size > vm.acceptSize;
           if (isLtAcceptSize) {
             setTimeout(() => {
-              vm.$message.error("只能上传" + vm.renderSize(vm.acceptSize) + "的文件!已为您过滤文件：" + file.name)
-            }, 10)
+              vm.$message.error(
+                "只能上传" +
+                  vm.renderSize(vm.acceptSize) +
+                  "的文件!已为您过滤文件：" +
+                  file.name
+              );
+            }, 10);
 
             fileList.forEach((item, index) => {
               if (item.uid === file.uid) {
-                fileList.splice(index, 1)
+                fileList.splice(index, 1);
               }
-            })
+            });
           } else {
             if (!vm.isUploadError) {
-              vm.addFileAry.push(file.name)
+              vm.addFileAry.push(file.name);
             }
-            vm.isUploadError = false
+            vm.isUploadError = false;
           }
         }
-
       }
-      vm.$store.state.hasLoading = false
+      vm.$store.state.hasLoading = false;
     },
-    renderSize (value) {
-      if (null == value || value == '') {
-        return "0 Bytes"
+    renderSize(value) {
+      if (null == value || value == "") {
+        return "0 B";
       }
-      const unitArr = new Array("Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-      let index = 0
-      let srcsize = parseFloat(value)
-      index = Math.floor(Math.log(srcsize) / Math.log(1024))
-      let size = srcsize / Math.pow(1024, index)
-      size = size.toFixed(2)
+      const unitArr = new Array(
+        "B",
+        "KB",
+        "MB",
+        "GB",
+        "TB",
+        "PB",
+        "EB",
+        "ZB",
+        "YB"
+      );
+      let index = 0;
+      let srcsize = parseFloat(value);
+      index = Math.floor(Math.log(srcsize) / Math.log(1024));
+      let size = srcsize / Math.pow(1024, index);
+      size = size.toFixed(2);
       if (unitArr[index]) {
-        return size + unitArr[index]
+        return size + unitArr[index];
       }
-      return '文件太大'
+      return "文件太大";
     },
     // 附件上传失败
-    handleError () {
-      const vm = this
-      vm.$message.error("附件上传失败，请重试")
-      vm.isUploadError = true
-      vm.$store.state.hasLoading = false
+    handleError() {
+      const vm = this;
+      vm.$message.error("附件上传失败，请重试");
+      vm.isUploadError = true;
+      vm.$store.state.hasLoading = false;
       if (!vm.showFileList) {
-        vm.imageUrl = ""
+        vm.imageUrl = "";
       }
     },
     // 查询附件
-    async getAttachment () {
-      const vm = this
+    async getAttachment() {
+      const vm = this;
       const res = await commonApi.getAttachment({
         bizIds: vm.fileOtherData.bizId,
         bizTypes: vm.fileOtherData.bizType
-      })
+      });
       if (res.status === 200) {
         if (res.data.code === 0) {
           if (res.data.data.length > 0) {
-            let data = res.data.data[0].list
+            let data = res.data.data[0].list;
             data.map(item => {
-              item.name = item.submittedFileName
+              item.name = item.submittedFileName;
               if (!vm.showFileList) {
-                vm.imageUrl = item.url
+                vm.imageUrl = item.url;
               }
-            })
-            vm.imgFileList = data
-            vm.$emit("fileLengthVaild", vm.imgFileList.length)
+            });
+            vm.imgFileList = data;
+            vm.$emit("fileLengthVaild", vm.imgFileList.length);
           }
         }
       }
     },
     // 删除附件回调
-    handleRemove (file) {
-      const vm = this
+    handleRemove(file) {
+      const vm = this;
       if (file.bizId) {
-        vm.removeFileAry.push(file.id)
+        vm.removeFileAry.push(file.id);
         vm.imgFileList.map((item, index) => {
           if (item.bizId === file.bizId) {
-            vm.imgFileList.splice(index, 1)
-            return false
+            vm.imgFileList.splice(index, 1);
+            return false;
           }
-        })
+        });
       } else {
         vm.addFileAry.map((item, index) => {
           if (item === file.name) {
-            vm.addFileAry.splice(index, 1)
-            return false
+            vm.addFileAry.splice(index, 1);
+            return false;
           }
-        })
+        });
       }
     },
     // 文件超出个数限制时的钩子
-    handleExceed () {
-      const vm = this
-      vm.$message("当前最多允许上传" + vm.limit + "张图片")
+    handleExceed() {
+      const vm = this;
+      vm.$message("当前最多允许上传" + vm.limit + "张图片");
     },
     // 返回附件新增及删除数组长度
-    handleBack () {
-      const vm = this
+    handleBack() {
+      const vm = this;
       return {
         addLength: vm.addFileAry.length,
         removeLength: vm.removeFileAry.length
-      }
+      };
     },
     // 服务器删除附件
-    async deleteAttachment () {
-      const vm = this
+    async deleteAttachment() {
+      const vm = this;
       const res = await commonApi.deleteAttachment({
         ids: vm.removeFileAry
-      })
+      });
       if (res.status === 200) {
         if (res.data.code !== 0) {
-          vm.$message(res.data.msg)
+          vm.$message(res.data.msg);
         }
       }
     },
     // 附件上传服务器触发方法
-    submitFile (bizId, bizType, isSingle) {
-      const vm = this
-      vm.fileOtherData.bizId = bizId
-      vm.fileOtherData.bizType = bizType
-      vm.fileOtherData.isSingle = isSingle
+    submitFile(bizId, bizType, isSingle) {
+      const vm = this;
+      vm.fileOtherData.bizId = bizId;
+      vm.fileOtherData.bizType = bizType;
+      vm.fileOtherData.isSingle = isSingle;
       if (!vm.showFileList) {
-        const length = vm.$refs[vm.uploadRef].uploadFiles.length - 1
+        const length = vm.$refs[vm.uploadRef].uploadFiles.length - 1;
         vm.$refs[vm.uploadRef].uploadFiles = [
           vm.$refs[vm.uploadRef].uploadFiles[length]
-        ]
+        ];
         vm.imgFileList.map(item => {
-          vm.removeFileAry.push(item.id)
-        })
+          vm.removeFileAry.push(item.id);
+        });
         if (vm.imgFileList.length > 0) {
-          vm.deleteAttachment()
+          vm.deleteAttachment();
         }
       }
-      vm.$refs[vm.uploadRef].submit()
-      vm.$store.state.hasLoading = false
-      vm.addFileAry = []
+      vm.$refs[vm.uploadRef].submit();
+      vm.$store.state.hasLoading = false;
+      vm.addFileAry = [];
     },
     // 服务器删除附件
-    async deleteAttachmentByIds (ids) {
-      const vm = this
+    async deleteAttachmentByIds(ids) {
+      const vm = this;
       const res = await commonApi.deleteAttachment({
         ids: ids
-      })
+      });
       if (res.status === 200) {
         if (res.data.code !== 0) {
-          vm.$message(res.data.msg)
+          vm.$message(res.data.msg);
         } else {
-          vm.removeFileAry = []
+          vm.removeFileAry = [];
         }
       }
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .avatar {

@@ -204,7 +204,7 @@ export default {
       handlerParams: '处理参数',
       isSingleHandle: '是否单人处理',
       isDelete: '是否删除',
-      isRead: '是否已读',
+      isRead: '状态',
       readTime: '读消息的时间'
     },
     systemApi: {

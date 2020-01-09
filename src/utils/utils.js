@@ -54,12 +54,12 @@ export const readUserAgent = ua => {
   return data
 }
 
-// 格式化文件大小 单位：Bytes、KB、MB、GB
+// 格式化文件大小 单位：B、KB、MB、GB
 const renderSize = value => {
   if (null == value || value == '') {
-    return "0 Bytes"
+    return "0 B"
   }
-  var unitArr = new Array("Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+  var unitArr = new Array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
   var index = 0
   var srcsize = parseFloat(value)
   index = Math.floor(Math.log(srcsize) / Math.log(1024))
