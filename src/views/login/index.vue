@@ -534,6 +534,7 @@ export default {
             that.saveLoginData(res.data.token);
             that.saveUserInfo(res.data.user, res.data.permissionsList);
 
+            that.loginSuccessCallback(res.data.user);
             loginApi.loginLog(
               res.data.user.account,
               this.$t("tips.loginSuccess")
