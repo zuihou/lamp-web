@@ -6,6 +6,18 @@ zuihou-ui 是[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)�
 
 ## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢!!
 
+## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+
+http://doc.tangyh.top/zuihou-admin-cloud
+
+    ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 备注邮箱，可得开发文档一份（支持后续更新） （比看云的价格便宜哦）
+
+## 交流群： 63202894
+
+![qq群.png](image/qq群.png) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
+
+    加群前请先将下方项目点star，支持下群主，谢谢😘
+
 ## 项目代码地址
 
 微服务后端 代码：
@@ -126,10 +138,6 @@ zuihou-ui 是[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)�
 - **分布式事务**  
   集成了阿里的分布式事务中间件：seata，以 **高效** 并且对业务 **0 侵入** 的方式，解决 微服务 场景下面临的分布式事务问题。
 
-## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
-
-http://doc.tangyh.top/zuihou-admin-cloud
-
 ## 版本参考，
 
 ps: 理论上： node 大于 8.10.x 就行，但最好当前比较新的稳定版 10.x.x 11.x.x 12.x.x
@@ -197,10 +205,6 @@ npm run test
 ```
 npm run lint
 ```
-
-## 交流群： 63202894
-
-![qq群.png](image/qq群.png) <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=489800b9d07d017fa0b5104608a4bf755f1f38276b79f0ac5e6225d0d9897efb"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="zuihou-admin-cloud 交流" title="zuihou-admin-cloud 交流"></a>
 
 ## 期待您的加入：
 
