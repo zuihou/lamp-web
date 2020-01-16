@@ -104,7 +104,7 @@ router.beforeEach((to, from, next) => {
   } else {
     const token = db.get('TOKEN')
     const user = db.get('USER')
-    const userRouter = get('USER_ROUTER')
+    const userRouter = db.get('USER_ROUTER', '')
     if (token.length && user) {
       if (!asyncRouter) {
         if (!userRouter) {
@@ -113,7 +113,8 @@ router.beforeEach((to, from, next) => {
               const res = response.data
               asyncRouter = res.data
               store.commit('account/setRoutes', asyncRouter)
-              save('USER_ROUTER', asyncRouter)
+              db.save('USER_ROUTER', asyncRouter)
+
               go(to, next)
             })
         } else {
@@ -141,14 +142,6 @@ function go (to, next) {
   asyncRouter = filterAsyncRouter(asyncRouter)
   router.addRoutes(asyncRouter)
   next({ ...to, replace: true })
-}
-
-function save (name, data) {
-  localStorage.setItem(name, JSON.stringify(data))
-}
-
-function get (name) {
-  return JSON.parse(localStorage.getItem(name))
 }
 
 function filterAsyncRouter (routes) {
