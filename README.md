@@ -160,6 +160,47 @@ registry=https://r.npm.taobao.org
 
 ```
 
+## 适当修改配置
+
+由于本项目为了同时支持 zuihou-admin-cloud 和 zuihou-admin-boot 2 个项目，但前者由于多了一个网关服务，所以在请求 URI 上比后者多了一段 网关的 URI，
+（比如，同样是获取验证码的接口， 在者的地址：/api/authority/anno/captcha， 后者：/anno/captcha）
+所以想要前端项目尽可能少的改动代码，需要通过 nginx 或者 vue 的 uri 代理功能（但 uri 代理只能在开发环境使用）
+
+- 使用 nginx 请在群公告下载后直接使用
+- 使用 vue 自带的代理功能需要修改一下 前端项目的配置文件
+
+1. vue.config.js
+
+```
+    proxy: {
+      [proxyUrl]: {
+        target: targetUrl,
+        changeOrigin: true,
+        pathRewrite: {
+          // SpringCloud 项目使用这段配置
+          // ['^' + proxyUrl]: proxyUrl
+
+          // SpringBoot 项目 请使用以下的配置
+          ['^/api/authority']: '/',
+          ['^/api/file']: '/',
+          ['^/api/msgs']: '/',
+          ['^/api/gate']: '/',
+        }
+      }
+    }
+```
+
+2. .env.development
+
+```
+# SpringCloud项目使用这个地址
+# VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8760'
+
+# SpringBoot 项目使用这个地址
+VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8764'
+
+```
+
 ## 安装
 
 ```

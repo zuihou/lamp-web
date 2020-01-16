@@ -28,6 +28,10 @@ const apiList = {
   updatePassword: {
     method: 'PUT',
     url: `/authority/user/password`
+  },
+  reload: {
+    method: 'POST',
+    url: `/authority/user/reload`
   }
 }
 
@@ -73,6 +77,13 @@ export default {
     return axiosApi({
       ...apiList.avatar,
       data
+    })
+  },
+  reload (userId) {
+    return axiosApi({
+      ...apiList.reload,
+      formData: true,
+      data: { userId: userId }
     })
   }
 }

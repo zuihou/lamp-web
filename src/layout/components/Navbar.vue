@@ -7,27 +7,15 @@
       @toggleClick="toggleSideBar"
     />
 
-    <breadcrumb
-      id="breadcrumb-container"
-      class="breadcrumb-container"
-    />
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <template v-if="device!==&quot;mobile&quot;">
-        <div
-          class="right-menu-item"
-          style="color:red"
-        >
+      <template v-if="device !== 'mobile'">
+        <div class="right-menu-item" style="color:red">
           演示环境维护不易，请勿乱删乱改数据！
         </div>
-        <search
-          id="header-search"
-          class="right-menu-item"
-        />
-        <screenfull
-          id="screenfull"
-          class="right-menu-item hover-effect"
-        />
+        <search id="header-search" class="right-menu-item" />
+        <screenfull id="screenfull" class="right-menu-item hover-effect" />
         <lang-select class="right-menu-item hover-effect" />
       </template>
 
@@ -37,47 +25,41 @@
       >
         <div class="avatar-wrapper">
           <!-- <img :src='avatar' class='user-avatar' alt='avatar' /> -->
-          <el-avatar
-            fit="fill"
-            :src="avatar"
-          >
+          <el-avatar fit="fill" :src="avatar">
             <el-avatar>{{ name | userAvatarFilter }}</el-avatar>
           </el-avatar>
           <span class="user-name">{{ name }}</span>
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/profile/index">
-            <el-dropdown-item>{{ $t('navbar.profile') }}</el-dropdown-item>
+            <el-dropdown-item>{{ $t("navbar.profile") }}</el-dropdown-item>
           </router-link>
           <el-dropdown-item>
-            <span
-              style="display:block;"
-              @click="setting"
-            >{{ $t('navbar.setting') }}</span>
+            <span style="display:block;" @click="setting">{{
+              $t("navbar.setting")
+            }}</span>
           </el-dropdown-item>
           <a
             target="_blank"
             href="https://github.com/zuihou/zuihou-admin-cloud"
           >
-            <el-dropdown-item>{{ $t('navbar.github') }}</el-dropdown-item>
+            <el-dropdown-item>{{ $t("navbar.github") }}</el-dropdown-item>
           </a>
           <a
             target="_blank"
             href="https://www.kancloud.cn/zuihou/zuihou-admin-cloud/"
           >
-            <el-dropdown-item>{{ $t('navbar.docs') }}</el-dropdown-item>
+            <el-dropdown-item>{{ $t("navbar.docs") }}</el-dropdown-item>
           </a>
           <el-dropdown-item divided>
-            <span
-              style="display:block;"
-              @click="deleteCache"
-            >{{ $t('navbar.deleteCache') }}</span>
+            <span style="display:block;" @click="deleteCache">{{
+              $t("navbar.deleteCache")
+            }}</span>
           </el-dropdown-item>
           <el-dropdown-item divided>
-            <span
-              style="display:block;"
-              @click="logout"
-            >{{ $t('navbar.logOut') }}</span>
+            <span style="display:block;" @click="logout">{{
+              $t("navbar.logOut")
+            }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -86,12 +68,14 @@
 </template>
 
 <script>
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
-import LangSelect from '@/components/LangSelect'
-import db from '@/utils/localstorage'
-import Screenfull from '@/components/Screenfull'
-import Search from '@/components/HeaderSearch'
+import Breadcrumb from "@/components/Breadcrumb";
+import Hamburger from "@/components/Hamburger";
+import LangSelect from "@/components/LangSelect";
+import db from "@/utils/localstorage";
+import Screenfull from "@/components/Screenfull";
+import Search from "@/components/HeaderSearch";
+import commonApi from "@/api/Common.js";
+import userApi from "@/api/User.js";
 
 export default {
   components: {
@@ -102,62 +86,120 @@ export default {
     Search
   },
   filters: {
-    userAvatarFilter (name) {
-      return name.charAt(0)
+    userAvatarFilter(name) {
+      return name.charAt(0);
     }
   },
   computed: {
-    sidebar () {
-      return this.$store.state.setting.sidebar
+    sidebar() {
+      return this.$store.state.setting.sidebar;
     },
-    avatar () {
-      const user = this.$store.state.account.user
+    avatar() {
+      const user = this.$store.state.account.user;
       if (!user["avatar"]) {
-        return require(`@/assets/avatar/default.jpg`)
+        return require(`@/assets/avatar/default.jpg`);
       } else {
-        if (user["avatar"].startsWith('http://') || user["avatar"].startsWith('https://')) {
-          return user["avatar"]
+        if (
+          user["avatar"].startsWith("http://") ||
+          user["avatar"].startsWith("https://")
+        ) {
+          return user["avatar"];
         } else {
-          return require(`@/assets/avatar/${user.avatar}`)
+          return require(`@/assets/avatar/${user.avatar}`);
         }
       }
     },
-    name () {
-      return this.$store.state.account.user.name
+    name() {
+      return this.$store.state.account.user.name;
     },
-    device () {
-      return this.$store.state.setting.device
+    userId() {
+      return this.$store.state.account.user.id;
+    },
+    device() {
+      return this.$store.state.setting.device;
     }
   },
   methods: {
-    toggleSideBar () {
-      this.$store.commit('setting/toggleSidebar')
+    toggleSideBar() {
+      this.$store.commit("setting/toggleSidebar");
     },
-    setting () {
-      this.$store.commit('setting/openSettingBar', true)
+    setting() {
+      this.$store.commit("setting/openSettingBar", true);
     },
-    logout () {
-      this.clean()
+    logout() {
+      this.clean();
     },
-    clean () {
-      db.clear()
-      location.reload()
+    clean() {
+      db.clear();
+      location.reload();
     },
-    deleteCache () {
-      this.$confirm(this.$t('tips.confirmDeleteCache'), this.$t('common.tips'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
-        db.remove('USER_ROUTER')
-        db.remove('PERMISSIONS')
-        location.reload()
-      }).catch(() => {
-        // do nothing
-      })
+    deleteCache() {
+      this.$confirm(
+        this.$t("tips.confirmDeleteCache"),
+        this.$t("common.tips"),
+        {
+          confirmButtonText: this.$t("common.confirm"),
+          cancelButtonText: this.$t("common.cancel"),
+          type: "warning"
+        }
+      )
+        .then(() => {
+          db.remove("USER_ROUTER");
+          db.remove("PERMISSIONS");
+          db.remove("ENUMS");
+
+          this.reloadData();
+          //
+        })
+        .catch(() => {
+          // do nothing
+        });
+    },
+    async reloadData() {
+      let dictionaryEnumsRes = await commonApi.dictionaryEnums();
+      // .then(response => {
+      //   const res = response.data;
+
+      //   if (res.isSuccess) {
+      //     this.$store.commit("common/setEnums", res.data);
+      //   }
+      // });
+
+      let userRes = await userApi.reload(this.userId);
+      // .then(response => {
+      //   const res = response.data;
+
+      //   if (res.isSuccess) {
+      //     const result = res.data;
+      //     this.$store.commit("account/setUser", result.user);
+
+      //     this.$store.commit("account/setPermissions", result.permissionsList);
+      //   }
+      // });
+
+      if (dictionaryEnumsRes.data.isSuccess) {
+        console.log("加载枚举成功");
+        this.$store.commit("common/setEnums", dictionaryEnumsRes.data.data);
+      }
+
+      if (userRes.data.isSuccess) {
+        console.log("加载用户&权限成功");
+        const result = userRes.data.data;
+        this.$store.commit("account/setUser", result.user);
+        this.$store.commit("account/setPermissions", result.permissionsList);
+      }
+
+      if (dictionaryEnumsRes.data.isSuccess && userRes.data.isSuccess) {
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      } else {
+        // 报错就退出
+        this.logout();
+      }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
