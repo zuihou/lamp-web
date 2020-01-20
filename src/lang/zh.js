@@ -247,6 +247,18 @@ export default {
       status: "状态",
       sortValue: "排序"
     },
+    area: {
+      code: "编码",
+      label: "名称",
+      fullName: '全名',
+      sortValue: '排序',
+      longitude: '经度',
+      latitude: '维度',
+      level: "行政区级",
+      parentCode: '父编码',
+      parentId: '上级地区',
+      source: '数据来源'
+    },
     gen: {
       config: {
         author: '作者名称',

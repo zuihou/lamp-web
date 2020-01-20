@@ -1,22 +1,26 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  page: `/authority/dictionaryItem/page`,
+  page: `/authority/area/page`,
   update: {
     method: 'PUT',
-    url: `/authority/dictionaryItem`
+    url: `/authority/area`
   },
   save: {
     method: 'POST',
-    url: `/authority/dictionaryItem`
+    url: `/authority/area`
   },
   delete: {
     method: 'DELETE',
-    url: `/authority/dictionaryItem`
+    url: `/authority/area`
   },
-  list: {
+  find: {
     method: 'GET',
-    url: `/authority/dictionaryItem`
+    url: `/authority/area`
+  },
+  tree: {
+    method: 'GET',
+    url: `/authority/area/tree`
   }
 }
 
@@ -25,6 +29,20 @@ export default {
     return axiosApi({
       method: 'GET',
       url: apiList.page,
+      formData: true,
+      data
+    })
+  },
+  tree (data) {
+    return axiosApi({
+      ...apiList.tree,
+      formData: true,
+      data
+    })
+  },
+  find (data) {
+    return axiosApi({
+      ...apiList.find,
       formData: true,
       data
     })
@@ -44,12 +62,6 @@ export default {
   delete (data) {
     return axiosApi({
       ...apiList.delete,
-      data
-    })
-  },
-  list (data) {
-    return axiosApi({
-      ...apiList.list,
       data
     })
   }

@@ -247,6 +247,18 @@ export default {
       status: "status",
       sortValue: "sortValue"
     },
+    area: {
+      code: "code",
+      label: "label",
+      fullName: 'fullName',
+      sortValue: 'sortValue',
+      longitude: 'longitude',
+      latitude: 'latitude',
+      level: "level",
+      parentCode: 'parentCode',
+      parentId: 'parent',
+      source: 'source'
+    },
     gen: {
       config: {
         author: 'Author',
