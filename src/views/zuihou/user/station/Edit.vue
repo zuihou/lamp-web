@@ -1,6 +1,20 @@
 <template>
-  <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
-    <el-form :model="station" :rules="rules" label-position="right" label-width="100px" ref="form">
+  <el-dialog
+    :close-on-click-modal="false"
+    :close-on-press-escape="true"
+    :title="title"
+    :type="type"
+    :visible.sync="isVisible"
+    :width="width"
+    top="50px"
+  >
+    <el-form
+      :model="station"
+      :rules="rules"
+      label-position="right"
+      label-width="100px"
+      ref="form"
+    >
       <el-form-item :label="$t('table.station.name')" prop="name">
         <el-input v-model="station.name" />
       </el-form-item>
@@ -13,13 +27,13 @@
           :searchable="true"
           placeholder=" "
           style="width:100%"
-          v-model="station.orgId"
+          v-model="station.orgId.key"
         />
       </el-form-item>
       <el-form-item :label="$t('table.station.status')" prop="status">
         <el-radio-group v-model="station.status">
-          <el-radio :label="true">{{ $t('common.status.valid') }}</el-radio>
-          <el-radio :label="false">{{ $t('common.status.invalid') }}</el-radio>
+          <el-radio :label="true">{{ $t("common.status.valid") }}</el-radio>
+          <el-radio :label="false">{{ $t("common.status.invalid") }}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('table.station.describe')" prop="describe">
@@ -27,19 +41,22 @@
       </el-form-item>
     </el-form>
     <div class="dialog-footer" slot="footer">
-      <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
-      <el-button @click="submitForm" plain type="primary">{{ $t('common.confirm') }}</el-button>
+      <el-button @click="isVisible = false" plain type="warning">{{
+        $t("common.cancel")
+      }}</el-button>
+      <el-button @click="submitForm" plain type="primary">{{
+        $t("common.confirm")
+      }}</el-button>
     </div>
   </el-dialog>
 </template>
 <script>
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import stationApi from '@/api/Station.js'
-
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import stationApi from "@/api/Station.js";
 
 export default {
-  name: 'StationEdit',
+  name: "StationEdit",
   components: { Treeselect },
   props: {
     dialogVisible: {
@@ -48,10 +65,10 @@ export default {
     },
     type: {
       type: String,
-      default: 'add'
+      default: "add"
     }
   },
-  data () {
+  data() {
     return {
       remoteStationLoading: false,
       station: this.initStation(),
@@ -61,8 +78,17 @@ export default {
       stationList: [],
       rules: {
         name: [
-          { required: true, message: this.$t('rules.require'), trigger: 'blur' },
-          { min: 1, max: 255, message: this.$t('rules.range4to10'), trigger: 'blur' },
+          {
+            required: true,
+            message: this.$t("rules.require"),
+            trigger: "blur"
+          },
+          {
+            min: 1,
+            max: 255,
+            message: this.$t("rules.range4to10"),
+            trigger: "blur"
+          },
           {
             validator: (rule, value, callback) => {
               if (!this.station.id) {
@@ -76,126 +102,131 @@ export default {
               } else {
                 // callback()
               }
-              callback()
-            }, trigger: 'blur'
+              callback();
+            },
+            trigger: "blur"
           }
         ],
-        status: { required: true, message: this.$t('rules.require'), trigger: 'blur' }
+        status: {
+          required: true,
+          message: this.$t("rules.require"),
+          trigger: "blur"
+        }
       }
-    }
+    };
   },
   computed: {
     isVisible: {
-      get () {
-        return this.dialogVisible
+      get() {
+        return this.dialogVisible;
       },
-      set () {
-        this.close()
-        this.reset()
+      set() {
+        this.close();
+        this.reset();
       }
     },
-    title () {
-      return this.type === 'add' ? this.$t('common.add') : this.$t('common.edit')
+    title() {
+      return this.type === "add"
+        ? this.$t("common.add")
+        : this.$t("common.edit");
     }
   },
-  watch: {
-
-  },
-  mounted () {
+  watch: {},
+  mounted() {
     window.onresize = () => {
       return (() => {
-        this.width = this.initWidth()
-      })()
-    }
+        this.width = this.initWidth();
+      })();
+    };
   },
   methods: {
-    initStation () {
+    initStation() {
       return {
-        id: '',
-        name: '',
-        orgId: null,
+        id: "",
+        name: "",
+        orgId: {
+          key: null,
+          data: null
+        },
         status: true,
-        describe: ''
-      }
+        describe: ""
+      };
     },
-    initWidth () {
-      this.screenWidth = document.body.clientWidth
+    initWidth() {
+      this.screenWidth = document.body.clientWidth;
       if (this.screenWidth < 991) {
-        return '90%'
+        return "90%";
       } else if (this.screenWidth < 1400) {
-        return '45%'
+        return "45%";
       } else {
-        return '800px'
+        return "800px";
       }
     },
-    loadListOptions ({ callback }) {
-      callback()
+    loadListOptions({ callback }) {
+      callback();
     },
-    setStation (val, orgs) {
-      const vm = this
-      vm.orgList = orgs
+    setStation(val, orgs) {
+      const vm = this;
+      vm.orgList = orgs;
       if (val) {
-        vm.station = { ...val }
+        vm.station = { ...val };
       }
     },
-    close () {
-      this.$emit('close')
+    close() {
+      this.$emit("close");
     },
-    reset () {
+    reset() {
       // 先清除校验，再清除表单，不然有奇怪的bug
-      this.$refs.form.clearValidate()
-      this.$refs.form.resetFields()
-      this.station = this.initStation()
+      this.$refs.form.clearValidate();
+      this.$refs.form.resetFields();
+      this.station = this.initStation();
     },
-    submitForm () {
-      const vm = this
-      this.$refs.form.validate((valid) => {
+    submitForm() {
+      const vm = this;
+      this.$refs.form.validate(valid => {
         if (valid) {
-          vm.editSubmit()
+          vm.editSubmit();
         } else {
-          return false
+          return false;
         }
-      })
+      });
     },
-    editSubmit () {
-      const vm = this
-      if (vm.type === 'add') {
-        vm.save()
+    editSubmit() {
+      const vm = this;
+      if (vm.type === "add") {
+        vm.save();
       } else {
-        vm.update()
+        vm.update();
       }
     },
-    save () {
-      const vm = this
-      stationApi.save(this.station)
-        .then((response) => {
-          const res = response.data
-          if (res.isSuccess) {
-            vm.isVisible = false
-            vm.$message({
-              message: vm.$t('tips.createSuccess'),
-              type: 'success'
-            })
-            vm.$emit('success')
-          }
-        })
+    save() {
+      const vm = this;
+      stationApi.save(this.station).then(response => {
+        const res = response.data;
+        if (res.isSuccess) {
+          vm.isVisible = false;
+          vm.$message({
+            message: vm.$t("tips.createSuccess"),
+            type: "success"
+          });
+          vm.$emit("success");
+        }
+      });
     },
-    update () {
-      stationApi.update(this.station)
-        .then((response) => {
-          const res = response.data
-          if (res.isSuccess) {
-            this.isVisible = false
-            this.$message({
-              message: this.$t('tips.updateSuccess'),
-              type: 'success'
-            })
-            this.$emit('success')
-          }
-        })
+    update() {
+      stationApi.update(this.station).then(response => {
+        const res = response.data;
+        if (res.isSuccess) {
+          this.isVisible = false;
+          this.$message({
+            message: this.$t("tips.updateSuccess"),
+            type: "success"
+          });
+          this.$emit("success");
+        }
+      });
     }
   }
-}
+};
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
