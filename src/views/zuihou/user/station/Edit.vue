@@ -27,7 +27,7 @@
           :searchable="true"
           placeholder=" "
           style="width:100%"
-          v-model="station.orgId.key"
+          v-model="station.org.key"
         />
       </el-form-item>
       <el-form-item :label="$t('table.station.status')" prop="status">
@@ -144,7 +144,7 @@ export default {
       return {
         id: "",
         name: "",
-        orgId: {
+        org: {
           key: null,
           data: null
         },

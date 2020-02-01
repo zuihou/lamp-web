@@ -144,7 +144,9 @@
         width="100px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.orgId }}</span>
+          <span>{{
+            scope.row.org["data"] ? scope.row.org.data.name : scope.row.org.key
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -153,7 +155,11 @@
         width="100px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.stationId }}</span>
+          <span>{{
+            scope.row.station["data"]
+              ? scope.row.station.data.name
+              : scope.row.station.key
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column

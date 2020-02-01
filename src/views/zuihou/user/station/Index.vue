@@ -100,13 +100,12 @@
       <el-table-column
         :label="$t('table.station.orgId')"
         align="center"
-        width="100px"
+        :show-overflow-tooltip="true"
+        width="180px"
       >
         <template slot-scope="scope">
           <span>{{
-            scope.row.orgId.data
-              ? scope.row.orgId.data.name
-              : scope.row.orgId.key
+            scope.row.org.data ? scope.row.org.data.name : scope.row.org.key
           }}</span>
         </template>
       </el-table-column>

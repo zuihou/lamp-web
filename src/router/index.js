@@ -84,7 +84,16 @@ const constRouter = [
         meta: { title: 'page404', noCache: true }
       }
     ]
-  }
+  },
+  // 为什么写在这里 就会出错？
+  // {
+  //   path: "*",
+  //   // redirect: '/404',
+  //   component: () => import('@/views/error-page/404'),
+  //   name: "all_404",
+  //   hidden: false,
+  //   alwaysShow: false
+  // }
 ]
 
 const router = new Router({
@@ -112,8 +121,23 @@ router.beforeEach((to, from, next) => {
             .then((response) => {
               const res = response.data
               asyncRouter = res.data
+              console.log('res.data=')
+              console.log(res.data)
+
+              if (!(asyncRouter && asyncRouter.length > 0)) {
+                asyncRouter = []
+              }
+              asyncRouter.push({
+                alwaysShow: false,
+                component: "error-page/404",
+                hidden: false,
+                name: "404",
+                path: "*"
+              });
+
+              //为什么要同时 调用这2个方法
               store.commit('account/setRoutes', asyncRouter)
-              db.save('USER_ROUTER', asyncRouter)
+              // db.save('USER_ROUTER', asyncRouter)
 
               go(to, next)
             })
