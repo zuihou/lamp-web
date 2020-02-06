@@ -17,7 +17,7 @@
     </div>
     <el-form :model="parameter" :rules="rules" label-position="right" label-width="100px" ref="form">
       <el-form-item :label="$t('table.parameter.key')" prop="key">
-        <el-input type="" v-model="parameter.key" placeholder="参数键"/>
+        <el-input :disabled="type==='edit'" type="" v-model="parameter.key" placeholder="参数键"/>
       </el-form-item>
       <el-form-item :label="$t('table.parameter.name')" prop="name">
         <el-input type="" v-model="parameter.name" placeholder="参数名称"/>

@@ -92,7 +92,7 @@
       <el-table-column :label="$t('table.parameter.status')" :show-overflow-tooltip="true" align="center"
                        :filter-multiple="false" column-key="status"
                        :filters="[{ text: $t('common.status.valid'), value: true },{ text: $t('common.status.invalid'), value: false }]"
-                       prop="status" width="">
+                       prop="status" width="80px">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status ? 'success' : 'danger'" slot>
             {{ scope.row.status ? $t("common.status.valid") : $t("common.status.invalid") }}
@@ -102,7 +102,7 @@
       <el-table-column :label="$t('table.parameter.readonly')" :show-overflow-tooltip="true" align="center"
                        :filter-multiple="false" column-key="readonly"
                        :filters="[{ text: $t('common.yes'), value: 'true' }, { text: $t('common.no'), value: 'false' }]"
-                       prop="readonly" width="">
+                       prop="readonly" width="70px">
         <template slot-scope="scope">
           <el-tag :type="scope.row.readonly ? 'success' : 'danger'" slot>
             {{ scope.row.readonly ? $t("common.yes") : $t("common.no") }}
