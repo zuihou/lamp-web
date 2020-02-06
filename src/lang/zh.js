@@ -259,6 +259,14 @@ export default {
       parentId: '上级地区',
       source: '数据来源'
     },
+    parameter: {
+      key: "参数键",
+      name: "参数名称",
+      value: '参数值',
+      describe: '描述',
+      status: '状态',
+      readonly: '只读'
+    },
     gen: {
       config: {
         author: '作者名称',
@@ -397,6 +405,7 @@ export default {
     cancel: '取消',
     add: '新增',
     edit: '修改',
+    copy: '复制',
     upload: '上传',
     yes: '是',
     no: '否',

@@ -259,6 +259,14 @@ export default {
       parentId: 'parent',
       source: 'source'
     },
+    parameter: {
+      key: "key",
+      name: "name",
+      value: 'value',
+      describe: 'describe',
+      status: 'status',
+      readonly: 'readonly'
+    },
     gen: {
       config: {
         author: 'Author',
@@ -397,6 +405,7 @@ export default {
     cancel: 'Cancel',
     add: 'Create',
     edit: 'Modify',
+    copy: 'Copy',
     upload: 'Upload',
     username: 'User Name',
     dept: 'Department',

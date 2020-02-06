@@ -80,7 +80,7 @@
       </el-table-column>
       <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" fixed="right" width="110px">
         <template slot-scope="{row}">
-          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-has-permission="['application:edit']" />
+          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-has-permission="['application:update']" />
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-has-permission="['application:delete']" />
         </template>
       </el-table-column>

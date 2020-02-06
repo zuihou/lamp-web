@@ -6,54 +6,49 @@
     :type="type"
     :visible.sync="isVisible"
     :width="width"
-    top="50px"
-  >
-    <el-form
-      :model="area"
-      :rules="rules"
-      label-position="right"
-      label-width="100px"
-      ref="form"
-    >
-      <el-form-item :label="$t('table.area.parentId')" prop="parentName">
-        <el-input v-model="area.parentName" />
+    top="50px">
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">
+        {{ $t("common.cancel") }}
+      </el-button>
+      <el-button @click="submitForm" plain type="primary">
+        {{ $t("common.confirm") }}
+      </el-button>
+    </div>
+    <el-form :model="parameter" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item :label="$t('table.parameter.key')" prop="key">
+        <el-input type="" v-model="parameter.key" placeholder="参数键"/>
       </el-form-item>
-      <el-form-item :label="$t('table.area.code')" prop="code">
-        <el-input v-model="area.code" />
+      <el-form-item :label="$t('table.parameter.name')" prop="name">
+        <el-input type="" v-model="parameter.name" placeholder="参数名称"/>
       </el-form-item>
-      <el-form-item :label="$t('table.area.name')" prop="name">
-        <el-input v-model="area.name" />
+      <el-form-item :label="$t('table.parameter.value')" prop="value">
+        <el-input type="" v-model="parameter.value" placeholder="参数值"/>
       </el-form-item>
-      <el-form-item :label="$t('table.area.level')" prop="level">
-        <el-input v-model="area.level" />
+      <el-form-item :label="$t('table.parameter.describe')" prop="describe">
+        <el-input type="textarea" v-model="parameter.describe" placeholder="描述"/>
       </el-form-item>
-      <el-form-item :label="$t('table.area.longitude')" prop="longitude">
-        <el-input v-model="area.longitude" />
+      <el-form-item :label="$t('table.parameter.status')" prop="status">
+        <el-radio-group v-model="parameter.status" size="medium">
+          <el-radio-button :label="true">{{ $t("common.status.valid") }}</el-radio-button>
+          <el-radio-button :label="false">{{ $t("common.status.invalid") }}</el-radio-button>
+        </el-radio-group>
       </el-form-item>
-      <el-form-item :label="$t('table.area.latitude')" prop="latitude">
-        <el-input v-model="area.latitude" />
-      </el-form-item>
-
-      <el-form-item :label="$t('table.area.sortValue')" prop="sortValue">
-        <el-input v-model="area.sortValue" />
+      <el-form-item :label="$t('table.parameter.readonly')" prop="readonly">
+        <el-radio-group v-model="parameter.readonly" size="medium">
+          <el-radio-button :label="true">{{ $t("common.yes") }}</el-radio-button>
+          <el-radio-button :label="false">{{ $t("common.no") }}</el-radio-button>
+        </el-radio-group>
       </el-form-item>
     </el-form>
-    <div class="dialog-footer" slot="footer">
-      <el-button @click="isVisible = false" plain type="warning">{{
-        $t("common.cancel")
-      }}</el-button>
-      <el-button @click="submitForm" plain type="primary">{{
-        $t("common.confirm")
-      }}</el-button>
-    </div>
   </el-dialog>
 </template>
 <script>
-import areaApi from "@/api/Area.js";
+import parameterApi from "@/api/Parameter.js";
 
 export default {
-  name: "AreaEdit",
-  components: {},
+  name: "ParameterEdit",
+  components: {  },
   props: {
     dialogVisible: {
       type: Boolean,
@@ -66,45 +61,11 @@ export default {
   },
   data() {
     return {
-      area: this.initArea(),
+      parameter: this.initParameter(),
       screenWidth: 0,
       width: this.initWidth(),
       rules: {
-        name: [
-          {
-            required: true,
-            message: this.$t("rules.require"),
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            max: 255,
-            message: this.$t("rules.range4to10"),
-            trigger: "blur"
-          },
-          {
-            validator: (rule, value, callback) => {
-              if (!this.area.id) {
-                // this.$get(`system/user/check/${value}`).then((r) => {
-                //   if (!r.data) {
-                //     callback(this.$t('rules.usernameExist'))
-                //   } else {
-                //     callback()
-                //   }
-                // })
-              } else {
-                // callback()
-              }
-              callback();
-            },
-            trigger: "blur"
-          }
-        ],
-        code: {
-          required: true,
-          message: this.$t("rules.require"),
-          trigger: "blur"
-        }
+
       }
     };
   },
@@ -119,9 +80,7 @@ export default {
       }
     },
     title() {
-      return this.type === "add"
-        ? this.$t("common.add")
-        : this.$t("common.edit");
+      return this.$t("common." + this.type);
     }
   },
   watch: {},
@@ -133,18 +92,15 @@ export default {
     };
   },
   methods: {
-    initArea() {
+    initParameter() {
       return {
         id: "",
-        code: "",
-        name: "",
-        fullName: "",
-        sortValue: 0,
-        longitude: "",
-        latitude: "",
-        level: 0,
-        parentCode: "",
-        parentId: ""
+        key: '',
+        name: '',
+        value: '',
+        describe: '',
+        status: true,
+        readonly: true,
       };
     },
     initWidth() {
@@ -157,10 +113,10 @@ export default {
         return "800px";
       }
     },
-    setArea(val) {
+    setParameter(val) {
       const vm = this;
       if (val) {
-        vm.area = { ...val };
+        vm.parameter = { ...val };
       }
     },
     close() {
@@ -170,7 +126,7 @@ export default {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate();
       this.$refs.form.resetFields();
-      this.area = this.initArea();
+      this.parameter = this.initParameter();
     },
     submitForm() {
       const vm = this;
@@ -184,15 +140,15 @@ export default {
     },
     editSubmit() {
       const vm = this;
-      if (vm.type === "add") {
-        vm.save();
+      if (vm.type === "edit") {
+          vm.update();
       } else {
-        vm.update();
+          vm.save();
       }
     },
     save() {
       const vm = this;
-      areaApi.save(this.area).then(response => {
+      parameterApi.save(this.parameter).then(response => {
         const res = response.data;
         if (res.isSuccess) {
           vm.isVisible = false;
@@ -205,7 +161,7 @@ export default {
       });
     },
     update() {
-      areaApi.update(this.area).then(response => {
+      parameterApi.update(this.parameter).then(response => {
         const res = response.data;
         if (res.isSuccess) {
           this.isVisible = false;
