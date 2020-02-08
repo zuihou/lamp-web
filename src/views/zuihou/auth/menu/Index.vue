@@ -66,6 +66,9 @@
               </el-form-item>-->
               <el-form-item :label="$t('table.menu.path')" prop="path">
                 <el-input @keyup.native="menuPath" v-model="menu.path" />
+              </el-form-item>
+              <el-form-item :label="$t('table.menu.component')" prop="component">
+                <el-input  v-model="menu.component" />
                 <span>{{ menuComponent }}</span>
               </el-form-item>
               <el-form-item :label="$t('table.menu.icon')" prop="icon">
@@ -236,10 +239,11 @@ export default {
         if (isUrl) {
           comp = `跳转地址：${this.menu.path}`
         } else {
-          comp = `前端组件：zuihou${this.menu.path}/Index.vue`
+          // comp = `前端组件：src/views/zuihou${this.menu.path}/Index.vue`
+          comp = `组件路径：src/views/${this.menu.component}.vue`
         }
       } else {
-        comp = `前端组件：zuihou/Index.vue`
+        comp = `组件路径：src/views/zuihou/Index.vue`
       }
       return comp
     }
