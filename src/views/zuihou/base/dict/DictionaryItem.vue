@@ -130,7 +130,6 @@ export default {
 
   },
   mounted () {
-
     this.fetch({
       ...this.queryParams,
       ...this.sort
@@ -144,7 +143,6 @@ export default {
       this.dialog.isVisible = false
     },
     editSuccess () {
-      debugger
       this.search()
     },
     onSelectChange (selection) {

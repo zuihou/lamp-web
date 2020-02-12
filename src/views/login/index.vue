@@ -571,13 +571,6 @@ export default {
     loginSuccessCallback(user) {
       console.log(user);
       // 登录成功后的回调，记录登录日志，最后登录时间等
-      // this.$get(`system/user/success/${account}`).catch((e) => { console.log(e) })
-      commonApi.dictionaryEnums().then(response => {
-        const res = response.data;
-        if (res.isSuccess) {
-          this.$store.commit("common/setEnums", res.data);
-        }
-      });
     }
   }
 };

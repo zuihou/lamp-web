@@ -104,7 +104,6 @@ export default {
   methods: {
     openAvatar () {
       this.dialogVisible = true
-      debugger
       this.$refs.myAvatar.init()
     },
     changeSuccess (avatar) {

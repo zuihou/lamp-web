@@ -26,6 +26,7 @@
 <script>
 import { validMobile } from '@/utils/my-validate'
 import userApi from '@/api/User.js'
+import {initEnums} from '@/utils/commons.js'
 
 export default {
   components: {},
@@ -42,6 +43,7 @@ export default {
   },
   data () {
     return {
+      enums:{Sex: {}},
       rules: {
         email: { type: 'email', message: this.$t('rules.email'), trigger: 'blur' },
         mobile: {          validator: (rule, value, callback) => {
@@ -57,11 +59,9 @@ export default {
     }
   },
   computed: {
-    enums () {
-      return this.$store.state.common.enums
-    }
   },
   mounted () {
+    initEnums( ["Sex"], this.enums);
   },
   methods: {
     submit () {

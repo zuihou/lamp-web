@@ -84,6 +84,7 @@ import msgsApi from '@/api/Msgs.js'
 import roleApi from '@/api/Role.js'
 import userApi from '@/api/User.js'
 import Tinymce from '@/components/Tinymce'
+import {initMsgsEnums} from '@/utils/commons.js'
 
 export default {
   name: 'MsgsEdit',
@@ -107,6 +108,10 @@ export default {
       msgsCenterInfo: this.initMsgsCenterInfo(),
       disabled: false,
       disabledReceiveType: false,
+      enums:{
+        MsgsBizType:{},
+        MsgsCenterType:{}
+      },
       rules: {
         "msgsCenterInfoDTO.title": [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
@@ -140,9 +145,7 @@ export default {
     }
   },
   computed: {
-    enums () {
-      return this.$store.state.common.enums
-    },
+
   },
   watch: {
     $route () {
@@ -157,6 +160,7 @@ export default {
     this.loadMsgs()
     this.loadUserList()
     this.loadRoleList()
+    initMsgsEnums(['MsgsCenterType', 'MsgsBizType'], this.enums)
   },
   methods: {
     initMsgsCenterInfo () {
@@ -251,8 +255,8 @@ export default {
         this.msgsCenterInfo.userIdList = []
       }
 
-      // 点击非全部选中  需要排除全部选中 以及 当前点击的选项 
-      // 新老数据都有全部选中 
+      // 点击非全部选中  需要排除全部选中 以及 当前点击的选项
+      // 新老数据都有全部选中
       if (oldVal.includes('-1') && val.includes('-1')) {
         const index = val.indexOf('-1')
         val.splice(index, 1) // 排除全选选项
@@ -266,7 +270,7 @@ export default {
         }
       }
 
-      //储存当前最后的结果 作为下次的老数据 
+      //储存当前最后的结果 作为下次的老数据
       this.oldChooseUserIdList[1] = this.msgsCenterInfo.userIdList
     },
     roleSelect (val) {
@@ -286,8 +290,8 @@ export default {
         this.msgsCenterInfo.roleCodeList = []
       }
 
-      // 点击非全部选中  需要排除全部选中 以及 当前点击的选项 
-      // 新老数据都有全部选中 
+      // 点击非全部选中  需要排除全部选中 以及 当前点击的选项
+      // 新老数据都有全部选中
       if (oldVal.includes('-1') && val.includes('-1')) {
         const index = val.indexOf('-1')
         val.splice(index, 1) // 排除全选选项
@@ -301,7 +305,7 @@ export default {
         }
       }
 
-      //储存当前最后的结果 作为下次的老数据 
+      //储存当前最后的结果 作为下次的老数据
       this.oldChooseRoleIdList[1] = this.msgsCenterInfo.roleCodeList
     },
     reset () {

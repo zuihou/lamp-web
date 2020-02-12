@@ -59,7 +59,6 @@ export default {
     submit () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          debugger
           userApi.updatePassword({
             ...this.p,
             ...{ id: this.user.id }

@@ -21,11 +21,11 @@ const apiList = {
   tree: {
     method: 'GET',
     url: `/authority/area/tree`
-  }
+  },
 }
 
 export default {
-  page (data) {
+  page(data) {
     return axiosApi({
       method: 'GET',
       url: apiList.page,
@@ -33,36 +33,43 @@ export default {
       data
     })
   },
-  tree (data) {
+  tree(data) {
     return axiosApi({
       ...apiList.tree,
       formData: true,
       data
     })
   },
-  find (data) {
+  find(data) {
     return axiosApi({
       ...apiList.find,
       formData: true,
       data
     })
   },
-  save (data) {
+  save(data) {
     return axiosApi({
       ...apiList.save,
       data
     })
   },
-  update (data) {
+  update(data) {
     return axiosApi({
       ...apiList.update,
       data
     })
   },
-  delete (data) {
+  delete(data) {
     return axiosApi({
       ...apiList.delete,
       data
+    })
+  },
+  check(code, id) {
+    return axiosApi({
+      method: 'GET',
+      url: `/authority/area/check/` + code,
+      data: {id: id}
     })
   }
 }

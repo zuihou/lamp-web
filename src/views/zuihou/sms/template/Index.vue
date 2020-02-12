@@ -47,10 +47,10 @@
       <el-table-column
         :filter-multiple="false"
         :filters="providerTypeFilters"
+        column-key="providerType"
         :label="$t('table.smsTemplate.providerType')"
         :show-overflow-tooltip="true"
         align="center"
-        column-key="providerType"
         prop="providerType"
         width="100px"
       >
@@ -115,7 +115,8 @@
 import Pagination from '@/components/Pagination'
 import SmsTemplateEdit from './Edit'
 import smsTemplateApi from '@/api/SmsTemplate.js'
-import { converEnum } from '@/utils/utils'
+import { convertEnum } from '@/utils/utils'
+import { initMsgsEnums } from '@/utils/commons'
 
 export default {
   name: 'SmsTemplateManage',
@@ -145,6 +146,9 @@ export default {
       tableData: {
         total: 0
       },
+      enums:{
+        ProviderType: {}
+      },
       pagination: {
         size: 10,
         current: 1
@@ -153,10 +157,11 @@ export default {
   },
   computed: {
     providerTypeFilters () {
-      return converEnum(this.$store.state.common.enums.ProviderType)
+      return convertEnum(this.enums.ProviderType)
     }
   },
   mounted () {
+    initMsgsEnums(['ProviderType'], this.enums)
     this.fetch()
   },
   methods: {

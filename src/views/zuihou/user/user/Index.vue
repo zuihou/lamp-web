@@ -6,6 +6,9 @@
         class="filter-item search-item"
         v-model="queryParams.account"
       />
+      <el-select :placeholder="$t('table.user.nation')" v-model="queryParams.nation" class="filter-item search-item">
+        <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.NATION" />
+      </el-select>
       <treeselect
         :clear-value-text="$t('common.clear')"
         :load-options="loadListOptions"
@@ -74,6 +77,7 @@
     <el-table
       :data="tableData.records"
       :key="tableKey"
+      @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
       border
@@ -120,6 +124,9 @@
         </template>
       </el-table-column>
       <el-table-column
+        :filter-multiple="false"
+        :filters="sexList"
+        column-key="sex"
         :label="$t('table.user.sex')"
         class-name="status-col"
         prop="sex.desc"
@@ -139,8 +146,45 @@
         </template>
       </el-table-column>
       <el-table-column
+        :label="$t('table.user.nation')"
+        :show-overflow-tooltip="true"
+        align="center"
+        width="80px"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.nation['data'] ? scope.row.nation['data'] : scope.row.nation['key'] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :filter-multiple="false"
+        :filters="educationList"
+        column-key="education"
+        :label="$t('table.user.education')"
+        :show-overflow-tooltip="true"
+        align="center"
+        width="80px"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.education['data'] ? scope.row.education['data'] : scope.row.education['key'] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :filter-multiple="false"
+        :filters="positionStatusList"
+        column-key="positionStatus"
+        :label="$t('table.user.positionStatus')"
+        :show-overflow-tooltip="true"
+        align="center"
+        width="100px"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.positionStatus['data'] ? scope.row.positionStatus['data'] : scope.row.positionStatus['key'] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         :label="$t('table.user.orgId')"
         align="center"
+        :show-overflow-tooltip="true"
         width="100px"
       >
         <template slot-scope="scope">
@@ -152,6 +196,7 @@
       <el-table-column
         :label="$t('table.user.stationId')"
         align="center"
+        :show-overflow-tooltip="true"
         width="100px"
       >
         <template slot-scope="scope">
@@ -252,6 +297,8 @@ import UserEdit from "./Edit";
 import UserView from "./View";
 import userApi from "@/api/User.js";
 import orgApi from "@/api/Org.js";
+import { convertEnum } from '@/utils/utils'
+import { initEnums, initDicts } from '@/utils/commons'
 
 export default {
   name: "UserManage",
@@ -293,6 +340,14 @@ export default {
       tableData: {
         total: 0
       },
+      enums:{
+        Sex: {}
+      },
+      dicts:{
+        NATION: {},
+        POSITION_STATUS: {},
+        EDUCATION: {},
+      },
       pagination: {
         size: 10,
         current: 1
@@ -302,6 +357,18 @@ export default {
   computed: {
     currentUser() {
       return this.$store.state.account.user;
+    },
+    sexList() {
+      return convertEnum(this.enums.Sex)
+    },
+    nationList() {
+      return convertEnum(this.dicts.NATION)
+    },
+    educationList() {
+      return convertEnum(this.dicts.EDUCATION)
+    },
+    positionStatusList() {
+      return convertEnum(this.dicts.POSITION_STATUS)
     }
   },
   watch: {
@@ -312,7 +379,8 @@ export default {
     }
   },
   mounted() {
-    console.log("init mounted");
+    initEnums('Sex', this.enums);
+    initDicts(['NATION', 'POSITION_STATUS', 'EDUCATION'], this.dicts);
     this.fetch();
     this.initOrg();
   },
@@ -467,14 +535,14 @@ export default {
     add() {
       this.dialog.type = "add";
       this.dialog.isVisible = true;
-      this.$refs.edit.setUser(false, this.orgList);
+      this.$refs.edit.setUser(false, this.orgList, this.dicts, this.enums);
     },
     view(row) {
-      this.$refs.view.setUser(row, this.orgList);
+      this.$refs.view.setUser(row, this.orgList, this.dicts, this.enums);
       this.userViewVisible = true;
     },
     edit(row) {
-      this.$refs.edit.setUser(row, this.orgList);
+      this.$refs.edit.setUser(row, this.orgList, this.dicts, this.enums);
       this.dialog.type = "edit";
       this.dialog.isVisible = true;
     },
@@ -498,6 +566,12 @@ export default {
       this.sort.field = val.prop;
       this.sort.order = val.order;
       this.search();
+    },
+    filterChange (filters) {
+      for (const key in filters) {
+        this.queryParams[key] = filters[key][0]
+      }
+      this.search()
     }
   }
 };

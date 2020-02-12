@@ -14,14 +14,16 @@
               class="filter-item"
               plain
               type="primary"
-              >{{ $t("table.search") }}</el-button
+            >{{ $t("table.search") }}
+            </el-button
             >
             <el-button
               @click="reset"
               class="filter-item"
               plain
               type="warning"
-              >{{ $t("table.reset") }}</el-button
+            >{{ $t("table.reset") }}
+            </el-button
             >
             <el-dropdown
               class="filter-item"
@@ -30,23 +32,26 @@
             >
               <el-button>
                 {{ $t("table.more") }}
-                <i class="el-icon-arrow-down el-icon--right" />
+                <i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
                   @click.native="add"
                   v-has-permission="['area:add']"
-                  >{{ $t("table.add") }}</el-dropdown-item
+                >{{ $t("table.add") }}
+                </el-dropdown-item
                 >
                 <el-dropdown-item
                   @click.native="deleteArea"
                   v-has-permission="['area:delete']"
-                  >{{ $t("table.delete") }}</el-dropdown-item
+                >{{ $t("table.delete") }}
+                </el-dropdown-item
                 >
                 <el-dropdown-item
                   @click.native="exportExcel"
                   v-has-permission="['area:export']"
-                  >{{ $t("table.export") }}</el-dropdown-item
+                >{{ $t("table.export") }}
+                </el-dropdown-item
                 >
               </el-dropdown-menu>
             </el-dropdown>
@@ -91,7 +96,7 @@
                   effect="dark"
                   placement="top-start"
                 >
-                  <el-input readonly v-model="area.parentId" />
+                  <el-input readonly v-model="area.parentId"/>
                 </el-tooltip>
               </el-form-item>
               <el-form-item
@@ -105,25 +110,25 @@
                 />
               </el-form-item>
               <el-form-item :label="$t('table.area.label')" prop="label">
-                <el-input v-model="area.label" />
+                <el-input v-model="area.label"/>
               </el-form-item>
               <el-form-item :label="$t('table.area.code')" prop="code">
-                <el-input v-model="area.code" />
+                <el-input v-model="area.code"/>
               </el-form-item>
               <el-form-item :label="$t('table.area.fullName')" prop="fullName">
-                <el-input v-model="area.fullName" />
+                <el-input v-model="area.fullName"/>
               </el-form-item>
               <el-form-item
                 :label="$t('table.area.longitude')"
                 prop="longitude"
               >
-                <el-input v-model="area.longitude" />
+                <el-input v-model="area.longitude"/>
               </el-form-item>
               <el-form-item :label="$t('table.area.latitude')" prop="latitude">
-                <el-input v-model="area.latitude" />
+                <el-input v-model="area.latitude"/>
               </el-form-item>
               <el-form-item :label="$t('table.area.source')" prop="source">
-                <el-input v-model="area.source" />
+                <el-input v-model="area.source"/>
               </el-form-item>
               <el-form-item :label="$t('table.area.level')" prop="level">
                 <el-radio-group
@@ -136,7 +141,8 @@
                     :label="item.code"
                     :value="item.code"
                     v-for="(item, key, index) in levelList"
-                    >{{ item.name }}</el-radio-button
+                  >{{ item.name }}
+                  </el-radio-button
                   >
                 </el-radio-group>
               </el-form-item>
@@ -160,7 +166,8 @@
             <el-col :span="24" style="text-align: right">
               <el-button @click="submit" plain type="primary">{{
                 area.id === "" ? this.$t("common.add") : this.$t("common.edit")
-              }}</el-button>
+                }}
+              </el-button>
             </el-col>
           </el-row>
         </el-card>
@@ -169,232 +176,249 @@
   </div>
 </template>
 <script>
-import areaApi from "@/api/Area.js";
-import dictionaryItemApi from "@/api/DictionaryItem.js";
-export default {
-  name: "AreaManager",
-  data() {
-    return {
-      label: "",
-      areaTree: [],
-      levelList: [],
-      area: this.initArea(),
-      rules: {
-        label: [
-          {
-            required: true,
-            message: this.$t("rules.require"),
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            max: 255,
-            message: this.$t("rules.range3to10"),
-            trigger: "blur"
-          }
-        ],
-        code: [
-          {
-            required: true,
-            message: this.$t("rules.require"),
-            trigger: "blur"
-          },
-          {
-            min: 1,
-            max: 255,
-            message: this.$t("rules.range3to10"),
-            trigger: "blur"
-          }
-        ]
-      }
-    };
-  },
-  mounted() {
-    // this.initAreaTree();
-    this.initDictionItem();
-  },
-  methods: {
-    initArea() {
+  import areaApi from "@/api/Area.js";
+  import dictionaryItemApi from "@/api/DictionaryItem.js";
+
+  export default {
+    name: "AreaManager",
+    data() {
       return {
-        id: "",
-        code: "",
         label: "",
-        parentId: 0,
-        parentLabel: "",
-        fullName: "",
-        longitude: "",
-        latitude: "",
-        source: "",
-        level: {
-          key: "PROVINCE"
-        },
-        sortValue: 0
+        areaTree: [],
+        levelList: [],
+        area: this.initArea(),
+        rules: {
+          label: [
+            {
+              required: true,
+              message: this.$t("rules.require"),
+              trigger: "blur"
+            },
+            {
+              min: 1,
+              max: 255,
+              message: this.$t("rules.range3to10"),
+              trigger: "blur"
+            }
+          ],
+          code: [
+            {
+              required: true,
+              message: this.$t("rules.require"),
+              trigger: "blur"
+            },
+            {
+              min: 1,
+              max: 255,
+              message: this.$t("rules.range3to10"),
+              trigger: "blur"
+            },
+            {
+              validator: (rule, value, callback) => {
+                debugger
+                areaApi.check(value, this.area.id).then(response => {
+                  const res = response.data;
+                  if (res.data) {
+                    callback('编码重复');
+                  } else {
+                    callback();
+                  }
+                }).catch(() => callback())
+              },
+              trigger: "blur"
+            }
+          ]
+        }
       };
     },
-    initAreaTree(parentId = 0) {
-      areaApi.find({ parentId: parentId }).then(response => {
-        const res = response.data;
-        this.areaTree = res.data;
-      });
+    mounted() {
+      // this.initAreaTree();
+      this.initDictionItem();
     },
-    loadTree(node, resolve) {
-      debugger;
-      areaApi.find({ parentId: node.data.id }).then(response => {
-        const res = response.data;
-        resolve(res.data);
-      });
-    },
-    initDictionItem() {
-      let CODE = "AREA_LEVEL";
-      dictionaryItemApi.list({ codes: [CODE] }).then(response => {
-        const res = response.data;
-        this.levelList = res.data[CODE];
-      });
-    },
-    exportExcel() {
-      this.$message({
-        message: "待完善",
-        type: "warning"
-      });
-    },
-    handleNumChange(val) {
-      this.area.sortValue = val;
-    },
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.label.indexOf(value) !== -1;
-    },
-    nodeClick(data) {
-      this.area = { ...data };
-
-      const parent = this.$refs.areaTree.getNode(data.parentId);
-      if (parent) {
-        this.area.parentLabel = parent.label;
-      }
-
-      this.$refs.form.clearValidate();
-    },
-    add() {
-      this.resetForm();
-      const checked = this.$refs.areaTree.getCheckedNodes();
-      if (checked.length > 1) {
+    methods: {
+      initArea() {
+        return {
+          id: "",
+          code: "",
+          label: "",
+          parentId: 0,
+          parentLabel: "",
+          fullName: "",
+          longitude: "",
+          latitude: "",
+          source: "",
+          level: {
+            key: "PROVINCE"
+          },
+          sortValue: 0
+        };
+      },
+      initAreaTree(parentId = 0) {
+        areaApi.find({parentId: parentId}).then(response => {
+          const res = response.data;
+          this.areaTree = res.data;
+        });
+      },
+      loadTree(node, resolve) {
+        areaApi.find({parentId: node.data.id}).then(response => {
+          const res = response.data;
+          resolve(res.data);
+        });
+      },
+      initDictionItem() {
+        let CODE = "AREA_LEVEL";
+        dictionaryItemApi.list({codes: [CODE]}).then(response => {
+          const res = response.data;
+          this.levelList = res.data[CODE];
+        });
+      },
+      exportExcel() {
         this.$message({
-          message: this.$t("tips.onlyChooseOne"),
+          message: "待完善",
           type: "warning"
         });
-      } else if (checked.length > 0) {
-        debugger;
-        this.area.parentId = checked[0].id;
-        this.area.parentLabel = checked[0].label;
-      } else {
-        this.area.parentId = 0;
-        this.area.parentLabel = "";
-      }
-    },
-    deleteArea() {
-      const checked = this.$refs.areaTree.getCheckedKeys();
-      if (checked.length === 0) {
-        this.$message({
-          message: this.$t("tips.noNodeSelected"),
-          type: "warning"
-        });
-      } else {
-        this.$confirm(
-          this.$t("tips.confirmDeleteNode"),
-          this.$t("common.tips"),
-          {
-            confirmButtonText: this.$t("common.confirm"),
-            cancelButtonText: this.$t("common.cancel"),
+      },
+      handleNumChange(val) {
+        this.area.sortValue = val;
+      },
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1;
+      },
+      nodeClick(data) {
+        this.area = {...data};
+
+        const parent = this.$refs.areaTree.getNode(data.parentId);
+        if (parent) {
+          this.area.parentLabel = parent.label;
+        }
+
+        this.$refs.form.clearValidate();
+      },
+      add() {
+        this.resetForm();
+        const checked = this.$refs.areaTree.getCheckedNodes();
+        if (checked.length > 1) {
+          this.$message({
+            message: this.$t("tips.onlyChooseOne"),
             type: "warning"
-          }
-        )
-          .then(() => {
-            areaApi.delete({ ids: checked }).then(response => {
-              const res = response.data;
-              if (res.isSuccess) {
-                this.$message({
-                  message: this.$t("tips.deleteSuccess"),
-                  type: "success"
-                });
-              }
-              this.reset();
-            });
-          })
-          .catch(() => {
-            this.$refs.areaTree.setCheckedKeys([]);
           });
-      }
-    },
-    search() {
-      this.$refs.areaTree.filter(this.label);
-    },
-    reset() {
-      this.initAreaTree();
-      this.label = "";
-      this.resetForm();
-    },
-    submit() {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          if (this.area.id) {
-            this.update();
-          } else {
-            this.save();
-          }
+        } else if (checked.length > 0) {
+          this.area.parentId = checked[0].id;
+          this.area.parentLabel = checked[0].label;
         } else {
-          return false;
+          this.area.parentId = 0;
+          this.area.parentLabel = "";
         }
-      });
-    },
-    save() {
-      areaApi.save({ ...this.area }).then(response => {
-        const res = response.data;
-        if (res.isSuccess) {
+      },
+      deleteArea() {
+        const checked = this.$refs.areaTree.getCheckedKeys();
+        if (checked.length === 0) {
           this.$message({
-            message: this.$t("tips.createSuccess"),
-            type: "success"
+            message: this.$t("tips.noNodeSelected"),
+            type: "warning"
           });
+        } else {
+          this.$confirm(
+            this.$t("tips.confirmDeleteNode"),
+            this.$t("common.tips"),
+            {
+              confirmButtonText: this.$t("common.confirm"),
+              cancelButtonText: this.$t("common.cancel"),
+              type: "warning"
+            }
+          )
+            .then(() => {
+              areaApi.delete({ids: checked}).then(response => {
+                const res = response.data;
+                if (res.isSuccess) {
+                  this.$message({
+                    message: this.$t("tips.deleteSuccess"),
+                    type: "success"
+                  });
+                }
+                this.reset();
+              });
+            })
+            .catch(() => {
+              this.$refs.areaTree.setCheckedKeys([]);
+            });
         }
+      },
+      search() {
+        this.$refs.areaTree.filter(this.label);
+      },
+      reset() {
+        this.initAreaTree();
+        this.label = "";
+        this.resetForm();
+      },
+      submit() {
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            if (this.area.id) {
+              this.update();
+            } else {
+              this.save();
+            }
+          } else {
+            return false;
+          }
+        });
+      },
+      save() {
+        areaApi.save({...this.area}).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t("tips.createSuccess"),
+              type: "success"
+            });
+          }
 
-        this.reset();
-      });
-    },
-    update() {
-      areaApi.update({ ...this.area }).then(response => {
-        const res = response.data;
-        if (res.isSuccess) {
-          this.$message({
-            message: this.$t("tips.updateSuccess"),
-            type: "success"
-          });
-        }
-        this.reset();
-      });
-    },
-    resetForm() {
-      this.$refs.form.clearValidate();
-      this.$refs.form.resetFields();
-      this.area = this.initArea();
+          this.reset();
+        });
+      },
+      update() {
+        areaApi.update({...this.area}).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t("tips.updateSuccess"),
+              type: "success"
+            });
+          }
+          this.reset();
+        });
+      },
+      resetForm() {
+        this.$refs.form.clearValidate();
+        this.$refs.form.resetFields();
+        this.area = this.initArea();
+      }
     }
-  }
-};
+  };
 </script>
 <style lang="scss" scoped>
-.area {
-  margin: 10px;
-  .app-container {
-    margin: 0 0 10px 0 !important;
+  .area {
+    margin: 10px;
+
+    .app-container {
+      margin: 0 0 10px 0 !important;
+    }
   }
-}
-.el-card.is-always-shadow {
-  box-shadow: none;
-}
-.el-card {
-  border-radius: 0;
-  border: none;
-  .el-card__header {
-    padding: 10px 20px !important;
-    border-bottom: 1px solid #f1f1f1 !important;
+
+  .el-card.is-always-shadow {
+    box-shadow: none;
   }
-}
+
+  .el-card {
+    border-radius: 0;
+    border: none;
+
+    .el-card__header {
+      padding: 10px 20px !important;
+      border-bottom: 1px solid #f1f1f1 !important;
+    }
+  }
 </style>

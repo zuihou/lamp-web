@@ -146,41 +146,16 @@ export default {
         .then(() => {
           db.remove("USER_ROUTER");
           db.remove("PERMISSIONS");
-          db.remove("ENUMS");
 
           this.reloadData();
-          //
         })
         .catch(() => {
           // do nothing
         });
     },
     async reloadData() {
-      let dictionaryEnumsRes = await commonApi.dictionaryEnums();
-      // .then(response => {
-      //   const res = response.data;
-
-      //   if (res.isSuccess) {
-      //     this.$store.commit("common/setEnums", res.data);
-      //   }
-      // });
 
       let userRes = await userApi.reload(this.userId);
-      // .then(response => {
-      //   const res = response.data;
-
-      //   if (res.isSuccess) {
-      //     const result = res.data;
-      //     this.$store.commit("account/setUser", result.user);
-
-      //     this.$store.commit("account/setPermissions", result.permissionsList);
-      //   }
-      // });
-
-      if (dictionaryEnumsRes.data.isSuccess) {
-        console.log("加载枚举成功");
-        this.$store.commit("common/setEnums", dictionaryEnumsRes.data.data);
-      }
 
       if (userRes.data.isSuccess) {
         console.log("加载用户&权限成功");
@@ -189,7 +164,7 @@ export default {
         this.$store.commit("account/setPermissions", result.permissionsList);
       }
 
-      if (dictionaryEnumsRes.data.isSuccess && userRes.data.isSuccess) {
+      if (userRes.data.isSuccess) {
         setTimeout(() => {
           location.reload();
         }, 1000);

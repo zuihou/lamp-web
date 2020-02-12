@@ -104,7 +104,6 @@ export default {
       if (this.user["avatar"] && (this.user["avatar"].startsWith('http://') || this.user["avatar"].startsWith('https://'))) {
         avatar = this.user["avatar"]
       }
-      debugger
 
       this.$nextTick(() => {
         this.$refs.imgFileRef.init({

@@ -49,6 +49,7 @@
 </template>
 <script>
 import smsTemplateApi from '@/api/SmsTemplate.js'
+import {initMsgsEnums} from '@/utils/commons.js'
 
 export default {
   name: 'SmsTemplateEdit',
@@ -68,6 +69,9 @@ export default {
       smsTemplate: this.initSmsTemplate(),
       screenWidth: 0,
       width: this.initWidth(),
+      enums: {
+        ProviderType: {}
+      },
       rules: {
         providerType: [{ required: true, message: this.$t('rules.require'), trigger: 'change' }],
         appId: [{ required: true, message: this.$t('rules.require'), trigger: 'blur' },
@@ -81,7 +85,6 @@ export default {
               if (this.type === 'add' && value.trim() !== '') {
                 smsTemplateApi.check(value)
                   .then((response) => {
-                    debugger
                     const res = response.data
                     if (res.data) {
                       callback('自定义编码重复')
@@ -112,15 +115,13 @@ export default {
     },
     title () {
       return this.type === 'add' ? this.$t('common.add') : this.$t('common.edit')
-    },
-    enums () {
-      return this.$store.state.common.enums
     }
   },
   watch: {
 
   },
   mounted () {
+    initMsgsEnums( ["ProviderType"]);
     window.onresize = () => {
       return (() => {
         this.width = this.initWidth()

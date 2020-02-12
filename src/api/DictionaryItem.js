@@ -1,7 +1,10 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  page: `/authority/dictionaryItem/page`,
+  page: {
+    method: 'GET',
+    url: `/authority/dictionaryItem/page`
+  },
   update: {
     method: 'PUT',
     url: `/authority/dictionaryItem`
@@ -23,8 +26,7 @@ const apiList = {
 export default {
   page (data) {
     return axiosApi({
-      method: 'GET',
-      url: apiList.page,
+      ...apiList.page,
       formData: true,
       data
     })

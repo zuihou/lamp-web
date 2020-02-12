@@ -110,7 +110,6 @@ export default {
     // 附件初始化
     init({ id, bizId, bizType, isSingle, isDetail }) {
       const vm = this;
-      debugger;
       vm.fileOtherData.bizId = bizId;
       vm.fileOtherData.id = id || "";
       vm.fileOtherData.bizType = bizType;
@@ -129,7 +128,6 @@ export default {
     },
 
     handleChange(file, fileList) {
-      debugger;
       const vm = this;
       if (file.response) {
         vm.uploadTotalNum += 1;
@@ -231,7 +229,6 @@ export default {
     },
     // 删除附件列表
     handleRemove(file) {
-      debugger;
       const vm = this;
       if (file.bizId) {
         vm.removeFileAry.push(file.id);
@@ -314,7 +311,6 @@ export default {
     },
     // 附件上传服务器触发方法
     submitFile(id, bizId, bizType) {
-      debugger;
       const vm = this;
       vm.fileOtherData.id = id;
       if (bizId) {

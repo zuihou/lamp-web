@@ -217,8 +217,6 @@ export default {
       this.onSelect(selection);
     },
     onSelect(selection, row) {
-      debugger;
-
       this.mergeResourceIdList(selection, row);
       //this.roleAuthority.resourceIdList = selection.map(item => item.id);
       this.selection = selection;
@@ -343,7 +341,6 @@ export default {
       });
     },
     checkMenu(data, node) {
-      debugger;
       if (node.checkedKeys.length === 0) {
         //取消
         this.checkedMenu = false;

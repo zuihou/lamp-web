@@ -71,7 +71,7 @@ const renderSize = value => {
   return '文件太大'
 }
 
-const converEnum = obj => {
+const convertEnum = obj => {
   const list = []
   if (obj) {
     for (let key in obj) {
@@ -84,4 +84,4 @@ const converEnum = obj => {
   return list
 }
 
-export { renderSize, converEnum }
+export { renderSize, convertEnum }
