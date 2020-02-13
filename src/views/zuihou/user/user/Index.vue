@@ -189,7 +189,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            scope.row.org["data"] ? scope.row.org.data.name : scope.row.org.key
+            scope.row.org["data"] ? scope.row.org.data.label : scope.row.org.key
           }}</span>
         </template>
       </el-table-column>

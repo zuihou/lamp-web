@@ -157,8 +157,10 @@ export default {
     }
   },
   watch: {
-    $route () {
-      this.fetch()
+    '$route' (to) {
+      if(to.path === '/sms/manage'){
+        this.fetch();
+      }
     }
   },
   mounted () {

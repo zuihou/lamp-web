@@ -84,7 +84,7 @@ export default {
     },
     menu: {
       id: 'ID',
-      name: 'Name',
+      label: 'Label',
       describe: 'Describe',
       code: 'Permissions',
       isPublic: 'IsPublic',
@@ -103,7 +103,7 @@ export default {
       describe: 'Describe'
     },
     org: {
-      name: 'Name',
+      label: 'label',
       abbreviation: 'Abbreviation',
       describe: 'Describe',
       parentId: 'ParentId',

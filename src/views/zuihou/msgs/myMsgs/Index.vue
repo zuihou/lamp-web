@@ -262,8 +262,10 @@
       }
     },
     watch: {
-      $route() {
-        this.fetch();
+      '$route' (to) {
+        if(to.path === '/msgs/myMsgs'){
+          this.fetch();
+        }
       }
     },
     mounted() {

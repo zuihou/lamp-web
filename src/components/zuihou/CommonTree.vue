@@ -19,7 +19,7 @@
         slot-scope="{ data, node }"
         class="custom-tree-node"
       >
-        <span style="margin-right: 15px;">{{ data.name }}</span>
+        <span style="margin-right: 15px;">{{ data.label }}</span>
         <slot
           :data="data"
           :node="node"

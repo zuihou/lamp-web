@@ -4,7 +4,7 @@
       <el-col :sm="12" :xs="24">
         <div class="app-container">
           <div class="filter-container">
-            <el-input :placeholder="$t('table.org.name')" class="filter-item search-item" v-model="name" />
+            <el-input :placeholder="$t('table.org.label')" class="filter-item search-item" v-model="label" />
             <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
             <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
             <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['org:add','org:delete','org:export']">
@@ -34,8 +34,8 @@
                   <el-input readonly v-model="org.parentId" />
                 </el-tooltip>
               </el-form-item>
-              <el-form-item :label="$t('table.org.name')" prop="name">
-                <el-input v-model="org.name" />
+              <el-form-item :label="$t('table.org.label')" prop="label">
+                <el-input v-model="org.label" />
               </el-form-item>
               <el-form-item :label="$t('table.org.abbreviation')" prop="abbreviation">
                 <el-input v-model="org.abbreviation" />
@@ -72,11 +72,11 @@ export default {
   name: 'OrgManager',
   data () {
     return {
-      name: '',
+      label: '',
       orgTree: [],
       org: this.initOrg(),
       rules: {
-        name: [
+        label: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 255, message: this.$t('rules.range3to10'), trigger: 'blur' }
         ]
@@ -91,7 +91,7 @@ export default {
       return {
         id: '',
         abbreviation: '',
-        name: '',
+        label: '',
         parentId: 0,
         status: true,
         describe: '',
@@ -110,9 +110,6 @@ export default {
         message: '待完善',
         type: 'warning'
       })
-      // this.$download('system/org/excel', {
-      //   name: this.name
-      // }, `org_${new Date().getTime()}.xlsx`)
     },
     handleNumChange (val) {
       this.org.sortValue = val
@@ -169,11 +166,11 @@ export default {
       }
     },
     search () {
-      this.$refs.orgTree.filter(this.name)
+      this.$refs.orgTree.filter(this.label)
     },
     reset () {
       this.initOrgTree()
-      this.name = ''
+      this.label = ''
       this.resetForm()
     },
     submit () {

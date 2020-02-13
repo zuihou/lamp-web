@@ -84,7 +84,7 @@ export default {
     },
     menu: {
       id: 'ID',
-      name: '名称',
+      label: '名称',
       describe: '描述',
       code: '权限编码',
       isPublic: '是否公有',
@@ -103,7 +103,7 @@ export default {
       describe: '描述'
     },
     org: {
-      name: '部门名称',
+      label: '部门名称',
       abbreviation: '简称',
       describe: '描述',
       parentId: '上级ID',
