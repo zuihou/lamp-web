@@ -136,14 +136,9 @@
                   size="small"
                   v-model="area.level.key"
                 >
-                  <el-radio-button
-                    :key="index"
-                    :label="item.code"
-                    :value="item.code"
-                    v-for="(item, key, index) in levelList"
-                  >{{ item.name }}
-                  </el-radio-button
-                  >
+                  <el-radio-button :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.AREA_LEVEL">
+                    {{ item }}
+                  </el-radio-button>
                 </el-radio-group>
               </el-form-item>
 
@@ -177,7 +172,7 @@
 </template>
 <script>
   import areaApi from "@/api/Area.js";
-  import dictionaryItemApi from "@/api/DictionaryItem.js";
+  import { initDicts } from '@/utils/commons'
 
   export default {
     name: "AreaManager",
@@ -185,7 +180,7 @@
       return {
         label: "",
         areaTree: [],
-        levelList: [],
+        dicts:{AREA_LEVEL:{}},
         area: this.initArea(),
         rules: {
           label: [
@@ -232,8 +227,7 @@
       };
     },
     mounted() {
-      // this.initAreaTree();
-      this.initDictionItem();
+      initDicts('AREA_LEVEL', this.dicts);
     },
     methods: {
       initArea() {
@@ -263,13 +257,6 @@
         areaApi.find({parentId: node.data.id}).then(response => {
           const res = response.data;
           resolve(res.data);
-        });
-      },
-      initDictionItem() {
-        let CODE = "AREA_LEVEL";
-        dictionaryItemApi.list({codes: [CODE]}).then(response => {
-          const res = response.data;
-          this.levelList = res.data[CODE];
         });
       },
       exportExcel() {

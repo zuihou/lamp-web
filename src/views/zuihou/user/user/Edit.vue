@@ -135,7 +135,6 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import imgUpload from "@/components/zuihou/imgUpload";
 import userApi from "@/api/User.js";
 import stationApi from "@/api/Station.js";
-// import {initEnums} from '@/utils/commons.js'
 
 export default {
   name: "UserEdit",
