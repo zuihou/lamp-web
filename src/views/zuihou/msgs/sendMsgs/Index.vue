@@ -209,7 +209,7 @@ export default {
       }
     },
     loadUserList () {
-      userApi.page({ current: 1, size: 10000 })
+      userApi.page({ current: 1, size: 10000, model: {status: true}  })
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
