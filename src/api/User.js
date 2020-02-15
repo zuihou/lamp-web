@@ -2,7 +2,7 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    method: 'GET',
+    method: 'POST',
     url: `/authority/user/page`
   },
   save: {
@@ -39,7 +39,6 @@ export default {
   page (data) {
     return axiosApi({
       ...apiList.page,
-      formData: true,
       data
     })
   },
