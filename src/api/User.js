@@ -32,6 +32,18 @@ const apiList = {
   reload: {
     method: 'POST',
     url: `/authority/user/reload`
+  },
+  preview: {
+    method: 'POST',
+    url: `/authority/user/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/authority/user/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/authority/user/import`
   }
 }
 
@@ -83,6 +95,25 @@ export default {
       ...apiList.reload,
       formData: true,
       data: { userId: userId }
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
+      data
     })
   }
 }

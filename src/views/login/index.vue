@@ -530,7 +530,7 @@ export default {
         loginApi.login(this.loginForm).then(response => {
           const res = response.data;
           if (res.isSuccess) {
-            that.saveLoginData(res.data.token);
+            that.saveLoginData(res.data['token'], res.data['expire']);
             that.saveUserInfo(res.data.user, res.data.permissionsList);
 
             that.loginSuccessCallback(res.data.user);
@@ -554,12 +554,12 @@ export default {
         });
       }
     },
-    saveLoginData(token) {
+    saveLoginData(token, expire) {
       this.$store.commit("account/setTenant", this.loginForm.tenant);
-      this.$store.commit("account/setToken", token.token);
+      this.$store.commit("account/setToken", token);
       const current = new Date();
       const expireTime = current.setTime(
-        current.getTime() + 1000 * token.expire
+        current.getTime() + 1000 * expire
       );
       this.$store.commit("account/setExpireTime", expireTime);
     },

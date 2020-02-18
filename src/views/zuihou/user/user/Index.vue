@@ -30,53 +30,41 @@
         v-model="queryParams.timeRange"
         value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button @click="search" class="filter-item" plain type="primary">{{
-        $t("table.search")
-        }}
+      <el-button @click="search" class="filter-item" plain type="primary">
+        {{ $t("table.search") }}
       </el-button>
-      <el-button @click="reset" class="filter-item" plain type="warning">{{
-        $t("table.reset")
-        }}
+      <el-button @click="reset" class="filter-item" plain type="warning">
+        {{ $t("table.reset") }}
       </el-button>
-      <el-dropdown
-        class="filter-item"
-        trigger="click"
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['user:add']">
+        {{ $t("table.add") }}
+      </el-button>
+      <el-dropdown class="filter-item" trigger="click"
         v-has-any-permission="[
-          'user:add',
           'user:delete',
-          'user:reset',
+          'user:rest',
           'user:export'
-        ]"
-      >
+        ]">
         <el-button>
           {{ $t("table.more") }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            @click.native="add"
-            v-has-permission="['user:add']"
-          >{{ $t("table.add") }}
-          </el-dropdown-item
-          >
-          <el-dropdown-item
-            @click.native="batchDelete"
-            v-has-permission="['user:delete']"
-          >{{ $t("table.delete") }}
-          </el-dropdown-item
-          >
-          <el-dropdown-item
-            @click.native="resetPassword"
-            v-has-permission="['user:reset']"
-          >{{ $t("table.resetPassword") }}
-          </el-dropdown-item
-          >
-          <el-dropdown-item
-            @click.native="exportExcel"
-            v-has-permission="['user:export']"
-          >{{ $t("table.export") }}
-          </el-dropdown-item
-          >
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['user:delete']">
+            {{ $t("table.delete") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="resetPassword" v-has-permission="['user:reset']">
+            {{ $t("table.resetPassword") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['user:export']">
+            {{ $t("table.export") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['user:export']">
+            导出预览
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['user:export']">
+            {{ $t("table.import") }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -295,6 +283,26 @@
       @close="viewClose"
       ref="view"
     />
+    <user-import
+      :dialog-visible="fileDialog.isVisible"
+      :type="fileDialog.type"
+      @close="importClose"
+      @success="importSuccess"
+      ref="import"
+    />
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="true"
+      title="预览"
+      width="80%"
+      top="50px"
+      :visible.sync="isVisible"
+      v-el-drag-dialog
+    >
+      <el-scrollbar>
+      <div v-html="preview" ></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 
@@ -302,16 +310,19 @@
   import Pagination from "@/components/Pagination";
   import Treeselect from "@riophae/vue-treeselect";
   import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+  import elDragDialog from '@/directive/el-drag-dialog'
   import UserEdit from "./Edit";
   import UserView from "./View";
+  import UserImport from "./Import";
   import userApi from "@/api/User.js";
   import orgApi from "@/api/Org.js";
   import {convertEnum} from '@/utils/utils'
-  import {initEnums, initDicts} from '@/utils/commons'
+  import {downloadFile, initEnums, initDicts} from '@/utils/commons'
 
   export default {
     name: "UserManage",
-    components: {Pagination, UserEdit, UserView, Treeselect},
+    directives: {elDragDialog},
+    components: {Pagination, UserEdit, UserView, Treeselect, UserImport},
     filters: {
       userAvatarFilter(name) {
         return name.charAt(0);
@@ -335,9 +346,15 @@
     data() {
       return {
         orgList: [],
+        isVisible: false,
+        preview: '',
         dialog: {
           isVisible: false,
           type: "add"
+        },
+        fileDialog: {
+          isVisible: false,
+          type: "import"
         },
         userViewVisible: false,
         tableKey: 0,
@@ -406,7 +423,8 @@
             org: {
               key: null
             }
-          }
+          },
+          map: {}
         };
       },
       myAvatar(avatar) {
@@ -449,11 +467,39 @@
         this.$refs.table.clearFilter();
         this.search();
       },
-      exportExcel() {
-        this.$message({
-          message: "待完善",
-          type: "warning"
+      exportExcelPreview() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出用户数据';
+        userApi.preview(this.queryParams).then(response => {
+          const res = response.data;
+          this.isVisible = true;
+          this.preview = res.data;
         });
+        // window.location.href = `${process.env.VUE_APP_BASE_API}/authority/user/preview`;
+      },
+      exportExcel() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出用户数据';
+        userApi.export(this.queryParams).then(response => {
+          downloadFile(response);
+        });
+      },
+      importExcel() {
+        this.fileDialog.type = "upload";
+        this.fileDialog.isVisible = true;
+        this.$refs.import.setUser(false);
+      },
+      importSuccess() {
+        this.search();
+      },
+      importClose() {
+        this.fileDialog.isVisible = false;
       },
       resetPassword() {
         if (!this.selection.length) {
@@ -597,4 +643,7 @@
     }
   };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+
+</style>

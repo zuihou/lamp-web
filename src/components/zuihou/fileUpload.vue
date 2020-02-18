@@ -59,6 +59,10 @@ export default {
     // 允许上传的文件类型
     accept: {
       type: String,
+      default: `${process.env.VUE_APP_BASE_API}/file/attachment/upload`
+    },
+    action: {
+      type: String,
       default: ""
     },
     // 允许上传的文件大小 单位：字节
@@ -95,7 +99,7 @@ export default {
       uploadTotalNum: 0,
       // 是否上传失败
       isUploadError: false,
-      action: `${process.env.VUE_APP_BASE_API}/file/attachment/upload`
+      // action: `${process.env.VUE_APP_BASE_API}/file/attachment/upload`
     };
   },
   computed: {
@@ -128,6 +132,7 @@ export default {
     },
 
     handleChange(file, fileList) {
+      debugger
       const vm = this;
       if (file.response) {
         vm.uploadTotalNum += 1;
