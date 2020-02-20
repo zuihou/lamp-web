@@ -349,6 +349,7 @@ export default {
       const vm = this;
       if (val) {
         vm.user = { ...val };
+
       }
       vm.dicts = dicts;
       vm.enums = enums;

@@ -128,7 +128,7 @@
         width="70px"
       >
         <template slot-scope="{ row }">
-          <el-tag :type="row.sex.code | sexFilter">{{ row.sex.desc }}</el-tag>
+          <el-tag :type="row.sex ? row.sex['code'] :'' | sexFilter">{{ row.sex ? row.sex.desc : '' }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
