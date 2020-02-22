@@ -102,7 +102,7 @@
                      trigger="click">
                       <div>1.二维码打赏45元及以上，备注邮箱可得开发文档一份（支持后续更新，比看云的价格便宜哦）</div>
                       <div>2.二维码额外支付199元及以上，备注邮箱后加群联系群主，作者在线指导半个月，解答项目相关的一切问题</div>
-                      <img src="image/捐赠.png" width="400px" height="200px"/>
+                      <img :src="donation" width="400px" height="200px"/>
                      <el-tag type="danger"  style="cursor: pointer" slot="reference" >
                         超级VIP
                      </el-tag>
@@ -252,6 +252,9 @@
       }
     },
     computed: {
+      donation() {
+        return require('@/assets/捐赠.png')
+      },
       user() {
         return this.$store.state.account.user
       },
