@@ -41,7 +41,7 @@
               </div>
             </div>
             <div class="avue-notice__more">
-              <router-link :to="{path:'/msgs/myMsgs'}"><i class="el-icon-more"></i>查看更多</router-link>
+              <router-link :to="{path:'/msgs/myMsgs'}">点击查看更多<i class="el-icon-more"/></router-link>
             </div>
           </div>
           <el-badge :value="tableData.total" :max="99" :hidden="tableData.total <= 0" class="badge-item" slot="reference">
@@ -181,9 +181,11 @@ export default {
       params.size = 10;
       params.current = 1;
       params.isRead = false;
-      msgsApi.page(params).then(response => {
+      msgsApi.page(params, {isAlert: false}).then(response => {
         const res = response.data;
-        this.tableData = res.data;
+        if(res.isSuccess){
+          this.tableData = res.data;
+        }
       });
     },
     mark(ids, callback) {

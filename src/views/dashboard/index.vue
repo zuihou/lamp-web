@@ -14,11 +14,6 @@
                 <div class="user-info">
                   <div class="random-message">
                     {{ welcomeMessage }}
-                    帮我
-                    <span style="color:red">
-                      <a href="https://github.com/zuihou/zuihou-admin-cloud" target="_blank">点个star</a>
-                    </span>
-                    吧~
                   </div>
                   <div class="user-dept">
                     <span>{{ user.workDescribe ? user.workDescribe : $t('common.noWorkDescribe') }}</span>
@@ -77,6 +72,8 @@
                     <span>产品名称</span>
                     <el-divider direction="vertical"/>
                     <span><el-tag>zuihou-admin-cloud微服务SaaS脚手架</el-tag></span>
+                    <el-divider direction="vertical"/>
+                    <span style="color:red">立即去<a href="https://github.com/zuihou/zuihou-admin-cloud" target="_blank">点个star</a>吧~</span>
                     <el-divider content-position="right"><i class="el-icon-star-off"/></el-divider>
                     <span>账号密码</span>
                     <el-divider direction="vertical"/>

@@ -20,11 +20,12 @@ const apiList = {
 }
 
 export default {
-  page (data) {
+  page (data, custom = {}) {
     return axiosApi({
       ...apiList.page,
       formData: true,
-      data
+      data,
+      custom
     })
   },
   save (data) {

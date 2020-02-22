@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import {Message, MessageBox} from 'element-ui'
 import db from '@/utils/localstorage'
 
 // 请求添加条件，如token
@@ -24,25 +24,29 @@ axios.interceptors.response.use(
   }
 )
 
-function handleError (error, reject) {
+function handleError(error, reject, opts) {
   debugger
-  if (error.code === 'ECONNABORTED') {
-    Message({
-      message: '请求超时'
-    })
-  } else if (error.response && error.response.data) {
-    Message({
-      message: error.response.data
-    })
-  } else if (error.message) {
-    Message({
-      message: error.message
-    })
+  let isAlert = opts.custom ? opts.custom['isAlert'] : true;
+  if (isAlert) {
+    if (error.code === 'ECONNABORTED') {
+      Message({
+        message: '请求超时'
+      })
+    } else if (error.response && error.response.data) {
+      Message({
+        message: error.response.data
+      })
+    } else if (error.message) {
+      Message({
+        message: error.message
+      })
+    }
   }
   reject(error)
 }
 
-function handleSuccess (res, resolve) {
+function handleSuccess(res, resolve, opts) {
+  let isAlert = opts.custom ? opts.custom['isAlert'] : true;
   if (res.data.isError) {
     // 未登录
     if (res.data.code === 40001) {
@@ -54,7 +58,9 @@ function handleSuccess (res, resolve) {
         }
       })
     } else {
-      Message.error(res.data.msg)
+      if (isAlert) {
+        Message.error(res.data.msg);
+      }
     }
   }
   resolve(res)
@@ -105,9 +111,9 @@ const httpServer = (opts) => {
 
   const promise = new Promise((resolve, reject) => {
     axios(httpDefaultOpts).then(response => {
-      handleSuccess(response, resolve)
+      handleSuccess(response, resolve, opts)
     }).catch(error => {
-      handleError(error, reject)
+      handleError(error, reject, opts)
     })
   })
   return promise
