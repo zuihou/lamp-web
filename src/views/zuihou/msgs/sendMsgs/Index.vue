@@ -313,6 +313,7 @@ export default {
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
       this.msgsCenterInfo = this.initMsgsCenterInfo()
+      this.disabledReceiveType = false;
 
       //这里报错
       // this.$nextTick(() =>

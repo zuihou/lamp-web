@@ -8,7 +8,7 @@
       filterable
       default-first-option
       remote
-      :placeholder="$t('table.search')"
+      :placeholder="placeholder"
       class="header-search-select"
       @change="change"
     >
@@ -26,6 +26,12 @@ import i18n from '@/lang'
 
 export default {
   name: 'HeaderSearch',
+  props: {
+    placeholder: {
+      type: String,
+      default: '搜索'
+    },
+  },
   data() {
     return {
       search: '',

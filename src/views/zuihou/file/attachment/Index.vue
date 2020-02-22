@@ -70,7 +70,7 @@
         prop="submittedFileName"
       >
         <template slot-scope="scope">
-          <div @click="onView(scope.row)">
+          <div @click="onView(scope.row)" class="hover-effect">
             <i :class="scope.row.icon" class="button-list" />
             <span>{{ scope.row.submittedFileName }}</span>
           </div>
@@ -397,5 +397,15 @@ export default {
   color: #777;
   font-size: 2em;
   border-bottom: 1px solid #e5e5e5;
+}
+div{
+  &.hover-effect {
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.025);
+    }
+  }
 }
 </style>

@@ -14,9 +14,40 @@
         <div class="right-menu-item" style="color:red">
           演示环境维护不易，请勿乱删乱改数据！
         </div>
-        <search id="header-search" class="right-menu-item" />
+        <search id="header-search" class="right-menu-item" placeholder="搜索菜单" />
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
         <lang-select class="right-menu-item hover-effect" />
+        <el-popover
+          placement="bottom"
+          width="400"
+          class="right-menu-item hover-effect"
+          trigger="click">
+          <div class="avue-notice">
+            <div class="msgs-title-content">
+              <div  class="msgs-title">消息</div>
+              <div  class="msgs-title-icon">
+                <el-switch v-model="msgsRefresh" @change="msgsRefreshChange" title="是否自动刷新消息" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+              </div>
+            </div>
+            <div v-for="item in tableData.records" :key="item.id" class="avue-notice__item">
+              <div class="avue-notice__content">
+                <a href="javascript:;" @click="view(item)">
+                <div class="avue-notice__title">
+                  <div class="avue-notice__name">{{ item.title }}</div>
+                  <span class="avue-notice__tag"><el-tag size="small" effect="plain" :type="item.msgsCenterType ? item.msgsCenterType['code'] : '' | msgsTypeFilter">{{ item.msgsCenterType ? item.msgsCenterType['desc'] : '' }}</el-tag></span>
+                </div>
+                <div class="avue-notice__subtitle">{{ item.createTime }}</div>
+                </a>
+              </div>
+            </div>
+            <div class="avue-notice__more">
+              <router-link :to="{path:'/msgs/myMsgs'}"><i class="el-icon-more"></i>查看更多</router-link>
+            </div>
+          </div>
+          <el-badge :value="tableData.total" :max="99" :hidden="tableData.total <= 0" class="badge-item" slot="reference">
+            <i class="el-icon-bell"/>
+          </el-badge>
+        </el-popover>
       </template>
 
       <el-dropdown
@@ -74,8 +105,8 @@ import LangSelect from "@/components/LangSelect";
 import db from "@/utils/localstorage";
 import Screenfull from "@/components/Screenfull";
 import Search from "@/components/HeaderSearch";
-import commonApi from "@/api/Common.js";
 import userApi from "@/api/User.js";
+import msgsApi from "@/api/Msgs.js";
 
 export default {
   components: {
@@ -88,6 +119,31 @@ export default {
   filters: {
     userAvatarFilter(name) {
       return name.charAt(0);
+    },
+    msgsTypeFilter(status) {
+      const map = {
+        WAIT: "",
+        NOTIFY: "success",
+        PUBLICITY: "info",
+        WARN: "danger"
+      };
+      return map[status] || "";
+    },
+  },
+  mounted() {
+    this.loadMyMsgs();
+    if(this.msgsRefresh) {
+      this.msgsRefreshChange(true);
+    }
+  },
+  data() {
+    return {
+      tableData: {
+        total: 0,
+        records: []
+      },
+      msgsRefresh: db.get('MSGS_REFRESH', false), // 消息是否自动刷新
+      msgsRefreshTimer: null
     }
   },
   computed: {
@@ -120,6 +176,48 @@ export default {
     }
   },
   methods: {
+    loadMyMsgs() {
+      const params = {};
+      params.size = 10;
+      params.current = 1;
+      params.isRead = false;
+      msgsApi.page(params).then(response => {
+        const res = response.data;
+        this.tableData = res.data;
+      });
+    },
+    mark(ids, callback) {
+      msgsApi.mark({msgCenterIds: ids}).then(response => {
+        const res = response.data;
+        if (typeof callback === "function") {
+          callback(ids);
+        }
+      });
+    },
+    view(row) {
+      this.mark([row.id], ids => {
+        this.loadMyMsgs();
+        this.$router.push({
+          path: "/msgs/sendMsgs",
+          query: {
+            id: row.id,
+            type: "view"
+          }
+        });
+      });
+    },
+    msgsRefreshChange(val) {
+      db.save('MSGS_REFRESH', val);
+      if(val) {
+        this.msgsRefreshTimer = setInterval(() => {
+          this.loadMyMsgs();
+        }, 15000)
+      } else {
+        clearInterval(this.msgsRefreshTimer);
+        console.log("定时拉取消息停止了！")
+        this.msgsRefreshTimer = null;
+      }
+    },
     toggleSideBar() {
       this.$store.commit("setting/toggleSidebar");
     },
@@ -265,4 +363,72 @@ export default {
     }
   }
 }
+.el-badge {
+  /deep/.el-badge__content.is-fixed {
+    top: 10px
+  }
+}
+.msgs-title-content {
+  color: #303133;
+  font-size: 20px;
+  line-height: 1;
+  margin: 12px 0px 5px 0px;
+  overflow:hidden;
+  .msgs-title {
+    margin-left: 20px;
+    float: left;
+  }
+  .msgs-title-icon {
+    float: right;
+    margin-right: 28px;
+  }
+}
+.avue-notice__item {
+  padding: 12px 24px;
+  border-bottom: 1px solid #e8eaec;
+  cursor: pointer;
+  -webkit-transition: background-color .2s ease-in-out;
+  transition: background-color .2s ease-in-out;
+  text-align: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+.avue-notice__content {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+.avue-notice__title {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #515a6e;
+  margin-bottom: 4px;
+  overflow:hidden
+}
+.avue-notice__tag {
+  float: right;
+  margin-top: 2px;
+}
+.avue-notice__name {
+  line-height: 25px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 280px;
+  float: left;
+}
+.avue-notice__subtitle {
+  font-size: 12px;
+  color: #808695;
+}
+.avue-notice__more{
+  text-align: center;
+  padding: 20px 0 10px
+}
+
 </style>
