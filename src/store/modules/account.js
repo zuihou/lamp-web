@@ -5,8 +5,8 @@ export default {
   state: {
     accessToken: db.get('ACCESS_TOKEN'),
     refreshToken: db.get('REFRESH_TOKEN'),
-    token: db.get('TOKEN'),
-    tenant: db.get('TENANT'),
+    token: db.get('TOKEN', ''),
+    tenant: db.get('TENANT', ''),
     expireTime: db.get('EXPIRE_TIME', 0),
     user: db.get('USER'),
     permissions: db.get('PERMISSIONS') || [],

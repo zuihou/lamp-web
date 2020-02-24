@@ -10,12 +10,11 @@ const db = {
   },
   get (key, defaultValue = {}) {
     let projectName = process.env.VUE_APP_PROJECT_NAME
-    // try {
-    return JSON.parse(localStorage.getItem(projectName + "_" + key)) || defaultValue
-    // } catch (err) {
-    //   return defaultValue
-    // }
-
+    try {
+      return JSON.parse(localStorage.getItem(projectName + "_" + key)) || defaultValue
+    } catch (err) {
+      return defaultValue
+    }
   },
   remove (key) {
     let projectName = process.env.VUE_APP_PROJECT_NAME

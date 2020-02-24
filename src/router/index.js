@@ -111,7 +111,7 @@ router.beforeEach((to, from, next) => {
   if (whiteList.indexOf(to.path) !== -1) {
     next()
   } else {
-    const token = db.get('TOKEN')
+    const token = db.get('TOKEN', '')
     const user = db.get('USER')
     const userRouter = db.get('USER_ROUTER', '')
     if (token.length && user) {
@@ -121,8 +121,6 @@ router.beforeEach((to, from, next) => {
             .then((response) => {
               const res = response.data
               asyncRouter = res.data
-              console.log('res.data=')
-              console.log(res.data)
 
               if (!(asyncRouter && asyncRouter.length > 0)) {
                 asyncRouter = []
