@@ -23,7 +23,6 @@ export default {
   allTree (data) {
     return axiosApi({
       ...apiList.allTree,
-      formData: true,
       data
     })
   },

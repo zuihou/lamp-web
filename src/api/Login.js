@@ -28,7 +28,7 @@ export default {
     return axiosApi({
       method: 'GET',
       url: apiList.getRouter,
-      formData: true,
+      // formData: true,
       data: data || {}
     })
   },

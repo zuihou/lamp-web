@@ -25,7 +25,6 @@ export default {
     return axiosApi({
       method: 'GET',
       url: apiList.page,
-      formData: true,
       data
     })
   },

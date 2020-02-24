@@ -9,7 +9,6 @@ export default {
     return axiosApi({
       method: 'GET',
       url: apiList.getVisitList,
-      formData: true,
       data
     })
   }

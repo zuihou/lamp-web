@@ -29,21 +29,18 @@ export default {
     return axiosApi({
       method: 'GET',
       url: apiList.page,
-      formData: true,
       data
     })
   },
   tree(data) {
     return axiosApi({
       ...apiList.tree,
-      formData: true,
       data
     })
   },
   find(data) {
     return axiosApi({
       ...apiList.find,
-      formData: true,
       data
     })
   },

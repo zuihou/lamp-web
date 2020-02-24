@@ -23,7 +23,6 @@ export default {
   page (data, custom = {}) {
     return axiosApi({
       ...apiList.page,
-      formData: true,
       data,
       custom
     })
