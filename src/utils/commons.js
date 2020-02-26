@@ -16,17 +16,36 @@ export const loadEnums = (codes, enums = {}, service = 'authority') => {
   }
 }
 
+/**
+ * 初始化权限服务枚举
+ * @param codes
+ * @param enums
+ */
 export const initEnums = (codes, enums = {}) => {
   loadEnums(codes, enums, 'authority')
 }
-
+/**
+ * 初始化文件服务枚举
+ * @param codes
+ * @param enums
+ */
 export const initFileEnums = (codes, enums = {}) => {
   loadEnums(codes, enums, 'file')
 }
+/**
+ * 初始化消息服务枚举
+ * @param codes
+ * @param enums
+ */
 export const initMsgsEnums = (codes, enums = {}) => {
   loadEnums(codes, enums, 'msgs')
 }
 
+/**
+ * 初始化字典
+ * @param codes
+ * @param dicts
+ */
 export const initDicts = (codes, dicts = {}) => {
   if (typeof (codes) === 'string') {
     codes = [codes]
@@ -42,6 +61,10 @@ export const initDicts = (codes, dicts = {}) => {
   }
 }
 
+/**
+ * 下载方法
+ * @param response
+ */
 export const downloadFile = (response) => {
   const res = response.data;
   const type = res.type;
@@ -87,4 +110,18 @@ export const downloadFile = (response) => {
     link.click();
     window.URL.revokeObjectURL(link.href);
   }
+}
+
+// 初始化查询参数
+export const initQueryParams = params => {
+  const defParams = {
+    size: 10,
+    current: 1,
+    model: {
+
+    },
+    map: {},
+    timeRange: null
+  };
+  return params ? { ...defParams, ...params } : defParams;
 }

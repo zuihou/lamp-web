@@ -305,6 +305,7 @@ export default {
     more: '更多',
     add: '添加',
     export: '导出',
+    exportPreview: '导出预览',
     import: '导入',
     upload: '上传',
     download: '下载',

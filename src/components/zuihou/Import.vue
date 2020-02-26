@@ -1,9 +1,9 @@
 <template>
   <el-dialog :close-on-click-modal="false" :title="title" :type="type" :visible.sync="isVisible" :width="width"
              @dragDialog="handleDrag" top="50px" v-el-drag-dialog>
-    <el-form :model="user" :rules="rules" label-position="right" label-width="100px" ref="form">
+    <el-form :model="model" :rules="rules" label-position="right" label-width="100px" ref="form">
       <el-form-item label="文件" prop="fileLength">
-        <fileUpload :acceptSize="100*1024*1024" :auto-upload="false" :limit="1" @fileLengthVaild="fileLengthVaild" :accept="accept"
+        <fileUpload :acceptSize="acceptSize" :auto-upload="false" :limit="1" @fileLengthVaild="fileLengthVaild" :accept="accept"
                     @setId="setIdAndSubmit" ref="fileRef" :action="action">
           <el-button size="small" slot="trigger" type="primary">选取文件</el-button>
           <div class="el-upload__tip" slot="tip">文件不超过100MB</div>
@@ -21,10 +21,23 @@
   import fileUpload from "@/components/zuihou/fileUpload"
 
   export default {
-    name: 'userEdit',
+    name: 'commonImport',
     directives: {elDragDialog, fileUpload},
     components: {fileUpload},
     props: {
+      action: {
+        type: String,
+        required: true
+      },
+      // 允许上传的文件大小 单位：字节
+      acceptSize: {
+        type: Number,
+        default: 50*1024*1024
+      },
+      accept: {
+        type: String,
+        default: '.xls,.xlsx'
+      },
       dialogVisible: {
         type: Boolean,
         default: false
@@ -36,9 +49,7 @@
     },
     data() {
       return {
-        action: `${process.env.VUE_APP_BASE_API}/authority/user/import`,
-        accept: ".xls,.xlsx",
-        user: this.initUser(),
+        model: this.initImport(),
         screenWidth: 0,
         width: this.initWidth(),
         fileLength: 0,
@@ -83,7 +94,7 @@
       }
     },
     methods: {
-      initUser() {
+      initImport() {
         return {
           id: '',
           bizId: '',
@@ -109,10 +120,10 @@
           return '800px'
         }
       },
-      setUser(val) {
+      setModel(val) {
         const vm = this
         if (val) {
-          vm.user = {...val}
+          vm.model = {...val}
         }
       },
       close() {
@@ -122,7 +133,7 @@
         // 先清除校验，再清除表单，不然有奇怪的bug
         this.$refs.form.clearValidate()
         this.$refs.form.resetFields()
-        this.user = this.initUser()
+        this.model = this.initImport()
         this.$refs.fileRef.init({
           id: ""
         })
@@ -140,7 +151,7 @@
       editSubmit() {
         const vm = this
         vm.disabled = true
-        vm.$refs.fileRef.submitFile(this.user.id, this.user.bizId, this.user.bizType)
+        vm.$refs.fileRef.submitFile(this.model.id, this.model.bizId, this.model.bizType)
       },
       setIdAndSubmit(isUploadCompleted) {
         const vm = this

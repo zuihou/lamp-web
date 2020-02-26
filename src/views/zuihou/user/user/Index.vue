@@ -40,10 +40,11 @@
         {{ $t("table.add") }}
       </el-button>
       <el-dropdown class="filter-item" trigger="click"
-        v-has-any-permission="[
+                   v-has-any-permission="[
           'user:delete',
           'user:rest',
-          'user:export'
+          'user:export',
+          'user:import',
         ]">
         <el-button>
           {{ $t("table.more") }}
@@ -60,9 +61,9 @@
             {{ $t("table.export") }}
           </el-dropdown-item>
           <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['user:export']">
-            导出预览
+            {{ $t("table.exportPreview") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="importExcel" v-has-permission="['user:export']">
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['user:import']">
             {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -284,8 +285,9 @@
       ref="view"
     />
     <user-import
-      :dialog-visible="fileDialog.isVisible"
-      :type="fileDialog.type"
+      :dialog-visible="fileImport.isVisible"
+      :type="fileImport.type"
+      :action="fileImport.action" accept=".xls,.xlsx"
       @close="importClose"
       @success="importSuccess"
       ref="import"
@@ -296,11 +298,11 @@
       title="预览"
       width="80%"
       top="50px"
-      :visible.sync="isVisible"
+      :visible.sync="preview.isVisible"
       v-el-drag-dialog
     >
       <el-scrollbar>
-      <div v-html="preview" ></div>
+        <div v-html="preview.context"></div>
       </el-scrollbar>
     </el-dialog>
   </div>
@@ -313,11 +315,11 @@
   import elDragDialog from '@/directive/el-drag-dialog'
   import UserEdit from "./Edit";
   import UserView from "./View";
-  import UserImport from "./Import";
+  import UserImport from "@/components/zuihou/Import"
   import userApi from "@/api/User.js";
   import orgApi from "@/api/Org.js";
   import {convertEnum} from '@/utils/utils'
-  import {downloadFile, initEnums, initDicts} from '@/utils/commons'
+  import {downloadFile, initEnums, initDicts, initQueryParams} from '@/utils/commons'
 
   export default {
     name: "UserManage",
@@ -346,19 +348,31 @@
     data() {
       return {
         orgList: [],
-        isVisible: false,
-        preview: '',
         dialog: {
           isVisible: false,
           type: "add"
         },
-        fileDialog: {
+        preview: {
           isVisible: false,
-          type: "import"
+          context: ''
+        },
+        fileImport: {
+          isVisible: false,
+          type: "import",
+          action: `${process.env.VUE_APP_BASE_API}/authority/user/import`
         },
         userViewVisible: false,
         tableKey: 0,
-        queryParams: this.initQueryParams(),
+        queryParams: initQueryParams({
+          model: {
+            nation: {
+              key: null
+            },
+            org: {
+              key: null
+            }
+          }
+        }),
         selection: [],
         // 以下已修改
         loading: false,
@@ -412,21 +426,6 @@
           this.orgList = res.data;
         });
       },
-      initQueryParams() {
-        return {
-          size: 10,
-          current: 1,
-          model: {
-            nation: {
-              key: null
-            },
-            org: {
-              key: null
-            }
-          },
-          map: {}
-        };
-      },
       myAvatar(avatar) {
         if (!avatar) {
           return require(`@/assets/avatar/default.jpg`);
@@ -462,7 +461,7 @@
         });
       },
       reset() {
-        this.queryParams = this.initQueryParams();
+        this.queryParams = initQueryParams();
         this.$refs.table.clearSort();
         this.$refs.table.clearFilter();
         this.search();
@@ -475,10 +474,9 @@
         this.queryParams.map.fileName = '导出用户数据';
         userApi.preview(this.queryParams).then(response => {
           const res = response.data;
-          this.isVisible = true;
-          this.preview = res.data;
+          this.preview.isVisible = true;
+          this.preview.context = res.data;
         });
-        // window.location.href = `${process.env.VUE_APP_BASE_API}/authority/user/preview`;
       },
       exportExcel() {
         if (this.queryParams.timeRange) {
@@ -491,15 +489,15 @@
         });
       },
       importExcel() {
-        this.fileDialog.type = "upload";
-        this.fileDialog.isVisible = true;
-        this.$refs.import.setUser(false);
+        this.fileImport.type = "upload";
+        this.fileImport.isVisible = true;
+        this.$refs.import.setModel(false);
       },
       importSuccess() {
         this.search();
       },
       importClose() {
-        this.fileDialog.isVisible = false;
+        this.fileImport.isVisible = false;
       },
       resetPassword() {
         if (!this.selection.length) {

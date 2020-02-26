@@ -305,6 +305,7 @@ export default {
     more: 'More',
     add: 'Add',
     export: 'Export',
+    exportPreview: 'exportPreview',
     import: 'Import',
     upload: 'Upload',
     download: 'Download',
