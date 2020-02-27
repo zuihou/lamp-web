@@ -122,7 +122,7 @@
       <el-table-column
         :filter-multiple="false"
         :filters="sexList"
-        column-key="sex"
+        column-key="sex.code"
         :label="$t('table.user.sex')"
         class-name="status-col"
         prop="sex.desc"
@@ -154,7 +154,7 @@
       <el-table-column
         :filter-multiple="false"
         :filters="educationList"
-        column-key="education"
+        column-key="education.key"
         :label="$t('table.user.education')"
         :show-overflow-tooltip="true"
         align="center"
@@ -167,7 +167,7 @@
       <el-table-column
         :filter-multiple="false"
         :filters="positionStatusList"
-        column-key="positionStatus"
+        column-key="positionStatus.key"
         :label="$t('table.user.positionStatus')"
         :show-overflow-tooltip="true"
         align="center"
@@ -366,9 +366,18 @@
         queryParams: initQueryParams({
           model: {
             nation: {
-              key: null
+              key: ''
+            },
+            education: {
+              key: ''
+            },
+            positionStatus: {
+              key: ''
             },
             org: {
+              key: null
+            },
+            station: {
               key: null
             }
           }
@@ -461,7 +470,25 @@
         });
       },
       reset() {
-        this.queryParams = initQueryParams();
+        this.queryParams = initQueryParams({
+          model: {
+            nation: {
+              key: ''
+            },
+            education: {
+              key: ''
+            },
+            positionStatus: {
+              key: ''
+            },
+            org: {
+              key: null
+            },
+            station: {
+              key: null
+            }
+          }
+        });
         this.$refs.table.clearSort();
         this.$refs.table.clearFilter();
         this.search();
@@ -630,11 +657,16 @@
         if (this.queryParams.sort) {
           this.search();
         }
-
       },
       filterChange(filters) {
         for (const key in filters) {
-          this.queryParams[key] = filters[key][0]
+          if(key.includes('.')) {
+            const val = { };
+            val[key.split('.')[1]] = filters[key][0];
+            this.queryParams.model[key.split('.')[0]] = val;
+          } else {
+            this.queryParams.model[key] = filters[key][0]
+          }
         }
         this.search()
       }

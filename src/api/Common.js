@@ -26,7 +26,8 @@ export default {
   uploadFile: `${process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX}${process.env.VUE_APP_BASE_API}/file/attachment/upload`,
   enums(data, service = 'authority') {
     return axiosApi({
-      ...apiList.enums[service],
+      method: 'GET',
+      url: `/${service}/enums`,
       data
     })
   },
