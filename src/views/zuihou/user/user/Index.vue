@@ -1,11 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        :placeholder="$t('table.user.account')"
-        class="filter-item search-item" clearable
-        v-model="queryParams.model.account"
-      />
+      <el-input :placeholder="$t('table.user.account')"
+                class="filter-item search-item" clearable v-model="queryParams.model.account"/>
       <el-select clearable :placeholder="$t('table.user.nation')" v-model="queryParams.model.nation.key"
                  class="filter-item search-item">
         <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.NATION"/>
@@ -286,7 +283,7 @@
       @close="viewClose"
       ref="view"
     />
-    <user-import
+    <file-import
       :dialog-visible="fileImport.isVisible"
       :type="fileImport.type"
       :action="fileImport.action" accept=".xls,.xlsx"
@@ -315,18 +312,18 @@
   import Treeselect from "@riophae/vue-treeselect";
   import "@riophae/vue-treeselect/dist/vue-treeselect.css";
   import elDragDialog from '@/directive/el-drag-dialog'
+  import FileImport from "@/components/zuihou/Import"
   import UserEdit from "./Edit";
   import UserView from "./View";
-  import UserImport from "@/components/zuihou/Import"
   import userApi from "@/api/User.js";
   import orgApi from "@/api/Org.js";
-  import {convertEnum} from '@/utils/utils'
-  import {downloadFile, initEnums, initDicts, initQueryParams} from '@/utils/commons'
+  import { convertEnum } from '@/utils/utils'
+  import { downloadFile, initDicts, initEnums, initQueryParams } from '@/utils/commons'
 
   export default {
     name: "UserManage",
-    directives: {elDragDialog},
-    components: {Pagination, UserEdit, UserView, Treeselect, UserImport},
+    directives: { elDragDialog },
+    components: { Pagination, UserEdit, UserView, Treeselect, FileImport },
     filters: {
       userAvatarFilter(name) {
         return name.charAt(0);
@@ -381,6 +378,9 @@
             },
             station: {
               key: null
+            },
+            sex: {
+              code: ''
             }
           }
         }),
@@ -488,6 +488,9 @@
             },
             station: {
               key: null
+            },
+            sex: {
+              code: ''
             }
           }
         });
@@ -647,11 +650,10 @@
 
         userApi.page(this.queryParams).then(response => {
           const res = response.data;
-          this.loading = false;
           if (res.isSuccess) {
             this.tableData = res.data;
           }
-        });
+        }).finally(() => this.loading = false);
       },
       sortChange(val) {
         this.queryParams.sort = val.prop;
@@ -662,8 +664,8 @@
       },
       filterChange(filters) {
         for (const key in filters) {
-          if(key.includes('.')) {
-            const val = { };
+          if (key.includes('.')) {
+            const val = {};
             val[key.split('.')[1]] = filters[key][0];
             this.queryParams.model[key.split('.')[0]] = val;
           } else {

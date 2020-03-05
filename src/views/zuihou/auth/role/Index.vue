@@ -1,16 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        :placeholder="$t('table.role.code')"
-        class="filter-item search-item"
-        v-model="queryParams.code"
-      />
-      <el-input
-        :placeholder="$t('table.role.name')"
-        class="filter-item search-item"
-        v-model="queryParams.name"
-      />
+      <el-input :placeholder="$t('table.role.code')" class="filter-item search-item" v-model="queryParams.model.code"/>
+      <el-input :placeholder="$t('table.role.name')" class="filter-item search-item" v-model="queryParams.model.name"/>
       <el-date-picker
         :range-separator="null"
         class="filter-item search-item date-range-item"
@@ -21,37 +13,34 @@
         v-model="queryParams.timeRange"
         value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button @click="search" class="filter-item" plain type="primary">{{
-        $t("table.search")
-      }}</el-button>
-      <el-button @click="reset" class="filter-item" plain type="warning">{{
-        $t("table.reset")
-      }}</el-button>
-      <el-dropdown
-        class="filter-item"
-        trigger="click"
-        v-has-any-permission="['role:add', 'role:delete', 'role:export']"
-      >
+      <el-button @click="search" class="filter-item" plain type="primary">
+        {{ $t("table.search") }}
+      </el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">
+        {{ $t("table.reset") }}
+      </el-button>
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['user:add']">
+        {{ $t("table.add") }}
+      </el-button>
+      <el-dropdown class="filter-item" trigger="click"
+                   v-has-any-permission="[ 'role:delete', 'role:export', 'role:import']">
         <el-button>
           {{ $t("table.more") }}
-          <i class="el-icon-arrow-down el-icon--right" />
+          <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            @click.native="add"
-            v-has-permission="['role:add']"
-            >{{ $t("table.add") }}</el-dropdown-item
-          >
-          <el-dropdown-item
-            @click.native="batchDelete"
-            v-has-permission="['role:delete']"
-            >{{ $t("table.delete") }}</el-dropdown-item
-          >
-          <el-dropdown-item
-            @click.native="exportExcel"
-            v-has-permission="['role:export']"
-            >{{ $t("table.export") }}</el-dropdown-item
-          >
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['role:delete']">
+            {{ $t("table.delete") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['role:export']">
+            {{ $t("table.export") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['role:export']">
+            {{ $t("table.exportPreview") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['role:import']">
+            {{ $t("table.import") }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -59,6 +48,7 @@
     <el-table
       :data="tableData.records"
       :key="tableKey"
+      @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
       border
@@ -67,7 +57,7 @@
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column align="center" type="selection" width="40px"/>
       <el-table-column
         :label="$t('table.role.code')"
         align="center"
@@ -99,25 +89,35 @@
         </template>
       </el-table-column>
       <el-table-column
+        :filter-multiple="false"
+        :filters="dsTypeList"
+        column-key="dsType.code"
         :label="$t('table.role.dsType')"
         align="center"
         width="100px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.dsType.desc }}</span>
+          <span>{{ scope.row.dsType ? scope.row.dsType.desc : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column
+        :filter-multiple="false"
+        column-key="readonly"
+        :filters="[
+          { text: $t('common.yes'), value: true },
+          { text: $t('common.no'), value: false }
+        ]"
         :label="$t('table.role.readonly')"
         align="center"
         width="80px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.readonly ? "是" : "否" }}</span>
+          <span>{{ scope.row.readonly ? $t('common.yes') : $t('common.no') }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        :filter-method="filterStatus"
+        :filter-multiple="false"
+        column-key="status"
         :filters="[
           { text: $t('common.status.valid'), value: true },
           { text: $t('common.status.invalid'), value: false }
@@ -129,7 +129,8 @@
         <template slot-scope="{ row }">
           <el-tag :type="row.status | statusFilter">{{
             row.status ? $t("common.status.valid") : $t("common.status.invalid")
-          }}</el-tag>
+            }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -137,7 +138,7 @@
         align="center"
         prop="createTime"
         sortable="custom"
-        width="160px"
+        width="170px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
@@ -185,7 +186,7 @@
             <span class="el-dropdown-link">
               {{ $t('table.more') }}
               <i class="el-icon-arrow-down el-icon--right" />
-            </span>            
+            </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="singleDelete(row)" icon="el-icon-delete" v-hasPermission="['role:delete']">删除</el-dropdown-item>
               <el-dropdown-item @click.native="authUser(row)" icon="el-icon-user" v-hasPermission="['role:auth']">授权</el-dropdown-item>
@@ -201,14 +202,15 @@
               'role:auth',
               'role:config'
             ]"
-            >{{ $t("tips.noPermission") }}</el-link
+          >{{ $t("tips.noPermission") }}
+          </el-link
           >
         </template>
       </el-table-column>
     </el-table>
     <pagination
-      :limit.sync="pagination.size"
-      :page.sync="pagination.current"
+      :limit.sync="queryParams.size"
+      :page.sync="queryParams.current"
       :total="Number(tableData.total)"
       @pagination="fetch"
       v-show="tableData.total > 0"
@@ -232,185 +234,274 @@
       @success="roleAuthoritySuccess"
       ref="roleAuthority"
     />
+    <file-import
+      :dialog-visible="fileImport.isVisible"
+      :type="fileImport.type"
+      :action="fileImport.action" accept=".xls,.xlsx"
+      @close="importClose"
+      @success="importSuccess"
+      ref="import"
+    />
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="true"
+      title="预览"
+      width="80%"
+      top="50px"
+      :visible.sync="preview.isVisible"
+      v-el-drag-dialog
+    >
+      <el-scrollbar>
+        <div v-html="preview.context"></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import Pagination from "@/components/Pagination";
-import RoleEdit from "./Edit";
-import UserRole from "./UserRole";
-import RoleAuthority from "./RoleAuthority";
-import roleApi from "@/api/Role.js";
+  import Pagination from "@/components/Pagination";
+  import elDragDialog from '@/directive/el-drag-dialog'
+  import RoleEdit from "./Edit";
+  import UserRole from "./UserRole";
+  import FileImport from "@/components/zuihou/Import"
+  import RoleAuthority from "./RoleAuthority";
+  import roleApi from "@/api/Role.js";
+  import {convertEnum} from '@/utils/utils'
+  import {downloadFile, initEnums, initQueryParams} from '@/utils/commons'
 
-export default {
-  name: "RoleManage",
-  components: { Pagination, RoleEdit, UserRole, RoleAuthority },
-  filters: {
-    statusFilter(status) {
-      const map = {
-        false: "danger",
-        true: "success"
+  export default {
+    name: "RoleManage",
+    directives: {elDragDialog},
+    components: {Pagination, RoleEdit, UserRole, RoleAuthority, FileImport},
+    filters: {
+      statusFilter(status) {
+        const map = {
+          false: "danger",
+          true: "success"
+        };
+        return map[status] || "success";
+      }
+    },
+    data() {
+      return {
+        dialog: {
+          isVisible: false,
+          type: "add"
+        },
+        preview: {
+          isVisible: false,
+          context: ''
+        },
+        fileImport: {
+          isVisible: false,
+          type: "import",
+          action: `${process.env.VUE_APP_BASE_API}/authority/user/import`
+        },
+        userRoleDialog: {
+          isVisible: false
+        },
+        roleAuthorityDialog: {
+          isVisible: false
+        },
+        tableKey: 0,
+        queryParams: initQueryParams({
+          model: {
+            dsType: {
+              code: null
+            }
+          }
+        }),
+        selection: [],
+        loading: false,
+        tableData: {
+          total: 0
+        },
+        enums: {
+          DataScopeType: {}
+        },
+        dicts: {}
       };
-      return map[status] || "success";
-    }
-  },
-  data() {
-    return {
-      dialog: {
-        isVisible: false,
-        type: "add"
-      },
-      userRoleDialog: {
-        isVisible: false
-      },
-      roleAuthorityDialog: {
-        isVisible: false
-      },
-      tableKey: 0,
-      // total: 0,
-      queryParams: {},
-      sort: {},
-      selection: [],
-      // 以下已修改
-      loading: false,
-      tableData: {
-        total: 0
-      },
-      pagination: {
-        size: 10,
-        current: 1
+    },
+    computed: {
+      dsTypeList() {
+        return convertEnum(this.enums.DataScopeType)
       }
-    };
-  },
-  computed: {},
-  mounted() {
-    this.fetch();
-  },
-  methods: {
-    filterStatus(value, row) {
-      return row.status === value;
     },
-    editClose() {
-      this.dialog.isVisible = false;
+    mounted() {
+      initEnums('DataScopeType', this.enums);
+      this.fetch();
     },
-    userRoleClose() {
-      this.userRoleDialog.isVisible = false;
-    },
-    roleAuthorityClose() {
-      this.roleAuthorityDialog.isVisible = false;
-    },
-    editSuccess() {
-      this.search();
-    },
-    userRoleSuccess() {
-      this.search();
-    },
-    roleAuthoritySuccess() {
-      this.search();
-    },
-    onSelectChange(selection) {
-      this.selection = selection;
-    },
-    search() {
-      this.fetch({
-        ...this.queryParams,
-        ...this.sort
-      });
-    },
-    reset() {
-      this.queryParams = {};
-      this.sort = {};
-      this.$refs.table.clearSort();
-      this.$refs.table.clearFilter();
-      this.search();
-    },
-    exportExcel() {
-      this.$message({
-        message: "待完善",
-        type: "warning"
-      });
-    },
-    singleDelete(row) {
-      this.$refs.table.toggleRowSelection(row, true);
-      this.batchDelete();
-    },
-    batchDelete() {
-      if (!this.selection.length) {
-        this.$message({
-          message: this.$t("tips.noDataSelected"),
-          type: "warning"
-        });
-        return;
-      }
-      this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
-        confirmButtonText: this.$t("common.confirm"),
-        cancelButtonText: this.$t("common.cancel"),
-        type: "warning"
-      })
-        .then(() => {
-          const ids = [];
-          this.selection.forEach(u => {
-            ids.push(u.id);
-          });
-          this.delete(ids);
-        })
-        .catch(() => {
-          this.clearSelections();
-        });
-    },
-    clearSelections() {
-      this.$refs.table.clearSelection();
-    },
-    delete(ids) {
-      roleApi.delete({ ids: ids }).then(response => {
-        const res = response.data;
-        if (res.isSuccess) {
-          this.$message({
-            message: this.$t("tips.deleteSuccess"),
-            type: "success"
-          });
-        }
+    methods: {
+      editClose() {
+        this.dialog.isVisible = false;
+      },
+      userRoleClose() {
+        this.userRoleDialog.isVisible = false;
+      },
+      roleAuthorityClose() {
+        this.roleAuthorityDialog.isVisible = false;
+      },
+      editSuccess() {
         this.search();
-      });
-    },
-    add() {
-      this.dialog.type = "add";
-      this.dialog.isVisible = true;
-      this.$refs.edit.setRole(false);
-    },
-    edit(row) {
-      this.$refs.edit.setRole(row);
-      this.dialog.type = "edit";
-      this.dialog.isVisible = true;
-    },
-    fetch(params = {}) {
-      this.loading = true;
-      params.size = this.pagination.size;
-      params.current = this.pagination.current;
-      if (this.queryParams.timeRange) {
-        params.startCreateTime = this.queryParams.timeRange[0];
-        params.endCreateTime = this.queryParams.timeRange[1];
+      },
+      userRoleSuccess() {
+        this.search();
+      },
+      roleAuthoritySuccess() {
+        this.search();
+      },
+      onSelectChange(selection) {
+        this.selection = selection;
+      },
+      search() {
+        this.fetch({
+          ...this.queryParams
+        });
+      },
+      reset() {
+        this.queryParams = initQueryParams({
+          model: {
+            dsType: {
+              code: null
+            }
+          }
+        });
+        this.$refs.table.clearSort();
+        this.$refs.table.clearFilter();
+        this.search();
+      },
+      exportExcelPreview() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出角色数据';
+        roleApi.preview(this.queryParams).then(response => {
+          const res = response.data;
+          this.preview.isVisible = true;
+          this.preview.context = res.data;
+        });
+      },
+      exportExcel() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出角色数据';
+        roleApi.export(this.queryParams).then(response => {
+          downloadFile(response);
+        });
+      },
+      importExcel() {
+        this.fileImport.type = "upload";
+        this.fileImport.isVisible = true;
+        this.$refs.import.setModel(false);
+      },
+      importSuccess() {
+        this.search();
+      },
+      importClose() {
+        this.fileImport.isVisible = false;
+      },
+      singleDelete(row) {
+        this.$refs.table.toggleRowSelection(row, true);
+        this.batchDelete();
+      },
+      batchDelete() {
+        if (!this.selection.length) {
+          this.$message({
+            message: this.$t("tips.noDataSelected"),
+            type: "warning"
+          });
+          return;
+        }
+        this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
+          confirmButtonText: this.$t("common.confirm"),
+          cancelButtonText: this.$t("common.cancel"),
+          type: "warning"
+        })
+          .then(() => {
+            const ids = [];
+            this.selection.forEach(u => {
+              ids.push(u.id);
+            });
+            this.delete(ids);
+          })
+          .catch(() => {
+            this.clearSelections();
+          });
+      },
+      clearSelections() {
+        this.$refs.table.clearSelection();
+      },
+      delete(ids) {
+        roleApi.delete({ids: ids}).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t("tips.deleteSuccess"),
+              type: "success"
+            });
+          }
+          this.search();
+        });
+      },
+      add() {
+        this.dialog.type = "add";
+        this.dialog.isVisible = true;
+        this.$refs.edit.setRole({ enums: this.enums});
+      },
+      edit(row) {
+        this.$refs.edit.setRole({row, enums: this.enums});
+        this.dialog.type = "edit";
+        this.dialog.isVisible = true;
+      },
+      fetch(params = {}) {
+        this.loading = true;
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+
+        this.queryParams.current = params.current ? params.current : this.queryParams.current;
+        this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+        roleApi.page(this.queryParams).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.tableData = res.data;
+          }
+        }).finally(() => this.loading = false);
+      },
+      sortChange(val) {
+        this.queryParams.sort = val.prop;
+        this.queryParams.order = val.order;
+        if (this.queryParams.sort) {
+          this.search();
+        }
+      },
+      filterChange(filters) {
+        for (const key in filters) {
+          if (key.includes('.')) {
+            const val = {};
+            val[key.split('.')[1]] = filters[key][0];
+            this.queryParams.model[key.split('.')[0]] = val;
+          } else {
+            this.queryParams.model[key] = filters[key][0]
+          }
+        }
+        this.search()
+      },
+      authResource(row) {
+        this.roleAuthorityDialog.isVisible = true;
+        this.$refs.roleAuthority.setRoleAuthority(row);
+      },
+      authUser(row) {
+        this.userRoleDialog.isVisible = true;
+        this.$refs.userRole.setUserRole(row);
       }
-      roleApi.page(params).then(response => {
-        const res = response.data;
-        this.loading = false;
-        this.tableData = res.data;
-      });
-    },
-    sortChange(val) {
-      this.sort.field = val.prop;
-      this.sort.order = val.order;
-      this.search();
-    },
-    authResource(row) {
-      this.roleAuthorityDialog.isVisible = true;
-      this.$refs.roleAuthority.setRoleAuthority(row);
-    },
-    authUser(row) {
-      this.userRoleDialog.isVisible = true;
-      this.$refs.userRole.setUserRole(row);
     }
   }
-};
+  ;
 </script>
 <style lang="scss" scoped></style>

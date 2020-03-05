@@ -1,7 +1,10 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  page: `/authority/systemApi/page`,
+  page: {
+    method: 'POST',
+    url: `/authority/systemApi/page`,
+  },
   update: {
     method: 'PUT',
     url: `/authority/systemApi`
@@ -13,32 +16,62 @@ const apiList = {
   delete: {
     method: 'DELETE',
     url: `/authority/systemApi`
+  },
+  preview: {
+    method: 'POST',
+    url: `/authority/systemApi/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/authority/systemApi/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/authority/systemApi/import`
   }
 }
 
 export default {
-  page (data) {
+  page(data) {
     return axiosApi({
-      method: 'GET',
-      url: apiList.page,
+      ...apiList.page,
       data
     })
   },
-  save (data) {
+  save(data) {
     return axiosApi({
       ...apiList.save,
       data
     })
   },
-  update (data) {
+  update(data) {
     return axiosApi({
       ...apiList.update,
       data
     })
   },
-  delete (data) {
+  delete(data) {
     return axiosApi({
       ...apiList.delete,
+      data
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
       data
     })
   }

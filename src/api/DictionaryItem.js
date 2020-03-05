@@ -20,6 +20,18 @@ const apiList = {
   list: {
     method: 'GET',
     url: `/authority/dictionaryItem`
+  },
+  preview: {
+    method: 'POST',
+    url: `/authority/dictionaryItem/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/authority/dictionaryItem/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/authority/dictionaryItem/import`
   }
 }
 
@@ -51,6 +63,25 @@ export default {
   list (data) {
     return axiosApi({
       ...apiList.list,
+      data
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
       data
     })
   }

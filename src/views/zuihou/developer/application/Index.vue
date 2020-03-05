@@ -1,9 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input :placeholder="$t('table.application.appKey')" class="filter-item search-item" v-model="queryParams.appKey" />
-      <el-input :placeholder="$t('table.application.name')" class="filter-item search-item" v-model="queryParams.name" />
-
+      <el-input :placeholder="$t('table.application.appKey')" class="filter-item search-item" v-model="queryParams.model.appKey" />
+      <el-input :placeholder="$t('table.application.name')" class="filter-item search-item" v-model="queryParams.model.name" />
       <el-date-picker
         :range-separator="null"
         :start-placeholder="$t('table.createTime')"
@@ -15,15 +14,22 @@
       />
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['application:add']">
+        {{ $t("table.add") }}
+      </el-button>
       <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['application:delete','application:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="add" v-has-permission="['application:add']">{{ $t('table.add') }}</el-dropdown-item>
           <el-dropdown-item @click.native="batchDelete" v-has-permission="['application:delete']">{{ $t('table.delete') }}</el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['application:export']">{{ $t('table.export') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['application:export']">
+            {{ $t("table.export") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['application:export']">
+            {{ $t("table.exportPreview") }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -85,18 +91,34 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
+    <pagination :limit.sync="queryParams.size" :page.sync="queryParams.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
 
     <application-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="editClose" @success="editSuccess" ref="edit" />
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="true"
+      title="预览"
+      width="80%"
+      top="50px"
+      :visible.sync="preview.isVisible"
+      v-el-drag-dialog
+    >
+      <el-scrollbar>
+        <div v-html="preview.context"></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
 import ApplicationEdit from './Edit'
 import applicationApi from '@/api/Application.js'
+import elDragDialog from '@/directive/el-drag-dialog'
+import { downloadFile, initQueryParams } from '@/utils/commons'
 
 export default {
   name: 'Application',
+  directives: { elDragDialog },
   components: { Pagination, ApplicationEdit },
   filters: {
 
@@ -107,18 +129,19 @@ export default {
         isVisible: false,
         type: 'add'
       },
+      preview: {
+        isVisible: false,
+        context: ''
+      },
       tableKey: 0,
       loading: false,
-      queryParams: {
-      },
-      sort: {},
+      queryParams: initQueryParams({
+        model: {}
+      }),
       selection: [],
-      tableData: {},
-      pagination: {
-        size: 10,
-        current: 1
+      tableData: {
+        total: 0
       },
-
     }
   },
   computed: {
@@ -131,25 +154,44 @@ export default {
     onSelectChange (selection) {
       this.selection = selection
     },
-    exportExcel () {
-
-    },
-
-    fetch (params = {}) {
-      params.current = this.pagination.current
-      params.size = this.pagination.size
+    exportExcelPreview() {
       if (this.queryParams.timeRange) {
-        params.startCreateTime = this.queryParams.timeRange[0]
-        params.endCreateTime = this.queryParams.timeRange[1]
+        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
       }
-      this.loading = true
+      this.queryParams.map.fileName = '导出应用数据';
+      applicationApi.preview(this.queryParams).then(response => {
+        const res = response.data;
+        this.preview.isVisible = true;
+        this.preview.context = res.data;
+      });
+    },
+    exportExcel() {
+      if (this.queryParams.timeRange) {
+        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+      }
+      this.queryParams.map.fileName = '导出应用数据';
+      applicationApi.export(this.queryParams).then(response => {
+        downloadFile(response);
+      });
+    },
+    fetch (params = {}) {
+      this.loading = true;
+      if (this.queryParams.timeRange) {
+        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+      }
 
-      applicationApi.page(params)
-        .then((response) => {
-          const res = response.data
-          this.loading = false
-          this.tableData = res.data
-        })
+      this.queryParams.current = params.current ? params.current : this.queryParams.current;
+      this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+      applicationApi.page(this.queryParams).then(response => {
+        const res = response.data;
+        if (res.isSuccess) {
+          this.tableData = res.data;
+        }
+      }).finally(() => this.loading = false);
     },
     singleDelete (row) {
       this.$refs.table.toggleRowSelection(row, true)
@@ -203,35 +245,40 @@ export default {
     search () {
       this.fetch({
         ...this.queryParams,
-        ...this.sort
       })
     },
     reset () {
-      this.queryParams = {}
-      this.sort = {}
+      this.queryParams = initQueryParams({
+        model:{}
+      });
       this.$refs.table.clearSort()
       this.$refs.table.clearFilter()
       this.search()
     },
-
-    sortChange (val) {
-      this.sort.field = val.prop
-      this.sort.order = val.order
-      this.search()
+    sortChange(val) {
+      this.queryParams.sort = val.prop;
+      this.queryParams.order = val.order;
+      if (this.queryParams.sort) {
+        this.search();
+      }
     },
-    filterChange (filters) {
+    filterChange(filters) {
       for (const key in filters) {
-        this.queryParams[key] = filters[key][0]
+        if (key.includes('.')) {
+          const val = {};
+          val[key.split('.')[1]] = filters[key][0];
+          this.queryParams.model[key.split('.')[0]] = val;
+        } else {
+          this.queryParams.model[key] = filters[key][0]
+        }
       }
       this.search()
     },
-
     closeDrawer (done) {
       done()
       this.currentRow = {}
     },
-
-    cellClick (row, column, cell, event) {
+    cellClick (row, column) {
       var oInput = document.createElement('input');     //创建一个隐藏input（重要！）
       oInput.value = row[column.property];    //赋值
 

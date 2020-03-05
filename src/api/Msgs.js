@@ -16,6 +16,18 @@ const apiList = {
   delete: {
     url: `/msgs/msgsCenterInfo`,
     method: 'DELETE'
+  },
+  preview: {
+    method: 'POST',
+    url: `/authority/msgsCenterInfo/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/authority/msgsCenterInfo/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/authority/msgsCenterInfo/import`
   }
 }
 
@@ -49,6 +61,25 @@ export default {
     return axiosApi({
       url: `/msgs/msgsCenterInfo/${id}`,
       method: 'GET'
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
+      data
     })
   }
 }

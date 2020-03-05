@@ -1,21 +1,12 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input
-        :placeholder="$t('table.loginLog.account')"
-        class="filter-item search-item"
-        v-model="queryParams.account"
-      />
-      <el-input
-        :placeholder="$t('table.loginLog.location')"
-        class="filter-item search-item"
-        v-model="queryParams.location"
-      />
-      <el-input
-        :placeholder="$t('table.loginLog.requestIp')"
-        class="filter-item search-item"
-        v-model="queryParams.requestIp"
-      />
+      <el-input :placeholder="$t('table.loginLog.account')"
+                class="filter-item search-item" v-model="queryParams.model.account"/>
+      <el-input :placeholder="$t('table.loginLog.location')" class="filter-item search-item"
+                v-model="queryParams.model.location"/>
+      <el-input :placeholder="$t('table.loginLog.requestIp')"
+                class="filter-item search-item" v-model="queryParams.model.requestIp"/>
       <el-date-picker
         :range-separator="null"
         :start-placeholder="$t('table.createTime')"
@@ -25,38 +16,35 @@
         v-model="queryParams.timeRange"
         value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button @click="search" class="filter-item" plain type="primary">{{
-        $t("table.search")
-      }}</el-button>
-      <el-button @click="reset" class="filter-item" plain type="warning">{{
-        $t("table.reset")
-      }}</el-button>
-      <el-dropdown
-        class="filter-item"
-        trigger="click"
-        v-has-any-permission="['loginLog:delete', 'loginLog:export']"
-      >
+      <el-button @click="search" class="filter-item" plain type="primary">
+        {{ $t("table.search") }}
+      </el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">
+        {{ $t("table.reset") }}
+      </el-button>
+      <el-dropdown class="filter-item" trigger="click"
+                   v-has-any-permission="['loginLog:delete', 'loginLog:export']">
         <el-button>
           {{ $t("table.more") }}
-          <i class="el-icon-arrow-down el-icon--right" />
+          <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            @click.native="batchDelete"
-            v-has-permission="['loginLog:delete']"
-            >{{ $t("table.delete") }}</el-dropdown-item
-          >
-          <el-dropdown-item
-            @click.native="exportExcel"
-            v-has-permission="['loginLog:export']"
-            >{{ $t("table.export") }}</el-dropdown-item
-          >
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['loginLog:delete']">
+            {{ $t("table.delete") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['loginLog:export']">
+            {{ $t("table.export") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['loginLog:export']">
+            {{ $t("table.exportPreview") }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <el-table
       :data="tableData.records"
       :key="tableKey"
+      @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
       border
@@ -65,7 +53,7 @@
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column align="center" type="selection" width="40px"/>
       <el-table-column
         :label="$t('table.loginLog.userName')"
         :show-overflow-tooltip="true"
@@ -149,19 +137,12 @@
         :show-overflow-tooltip="true"
         align="left"
         column-key="description"
-        prop="description"
-      >
+        prop="description">
         <template slot-scope="scope">
           <span>
             <el-badge
-              :type="
-                scope.row.description && scope.row.description == '登录成功'
-                  ? 'success'
-                  : 'danger'
-              "
-              class="item"
-              is-dot
-            />
+              :type="scope.row.description && scope.row.description == '登录成功' ? 'success' : 'danger'"
+              class="item" is-dot/>
             {{ scope.row.description }}
           </span>
         </template>
@@ -183,130 +164,184 @@
 
           <el-link class="no-perm" v-has-no-permission="['loginLog:delete']">{{
             $t("tips.noPermission")
-          }}</el-link>
+            }}
+          </el-link>
         </template>
       </el-table-column>
     </el-table>
     <pagination
-      :limit.sync="pagination.size"
-      :page.sync="pagination.current"
+      :limit.sync="queryParams.size"
+      :page.sync="queryParams.current"
       :total="Number(tableData.total)"
       @pagination="fetch"
       v-show="tableData.total > 0"
     />
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="true"
+      title="预览"
+      width="80%"
+      top="50px"
+      :visible.sync="preview.isVisible"
+      v-el-drag-dialog
+    >
+      <el-scrollbar>
+        <div v-html="preview.context"></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 <script>
-import Pagination from "@/components/Pagination";
-import loginLogApi from "@/api/LoginLog.js";
+  import Pagination from "@/components/Pagination";
+  import loginLogApi from "@/api/LoginLog.js";
+  import elDragDialog from '@/directive/el-drag-dialog'
+  import {downloadFile, initQueryParams} from '@/utils/commons'
 
-export default {
-  name: "LoginLog",
-  components: { Pagination },
-  filters: {},
-  data() {
-    return {
-      tableKey: 0,
-      loading: false,
-      queryParams: {},
-      sort: {},
-      selection: [],
-      tableData: {},
-      pagination: {
-        size: 10,
-        current: 1
-      }
-    };
-  },
-  computed: {},
-  mounted() {
-    this.fetch();
-  },
-  methods: {
-    onSelectChange(selection) {
-      this.selection = selection;
+  export default {
+    name: "LoginLog",
+    directives: {elDragDialog},
+    components: {Pagination},
+    filters: {},
+    data() {
+      return {
+        preview: {
+          isVisible: false,
+          context: ''
+        },
+        tableKey: 0,
+        loading: false,
+        queryParams: initQueryParams(),
+        selection: [],
+        tableData: {
+          total: 0
+        },
+        enums: {},
+        dicts: {}
+      };
     },
-    exportExcel() {},
-
-    fetch(params = {}) {
-      params.current = this.pagination.current;
-      params.size = this.pagination.size;
-      if (this.queryParams.timeRange) {
-        params.startCreateTime = this.queryParams.timeRange[0];
-        params.endCreateTime = this.queryParams.timeRange[1];
-      }
-      this.loading = true;
-
-      loginLogApi.page(params).then(response => {
-        const res = response.data;
-        this.loading = false;
-        this.tableData = res.data;
-      });
+    computed: {},
+    mounted() {
+      this.fetch();
     },
-    singleDelete(row) {
-      this.$refs.table.toggleRowSelection(row, true);
-      this.batchDelete();
-    },
-    batchDelete() {
-      if (!this.selection.length) {
-        this.$message({
-          message: this.$t("tips.noDataSelected"),
-          type: "warning"
+    methods: {
+      onSelectChange(selection) {
+        this.selection = selection;
+      },
+      exportExcelPreview() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出登录日志数据';
+        loginLogApi.preview(this.queryParams).then(response => {
+          const res = response.data;
+          this.preview.isVisible = true;
+          this.preview.context = res.data;
         });
-        return;
-      }
-      this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
-        confirmButtonText: this.$t("common.confirm"),
-        cancelButtonText: this.$t("common.cancel"),
-        type: "warning"
-      })
-        .then(() => {
-          const logIds = this.selection.map(item => item.id);
-          this.delete(logIds);
-        })
-        .catch(() => {
-          this.clearSelections();
+      },
+      exportExcel() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出登录日志数据';
+        loginLogApi.export(this.queryParams).then(response => {
+          downloadFile(response);
         });
-    },
-    clearSelections() {
-      this.$refs.table.clearSelection();
-    },
-    delete(logIds) {
-      loginLogApi.delete({ ids: logIds }).then(response => {
-        const res = response.data;
-        if (res.isSuccess) {
-          this.$message({
-            message: this.$t("tips.deleteSuccess"),
-            type: "success"
-          });
+      },
+      fetch(params = {}) {
+        this.loading = true;
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
         }
 
+        this.queryParams.current = params.current ? params.current : this.queryParams.current;
+        this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+        loginLogApi.page(this.queryParams).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.tableData = res.data;
+          }
+        }).finally(() => this.loading = false);
+      },
+      singleDelete(row) {
+        this.$refs.table.toggleRowSelection(row, true);
+        this.batchDelete();
+      },
+      batchDelete() {
+        if (!this.selection.length) {
+          this.$message({
+            message: this.$t("tips.noDataSelected"),
+            type: "warning"
+          });
+          return;
+        }
+        this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
+          confirmButtonText: this.$t("common.confirm"),
+          cancelButtonText: this.$t("common.cancel"),
+          type: "warning"
+        })
+          .then(() => {
+            const logIds = this.selection.map(item => item.id);
+            this.delete(logIds);
+          })
+          .catch(() => {
+            this.clearSelections();
+          });
+      },
+      clearSelections() {
+        this.$refs.table.clearSelection();
+      },
+      delete(logIds) {
+        loginLogApi.delete({ids: logIds}).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.$message({
+              message: this.$t("tips.deleteSuccess"),
+              type: "success"
+            });
+          }
+
+          this.search();
+        });
+      },
+      search() {
+        this.fetch({
+          ...this.queryParams,
+        });
+      },
+      reset() {
+        this.queryParams = initQueryParams();
+        this.$refs.table.clearSort();
+        this.$refs.table.clearFilter();
         this.search();
-      });
-    },
-    search() {
-      this.fetch({
-        ...this.queryParams,
-        ...this.sort
-      });
-    },
-    reset() {
-      this.queryParams = {};
-      this.sort = {};
-      this.$refs.table.clearSort();
-      this.$refs.table.clearFilter();
-      this.search();
-    },
-    sortChange(val) {
-      this.sort.field = val.prop;
-      this.sort.order = val.order;
-      this.search();
+      },
+      sortChange(val) {
+        this.queryParams.sort = val.prop;
+        this.queryParams.order = val.order;
+        if (this.queryParams.sort) {
+          this.search();
+        }
+      },
+      filterChange(filters) {
+        for (const key in filters) {
+          if (key.includes('.')) {
+            const val = {};
+            val[key.split('.')[1]] = filters[key][0];
+            this.queryParams.model[key.split('.')[0]] = val;
+          } else {
+            this.queryParams.model[key] = filters[key][0]
+          }
+        }
+        this.search()
+      }
     }
-  }
-};
+  };
 </script>
 <style lang="scss" scoped>
-.item {
-  margin-top: 7px;
-}
+  .item {
+    margin-top: 7px;
+  }
 </style>

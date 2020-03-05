@@ -16,6 +16,18 @@ const apiList = {
   delete: {
     url: `/msgs/smsTask`,
     method: 'DELETE'
+  },
+  preview: {
+    method: 'POST',
+    url: `/msgs/smsTask/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/msgs/smsTask/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/msgs/smsTask/import`
   }
 }
 
@@ -48,6 +60,25 @@ export default {
     return axiosApi({
       url: `/msgs/smsTask/${id}`,
       method: 'GET'
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
+      data
     })
   }
 }

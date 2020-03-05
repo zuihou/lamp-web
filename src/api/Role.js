@@ -3,7 +3,7 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   page: {
     url: `/authority/role/page`,
-    method: 'GET'
+    method: 'POST'
   },
   save: {
     url: `/authority/role`,
@@ -24,8 +24,19 @@ const apiList = {
   saveRoleAuthority: {
     url: `/authority/role/authority`,
     method: 'POST'
+  },
+  preview: {
+    method: 'POST',
+    url: `/authority/user/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/authority/user/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/authority/user/import`
   }
-
 }
 
 export default {
@@ -60,6 +71,12 @@ export default {
       method: 'GET'
     })
   },
+  getDetails (id) {
+    return axiosApi({
+      url: `/authority/role/details/${id}`,
+      method: 'GET'
+    })
+  },
   check (code) {
     return axiosApi({
       url: `/authority/role/check/${code}`,
@@ -87,6 +104,25 @@ export default {
   saveRoleAuthority (data) {
     return axiosApi({
       ...apiList.saveRoleAuthority,
+      data
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
       data
     })
   }

@@ -2,25 +2,46 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    method: 'GET',
+    method: 'POST',
     url: `/authority/loginLog/page`
   },
   delete: {
     method: 'DELETE',
     url: `/authority/loginLog`
+  },
+  preview: {
+    method: 'POST',
+    url: `/authority/loginLog/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/authority/loginLog/export`
   }
 }
 
 export default {
-  page (data) {
+  page(data) {
     return axiosApi({
       ...apiList.page,
       data
     })
   },
-  delete (data) {
+  delete(data) {
     return axiosApi({
       ...apiList.delete,
+      data
+    })
+  },
+  preview(data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export(data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
       data
     })
   }

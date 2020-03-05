@@ -47,8 +47,6 @@
 <script>
   import roleApi from '@/api/Role.js'
   import orgApi from '@/api/Org.js'
-  import {initEnums} from '@/utils/commons.js'
-
 
   export default {
     name: 'RoleEdit',
@@ -130,7 +128,6 @@
     watch: {},
     mounted() {
       this.initOrg()
-      initEnums(["DataScopeType"], this.enums)
       window.onresize = () => {
         return (() => {
           this.width = this.initWidth()
@@ -173,13 +170,18 @@
       loadListOptions({callback}) {
         callback()
       },
-      setRole(val) {
+      setRole(val = {}) {
         const vm = this
-        if (val) {
-          vm.role = {...val}
-          this.orgHidden = val.dsType.code !== 'CUSTOMIZE'
+        if (val['row']) {
+          vm.role = {...val['row']}
+
+          if (val['enums']) {
+            vm.enums = val['enums'];
+          }
+
+          this.orgHidden = vm.role.dsType.code !== 'CUSTOMIZE'
           if (!this.orgHidden) {
-            roleApi.get(val.id)
+            roleApi.getDetails(vm.role.id)
               .then((response) => {
                 const res = response.data
                 if (res.isSuccess) {

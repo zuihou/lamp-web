@@ -16,6 +16,18 @@ const apiList = {
   delete: {
     method: 'DELETE',
     url: `/authority/parameter`
+  },
+  preview: {
+    method: 'POST',
+    url: `/authority/parameter/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/authority/parameter/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/authority/parameter/import`
   }
 }
 
@@ -42,6 +54,25 @@ export default {
   delete (data) {
     return axiosApi({
       ...apiList.delete,
+      data
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
       data
     })
   }

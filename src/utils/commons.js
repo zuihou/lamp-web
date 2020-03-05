@@ -117,6 +117,8 @@ export const initQueryParams = params => {
   const defParams = {
     size: 10,
     current: 1,
+    sort: 'id',
+    order: 'descending',
     model: {
 
     },

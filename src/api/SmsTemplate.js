@@ -20,8 +20,19 @@ const apiList = {
   check: {
     url: `/msgs/smsTemplate/check`,
     method: 'GET'
+  },
+  preview: {
+    method: 'POST',
+    url: `/msgs/smsTemplate/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/msgs/smsTemplate/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/msgs/smsTemplate/import`
   }
-
 }
 
 export default {
@@ -53,6 +64,25 @@ export default {
     const data = { customCode: customCode }
     return axiosApi({
       ...apiList.check,
+      data
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
       data
     })
   }
