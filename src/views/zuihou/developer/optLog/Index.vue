@@ -2,9 +2,9 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input :placeholder="$t('table.optLog.userName')" class="filter-item search-item"
-                v-model="queryParams.userName"/>
+                v-model="queryParams.model.userName"/>
       <el-input :placeholder="$t('table.optLog.requestIp')" class="filter-item search-item"
-                v-model="queryParams.requestIp"/>
+                v-model="queryParams.model.requestIp"/>
       <el-date-picker
         :range-separator="null"
         :start-placeholder="$t('table.createTime')"
@@ -26,6 +26,9 @@
           </el-dropdown-item>
           <el-dropdown-item @click.native="exportExcel" v-has-permission="['optLog:export']">{{ $t('table.export') }}
           </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['optLog:export']">
+            {{ $t("table.exportPreview") }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -35,13 +38,13 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px"/>
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column :label="$t('table.optLog.userName')" :show-overflow-tooltip="true" align="center" prop="userName"
                        width="100px">
         <template slot-scope="scope">
@@ -123,7 +126,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)"
+    <pagination :limit.sync="queryParams.size" :page.sync="queryParams.current" :total="Number(tableData.total)"
                 @pagination="fetch" v-show="tableData.total>0"/>
 
     <el-drawer :before-close="closeDrawer" :visible.sync="drawer" direction="rtl" v-model="currentRow">
@@ -157,6 +160,19 @@
         </el-card>
       </el-scrollbar>
     </el-drawer>
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="true"
+      title="预览"
+      width="80%"
+      top="50px"
+      :visible.sync="preview.isVisible"
+      v-el-drag-dialog
+    >
+      <el-scrollbar>
+        <div v-html="preview.context"></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -164,10 +180,12 @@
   import {readUserAgent} from '@/utils/utils'
   import optLogApi from '@/api/OptLog.js'
   import {convertEnum} from '@/utils/utils'
-  import {initEnums} from '@/utils/commons'
+  import elDragDialog from '@/directive/el-drag-dialog'
+  import { downloadFile, initEnums, initQueryParams } from '@/utils/commons'
 
   export default {
     name: 'OptLog',
+    directives: { elDragDialog },
     components: {Pagination},
     filters: {
       timeFilter(time) {
@@ -186,17 +204,22 @@
       return {
         tableKey: 0,
         loading: false,
-        queryParams: {
-          type: null,
-          httpMethod: null
+        preview: {
+          isVisible: false,
+          context: ''
         },
-        sort: {},
+        queryParams: initQueryParams({
+          model: {
+            type: {
+              key: null
+            },
+            httpMethod: {
+              key: null
+            }
+          }
+        }),
         selection: [],
         tableData: {},
-        pagination: {
-          size: 10,
-          current: 1
-        },
         enums: {
           LogType: {},
           HttpMethod: {},
@@ -221,23 +244,44 @@
       onSelectChange(selection) {
         this.selection = selection
       },
+      exportExcelPreview() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出操作日志';
+        optLogApi.preview(this.queryParams).then(response => {
+          const res = response.data;
+          this.preview.isVisible = true;
+          this.preview.context = res.data;
+        });
+      },
       exportExcel() {
-
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出操作日志';
+        optLogApi.export(this.queryParams).then(response => {
+          downloadFile(response);
+        });
       },
       fetch(params = {}) {
-        params.current = this.pagination.current
-        params.size = this.pagination.size
+        this.loading = true;
         if (this.queryParams.timeRange) {
-          params.startCreateTime = this.queryParams.timeRange[0]
-          params.endCreateTime = this.queryParams.timeRange[1]
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.loading = true
-        optLogApi.page(params)
-          .then((response) => {
-            const res = response.data
-            this.loading = false
-            this.tableData = res.data
-          })
+
+        this.queryParams.current = params.current ? params.current : this.queryParams.current;
+        this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+        optLogApi.page(this.queryParams).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.tableData = res.data;
+          }
+        }).finally(() => this.loading = false);
       },
       singleDelete(row) {
         this.$refs.table.toggleRowSelection(row, true)
@@ -256,6 +300,7 @@
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
+          debugger
           const logIds = this.selection.map(item => item.id)
           this.delete(logIds)
         }).catch(() => {
@@ -280,13 +325,20 @@
       },
       search() {
         this.fetch({
-          ...this.queryParams,
-          ...this.sort
+          ...this.queryParams
         })
       },
       reset() {
-        this.queryParams = {}
-        this.sort = {}
+        this.queryParams = initQueryParams({
+          model: {
+            type: {
+              key: null
+            },
+            httpMethod: {
+              key: null
+            }
+          }
+        });
         this.$refs.table.clearSort()
         this.$refs.table.clearFilter()
         this.search()
@@ -295,15 +347,36 @@
         return `${time} ms`
       },
       sortChange(val) {
-        this.sort.field = val.prop
-        this.sort.order = val.order
-        this.search()
+        this.queryParams.sort = val.prop;
+        this.queryParams.order = val.order;
+        if (this.queryParams.sort) {
+          this.search();
+        }
       },
       filterChange(filters) {
         for (const key in filters) {
-          this.queryParams[key] = filters[key][0]
+          if (key.includes('.')) {
+            const val = {};
+            val[key.split('.')[1]] = filters[key][0];
+            this.queryParams.model[key.split('.')[0]] = val;
+          } else {
+            this.queryParams.model[key] = filters[key][0]
+          }
         }
         this.search()
+      },
+      cellClick(row) {
+        let flag = false;
+        this.selection.forEach((item)=>{
+          if(item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+
+        if(!flag){
+          this.$refs.table.toggleRowSelection(row, true);
+        }
       },
       onView(row) {
         this.currentRow = row

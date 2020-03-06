@@ -73,13 +73,13 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px"/>
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
         :label="$t('table.user.avatar')"
         align="center"
@@ -201,7 +201,6 @@
         </template>
       </el-table-column>
       <el-table-column
-        :filter-method="filterStatus"
         :filter-multiple="false"
         column-key="status"
         :filters="[
@@ -385,7 +384,6 @@
           }
         }),
         selection: [],
-        // 以下已修改
         loading: false,
         tableData: {
           total: 0
@@ -447,9 +445,6 @@
             return require(`@/assets/avatar/${avatar}`);
           }
         }
-      },
-      filterStatus(value, row) {
-        return row.status === value;
       },
       viewClose() {
         this.userViewVisible = false;
@@ -673,6 +668,19 @@
           }
         }
         this.search()
+      },
+      cellClick(row) {
+        let flag = false;
+        this.selection.forEach((item)=>{
+          if(item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+
+        if(!flag){
+          this.$refs.table.toggleRowSelection(row, true);
+        }
       }
     }
   };

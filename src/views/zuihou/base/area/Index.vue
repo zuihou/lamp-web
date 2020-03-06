@@ -210,7 +210,6 @@
             },
             {
               validator: (rule, value, callback) => {
-                debugger
                 areaApi.check(value, this.area.id).then(response => {
                   const res = response.data;
                   if (res.data) {

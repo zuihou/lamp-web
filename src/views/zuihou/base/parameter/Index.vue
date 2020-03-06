@@ -2,20 +2,20 @@
   <div class="app-container">
     <div class="filter-container">
 
-          <el-input
+      <el-input
         :placeholder="$t('table.parameter.key')"
         class="filter-item search-item"
-        v-model="queryParams.key"
+        v-model="queryParams.model.key"
       />
       <el-input
         :placeholder="$t('table.parameter.name')"
         class="filter-item search-item"
-        v-model="queryParams.name"
+        v-model="queryParams.model.name"
       />
       <el-input
         :placeholder="$t('table.parameter.value')"
         class="filter-item search-item"
-        v-model="queryParams.value"
+        v-model="queryParams.model.value"
       />
 
       <el-date-picker
@@ -34,20 +34,26 @@
       <el-button @click="reset" class="filter-item" plain type="warning">
         {{ $t("table.reset") }}
       </el-button>
-      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['parameter:add',
-        'parameter:delete', 'parameter:export']">
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['parameter:add']">
+        {{ $t("table.add") }}
+      </el-button>
+      <el-dropdown class="filter-item" trigger="click"
+                   v-has-any-permission="['parameter:delete', 'parameter:export', 'parameter:import']">
         <el-button>
-          {{ $t("table.more") }}<i class="el-icon-arrow-down el-icon--right" />
+          {{ $t("table.more") }}<i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="add" v-has-permission="['parameter:add']">
-            {{ $t("table.add") }}
-          </el-dropdown-item>
           <el-dropdown-item @click.native="batchDelete" v-has-permission="['parameter:delete']">
             {{ $t("table.delete") }}
           </el-dropdown-item>
           <el-dropdown-item @click.native="exportExcel" v-has-permission="['parameter:export']">
             {{ $t("table.export") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['parameter:export']">
+            {{ $t("table.exportPreview") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['parameter:import']">
+            {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -59,12 +65,12 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading">
-      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column :label="$t('table.parameter.key')" :show-overflow-tooltip="true" align="center"
                        prop="key" width="">
         <template slot-scope="scope">
@@ -135,8 +141,8 @@
       </el-table-column>
     </el-table>
     <pagination
-      :limit.sync="pagination.size"
-      :page.sync="pagination.current"
+      :limit.sync="queryParams.size"
+      :page.sync="queryParams.current"
       :total="Number(tableData.total)"
       @pagination="fetch"
       v-show="tableData.total > 0"/>
@@ -146,157 +152,233 @@
       @close="editClose"
       @success="editSuccess"
       ref="edit"/>
+    <file-import
+      :dialog-visible="fileImport.isVisible"
+      :type="fileImport.type"
+      :action="fileImport.action" accept=".xls,.xlsx"
+      @close="importClose"
+      @success="importSuccess"
+      ref="import"
+    />
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="true"
+      title="预览"
+      width="80%"
+      top="50px"
+      :visible.sync="preview.isVisible"
+      v-el-drag-dialog>
+      <el-scrollbar>
+        <div v-html="preview.context"></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import Pagination from "@/components/Pagination";
-import ParameterEdit from "./Edit";
-import parameterApi from "@/api/Parameter.js";
+  import Pagination from "@/components/Pagination";
+  import ParameterEdit from "./Edit";
+  import parameterApi from "@/api/Parameter.js";
+  import elDragDialog from '@/directive/el-drag-dialog'
+  import FileImport from "@/components/zuihou/Import"
+  import {downloadFile, initDicts, initEnums, initQueryParams} from '@/utils/commons'
 
-export default {
-  name: "ParameterManage",
-  components: { Pagination, ParameterEdit },
-  filters: {
-
-  },
-  data() {
-    return {
-      dialog: {
+  export default {
+    name: "ParameterManage",
+    directives: {elDragDialog},
+    components: {Pagination, ParameterEdit, FileImport},
+    filters: {},
+    data() {
+      return {
+        dialog: {
           isVisible: false,
           type: "add"
-      },
-      tableKey: 0,
-      queryParams: {},
-      sort: {},
-      selection: [],
-      loading: false,
-      tableData: {
+        },
+        preview: {
+          isVisible: false,
+          context: ''
+        },
+        fileImport: {
+          isVisible: false,
+          type: "import",
+          action: `${process.env.VUE_APP_BASE_API}/authority/user/import`
+        },
+        tableKey: 0,
+        queryParams: initQueryParams({
+          model: {}
+        }),
+        selection: [],
+        loading: false,
+        tableData: {
           total: 0
+        },
+      };
+    },
+    computed: {},
+    watch: {},
+    mounted() {
+      this.fetch();
+    },
+    methods: {
+      editClose() {
+        this.dialog.isVisible = false;
       },
-      pagination: {
-          size: 10,
-          current: 1
-      }
-    };
-  },
-  computed: {},
-  watch: {
-  },
-  mounted() {
-    this.fetch();
-  },
-  methods: {
-    editClose() {
-      this.dialog.isVisible = false;
-    },
-    editSuccess() {
-      this.search();
-    },
-    onSelectChange(selection) {
-      this.selection = selection;
-    },
-    search() {
-      this.fetch({
-          ...this.queryParams,
-          ...this.sort
-      });
-    },
-    reset() {
-      this.queryParams = {};
-      this.sort = {};
-      this.$refs.table.clearSort();
-      this.$refs.table.clearFilter();
-      this.search();
-    },
-    exportExcel() {
-      this.$message({
-          message: "待完善",
-          type: "warning"
-      });
-    },
-    singleDelete(row) {
-      this.$refs.table.toggleRowSelection(row, true);
-      this.batchDelete();
-    },
-    batchDelete() {
-      if (!this.selection.length) {
-        this.$message({
+      editSuccess() {
+        this.search();
+      },
+      onSelectChange(selection) {
+        this.selection = selection;
+      },
+      search() {
+        this.fetch({
+          ...this.queryParams
+        });
+      },
+      reset() {
+        this.queryParams = initQueryParams({});
+        this.$refs.table.clearSort();
+        this.$refs.table.clearFilter();
+        this.search();
+      },
+      exportExcelPreview() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出参数数据';
+        parameterApi.preview(this.queryParams).then(response => {
+          const res = response.data;
+          this.preview.isVisible = true;
+          this.preview.context = res.data;
+        });
+      },
+      exportExcel() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出参数数据';
+        parameterApi.export(this.queryParams).then(response => {
+          downloadFile(response);
+        });
+      },
+      importExcel() {
+        this.fileImport.type = "upload";
+        this.fileImport.isVisible = true;
+        this.$refs.import.setModel(false);
+      },
+      importSuccess() {
+        this.search();
+      },
+      importClose() {
+        this.fileImport.isVisible = false;
+      },
+      singleDelete(row) {
+        this.$refs.table.toggleRowSelection(row, true);
+        this.batchDelete();
+      },
+      batchDelete() {
+        if (!this.selection.length) {
+          this.$message({
             message: this.$t("tips.noDataSelected"),
             type: "warning"
-        });
-        return;
-      }
-      this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
+          });
+          return;
+        }
+        this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
           confirmButtonText: this.$t("common.confirm"),
           cancelButtonText: this.$t("common.cancel"),
           type: "warning"
-      })
-      .then(() => {
-        const ids = this.selection.map(u => u.id);
-        this.delete(ids);
-      })
-      .catch(() => {
-        this.clearSelections();
-      });
-    },
-    clearSelections() {
-      this.$refs.table.clearSelection();
-    },
-    delete(ids) {
-      parameterApi.delete({ ids: ids }).then(response => {
-        const res = response.data;
-        if (res.isSuccess) {
-          this.$message({
+        })
+          .then(() => {
+            const ids = this.selection.map(u => u.id);
+            this.delete(ids);
+          })
+          .catch(() => {
+            this.clearSelections();
+          });
+      },
+      clearSelections() {
+        this.$refs.table.clearSelection();
+      },
+      delete(ids) {
+        parameterApi.delete({ids: ids}).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.$message({
               message: this.$t("tips.deleteSuccess"),
               type: "success"
-          });
+            });
+          }
+          this.search();
+        });
+      },
+      add() {
+        this.dialog.type = "add";
+        this.dialog.isVisible = true;
+        this.$refs.edit.setParameter(false);
+      },
+      copy(row) {
+        this.$refs.edit.setParameter(row);
+        this.dialog.type = "copy";
+        this.dialog.isVisible = true;
+      },
+      edit(row) {
+        this.$refs.edit.setParameter(row);
+        this.dialog.type = "edit";
+        this.dialog.isVisible = true;
+      },
+      fetch(params = {}) {
+        this.loading = true;
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.search();
-      });
-    },
-    add() {
-      this.dialog.type = "add";
-      this.dialog.isVisible = true;
-      this.$refs.edit.setParameter(false);
-    },
-    copy(row) {
-      this.$refs.edit.setParameter(row);
-      this.dialog.type = "copy";
-      this.dialog.isVisible = true;
-    },
-    edit(row) {
-      this.$refs.edit.setParameter(row);
-      this.dialog.type = "edit";
-      this.dialog.isVisible = true;
-    },
-    fetch(params = {}) {
-      this.loading = true;
-      params.size = this.pagination.size;
-      params.current = this.pagination.current;
-      if (this.queryParams.timeRange) {
-          params.startCreateTime = this.queryParams.timeRange[0];
-          params.endCreateTime = this.queryParams.timeRange[1];
-      }
 
-      parameterApi.page(params).then(response => {
-        const res = response.data;
-        this.loading = false;
-        this.tableData = res.data;
-      });
-    },
-    sortChange(val) {
-      this.sort.field = val.prop;
-      this.sort.order = val.order;
-      this.search();
-    },
-    filterChange (filters) {
-      for (const key in filters) {
-        this.queryParams[key] = filters[key][0]
+        this.queryParams.current = params.current ? params.current : this.queryParams.current;
+        this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+
+        parameterApi.page(this.queryParams).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.tableData = res.data;
+          }
+        }).finally(() => this.loading = false);
+      },
+      sortChange(val) {
+        this.queryParams.sort = val.prop;
+        this.queryParams.order = val.order;
+        if (this.queryParams.sort) {
+          this.search();
+        }
+      },
+      filterChange(filters) {
+        for (const key in filters) {
+          if (key.includes('.')) {
+            const val = {};
+            val[key.split('.')[1]] = filters[key][0];
+            this.queryParams.model[key.split('.')[0]] = val;
+          } else {
+            this.queryParams.model[key] = filters[key][0]
+          }
+        }
+        this.search()
+      },
+      cellClick(row) {
+        let flag = false;
+        this.selection.forEach((item) => {
+          if (item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+
+        if (!flag) {
+          this.$refs.table.toggleRowSelection(row, true);
+        }
       }
-      this.search()
     }
-  }
-};
+  };
 </script>
 <style lang="scss" scoped></style>

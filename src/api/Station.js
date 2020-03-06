@@ -3,7 +3,7 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   page: {
     url: `/authority/station/page`,
-    method: 'GET'
+    method: 'POST'
   },
   save: {
     url: `/authority/station`,

@@ -2,7 +2,7 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    method: 'GET',
+    method: 'POST',
     url: `/file/attachment/page`
   },
   upload: {

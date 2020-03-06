@@ -295,7 +295,7 @@
         fileImport: {
           isVisible: false,
           type: "import",
-          action: `${process.env.VUE_APP_BASE_API}/authority/user/import`
+          action: `${process.env.VUE_APP_BASE_API}/authority/role/import`
         },
         userRoleDialog: {
           isVisible: false

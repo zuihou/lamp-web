@@ -2,7 +2,7 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    method: 'GET',
+    method: 'POST',
     url: `/authority/dictionaryItem/page`
   },
   update: {
@@ -19,7 +19,7 @@ const apiList = {
   },
   list: {
     method: 'GET',
-    url: `/authority/dictionaryItem`
+    url: `/authority/dictionaryItem/codes`
   },
   preview: {
     method: 'POST',
