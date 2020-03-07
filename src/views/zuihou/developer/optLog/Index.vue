@@ -301,7 +301,6 @@
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-          debugger
           const logIds = this.selection.map(item => item.id)
           this.delete(logIds)
         }).catch(() => {
