@@ -9,6 +9,10 @@ const apiList = {
     method: 'DELETE',
     url: `/authority/loginLog`
   },
+  clear: {
+    method: 'DELETE',
+    url: `/authority/loginLog/clear`
+  },
   preview: {
     method: 'POST',
     url: `/authority/loginLog/preview`
@@ -29,6 +33,12 @@ export default {
   delete(data) {
     return axiosApi({
       ...apiList.delete,
+      data
+    })
+  },
+  clear(data) {
+    return axiosApi({
+      ...apiList.clear,
       data
     })
   },

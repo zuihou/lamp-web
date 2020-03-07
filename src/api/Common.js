@@ -5,20 +5,6 @@ const apiList = {
   generateId: {
     url: "/authority/common/generateId",
     method: "GET"
-  },
-  enums: {
-    authority: {
-      method: 'GET',
-      url: `/authority/enums`
-    },
-    msgs: {
-      method: 'GET',
-      url: `/msgs/enums`
-    },
-    file: {
-      method: 'GET',
-      url: `/file/enums`
-    }
   }
 }
 

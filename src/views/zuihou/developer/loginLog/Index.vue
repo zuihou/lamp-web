@@ -40,6 +40,41 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['loginLog:delete']">
+        <el-button>
+          清理日志
+          <i class="el-icon-arrow-down el-icon--right"/>
+        </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="clear(1)" >
+           保留一个月
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="clear(2)" >
+            保留三个月
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="clear(3)" >
+            保留六个月
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="clear(4)" >
+            保留一年
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="clear(5)" >
+            保留一千条
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="clear(6)" >
+            保留一万条
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="clear(7)" >
+            保留三万条
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="clear(8)" >
+            保留十万条
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="clear(9)" >
+            清空所有
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <el-table
       :data="tableData.records"
@@ -272,6 +307,29 @@
         this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true);
         this.batchDelete();
+      },
+      clear(type) {
+        this.$confirm('确认要清除日志吗？', this.$t("common.tips"), {
+          confirmButtonText: this.$t("common.confirm"),
+          cancelButtonText: this.$t("common.cancel"),
+          type: "warning"
+        })
+          .then(() => {
+            loginLogApi.clear({type: type}).then(response => {
+              const res = response.data;
+              if (res.isSuccess) {
+                this.$message({
+                  message: this.$t("tips.deleteSuccess"),
+                  type: "success"
+                });
+              }
+
+              this.search();
+            });
+
+          })
+          .catch(() => {
+          });
       },
       batchDelete() {
         if (!this.selection.length) {

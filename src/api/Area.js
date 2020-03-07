@@ -17,9 +17,9 @@ const apiList = {
     method: 'DELETE',
     url: `/authority/area`
   },
-  find: {
-    method: 'GET',
-    url: `/authority/area`
+  query: {
+    method: 'POST',
+    url: `/authority/area/query`
   },
   tree: {
     method: 'GET',
@@ -40,9 +40,9 @@ export default {
       data
     })
   },
-  find(data) {
+  query(data) {
     return axiosApi({
-      ...apiList.find,
+      ...apiList.query,
       data
     })
   },

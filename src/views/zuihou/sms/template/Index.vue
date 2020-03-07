@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input :placeholder="$t('table.smsTemplate.appId')" class="filter-item search-item" v-model="queryParams.model.appId" />
-      <el-input :placeholder="$t('table.smsTemplate.customCode')" class="filter-item search-item" v-model="queryParams.model.customCode" />
-      <el-input :placeholder="$t('table.smsTemplate.name')" class="filter-item search-item" v-model="queryParams.model.name" />
-      <el-input :placeholder="$t('table.smsTemplate.templateCode')" class="filter-item search-item" v-model="queryParams.model.templateCode" />
-      <el-input :placeholder="$t('table.smsTemplate.signName')" class="filter-item search-item" v-model="queryParams.model.signName" />
-      <el-date-picker
+      <el-input :placeholder="$t('table.smsTemplate.appId')" size="small" class="filter-item search-item" v-model="queryParams.model.appId" />
+      <el-input :placeholder="$t('table.smsTemplate.customCode')" size="small" class="filter-item search-item" v-model="queryParams.model.customCode" />
+      <el-input :placeholder="$t('table.smsTemplate.name')" size="small" class="filter-item search-item" v-model="queryParams.model.name" />
+      <el-input :placeholder="$t('table.smsTemplate.templateCode')" size="small" class="filter-item search-item" v-model="queryParams.model.templateCode" />
+      <el-input :placeholder="$t('table.smsTemplate.signName')" size="small" class="filter-item search-item" v-model="queryParams.model.signName" />
+      <el-date-picker size="small"
         :range-separator="null"
         class="filter-item search-item date-range-item"
         end-placeholder="结束日期"
@@ -16,13 +16,13 @@
         v-model="queryParams.timeRange"
         value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
-      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
-      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['sms:template:add']">
+      <el-button @click="search" size="small" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" size="small" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+      <el-button @click="add" size="small" class="filter-item" plain type="danger" v-has-permission="['sms:template:add']">
         {{ $t("table.add") }}
       </el-button>
       <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['sms:template:delete','sms:template:export']">
-        <el-button>
+        <el-button size="small" >
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>

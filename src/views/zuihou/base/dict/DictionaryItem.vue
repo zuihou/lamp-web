@@ -5,15 +5,15 @@
     </div>
     <div v-else>
       <div class="filter-container">
-        <el-input :placeholder="$t('table.dictionaryItem.code')" class="filter-item search-item"
+        <el-input :placeholder="$t('table.dictionaryItem.code')" size="small" class="filter-item search-item"
                   v-model="queryParams.model.code"/>
-        <el-input :placeholder="$t('table.dictionaryItem.name')" class="filter-item search-item"
+        <el-input :placeholder="$t('table.dictionaryItem.name')" size="small" class="filter-item search-item"
                   v-model="queryParams.model.name"/>
-        <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
-        <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
+        <el-button @click="search" class="filter-item" plain type="primary" size="small">{{ $t('table.search') }}</el-button>
+        <el-button @click="reset" class="filter-item" plain type="warning" size="small">{{ $t('table.reset') }}</el-button>
         <el-dropdown class="filter-item" trigger="click"
                      v-has-any-permission="['dict:add','dict:delete','dict:export']">
-          <el-button>
+          <el-button size="small">
             {{ $t('table.more') }}
             <i class="el-icon-arrow-down el-icon--right"/>
           </el-button>

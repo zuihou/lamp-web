@@ -237,13 +237,13 @@
         };
       },
       initAreaTree(parentId = 0) {
-        areaApi.find({parentId: parentId}).then(response => {
+        areaApi.query({parentId: parentId}).then(response => {
           const res = response.data;
           this.areaTree = res.data;
         });
       },
       loadTree(node, resolve) {
-        areaApi.find({parentId: node.data.id}).then(response => {
+        areaApi.query({parentId: node.data.id}).then(response => {
           const res = response.data;
           resolve(res.data);
         });

@@ -114,7 +114,7 @@ router.beforeEach((to, from, next) => {
     const token = db.get('TOKEN', '')
     const user = db.get('USER')
     const userRouter = db.get('USER_ROUTER', '')
-    if (token.length && user) {
+    if (token && token.length && user) {
       if (!asyncRouter) {
         if (!userRouter) {
           loginApi.getRouter({})
