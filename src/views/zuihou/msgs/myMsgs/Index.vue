@@ -4,12 +4,12 @@
       <el-input
         :placeholder="$t('table.msgs.title')"
         class="filter-item search-item"
-        v-model="queryParams.title"
+        v-model="queryParams.model.title"
       />
       <el-input
         :placeholder="$t('table.msgs.content')"
         class="filter-item search-item"
-        v-model="queryParams.content"
+        v-model="queryParams.model.content"
       />
       <el-date-picker
         :range-separator="null"
@@ -21,48 +21,47 @@
         v-model="queryParams.timeRange"
         value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button @click="search" class="filter-item" plain type="primary">{{
-        $t("table.search")
-        }}
+      <el-button @click="search" class="filter-item" plain type="primary">
+        {{ $t("table.search") }}
       </el-button>
-      <el-button @click="reset" class="filter-item" plain type="warning">{{
-        $t("table.reset")
-        }}
+      <el-button @click="reset" class="filter-item" plain type="warning">
+        {{ $t("table.reset") }}
       </el-button>
+      <router-link :to="{ path: '/msgs/sendMsgs', query: { type: 'add' } }">
+        <el-button class="filter-item" plain type="danger" v-has-permission="['msgs:add']">
+          {{ $t("table.add") }}
+        </el-button>
+      </router-link>
       <el-dropdown
         class="filter-item"
         trigger="click"
-        v-has-any-permission="['msgs:add', 'msgs:delete', 'msgs:export']"
+        v-has-any-permission="['msgs:delete', 'msgs:export']"
       >
         <el-button>
           {{ $t("table.more") }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <router-link :to="{ path: '/msgs/sendMsgs', query: { type: 'add' } }">
-            <el-dropdown-item v-has-permission="['msgs:add']">{{
-              $t("table.add")
-              }}
-            </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item
-            @click.native="batchDelete"
-            v-has-permission="['msgs:delete']"
-          >{{ $t("table.delete") }}
-          </el-dropdown-item
-          >
-          <el-dropdown-item
-            @click.native="batchMark"
-            v-has-permission="['msgs:mark']"
-          >标记已读
-          </el-dropdown-item
-          >
-          <el-dropdown-item
-            @click.native="exportExcel"
-            v-has-permission="['msgs:export']"
-          >{{ $t("table.export") }}
-          </el-dropdown-item
-          >
+          <!--          <router-link :to="{ path: '/msgs/sendMsgs', query: { type: 'add' } }">-->
+          <!--            <el-dropdown-item v-has-permission="['msgs:add']">-->
+          <!--              {{ $t("table.add") }}-->
+          <!--            </el-dropdown-item>-->
+          <!--          </router-link>-->
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['msgs:delete']">
+            {{ $t("table.delete") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="batchMark" v-has-permission="['msgs:mark']">
+            标记已读
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['msgs:export']">
+            {{ $t("table.export") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['msgs:export']">
+            {{ $t("table.exportPreview") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['msgs:import']">
+            {{ $t("table.import") }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -73,13 +72,13 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px"/>
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
         :label="$t('table.msgs.title')"
         :show-overflow-tooltip="true"
@@ -116,7 +115,7 @@
         :label="$t('table.msgs.bizType')"
         :show-overflow-tooltip="true"
         align="center"
-        column-key="bizType"
+        column-key="bizType.code"
         width="100px"
       >
         <template slot-scope="scope">
@@ -129,7 +128,7 @@
         :label="$t('table.msgs.msgsCenterType')"
         :show-overflow-tooltip="true"
         class-name="status-col"
-        column-key="msgsCenterType"
+        column-key="msgsCenterType.code"
         width="100px"
       >
         <template slot-scope="scope">
@@ -201,12 +200,33 @@
       </el-table-column>
     </el-table>
     <pagination
-      :limit.sync="pagination.size"
-      :page.sync="pagination.current"
+      :limit.sync="queryParams.size"
+      :page.sync="queryParams.current"
       :total="Number(tableData.total)"
       @pagination="fetch"
       v-show="tableData.total > 0"
     />
+    <file-import
+      :dialog-visible="fileImport.isVisible"
+      :type="fileImport.type"
+      :action="fileImport.action" accept=".xls,.xlsx"
+      @close="importClose"
+      @success="importSuccess"
+      ref="import"
+    />
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="true"
+      title="预览"
+      width="80%"
+      top="50px"
+      :visible.sync="preview.isVisible"
+      v-el-drag-dialog
+    >
+      <el-scrollbar>
+        <div v-html="preview.context"></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 
@@ -214,11 +234,15 @@
   import Pagination from "@/components/Pagination";
   import msgsApi from "@/api/Msgs.js";
   import {convertEnum} from "@/utils/utils";
-  import {initMsgsEnums} from "@/utils/commons";
+  import elDragDialog from '@/directive/el-drag-dialog'
+  import FileImport from "@/components/zuihou/Import"
+  import {downloadFile, initMsgsEnums, initQueryParams} from '@/utils/commons'
+
 
   export default {
     name: "MsgsList",
-    components: {Pagination},
+    directives: {elDragDialog},
+    components: {Pagination, FileImport},
     filters: {
       statusFilter(status) {
         const map = {
@@ -235,23 +259,31 @@
           isVisible: false,
           type: "add"
         },
+        preview: {
+          isVisible: false,
+          context: ''
+        },
+        fileImport: {
+          isVisible: false,
+          type: "import",
+          action: `${process.env.VUE_APP_BASE_API}/authority/msgs/import`
+        },
         tableKey: 0,
-        queryParams: {},
-        sort: {},
+        queryParams: initQueryParams({
+          model: {
+            msgsCenterType: {code: null},
+            bizType: {code: null},
+          }
+        }),
         selection: [],
-        // 以下已修改
         loading: false,
         tableData: {
           total: 0
         },
-        enums:{
-          MsgsCenterType:{},
-          MsgsBizType:{},
+        enums: {
+          MsgsCenterType: {},
+          MsgsBizType: {},
         },
-        pagination: {
-          size: 10,
-          current: 1
-        }
       };
     },
     computed: {
@@ -263,8 +295,8 @@
       }
     },
     watch: {
-      '$route' (to) {
-        if(to.path === '/msgs/myMsgs'){
+      '$route'(to) {
+        if (to.path === '/msgs/myMsgs') {
           this.fetch();
         }
       }
@@ -282,22 +314,52 @@
       },
       search() {
         this.fetch({
-          ...this.queryParams,
-          ...this.sort
+          ...this.queryParams
         });
       },
       reset() {
-        this.queryParams = {};
-        this.sort = {};
+        this.queryParams = initQueryParams({
+          model:{
+            msgsCenterType: {code: null},
+            bizType: {code: null},
+          }
+        });
         this.$refs.table.clearSort();
         this.$refs.table.clearFilter();
         this.search();
       },
-      exportExcel() {
-        this.$message({
-          message: "待完善",
-          type: "warning"
+      exportExcelPreview() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出消息数据';
+        msgsApi.preview(this.queryParams).then(response => {
+          const res = response.data;
+          this.preview.isVisible = true;
+          this.preview.context = res.data;
         });
+      },
+      exportExcel() {
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+        this.queryParams.map.fileName = '导出消息数据';
+        msgsApi.export(this.queryParams).then(response => {
+          downloadFile(response);
+        });
+      },
+      importExcel() {
+        this.fileImport.type = "upload";
+        this.fileImport.isVisible = true;
+        this.$refs.import.setModel(false);
+      },
+      importSuccess() {
+        this.search();
+      },
+      importClose() {
+        this.fileImport.isVisible = false;
       },
       singleDelete(row) {
         this.$refs.table.clearSelection()
@@ -344,7 +406,6 @@
           this.search();
         });
       },
-
       batchMark() {
         if (!this.selection.length) {
           this.$message({
@@ -409,31 +470,55 @@
       },
       fetch(params = {}) {
         this.loading = true;
-        params.size = this.pagination.size;
-        params.current = this.pagination.current;
         if (this.queryParams.timeRange) {
-          params.startCreateTime = this.queryParams.timeRange[0];
-          params.endCreateTime = this.queryParams.timeRange[1];
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
         }
-        msgsApi.page(params).then(response => {
+
+        this.queryParams.current = params.current ? params.current : this.queryParams.current;
+        this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+        msgsApi.page(this.queryParams).then(response => {
           const res = response.data;
-          this.loading = false;
-          if (res.isError) {
-            return;
+          if (res.isSuccess) {
+            this.tableData = res.data;
           }
-          this.tableData = res.data;
-        });
+        }).finally(() => this.loading = false);
       },
       sortChange(val) {
-        this.sort.field = val.prop;
-        this.sort.order = val.order;
-        this.search();
+        this.queryParams.sort = val.prop;
+        this.queryParams.order = val.order;
+        if (this.queryParams.sort) {
+          this.search();
+        }
       },
       filterChange(filters) {
         for (const key in filters) {
-          this.queryParams[key] = filters[key][0];
+          if (key.includes('.')) {
+            const val = {};
+            val[key.split('.')[1]] = filters[key][0];
+            this.queryParams.model[key.split('.')[0]] = val;
+          } else {
+            this.queryParams.model[key] = filters[key][0]
+          }
         }
-        this.search();
+        this.search()
+      },
+      cellClick(row, column) {
+        if (column['columnKey'] === "operation") {
+          return;
+        }
+        let flag = false;
+        this.selection.forEach((item) => {
+          if (item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+
+        if (!flag) {
+          this.$refs.table.toggleRowSelection(row, true);
+        }
       }
     }
   };

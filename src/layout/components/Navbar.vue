@@ -177,10 +177,12 @@ export default {
   },
   methods: {
     loadMyMsgs() {
-      const params = {};
+      const params = {
+        model:{}
+      };
       params.size = 10;
       params.current = 1;
-      params.isRead = false;
+      params.model.isRead = false;
       msgsApi.page(params, {isAlert: false}).then(response => {
         const res = response.data;
         if(res.isSuccess){

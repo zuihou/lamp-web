@@ -35,7 +35,7 @@ const apiList = {
   },
   import: {
     method: 'POST',
-    url: `/authority/user/import`
+    url: `/authority/role/import`
   }
 }
 

@@ -4,7 +4,7 @@
       <el-input
         :placeholder="$t('table.attachment.submittedFileName')"
         class="filter-item search-item"
-        v-model="queryParams.submittedFileName"
+        v-model="queryParams.model.submittedFileName"
       />
       <el-date-picker
         :range-separator="null"
@@ -16,27 +16,25 @@
         v-model="queryParams.timeRange"
         value-format="yyyy-MM-dd HH:mm:ss"
       />
-      <el-button @click="search" class="filter-item" plain type="primary">{{
-        $t("table.search")
-      }}</el-button>
-      <el-button @click="reset" class="filter-item" plain type="warning">{{
-        $t("table.reset")
-      }}</el-button>
+      <el-button @click="search" class="filter-item" plain type="primary">
+        {{ $t("table.search") }}
+      </el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">
+        {{ $t("table.reset") }}
+      </el-button>
+      <el-button @click="upload" class="filter-item" plain type="danger" v-has-permission="['file:add']">
+        {{ $t("table.upload") }}
+      </el-button>
       <el-dropdown
         class="filter-item"
         trigger="click"
-        v-has-any-permission="['file:add', 'file:delete', 'file:download']"
+        v-has-any-permission="['file:delete', 'file:download']"
       >
         <el-button>
           {{ $t("table.more") }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            @click.native="upload"
-            v-has-permission="['file:add']"
-            >{{ $t("table.upload") }}</el-dropdown-item
-          >
           <el-dropdown-item
             @click.native="batchDelete"
             v-has-permission="['file:delete']"
@@ -54,15 +52,16 @@
     <el-table
       :data="tableData.records"
       :key="tableKey"
+      @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
         :label="$t('table.attachment.submittedFileName')"
         :show-overflow-tooltip="true"
@@ -156,8 +155,8 @@
       </el-table-column>
     </el-table>
     <pagination
-      :limit.sync="pagination.size"
-      :page.sync="pagination.current"
+      :limit.sync="queryParams.size"
+      :page.sync="queryParams.current"
       :total="Number(tableData.total)"
       @pagination="fetch"
       v-show="tableData.total > 0"
@@ -190,7 +189,7 @@ import AttachmentEdit from "./Edit";
 import attachmentApi from "@/api/Attachment.js";
 import { renderSize } from "@/utils/utils";
 import { onlinePreview } from "@/settings";
-import { downloadFile } from '@/utils/commons'
+import { downloadFile, initQueryParams } from '@/utils/commons'
 
 export default {
   name: "AttachmentManage",
@@ -205,19 +204,15 @@ export default {
         type: "add"
       },
       tableKey: 0,
-      queryParams: {},
-      sort: {},
+      queryParams: initQueryParams({
+        model:{}
+      }),
       selection: [],
-      // 以下已修改
       loading: false,
       tableData: {
         records: [],
         total: 0
       },
-      pagination: {
-        size: 10,
-        current: 1
-      }
     };
   },
   computed: {},
@@ -247,23 +242,24 @@ export default {
     },
     search() {
       this.fetch({
-        ...this.queryParams,
-        ...this.sort
+        ...this.queryParams
       });
     },
     reset() {
-      this.queryParams = {};
-      this.sort = {};
+      this.queryParams = initQueryParams({
+        model:{}
+      });
       this.$refs.table.clearSort();
       this.$refs.table.clearFilter();
       this.search();
     },
     singleDownload(row) {
+      this.$refs.table.clearSelection();
       this.$refs.table.toggleRowSelection(row, true);
       this.batchDownload();
     },
     singleDelete(row) {
-      this.$refs.table.clearSelection()
+      this.$refs.table.clearSelection();
       this.$refs.table.toggleRowSelection(row, true);
       this.batchDelete();
     },
@@ -353,29 +349,55 @@ export default {
     },
     fetch(params = {}) {
       this.loading = true;
-      params.size = this.pagination.size;
-      params.current = this.pagination.current;
       if (this.queryParams.timeRange) {
-        params.startCreateTime = this.queryParams.timeRange[0];
-        params.endCreateTime = this.queryParams.timeRange[1];
+        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
       }
-      attachmentApi
-        .page(params)
-        .then(response => {
-          const res = response.data;
-          this.loading = false;
-          if (res.isSuccess) {
-            this.tableData = res.data;
-          }
-        })
-        .catch(() => {
-          this.loading = false;
-        });
+
+      this.queryParams.current = params.current ? params.current : this.queryParams.current;
+      this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+      attachmentApi.page(this.queryParams).then(response => {
+        const res = response.data;
+        if (res.isSuccess) {
+          this.tableData = res.data;
+        }
+      }).finally(() => this.loading = false);
     },
     sortChange(val) {
-      this.sort.field = val.prop;
-      this.sort.order = val.order;
-      this.search();
+      this.queryParams.sort = val.prop;
+      this.queryParams.order = val.order;
+      if (this.queryParams.sort) {
+        this.search();
+      }
+    },
+    filterChange(filters) {
+      for (const key in filters) {
+        if (key.includes('.')) {
+          const val = {};
+          val[key.split('.')[1]] = filters[key][0];
+          this.queryParams.model[key.split('.')[0]] = val;
+        } else {
+          this.queryParams.model[key] = filters[key][0]
+        }
+      }
+      this.search()
+    },
+    cellClick (row, column) {
+      if (column['columnKey'] === "operation") {
+        return;
+      }
+      let flag = false;
+      this.selection.forEach((item)=>{
+        if(item.id === row.id) {
+          flag = true;
+          this.$refs.table.toggleRowSelection(row);
+        }
+      })
+
+      if(!flag){
+        this.$refs.table.toggleRowSelection(row, true);
+      }
     }
   }
 };

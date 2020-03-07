@@ -49,7 +49,6 @@
 </template>
 <script>
 import smsTemplateApi from '@/api/SmsTemplate.js'
-import {initMsgsEnums} from '@/utils/commons.js'
 
 export default {
   name: 'SmsTemplateEdit',
@@ -121,7 +120,6 @@ export default {
 
   },
   mounted () {
-    initMsgsEnums( ["ProviderType"]);
     window.onresize = () => {
       return (() => {
         this.width = this.initWidth()
@@ -158,11 +156,13 @@ export default {
     loadListOptions ({ callback }) {
       callback()
     },
-    setSmsTemplate (val) {
+    setSmsTemplate (val = {}) {
       const vm = this
-      if (val) {
-        vm.smsTemplate = { ...val }
+      if (val['row']) {
+        vm.smsTemplate = { ...val['row'] }
       }
+      vm.enums = val['enums']
+
     },
     close () {
       this.$emit('close')

@@ -3,7 +3,7 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   page: {
     url: `/msgs/smsSendStatus/page`,
-    method: 'GET'
+    method: 'POST'
   }
 }
 

@@ -55,7 +55,8 @@
         </template>
       </el-table-column>
       <el-table-column
-        :filter-method="filterStatus"
+        :filter-multiple="false"
+        column-key="status"
         :filters="[{ text: $t('common.status.valid'), value: true }, { text: $t('common.status.invalid'), value: false }]"
         :label="$t('table.dictionary.status')"
         class-name="status-col"
@@ -130,9 +131,6 @@
       this.fetch()
     },
     methods: {
-      filterStatus(value, row) {
-        return row.status === value
-      },
       editClose() {
         this.dialog.isVisible = false
       },

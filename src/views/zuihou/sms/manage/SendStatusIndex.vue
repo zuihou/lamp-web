@@ -2,10 +2,10 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input :placeholder="$t('table.smsSendStatus.receiver')" class="filter-item search-item"
-                v-model="queryParams.receiver"/>
+                v-model="queryParams.model.receiver"/>
       <el-input :placeholder="$t('table.smsSendStatus.bizId')" class="filter-item search-item"
-                v-model="queryParams.bizId"/>
-      <el-input :placeholder="$t('table.smsSendStatus.ext')" class="filter-item search-item" v-model="queryParams.ext"/>
+                v-model="queryParams.model.bizId"/>
+      <el-input :placeholder="$t('table.smsSendStatus.ext')" class="filter-item search-item" v-model="queryParams.model.ext"/>
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
     </div>
@@ -16,13 +16,13 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px"/>
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column :label="$t('table.smsSendStatus.receiver')" :show-overflow-tooltip="true" align="center"
                        prop="receiver" width="120px">
         <template slot-scope="scope">
@@ -78,7 +78,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)"
+    <pagination :limit.sync="queryParams.size" :page.sync="queryParams.current" :total="Number(tableData.total)"
                 @pagination="fetch" v-show="tableData.total>0"/>
   </div>
 </template>
@@ -87,7 +87,7 @@
   import Pagination from '@/components/Pagination'
   import smsSendStatusApi from '@/api/SmsSendStatus.js'
   import {convertEnum} from '@/utils/utils'
-  import {initMsgsEnums} from '@/utils/commons'
+  import { initMsgsEnums, initQueryParams } from '@/utils/commons'
 
   export default {
     name: 'SmsSendStatusManage',
@@ -114,22 +114,17 @@
           type: 'add'
         },
         tableKey: 0,
-        // total: 0,
-        queryParams: {
-          taskId: 0
-        },
-        sort: {},
+        queryParams: initQueryParams({
+          model: {taskId: 0}
+        }),
         selection: [],
         // 以下已修改
         loading: false,
         tableData: {
           total: 0
         },
-        enums: {SendStatus: {}},
-        pagination: {
-          size: 10,
-          current: 1
-        }
+        enums: {SendStatus: {}}
+
       }
     },
     computed: {
@@ -155,21 +150,20 @@
       },
       search() {
         this.fetch({
-          ...this.queryParams,
-          ...this.sort
+          ...this.queryParams
         })
       },
       setTaskId(taskId) {
-        this.queryParams.taskId = taskId
+        this.queryParams.model.taskId = taskId
         this.fetch({
-          ...this.queryParams,
-          ...this.sort
+          ...this.queryParams
         })
       },
       reset() {
-        const taskId = this.queryParams.taskId
-        this.queryParams = {taskId: taskId}
-        this.sort = {}
+        const taskId = this.queryParams.model.taskId
+        this.queryParams = initQueryParams({
+          model: {taskId: taskId}
+        })
         this.$refs.table.clearSort()
         this.$refs.table.clearFilter()
         this.search()
@@ -178,26 +172,55 @@
         this.$refs.table.clearSelection()
       },
       fetch(params = {}) {
-        this.loading = true
-        params.size = this.pagination.size
-        params.current = this.pagination.current
-        smsSendStatusApi.page(params)
-          .then((response) => {
-            const res = response.data
-            this.loading = false
-            this.tableData = res.data
-          })
+        this.loading = true;
+        if (this.queryParams.timeRange) {
+          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        }
+
+        this.queryParams.current = params.current ? params.current : this.queryParams.current;
+        this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+        smsSendStatusApi.page(this.queryParams).then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            this.tableData = res.data;
+          }
+        }).finally(() => this.loading = false);
       },
       sortChange(val) {
-        this.sort.field = val.prop
-        this.sort.order = val.order
-        this.search()
+        this.queryParams.sort = val.prop;
+        this.queryParams.order = val.order;
+        if (this.queryParams.sort) {
+          this.search();
+        }
       },
       filterChange(filters) {
         for (const key in filters) {
-          this.queryParams[key] = filters[key][0]
+          if (key.includes('.')) {
+            const val = {};
+            val[key.split('.')[1]] = filters[key][0];
+            this.queryParams.model[key.split('.')[0]] = val;
+          } else {
+            this.queryParams.model[key] = filters[key][0]
+          }
         }
         this.search()
+      },
+      cellClick (row, column) {
+        if (column['columnKey'] === "operation") {
+          return;
+        }
+        let flag = false;
+        this.selection.forEach((item)=>{
+          if(item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+        if(!flag){
+          this.$refs.table.toggleRowSelection(row, true);
+        }
       }
     }
   }

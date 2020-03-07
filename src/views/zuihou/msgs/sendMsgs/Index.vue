@@ -220,7 +220,7 @@ export default {
         })
     },
     loadRoleList () {
-      roleApi.page({ current: 1, size: 10000 })
+      roleApi.page({ current: 1, size: 10000, model: {status: true}  })
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {

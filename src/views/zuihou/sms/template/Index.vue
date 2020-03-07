@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input :placeholder="$t('table.smsTemplate.appId')" class="filter-item search-item" v-model="queryParams.appId" />
-      <el-input :placeholder="$t('table.smsTemplate.customCode')" class="filter-item search-item" v-model="queryParams.customCode" />
-      <el-input :placeholder="$t('table.smsTemplate.name')" class="filter-item search-item" v-model="queryParams.name" />
-      <el-input :placeholder="$t('table.smsTemplate.templateCode')" class="filter-item search-item" v-model="queryParams.templateCode" />
-      <el-input :placeholder="$t('table.smsTemplate.signName')" class="filter-item search-item" v-model="queryParams.signName" />
+      <el-input :placeholder="$t('table.smsTemplate.appId')" class="filter-item search-item" v-model="queryParams.model.appId" />
+      <el-input :placeholder="$t('table.smsTemplate.customCode')" class="filter-item search-item" v-model="queryParams.model.customCode" />
+      <el-input :placeholder="$t('table.smsTemplate.name')" class="filter-item search-item" v-model="queryParams.model.name" />
+      <el-input :placeholder="$t('table.smsTemplate.templateCode')" class="filter-item search-item" v-model="queryParams.model.templateCode" />
+      <el-input :placeholder="$t('table.smsTemplate.signName')" class="filter-item search-item" v-model="queryParams.model.signName" />
       <el-date-picker
         :range-separator="null"
         class="filter-item search-item date-range-item"
@@ -18,15 +18,23 @@
       />
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
-      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['sms:template:add','sms:template:delete','sms:template:export']">
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['sms:template:add']">
+        {{ $t("table.add") }}
+      </el-button>
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['sms:template:delete','sms:template:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="add" v-has-permission="['sms:template:add']">{{ $t('table.add') }}</el-dropdown-item>
           <el-dropdown-item @click.native="batchDelete" v-has-permission="['sms:template:delete']">{{ $t('table.delete') }}</el-dropdown-item>
           <el-dropdown-item @click.native="exportExcel" v-has-permission="['sms:template:export']">{{ $t('table.export') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['sms:template:export']">
+            {{ $t("table.exportPreview") }}
+          </el-dropdown-item>
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['sms:template:import']">
+            {{ $t("table.import") }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -37,8 +45,8 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
@@ -98,7 +106,7 @@
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.operation')" align="center" sortable="custom" class-name="small-padding fixed-width" width="100px">
+      <el-table-column :label="$t('table.operation')" align="center" column-key="operation" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['sms:template:update']" />
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['sms:template:delete']" />
@@ -106,8 +114,29 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination :limit.sync="pagination.size" :page.sync="pagination.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
+    <pagination :limit.sync="queryParams.size" :page.sync="queryParams.current" :total="Number(tableData.total)" @pagination="fetch" v-show="tableData.total>0" />
     <sms-template-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="editClose" @success="editSuccess" ref="edit" />
+    <file-import
+      :dialog-visible="fileImport.isVisible"
+      :type="fileImport.type"
+      :action="fileImport.action" accept=".xls,.xlsx"
+      @close="importClose"
+      @success="importSuccess"
+      ref="import"
+    />
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="true"
+      title="预览"
+      width="80%"
+      top="50px"
+      :visible.sync="preview.isVisible"
+      v-el-drag-dialog
+    >
+      <el-scrollbar>
+        <div v-html="preview.context"></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 
@@ -116,11 +145,14 @@ import Pagination from '@/components/Pagination'
 import SmsTemplateEdit from './Edit'
 import smsTemplateApi from '@/api/SmsTemplate.js'
 import { convertEnum } from '@/utils/utils'
-import { initMsgsEnums } from '@/utils/commons'
+import elDragDialog from '@/directive/el-drag-dialog'
+import FileImport from "@/components/zuihou/Import"
+import { downloadFile, initDicts, initMsgsEnums, initQueryParams } from '@/utils/commons'
 
 export default {
   name: 'SmsTemplateManage',
-  components: { Pagination, SmsTemplateEdit },
+  directives: { elDragDialog },
+  components: { Pagination, SmsTemplateEdit, FileImport },
   filters: {
     statusFilter (status) {
       const map = {
@@ -136,12 +168,20 @@ export default {
         isVisible: false,
         type: 'add'
       },
+      preview: {
+        isVisible: false,
+        context: ''
+      },
+      fileImport: {
+        isVisible: false,
+        type: "import",
+        action: `${process.env.VUE_APP_BASE_API}/authority/user/import`
+      },
       tableKey: 0,
-      // total: 0,
-      queryParams: {},
-      sort: {},
+      queryParams: initQueryParams({
+        model:{}
+      }),
       selection: [],
-      // 以下已修改
       loading: false,
       tableData: {
         total: 0
@@ -149,10 +189,6 @@ export default {
       enums:{
         ProviderType: {}
       },
-      pagination: {
-        size: 10,
-        current: 1
-      }
     }
   },
   computed: {
@@ -176,22 +212,49 @@ export default {
     },
     search () {
       this.fetch({
-        ...this.queryParams,
-        ...this.sort
+        ...this.queryParams
       })
     },
     reset () {
-      this.queryParams = {}
-      this.sort = {}
+      this.queryParams = initQueryParams({
+        model:{}
+      })
       this.$refs.table.clearSort()
       this.$refs.table.clearFilter()
       this.search()
     },
-    exportExcel () {
-      this.$message({
-        message: '待完善',
-        type: 'warning'
-      })
+    exportExcelPreview() {
+      if (this.queryParams.timeRange) {
+        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+      }
+      this.queryParams.map.fileName = '导出用户数据';
+      userApi.preview(this.queryParams).then(response => {
+        const res = response.data;
+        this.preview.isVisible = true;
+        this.preview.context = res.data;
+      });
+    },
+    exportExcel() {
+      if (this.queryParams.timeRange) {
+        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+      }
+      this.queryParams.map.fileName = '导出用户数据';
+      userApi.export(this.queryParams).then(response => {
+        downloadFile(response);
+      });
+    },
+    importExcel() {
+      this.fileImport.type = "upload";
+      this.fileImport.isVisible = true;
+      this.$refs.import.setModel(false);
+    },
+    importSuccess() {
+      this.search();
+    },
+    importClose() {
+      this.fileImport.isVisible = false;
     },
     singleDelete (row) {
       this.$refs.table.clearSelection()
@@ -224,7 +287,7 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      smsTemplateApi.delete({ 'ids': ids })
+      smsTemplateApi.delete({ ids: ids })
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
@@ -239,41 +302,64 @@ export default {
     add () {
       this.dialog.type = 'add'
       this.dialog.isVisible = true
-      this.$refs.edit.setSmsTemplate(false)
+      this.$refs.edit.setSmsTemplate({enums: this.enums})
     },
     edit (row) {
-      this.$refs.edit.setSmsTemplate(row)
+      this.$refs.edit.setSmsTemplate({row, enums: this.enums})
       this.dialog.type = 'edit'
       this.dialog.isVisible = true
     },
     fetch (params = {}) {
-      this.loading = true
-      params.size = this.pagination.size
-      params.current = this.pagination.current
+      this.loading = true;
       if (this.queryParams.timeRange) {
-        params.startCreateTime = this.queryParams.timeRange[0]
-        params.endCreateTime = this.queryParams.timeRange[1]
+        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
       }
-      smsTemplateApi.page(params)
-        .then((response) => {
-          const res = response.data
-          this.loading = false
-          if (res.isError) {
-            return
-          }
-          this.tableData = res.data
-        })
+
+      this.queryParams.current = params.current ? params.current : this.queryParams.current;
+      this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+      smsTemplateApi.page(this.queryParams).then(response => {
+        const res = response.data;
+        if (res.isSuccess) {
+          this.tableData = res.data;
+        }
+      }).finally(() => this.loading = false);
     },
-    sortChange (val) {
-      this.sort.field = val.prop
-      this.sort.order = val.order
-      this.search()
+    sortChange(val) {
+      this.queryParams.sort = val.prop;
+      this.queryParams.order = val.order;
+      if (this.queryParams.sort) {
+        this.search();
+      }
     },
-    filterChange (filters) {
+    filterChange(filters) {
       for (const key in filters) {
-        this.queryParams[key] = filters[key][0]
+        if (key.includes('.')) {
+          const val = {};
+          val[key.split('.')[1]] = filters[key][0];
+          this.queryParams.model[key.split('.')[0]] = val;
+        } else {
+          this.queryParams.model[key] = filters[key][0]
+        }
       }
       this.search()
+    },
+    cellClick (row, column) {
+      if (column['columnKey'] === "operation") {
+        return;
+      }
+      let flag = false;
+      this.selection.forEach((item)=>{
+        if(item.id === row.id) {
+          flag = true;
+          this.$refs.table.toggleRowSelection(row);
+        }
+      })
+
+      if(!flag){
+        this.$refs.table.toggleRowSelection(row, true);
+      }
     }
   }
 }

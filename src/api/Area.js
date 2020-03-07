@@ -2,7 +2,7 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    method: 'post',
+    method: 'POST',
     url: `/authority/area/page`,
   },
   update: {

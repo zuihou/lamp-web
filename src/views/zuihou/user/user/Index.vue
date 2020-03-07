@@ -682,7 +682,6 @@
             this.$refs.table.toggleRowSelection(row);
           }
         })
-
         if(!flag){
           this.$refs.table.toggleRowSelection(row, true);
         }

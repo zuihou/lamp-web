@@ -3,7 +3,7 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   page: {
     url: `/msgs/msgsCenterInfo/page`,
-    method: 'GET'
+    method: 'POST'
   },
   mark: {
     url: `/msgs/msgsCenterInfo/mark`,

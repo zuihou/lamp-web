@@ -171,13 +171,14 @@ export default {
   },
   watch: {
     $route () {
-      if (this.$route.path === '/sms/manage') {
+      if (this.$route.path === '/sms/manage/edit') {
         this.initSmsTemplateList()
         this.loadSendStatus()
       }
     }
   },
   mounted () {
+    debugger
     //在vue的mount阶段执行的函数都是顺序执行，不会阻塞的，所以如果希望mount阶段的函数也是阻塞的，需要额外写一个async函数，然后把需要同步执行的函数写到里面，然后在mount阶段调用这个额外写的函数
     this.initSmsTemplateList()
     this.loadSendStatus()
@@ -293,13 +294,12 @@ export default {
       }
     },
     async initSmsTemplateList () {
-      await smsTemplateApi.page({ current: 1, size: 10000 })
+      await smsTemplateApi.page({ current: 1, size: 10000, model:{}})
         .then(response => {
           const res = response.data
           if (res.isSuccess) {
             this.smsTemplateList = res.data.records
           }
-          console.log('list 加载')
         })
       await this.loadSmsTask()  // 顺序不能变
     },
