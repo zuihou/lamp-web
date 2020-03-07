@@ -325,7 +325,10 @@ export default {
     loadStation(orgId) {
       this.user.station.key = null;
       if (orgId) {
-        stationApi.page({ orgId: orgId, status: true }).then(response => {
+        stationApi.page({
+          size: 10000,
+          model:{ orgId: { key: orgId }, status: true }
+        }).then(response => {
           const res = response.data;
           this.stationList = res.data.records;
         });
@@ -345,7 +348,6 @@ export default {
       }
     },
     setUser(val, orgs, dicts, enums) {
-      debugger
       const vm = this;
       if (val) {
         vm.user = { ...val };

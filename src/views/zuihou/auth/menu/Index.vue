@@ -473,6 +473,7 @@
         this.$refs.resourceEdit.setResource(row)
       },
       resourceSingleDelete(row) {
+        this.$refs.resourceTable.clearSelection()
         this.$refs.resourceTable.toggleRowSelection(row, true)
         this.resourceBatchDelete()
       },
@@ -515,7 +516,7 @@
       },
       resourceSearch() {
         this.resourceFetch({
-          ...this.resourceQueryParams,
+          ...this.resourceQueryParams
         })
       },
       resourceFetch(params = {}) {

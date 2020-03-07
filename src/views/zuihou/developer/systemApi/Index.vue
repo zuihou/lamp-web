@@ -46,13 +46,12 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px"/>
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column :label="$t('table.systemApi.code')" :show-overflow-tooltip="true" align="center" prop="code">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
@@ -114,13 +113,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('table.createTime')" :show-overflow-tooltip="true" align="center" prop="className"
-                       width="170px">
+      <el-table-column :label="$t('table.createTime')" sortable="custom" :show-overflow-tooltip="true" align="center" prop="className" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width"
+      <el-table-column :label="$t('table.operation')" column-key="operation" align="center" class-name="small-padding fixed-width"
                        fixed="right" width="110px">
         <template slot-scope="{row}">
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
@@ -294,6 +292,7 @@
         }).finally(() => this.loading = false);
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true)
         this.batchDelete()
       },
@@ -381,7 +380,7 @@
         this.currentRow = {}
       },
 
-      cellClick(row, column) {
+      cellClick (row, column) {
         var oInput = document.createElement('input');     //创建一个隐藏input（重要！）
         oInput.value = row[column.property];    //赋值
 

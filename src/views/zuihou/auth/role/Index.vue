@@ -51,13 +51,13 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px"/>
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
         :label="$t('table.role.code')"
         align="center"
@@ -147,6 +147,7 @@
       <el-table-column
         :label="$t('table.operation')"
         align="center"
+        column-key="operation"
         class-name="small-padding fixed-width"
         width="140px"
       >
@@ -404,6 +405,7 @@
         this.fileImport.isVisible = false;
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true);
         this.batchDelete();
       },
@@ -491,6 +493,22 @@
           }
         }
         this.search()
+      },
+      cellClick (row, column) {
+        if (column['columnKey'] === "operation") {
+          return;
+        }
+        let flag = false;
+        this.selection.forEach((item)=>{
+          if(item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+
+        if(!flag){
+          this.$refs.table.toggleRowSelection(row, true);
+        }
       },
       authResource(row) {
         this.roleAuthorityDialog.isVisible = true;

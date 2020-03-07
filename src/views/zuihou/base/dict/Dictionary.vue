@@ -67,7 +67,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.createTime')" align="center" prop="createTime" sortable="custom" width="170px">
+      <el-table-column :label="$t('table.createTime')"  align="center" prop="createTime" sortable="custom" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
@@ -155,6 +155,7 @@
         this.search()
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true)
         this.batchDelete()
       },

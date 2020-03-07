@@ -126,7 +126,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
+        :label="$t('table.operation')" column-key="operation" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{ row }">
           <i @click="copy(row)" class="el-icon-copy-document table-operation" :title="$t('common.delete')"
              style="color: #2db7f5;" v-hasPermission="['parameter:copy']"/>
@@ -274,6 +274,7 @@
         this.fileImport.isVisible = false;
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection();
         this.$refs.table.toggleRowSelection(row, true);
         this.batchDelete();
       },
@@ -365,7 +366,10 @@
         }
         this.search()
       },
-      cellClick(row) {
+      cellClick (row, column) {
+        if (column['columnKey'] === "operation") {
+          return;
+        }
         let flag = false;
         this.selection.forEach((item) => {
           if (item.id === row.id) {

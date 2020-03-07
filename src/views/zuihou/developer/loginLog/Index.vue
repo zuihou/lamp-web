@@ -47,13 +47,13 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      @cell-click="cellClick"
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px"/>
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
         :label="$t('table.loginLog.userName')"
         :show-overflow-tooltip="true"
@@ -126,6 +126,7 @@
         :show-overflow-tooltip="true"
         align="center"
         prop="createTime"
+        sortable="custom"
         width="170px"
       >
         <template slot-scope="scope">
@@ -150,6 +151,7 @@
 
       <el-table-column
         :label="$t('table.operation')"
+        column-key="operation"
         align="center"
         class-name="small-padding fixed-width"
         width="100px"
@@ -267,6 +269,7 @@
         }).finally(() => this.loading = false);
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true);
         this.batchDelete();
       },
@@ -309,7 +312,7 @@
       },
       search() {
         this.fetch({
-          ...this.queryParams,
+          ...this.queryParams
         });
       },
       reset() {
@@ -336,6 +339,22 @@
           }
         }
         this.search()
+      },
+      cellClick (row, column) {
+        if (column['columnKey'] === "operation") {
+          return;
+        }
+        let flag = false;
+        this.selection.forEach((item)=>{
+          if(item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+
+        if(!flag){
+          this.$refs.table.toggleRowSelection(row, true);
+        }
       }
     }
   };

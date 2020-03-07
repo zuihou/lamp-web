@@ -33,9 +33,9 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <el-table :data="tableData.records" :key="tableKey" @selection-change="onSelectChange" @sort-change="sortChange"
-                border fit ref="table" size="mini" style="width: 100%;" v-loading="loading">
-        <el-table-column align="center" type="selection" width="40px"/>
+      <el-table :data="tableData.records" :key="tableKey" @selection-change="onSelectChange" @sort-change="sortChange"  @cell-click="cellClick" @filter-change="filterChange"
+                border fit row-key="id" ref="table" size="mini" style="width: 100%;" v-loading="loading">
+        <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
         <el-table-column :label="$t('table.dictionaryItem.code')" :show-overflow-tooltip="true" align="center"
                          prop="name">
           <template slot-scope="scope">
@@ -74,7 +74,7 @@
             <span>{{ scope.row.createTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width"
+        <el-table-column :label="$t('table.operation')"  column-key="operation" sortable="custom" align="center" class-name="small-padding fixed-width"
                          width="100px">
           <template slot-scope="{row}">
             <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
@@ -232,6 +232,7 @@
         this.fileImport.isVisible = false;
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true)
         this.batchDelete()
       },
@@ -323,6 +324,22 @@
           }
         }
         this.search()
+      },
+      cellClick (row, column) {
+        if (column['columnKey'] === "operation") {
+          return;
+        }
+        let flag = false;
+        this.selection.forEach((item)=>{
+          if(item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+
+        if(!flag){
+          this.$refs.table.toggleRowSelection(row, true);
+        }
       },
       dictionaryClick(dictionary) {
         this.queryParams.model.dictionaryId = dictionary.id

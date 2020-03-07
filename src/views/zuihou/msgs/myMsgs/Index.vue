@@ -176,6 +176,7 @@
         align="center"
         class-name="small-padding fixed-width"
         width="100px"
+        column-key="operation"
       >
         <template slot-scope="{ row }">
           <i
@@ -299,6 +300,7 @@
         });
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true);
         this.batchDelete();
       },

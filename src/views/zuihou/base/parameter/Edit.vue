@@ -100,7 +100,7 @@ export default {
         value: '',
         describe: '',
         status: true,
-        readonly: true,
+        readonly: false,
       };
     },
     initWidth() {

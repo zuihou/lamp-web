@@ -98,7 +98,7 @@
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
+      <el-table-column :label="$t('table.operation')" align="center" sortable="custom" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['sms:template:update']" />
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['sms:template:delete']" />
@@ -194,6 +194,7 @@ export default {
       })
     },
     singleDelete (row) {
+      this.$refs.table.clearSelection()
       this.$refs.table.toggleRowSelection(row, true)
       this.batchDelete()
     },

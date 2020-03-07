@@ -172,12 +172,13 @@
       },
       setRole(val = {}) {
         const vm = this
+
+        if (val['enums']) {
+          vm.enums = val['enums'];
+        }
+
         if (val['row']) {
           vm.role = {...val['row']}
-
-          if (val['enums']) {
-            vm.enums = val['enums'];
-          }
 
           this.orgHidden = vm.role.dsType.code !== 'CUSTOMIZE'
           if (!this.orgHidden) {

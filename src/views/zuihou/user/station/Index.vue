@@ -128,6 +128,7 @@
       <el-table-column
         :label="$t('table.operation')"
         align="center"
+        column-key="operation"
         class-name="small-padding fixed-width"
         width="100px"
       >
@@ -334,6 +335,7 @@
         this.fileImport.isVisible = false;
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true);
         this.batchDelete();
       },
@@ -422,7 +424,10 @@
         }
         this.search()
       },
-      cellClick(row) {
+      cellClick (row, column) {
+        if (column['columnKey'] === "operation") {
+          return;
+        }
         let flag = false;
         this.selection.forEach((item) => {
           if (item.id === row.id) {

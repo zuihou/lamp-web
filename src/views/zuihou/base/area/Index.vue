@@ -17,18 +17,16 @@
             >{{ $t("table.search") }}
             </el-button
             >
-            <el-button
-              @click="reset"
-              class="filter-item"
-              plain
-              type="warning"
-            >{{ $t("table.reset") }}
-            </el-button
-            >
+            <el-button @click="reset" class="filter-item" plain type="warning" >
+              {{ $t("table.reset") }}
+            </el-button>
+            <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['area:add']">
+              {{ $t("table.add") }}
+            </el-button>
             <el-dropdown
               class="filter-item"
               trigger="click"
-              v-has-any-permission="['area:add', 'area:delete', 'area:export']"
+              v-has-any-permission="[ 'area:delete', 'area:export']"
             >
               <el-button>
                 {{ $t("table.more") }}
@@ -36,23 +34,15 @@
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
-                  @click.native="add"
-                  v-has-permission="['area:add']"
-                >{{ $t("table.add") }}
-                </el-dropdown-item
-                >
-                <el-dropdown-item
                   @click.native="deleteArea"
                   v-has-permission="['area:delete']"
                 >{{ $t("table.delete") }}
-                </el-dropdown-item
-                >
+                </el-dropdown-item>
                 <el-dropdown-item
                   @click.native="exportExcel"
                   v-has-permission="['area:export']"
                 >{{ $t("table.export") }}
-                </el-dropdown-item
-                >
+                </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>

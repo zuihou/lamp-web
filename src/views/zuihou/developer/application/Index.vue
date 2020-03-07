@@ -40,13 +40,12 @@
       @filter-change="filterChange"
       @selection-change="onSelectChange"
       @sort-change="sortChange"
-      border
-      fit
+      border fit row-key="id"
       ref="table"
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column :label="$t('table.application.appKey')" :show-overflow-tooltip="true" align="center" prop="appKey">
         <template slot-scope="scope">
           <span>{{ scope.row.appKey }}</span>
@@ -79,12 +78,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('table.createTime')" :show-overflow-tooltip="true" align="center" prop="className" width="170px">
+      <el-table-column :label="$t('table.createTime')" :show-overflow-tooltip="true" sortable="custom" align="center" prop="className" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" fixed="right" width="110px">
+      <el-table-column :label="$t('table.operation')" align="center" column-key="operation" class-name="small-padding fixed-width" fixed="right" width="110px">
         <template slot-scope="{row}">
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-has-permission="['application:update']" />
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-has-permission="['application:delete']" />
@@ -194,6 +193,7 @@ export default {
       }).finally(() => this.loading = false);
     },
     singleDelete (row) {
+      this.$refs.table.clearSelection()
       this.$refs.table.toggleRowSelection(row, true)
       this.batchDelete()
     },
@@ -279,6 +279,9 @@ export default {
       this.currentRow = {}
     },
     cellClick (row, column) {
+      if (column['columnKey'] === "operation") {
+        return;
+      }
       var oInput = document.createElement('input');     //创建一个隐藏input（重要！）
       oInput.value = row[column.property];    //赋值
 

@@ -91,12 +91,12 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.createTime')" align="center" prop="createTime" sortable="custom" width="170px">
+      <el-table-column :label="$t('table.createTime')" align="center" sortable="custom" prop="createTime"  width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
+      <el-table-column :label="$t('table.operation')" align="center" column-key="operation"  class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
           <i @click="view(row)" class="el-icon-view table-operation" style="color: #2db7f5;" v-hasPermission="['sms:manage:view']" />
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['sms:manage:update']" v-show="row.draft" />
@@ -194,6 +194,7 @@ export default {
       })
     },
     singleDelete (row) {
+      this.$refs.table.clearSelection()
       this.$refs.table.toggleRowSelection(row, true)
       this.batchDelete()
     },

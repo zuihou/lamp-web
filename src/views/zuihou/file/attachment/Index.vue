@@ -130,7 +130,7 @@
       </el-table-column>
       <el-table-column
         :label="$t('table.operation')"
-        align="center"
+        align="center" column-key="operation"
         class-name="small-padding fixed-width"
         width="100px"
       >
@@ -263,6 +263,7 @@ export default {
       this.batchDownload();
     },
     singleDelete(row) {
+      this.$refs.table.clearSelection()
       this.$refs.table.toggleRowSelection(row, true);
       this.batchDelete();
     },

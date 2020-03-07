@@ -114,7 +114,7 @@
         </template>
       </el-table-column>
       <el-table-column :formatter="uaForamt" label="终端 | 浏览器" prop="ua" width="120"/>
-      <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width"
+      <el-table-column :label="$t('table.operation')" column-key="operation" align="center" class-name="small-padding fixed-width"
                        width="110px">
         <template slot-scope="{row}">
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
@@ -284,6 +284,7 @@
         }).finally(() => this.loading = false);
       },
       singleDelete(row) {
+        this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true)
         this.batchDelete()
       },
@@ -365,7 +366,10 @@
         }
         this.search()
       },
-      cellClick(row) {
+      cellClick (row, column) {
+        if (column['columnKey'] === "operation") {
+          return;
+        }
         let flag = false;
         this.selection.forEach((item)=>{
           if(item.id === row.id) {
