@@ -266,7 +266,7 @@
         fileImport: {
           isVisible: false,
           type: "import",
-          action: `${process.env.VUE_APP_BASE_API}/authority/msgs/import`
+          action: `${process.env.VUE_APP_BASE_API}/msgs/msgsCenterInfo/import`
         },
         tableKey: 0,
         queryParams: initQueryParams({

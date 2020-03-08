@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input :placeholder="$t('table.dictionary.code')" size="small" class="filter-item search-item"
-                v-model="queryParams.model.code"/>
+      <el-input :placeholder="$t('table.dictionary.type')" size="small" class="filter-item search-item"
+                v-model="queryParams.model.type"/>
       <el-input :placeholder="$t('table.dictionary.name')" size="small" class="filter-item search-item"
                 v-model="queryParams.model.name"/>
       <el-button @click="search" class="filter-item" plain type="primary" size="small">{{ $t('table.search') }}</el-button>
@@ -38,9 +38,9 @@
       v-loading="loading"
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
-      <el-table-column :label="$t('table.dictionary.code')" :show-overflow-tooltip="true" align="center" prop="name">
+      <el-table-column :label="$t('table.dictionary.type')" :show-overflow-tooltip="true" align="center" prop="type">
         <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
+          <span>{{ scope.row.type }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.dictionary.name')" :show-overflow-tooltip="true" align="center" prop="name">

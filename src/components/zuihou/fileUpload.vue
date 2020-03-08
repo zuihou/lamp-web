@@ -29,6 +29,7 @@
 <script>
 import db from "@/utils/localstorage";
 import commonApi from "@/api/Common.js";
+import { copy } from '@/utils/utils'
 export default {
   name: "FileUpload",
   props: {
@@ -141,16 +142,24 @@ export default {
         } else {
           setTimeout(() => {
             vm.$message({
-              message: file.name + "上传失败，原因：\n" + file.response.msg,
+              message: file.name + "上传失败，原因：<br/>" + file.response.msg,
               type: "error",
+              dangerouslyUseHTMLString: true,
               showClose: true,
-              duration: 6000
+              duration: 10000,
+              onClose: (msgs)=>{
+                copy(msgs['message']);
+                vm.$message({
+                  message: "复制错误消息成功",
+                  type: "success",
+                });
+              }
             });
           }, 0);
           vm.isUploadError = false;
           vm.errorNum += 1;
         }
-        vm.$emit("setId", vm.uploadTotalNum === fileList.length, file.response);
+        vm.$emit("setId", vm.uploadTotalNum === fileList.length && vm.errorNum <= 0, file.response);
       } else {
         if (vm.acceptSize) {
           const isLtAcceptSize = file.size > vm.acceptSize;

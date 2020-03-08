@@ -38,11 +38,7 @@
                   v-has-permission="['area:delete']"
                 >{{ $t("table.delete") }}
                 </el-dropdown-item>
-                <el-dropdown-item
-                  @click.native="exportExcel"
-                  v-has-permission="['area:export']"
-                >{{ $t("table.export") }}
-                </el-dropdown-item>
+
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -246,12 +242,6 @@
         areaApi.query({parentId: node.data.id}).then(response => {
           const res = response.data;
           resolve(res.data);
-        });
-      },
-      exportExcel() {
-        this.$message({
-          message: "待完善",
-          type: "warning"
         });
       },
       handleNumChange(val) {

@@ -84,4 +84,18 @@ const convertEnum = obj => {
   return list
 }
 
-export { renderSize, convertEnum }
+const copy = msg => {
+  if(msg){
+    let oInput = document.createElement('input');     //创建一个隐藏input（重要！）
+    oInput.value = msg;    //赋值
+    document.body.appendChild(oInput);
+    oInput.select(); // 选择对象
+    document.execCommand("Copy"); // 执行浏览器复制命令
+    oInput.className = 'oInput';
+    oInput.style.display = 'none';
+  }
+}
+
+
+
+export { renderSize, convertEnum, copy }

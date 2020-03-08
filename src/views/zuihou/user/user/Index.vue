@@ -285,7 +285,7 @@
     />
     <file-import
       :dialog-visible="fileImport.isVisible"
-      :type="fileImport.type"
+      :type="fileImport.type" :exportErrorUrl="fileImport.exportErrorUrl"
       :action="fileImport.action" accept=".xls,.xlsx"
       @close="importClose"
       @success="importSuccess"
@@ -358,7 +358,8 @@
         fileImport: {
           isVisible: false,
           type: "import",
-          action: `${process.env.VUE_APP_BASE_API}/authority/user/import`
+          action: `${process.env.VUE_APP_BASE_API}/authority/user/import`,
+          exportErrorUrl: `/authority/user/exportError`
         },
         userViewVisible: false,
         tableKey: 0,

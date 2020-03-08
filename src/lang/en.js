@@ -236,14 +236,14 @@ export default {
       status: "status"
     },
     dictionary: {
-      code: "code",
+      type: "type",
       name: "name",
       describe: "describe",
       status: "status"
     },
     dictionaryItem: {
       dictionaryId: "dictionaryId",
-      dictionaryCode: "dictionaryCode",
+      dictionaryType: "dictionaryType",
       code: "code",
       name: "name",
       describe: "describe",
@@ -345,6 +345,7 @@ export default {
     updateSuccess: 'Update successfully',
     deleteSuccess: 'Delete successfully',
     noDataSelected: 'No data selected yet',
+    copySelected: 'Copy successfully',
     confirmDelete: 'The selected data will be permanently deleted, continue?',
     confirmDeleteCache: 'Whether to clear the user permission cache immediately?',
     containCurrentUser: 'The operation has been canceled because it contains the currently logged in user',

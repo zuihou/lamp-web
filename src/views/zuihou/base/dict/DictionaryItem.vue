@@ -281,7 +281,7 @@
           id: null,
           status: true,
           dictionaryId: this.dictionary.id,
-          dictionaryCode: this.dictionary.code
+          dictionaryType: this.dictionary.type
         })
       },
       edit(row) {

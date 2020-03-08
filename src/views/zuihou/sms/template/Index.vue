@@ -175,7 +175,7 @@ export default {
       fileImport: {
         isVisible: false,
         type: "import",
-        action: `${process.env.VUE_APP_BASE_API}/authority/user/import`
+        action: `${process.env.VUE_APP_BASE_API}/msgs/smsTemplate/import`
       },
       tableKey: 0,
       queryParams: initQueryParams({
@@ -229,7 +229,7 @@ export default {
         this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
       }
       this.queryParams.map.fileName = '导出用户数据';
-      userApi.preview(this.queryParams).then(response => {
+      smsTemplateApi.preview(this.queryParams).then(response => {
         const res = response.data;
         this.preview.isVisible = true;
         this.preview.context = res.data;
@@ -241,7 +241,7 @@ export default {
         this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
       }
       this.queryParams.map.fileName = '导出用户数据';
-      userApi.export(this.queryParams).then(response => {
+      smsTemplateApi.export(this.queryParams).then(response => {
         downloadFile(response);
       });
     },

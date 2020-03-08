@@ -19,13 +19,13 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item @click.native="deleteOrg" v-has-permission="['org:delete']">{{ $t('table.delete') }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="exportExcel" v-has-permission="['user:export']">
+                <el-dropdown-item @click.native="exportExcel" v-has-permission="['org:export']">
                   {{ $t("table.export") }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['user:export']">
+                <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['org:export']">
                   {{ $t("table.exportPreview") }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="importExcel" v-has-permission="['user:import']">
+                <el-dropdown-item @click.native="importExcel" v-has-permission="['org:import']">
                   {{ $t("table.import") }}
                 </el-dropdown-item>
               </el-dropdown-menu>

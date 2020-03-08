@@ -379,16 +379,22 @@
         done()
         this.currentRow = {}
       },
-
       cellClick (row, column) {
-        var oInput = document.createElement('input');     //创建一个隐藏input（重要！）
-        oInput.value = row[column.property];    //赋值
+        if (column['columnKey'] === "operation") {
+          return;
+        }
 
-        document.body.appendChild(oInput);
-        oInput.select(); // 选择对象
-        document.execCommand("Copy"); // 执行浏览器复制命令
-        oInput.className = 'oInput';
-        oInput.style.display = 'none';
+        let flag = false;
+        this.selection.forEach((item)=>{
+          if(item.id === row.id) {
+            flag = true;
+            this.$refs.table.toggleRowSelection(row);
+          }
+        })
+        if(!flag){
+          this.$refs.table.toggleRowSelection(row, true);
+        }
+
       },
       editClose() {
         this.dialog.isVisible = false

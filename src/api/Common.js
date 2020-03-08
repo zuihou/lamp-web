@@ -17,6 +17,14 @@ export default {
       data
     })
   },
+  export (url, data) {
+    return axiosApi({
+      method: 'POST',
+      url: url,
+      responseType: "blob",
+      data
+    })
+  },
   loadImg(data) {
     const token = db.get('TOKEN', '')
     const tenant = db.get('TENANT', '')

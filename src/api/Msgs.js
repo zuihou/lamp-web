@@ -19,15 +19,15 @@ const apiList = {
   },
   preview: {
     method: 'POST',
-    url: `/authority/msgsCenterInfo/preview`
+    url: `/msgs/msgsCenterInfo/preview`
   },
   export: {
     method: 'POST',
-    url: `/authority/msgsCenterInfo/export`
+    url: `/msgs/msgsCenterInfo/export`
   },
   import: {
     method: 'POST',
-    url: `/authority/msgsCenterInfo/import`
+    url: `/msgs/msgsCenterInfo/import`
   }
 }
 

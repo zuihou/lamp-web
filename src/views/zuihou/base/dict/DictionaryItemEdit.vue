@@ -97,7 +97,7 @@ export default {
       return {
         id: '',
         dictionaryId: null,
-        dictionaryCode: '',
+        dictionaryType: '',
         name: '',
         code: '',
         status: true,

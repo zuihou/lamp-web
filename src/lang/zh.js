@@ -236,14 +236,14 @@ export default {
       status: "状态"
     },
     dictionary: {
-      code: "编码",
+      type: "类型",
       name: "名称",
       describe: "描述",
       status: "状态"
     },
     dictionaryItem: {
       dictionaryId: "字典ID",
-      dictionaryCode: "字典编码",
+      dictionaryType: "类型",
       code: "编码",
       name: "名称",
       describe: "描述",
@@ -342,6 +342,7 @@ export default {
     defaultPassword: '用户的默认密码为123456',
     getDataFail: '获取数据失败',
     createSuccess: '新增成功',
+    copySelected: '复制成功',
     updateSuccess: '修改成功',
     deleteSuccess: '删除成功',
     noDataSelected: '请先选择需要操作的数据',

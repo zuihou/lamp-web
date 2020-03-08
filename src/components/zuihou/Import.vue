@@ -133,6 +133,7 @@
         // 先清除校验，再清除表单，不然有奇怪的bug
         this.$refs.form.clearValidate()
         this.$refs.form.resetFields()
+        this.disabled = false;
         this.model = this.initImport()
         this.$refs.fileRef.init({
           id: ""
@@ -153,7 +154,7 @@
         vm.disabled = true
         vm.$refs.fileRef.submitFile(this.model.id, this.model.bizId, this.model.bizType)
       },
-      setIdAndSubmit(isUploadCompleted) {
+      setIdAndSubmit(isUploadCompleted, response) {
         const vm = this
         if (isUploadCompleted) {
           vm.disabled = false
@@ -163,6 +164,12 @@
             type: 'success'
           })
           vm.$emit('success')
+        } else if (response && response['code'] === -9 && response['data']) {
+          // 原本是想要下载数据，但存在一些问题
+          // commonApi.export(this.exportErrorUrl, {failList: response['data']})
+          //   .then(response => {
+          //   downloadFile(response);
+          // });
         }
       }
     }

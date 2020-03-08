@@ -1,8 +1,8 @@
 <template>
   <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type" :visible.sync="isVisible" :width="width" top="50px">
     <el-form :model="dictionary" :rules="rules" label-position="right" label-width="100px" ref="form">
-      <el-form-item :label="$t('table.dictionary.code')" prop="code">
-        <el-input :disabled="type==='edit'" v-model="dictionary.code" />
+      <el-form-item :label="$t('table.dictionary.type')" prop="type">
+        <el-input :disabled="type==='edit'" v-model="dictionary.type" />
       </el-form-item>
       <el-form-item :label="$t('table.dictionary.name')" prop="name">
         <el-input v-model="dictionary.name" />
@@ -46,7 +46,7 @@ export default {
       screenWidth: 0,
       width: this.initWidth(),
       rules: {
-        code: [
+        type: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 64, message: this.$t('rules.range4to10'), trigger: 'blur' }
         ],
@@ -90,7 +90,7 @@ export default {
       return {
         id: '',
         name: '',
-        code: '',
+        type: '',
         status: true,
         describe: ''
       }
