@@ -155,7 +155,9 @@
         queryParams: initQueryParams({
           model: {
             dictionaryId: -1
-          }
+          },
+          sort: 'sortValue',
+          order:'ascending'
         }),
         selection: [],
         loading: false,
