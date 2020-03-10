@@ -122,11 +122,11 @@
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
              v-hasPermission="['sms:manage:update']" v-show="row.draft"/>
           <i @click="copy(row)" class="el-icon-copy-document table-operation" style="color: #909399;"
-             v-hasPermission="['sms:manage:copy']"/>
+             v-hasPermission="['sms:manage:add']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
              v-hasPermission="['sms:manage:delete']"/>
           <el-link class="no-perm"
-                   v-has-no-permission="['sms:manage:update','sms:manage:delete','sms:manage:copy','sms:manage:view']">
+                   v-has-no-permission="['sms:manage:update','sms:manage:delete','sms:manage:add','sms:manage:view']">
             {{ $t('tips.noPermission') }}
           </el-link>
         </template>

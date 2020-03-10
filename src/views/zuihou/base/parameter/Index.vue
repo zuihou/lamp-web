@@ -129,12 +129,12 @@
         :label="$t('table.operation')" column-key="operation" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{ row }">
           <i @click="copy(row)" class="el-icon-copy-document table-operation" :title="$t('common.delete')"
-             style="color: #2db7f5;" v-hasPermission="['parameter:copy']"/>
+             style="color: #2db7f5;" v-hasPermission="['parameter:add']"/>
           <i @click="edit(row)" class="el-icon-edit table-operation" :title="$t('common.delete')"
              style="color: #2db7f5;" v-hasPermission="['parameter:update']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" :title="$t('common.delete')"
              style="color: #f50;" v-hasPermission="['parameter:delete']"/>
-          <el-link class="no-perm" v-has-no-permission="['parameter:update', 'parameter:copy', 'parameter:delete']">
+          <el-link class="no-perm" v-has-no-permission="['parameter:update', 'parameter:add', 'parameter:delete']">
             {{ $t("tips.noPermission") }}
           </el-link>
         </template>
