@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getTimeLine () {
-      loginLogApi.page({ current: 1, size: 10, userId: this.user.id })
+      loginLogApi.page({ current: 1, size: 10, model:{userId: this.user.id} })
         .then((response) => {
           const res = response.data
           this.timeline = res.data.records
