@@ -215,8 +215,14 @@ npm install --registry=https://registry.npm.taobao.org
 上面的命令报错？就逐个试试以下命令：
 
 npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+
 git config --global url."https://".insteadOf git://
+
 npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
+
+cnpm install core-js@2.6.9 --prefix G:\github\zuihou-ui
+
+cnpm install core-js@2.6.9 
 
 还不行？ 就用淘宝镜像吧...
 
@@ -239,18 +245,6 @@ npm run dev
 
 ```
 npm run build:prod
-```
-
-### 运行测试
-
-```
-npm run test
-```
-
-### 修复文件中不规范的写法
-
-```
-npm run lint
 ```
 
 ## 期待您的加入：

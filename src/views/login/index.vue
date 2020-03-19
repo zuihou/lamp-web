@@ -533,25 +533,23 @@ export default {
             that.saveLoginData(res.data['token'], res.data['expire']);
             that.saveUserInfo(res.data.user, res.data.permissionsList);
 
-            that.loginSuccessCallback(res.data.user);
-            loginApi.loginLog(
-              res.data.user.account,
-              this.$t("tips.loginSuccess")
-            );
+            // loginApi.loginLog(
+            //   res.data.user.account,
+            //   this.$t("tips.loginSuccess")
+            // );
             that.$message({
               message: this.$t("tips.loginSuccess"),
               type: "success"
             });
-            that.loading = false;
             that.$router.push("/");
           } else {
-            that.loading = false;
+
             that.getCodeImage();
 
             this.$store.commit("account/setTenant", this.loginForm.tenant);
-            loginApi.loginLog(that.loginForm.account, res.msg);
+            // loginApi.loginLog(that.loginForm.account, res.msg);
           }
-        });
+        }).finally(()=>that.loading = false);
       }
     },
     saveLoginData(token, expire) {
