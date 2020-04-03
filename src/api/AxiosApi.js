@@ -1,12 +1,20 @@
 import axios from 'axios'
 import {Message, MessageBox} from 'element-ui'
 import db from '@/utils/localstorage'
+import {Base64} from 'js-base64';
 
 // 请求添加条件，如token
-axios.interceptors.request.use(
-  config => {
-    config.headers.token = db.get('TOKEN', '')
+axios.interceptors.request.use(config => {
+    const isToken = config.headers['X-isToken'] === false ? config.headers['X-isToken'] : true;
+    const token = db.get('TOKEN', '');
+    if (token && isToken) {
+      config.headers.token = 'Bearer ' + token;
+    }
+
     config.headers.tenant = db.get('TENANT', '')
+    const clientId = process.env.VUE_APP_CLIENT_ID;
+    const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
+    config.headers['Authorization'] = `Basic ${Base64.encode(`${clientId}:${clientSecret}`)}`;
     return config
   },
   error => {
@@ -84,6 +92,9 @@ const httpServer = (opts) => {
     url: opts.url,
     responseType: opts.responseType || '',
     timeout: 20000
+  }
+  if (opts['meta']) {
+    httpDefaultOpts.headers = opts['meta']
   }
 
   const dataRequest = ['PUT', 'POST', 'PATCH']

@@ -3,7 +3,6 @@ import db from '@/utils/localstorage'
 export default {
   namespaced: true,
   state: {
-    accessToken: db.get('ACCESS_TOKEN'),
     refreshToken: db.get('REFRESH_TOKEN'),
     token: db.get('TOKEN', ''),
     tenant: db.get('TENANT', ''),
@@ -15,10 +14,6 @@ export default {
   mutations: {
     setTenant (state, val) {
       db.save('TENANT', val)
-      state.accessToken = val
-    },
-    setAccessToken (state, val) {
-      db.save('ACCESS_TOKEN', val)
       state.accessToken = val
     },
     setRefreshToken (state, val) {

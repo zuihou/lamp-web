@@ -103,6 +103,7 @@ const router = new Router({
 
 const whiteList = ['/login']
 
+// 加载的路由信息
 let asyncRouter
 
 // 导航守卫，渲染动态路由
@@ -113,12 +114,11 @@ router.beforeEach((to, from, next) => {
   } else {
     const token = db.get('TOKEN', '')
     const user = db.get('USER')
-    const userRouter = db.get('USER_ROUTER', '')
+    const userRouter = db.get('USER_ROUTER', '') //缓存中的路由
     if (token && token.length && user) {
       if (!asyncRouter) {
         if (!userRouter) {
-          loginApi.getRouter({})
-            .then((response) => {
+          loginApi.getRouter({}).then((response) => {
               const res = response.data
               asyncRouter = res.data
 
@@ -133,12 +133,10 @@ router.beforeEach((to, from, next) => {
                 path: "*"
               });
 
-              //为什么要同时 调用这2个方法
               store.commit('account/setRoutes', asyncRouter)
-              // db.save('USER_ROUTER', asyncRouter)
 
               go(to, next)
-            })
+           })
         } else {
           asyncRouter = userRouter
           go(to, next)

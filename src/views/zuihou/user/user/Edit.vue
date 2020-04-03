@@ -323,6 +323,7 @@ export default {
       this.loadStation(node);
     },
     loadStation(orgId) {
+      //TODO 说是这里有bug？？
       this.user.station.key = null;
       if (orgId) {
         stationApi.page({

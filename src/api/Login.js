@@ -1,12 +1,10 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  getCaptcha: `/authority/anno/captcha`,
-  login: `/authority/anno/login`,
-  getRouter: `/authority/menu/router`,
-  loginLog: function (account) {
-    return `/authority/loginLog/anno/login/${account}`
-  }
+  getCaptcha: `/oauth/anno/captcha`,
+  login: `/oauth/anno/token`,
+  router: `/oauth/menu/router`,
+  resource: `/oauth/resource/visible`,
 }
 
 export default {
@@ -14,7 +12,10 @@ export default {
     return axiosApi({
       method: 'GET',
       url: apiList.getCaptcha + `?key=${randomId}`,
-      responseType: 'arraybuffer'
+      responseType: 'arraybuffer',
+      meta: {
+        "X-isToken": false
+      }
     })
   },
   login (data) {
@@ -27,16 +28,15 @@ export default {
   getRouter (data) {
     return axiosApi({
       method: 'GET',
-      url: apiList.getRouter,
-      // formData: true,
+      url: apiList.router,
       data: data || {}
     })
   },
-  loginLog (account, description) {
+  getResource (data) {
     return axiosApi({
       method: 'GET',
-      url: apiList.loginLog(account),
-      data: { description: description }
+      url: apiList.resource,
+      data: data || {}
     })
   }
 }

@@ -12,26 +12,26 @@
       <div class="desc">
         7.
         <a href="http://tangyh.top:180/zuihou-admin-ui" target="_blank"
-          >开发&运营后台</a
+        >开发&运营后台</a
         >
       </div>
       <div class="desc">
         8. 源码：
         <a href="https://github.com/zuihou/zuihou-admin-cloud" target="_blank"
-          >github</a
+        >github</a
         >、
         <a href="https://gitee.com/zuihou111/zuihou-admin-cloud" target="_blank"
-          >gitee</a
+        >gitee</a
         >、
         <a href="https://gitee.com/zuihou111/zuihou-ui" target="_blank">ui</a>、
         <a href="https://gitee.com/zuihou111/zuihou-admin-ui" target="_blank"
-          >zuihou-admin-ui</a
+        >zuihou-admin-ui</a
         >
       </div>
       <div class="desc">
         9. 前端项目基于：
         <a href="https://github.com/wuyouzhuguli/FEBS-Cloud-Web" target="_blank"
-          >FEBS-Cloud-Web</a
+        >FEBS-Cloud-Web</a
         >
       </div>
     </div>
@@ -45,7 +45,7 @@
     >
       <div class="title-container">
         <h3 class="title">{{ $t("login.title") }}</h3>
-        <lang-select class="set-language" />
+        <lang-select class="set-language"/>
       </div>
       <span v-if="login.type === 'up'">
         <el-form-item prop="tenant" v-show="isMultiTenant">
@@ -53,11 +53,11 @@
             :placeholder="$t('login.tenant')"
             @keyup.enter.native="handleLogin"
             autocomplete="off"
-            name="tenant"
+            name="tenantView"
             prefix-icon="el-icon-user"
             ref="tenant"
             type="text"
-            v-model="loginForm.tenant"
+            v-model="loginForm.tenantView"
           />
         </el-form-item>
         <el-form-item prop="account">
@@ -109,7 +109,7 @@
           @click.native.prevent="handleLogin"
           style="width:100%;margin-bottom:14px;"
           type="primary"
-          >{{ $t("login.logIn") }}</el-button
+        >{{ $t("login.logIn") }}</el-button
         >
       </span>
       <span v-if="login.type === 'social'">
@@ -158,7 +158,7 @@
               @click.native.prevent="bindLogin"
               style="width:100%;margin-bottom:14px;"
               type="primary"
-              >{{ $t("common.bindLogin") }}</el-button
+            >{{ $t("common.bindLogin") }}</el-button
             >
           </el-tab-pane>
           <el-tab-pane :label="$t('common.signLogin')" name="signLogin">
@@ -190,7 +190,7 @@
               @click.native.prevent="signLogin"
               style="width:100%;margin-bottom:14px;"
               type="primary"
-              >{{ $t("common.signLogin") }}</el-button
+            >{{ $t("common.signLogin") }}</el-button
             >
           </el-tab-pane>
         </el-tabs>
@@ -203,12 +203,14 @@
           <el-dropdown-item
             :disabled="login.type === 'up'"
             @click.native="login.type = 'up'"
-            >{{ $t("login.type.up") }}</el-dropdown-item
+          >{{ $t("login.type.up") }}
+          </el-dropdown-item
           >
           <el-dropdown-item
             :disabled="login.type === 'social'"
             @click.native="login.type = 'social'"
-            >{{ $t("login.type.social") }}</el-dropdown-item
+          >{{ $t("login.type.social") }}
+          </el-dropdown-item
           >
         </el-dropdown-menu>
       </el-dropdown>
@@ -222,536 +224,592 @@
 </template>
 
 <script>
-import LangSelect from "@/components/LangSelect";
-import db from "@/utils/localstorage";
-import { randomNum } from "@/utils";
-import { socialLoginUrl } from "@/settings";
-import loginApi from "@/api/Login.js";
-import commonApi from "@/api/Common.js";
+  import LangSelect from "@/components/LangSelect";
+  import db from "@/utils/localstorage";
+  import {randomNum} from "@/utils";
+  import {socialLoginUrl} from "@/settings";
+  import loginApi from "@/api/Login.js";
+  import {Base64} from 'js-base64';
 
-export default {
-  name: "Login",
-  components: { LangSelect },
-  data() {
-    return {
-      //是否启用多租户
-      isMultiTenant:
-        process.env.VUE_APP_IS_MULTI_TENANT === "true" ? true : false,
-      tabActiveName: "bindLogin",
-      login: {
-        type: "up"
-      },
-      logo: [
-        { img: "gitee.png", name: "gitee", radius: true },
-        { img: "github.png", name: "github", radius: true },
-        { img: "tencent_cloud.png", name: "tencent_cloud", radius: true },
-        { img: "qq.png", name: "qq", radius: false },
-        { img: "dingtalk.png", name: "dingtalk", radius: true },
-        { img: "microsoft.png", name: "microsoft", radius: false }
-      ],
-      loginForm: {
-        account: "zuihou",
-        password: "zuihou",
-        tenant: "0000",
-        bindAccount: "",
-        bindPassword: "",
-        signAccount: "",
-        signPassword: ""
-      },
-      rules: {
-        account: {
-          required: true,
-          message: this.$t("rules.require"),
-          trigger: "blur"
+  export default {
+    name: "Login",
+    components: {LangSelect},
+    data() {
+      return {
+        //是否启用多租户
+        isMultiTenant:
+          process.env.VUE_APP_IS_MULTI_TENANT === "true" ? true : false,
+        tabActiveName: "bindLogin",
+        login: {
+          type: "up"
         },
-        tenant: {
-          required: true,
-          message: this.$t("rules.require"),
-          trigger: "blur"
-        },
-        password: {
-          required: true,
-          message: this.$t("rules.require"),
-          trigger: "blur"
-        },
-        code: {
-          required: true,
-          message: this.$t("rules.require"),
-          trigger: "blur"
-        },
-        bindAccount: {
-          required: true,
-          message: this.$t("rules.require"),
-          trigger: "blur"
-        },
-        bindPassword: {
-          required: true,
-          message: this.$t("rules.require"),
-          trigger: "blur"
-        },
-        signAccount: [
-          {
-            required: true,
-            message: this.$t("rules.require"),
-            trigger: "blur"
-          },
-          {
-            min: 4,
-            max: 10,
-            message: this.$t("rules.range4to10"),
-            trigger: "blur"
-          }
+        logo: [
+          {img: "gitee.png", name: "gitee", radius: true},
+          {img: "github.png", name: "github", radius: true},
+          {img: "tencent_cloud.png", name: "tencent_cloud", radius: true},
+          {img: "qq.png", name: "qq", radius: false},
+          {img: "dingtalk.png", name: "dingtalk", radius: true},
+          {img: "microsoft.png", name: "microsoft", radius: false}
         ],
-        signPassword: [
-          {
+        loginForm: {
+          account: "zuihou",
+          password: "zuihou",
+          tenantView: "0000", //显示用的
+          tenant: "", //传递给后端的
+          key: randomNum(24, 16),
+          code: "",
+          grantType: process.env.VUE_APP_IS_CAPTCHA === "true" ? "captcha" : "password",
+          bindAccount: "",
+          bindPassword: "",
+          signAccount: "",
+          signPassword: ""
+        },
+        rules: {
+          account: {
             required: true,
             message: this.$t("rules.require"),
             trigger: "blur"
           },
-          {
-            min: 6,
-            max: 20,
-            message: this.$t("rules.range6to20"),
+          tenantView: {
+            required: true,
+            message: this.$t("rules.require"),
             trigger: "blur"
-          }
-        ]
-      },
-      authUser: null,
-      loading: false,
-      showDialog: false,
-      redirect: undefined,
-      otherQuery: {},
-      randomId: randomNum(24, 16),
-      imageCode: "",
-      page: {
-        width: window.screen.width * 0.5,
-        height: window.screen.height * 0.5
-      }
-    };
-  },
-  created() {},
-  mounted() {
-    db.clear();
-    this.getCodeImage();
-  },
-  destroyed() {
-    window.removeEventListener("message", this.resolveSocialLogin);
-  },
-  methods: {
-    getCodeImage() {
-      loginApi
-        .getCaptcha(this.randomId)
-        .then(response => {
-          const res = response.data;
-          if (res.byteLength <= 100) {
-            this.$message({
-              message: this.$t("tips.systemError"),
-              type: "error"
-            });
-          }
-          return (
-            "data:image/png;base64," +
-            btoa(
-              new Uint8Array(res).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
+          },
+          password: {
+            required: true,
+            message: this.$t("rules.require"),
+            trigger: "blur"
+          },
+          code: {
+            required: true,
+            message: this.$t("rules.require"),
+            trigger: "blur"
+          },
+          bindAccount: {
+            required: true,
+            message: this.$t("rules.require"),
+            trigger: "blur"
+          },
+          bindPassword: {
+            required: true,
+            message: this.$t("rules.require"),
+            trigger: "blur"
+          },
+          signAccount: [
+            {
+              required: true,
+              message: this.$t("rules.require"),
+              trigger: "blur"
+            },
+            {
+              min: 4,
+              max: 10,
+              message: this.$t("rules.range4to10"),
+              trigger: "blur"
+            }
+          ],
+          signPassword: [
+            {
+              required: true,
+              message: this.$t("rules.require"),
+              trigger: "blur"
+            },
+            {
+              min: 6,
+              max: 20,
+              message: this.$t("rules.range6to20"),
+              trigger: "blur"
+            }
+          ]
+        },
+        authUser: null,
+        loading: false,
+        showDialog: false,
+        redirect: undefined,
+        otherQuery: {},
+        imageCode: "",
+        page: {
+          width: window.screen.width * 0.5,
+          height: window.screen.height * 0.5
+        }
+      };
+    },
+    created() {
+    },
+    mounted() {
+      db.clear();
+      this.getCodeImage();
+    },
+    destroyed() {
+      window.removeEventListener("message", this.resolveSocialLogin);
+    },
+    methods: {
+      getCodeImage() {
+        loginApi
+          .getCaptcha(this.loginForm.key)
+          .then(response => {
+            const res = response.data;
+            if (res.byteLength <= 100) {
+              this.$message({
+                message: this.$t("tips.systemError"),
+                type: "error"
+              });
+            }
+            return (
+              "data:image/png;base64," +
+              btoa(
+                new Uint8Array(res).reduce(
+                  (data, byte) => data + String.fromCharCode(byte),
+                  ""
+                )
               )
-            )
-          );
-        })
-        .then(res => {
-          this.imageCode = res;
-        })
-        .catch(e => {
-          if (e.toString().indexOf("429") !== -1) {
-            this.$message({
-              message: this.$t("tips.tooManyRequest"),
-              type: "error"
-            });
-          } else {
-            this.$message({
-              message: this.$t("tips.getCodeImageFailed"),
-              type: "error"
-            });
-          }
-        });
-    },
-    handleTabClick(tab) {
-      this.tabActiveName = tab.name;
-    },
-    resolveLogo(logo) {
-      return require(`@/assets/logo/${logo}`);
-    },
-    socialLogin(oauthType) {
-      const url = `${socialLoginUrl}/${oauthType}/login`;
-      window.open(
-        url,
-        "newWindow",
-        `resizable=yes, height=${this.page.height}, width=${this.page.width}, top=10%, left=10%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no`
-      );
-      window.addEventListener("message", this.resolveSocialLogin, false);
-    },
-    resolveSocialLogin(e) {
-      const data = e.data;
-      const that = this;
-      if (data.message === "not_bind") {
-        that.login.type = "bind";
-        const authUser = data.data;
-        that.authUser = authUser;
-        that
-          .$confirm(
-            that.$t("common.current") +
+            );
+          })
+          .then(res => {
+            this.imageCode = res;
+          })
+          .catch(e => {
+            if (e.toString().indexOf("429") !== -1) {
+              this.$message({
+                message: this.$t("tips.tooManyRequest"),
+                type: "error"
+              });
+            } else {
+              this.$message({
+                message: this.$t("tips.getCodeImageFailed"),
+                type: "error"
+              });
+            }
+          });
+      },
+      handleTabClick(tab) {
+        this.tabActiveName = tab.name;
+      },
+      resolveLogo(logo) {
+        return require(`@/assets/logo/${logo}`);
+      },
+      socialLogin(oauthType) {
+        const url = `${socialLoginUrl}/${oauthType}/login`;
+        window.open(
+          url,
+          "newWindow",
+          `resizable=yes, height=${this.page.height}, width=${this.page.width}, top=10%, left=10%, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no`
+        );
+        window.addEventListener("message", this.resolveSocialLogin, false);
+      },
+      resolveSocialLogin(e) {
+        const data = e.data;
+        const that = this;
+        if (data.message === "not_bind") {
+          that.login.type = "bind";
+          const authUser = data.data;
+          that.authUser = authUser;
+          that
+            .$confirm(
+              that.$t("common.current") +
               authUser.source +
               that.$t("common.socialAccount") +
               authUser.nickname +
               that.$t("common.socialTips"),
-            that.$t("common.tips"),
-            {
-              confirmButtonText: that.$t("common.signLogin"),
-              cancelButtonText: that.$t("common.bindLogin"),
-              type: "warning"
-            }
-          )
-          .then(() => {
-            that.tabActiveName = "signLogin";
-          })
-          .catch(() => {
-            that.tabActiveName = "bindLogin";
-          });
-      } else if (data.message === "social_login_success") {
-        that.saveLoginData(data.data);
-        that.getUserDetailInfo();
-        that.loginSuccessCallback(data.account);
-      } else {
-        // do nothing
-      }
-    },
-    bindLogin() {
-      let account_c = false;
-      let password_c = false;
-      this.$refs.loginForm.validateField("bindAccount", e => {
-        if (!e) {
-          account_c = true;
+              that.$t("common.tips"),
+              {
+                confirmButtonText: that.$t("common.signLogin"),
+                cancelButtonText: that.$t("common.bindLogin"),
+                type: "warning"
+              }
+            )
+            .then(() => {
+              that.tabActiveName = "signLogin";
+            })
+            .catch(() => {
+              that.tabActiveName = "bindLogin";
+            });
+        } else if (data.message === "social_login_success") {
+          that.saveLoginData(data.data);
+          that.getUserDetailInfo();
+          that.loginSuccessCallback(data.account);
+        } else {
+          // do nothing
         }
-      });
-      this.$refs.loginForm.validateField("bindPassword", e => {
-        if (!e) {
-          password_c = true;
+      },
+      bindLogin() {
+        let account_c = false;
+        let password_c = false;
+        this.$refs.loginForm.validateField("bindAccount", e => {
+          if (!e) {
+            account_c = true;
+          }
+        });
+        this.$refs.loginForm.validateField("bindPassword", e => {
+          if (!e) {
+            password_c = true;
+          }
+        });
+        if (account_c && password_c) {
+          this.loading = true;
+          const that = this;
+          const params = {
+            bindAccount: that.loginForm.bindAccount,
+            bindPassword: that.loginForm.bindPassword,
+            ...that.authUser
+          };
+          params.token = null;
+          that
+            .$post("auth/social/bind/login", params)
+            .then(r => {
+              const data = r.data.data;
+              this.saveLoginData(data);
+              this.getUserDetailInfo();
+              this.loginSuccessCallback(that.loginForm.bindAccount);
+            })
+            .catch(error => {
+              console.error(error);
+              that.loading = false;
+            });
         }
-      });
-      if (account_c && password_c) {
+      },
+      signLogin() {
+        let account_c = false;
+        let password_c = false;
+        this.$refs.loginForm.validateField("signAccount", e => {
+          if (!e) {
+            account_c = true;
+          }
+        });
+        this.$refs.loginForm.validateField("signPassword", e => {
+          if (!e) {
+            password_c = true;
+          }
+        });
+        if (account_c && password_c) {
+          this.loading = true;
+          const that = this;
+          const params = {
+            bindAccount: that.loginForm.signAccount,
+            bindPassword: that.loginForm.signPassword,
+            ...that.authUser
+          };
+          params.token = null;
+          that
+            .$post("auth/social/sign/login", params)
+            .then(r => {
+              const data = r.data.data;
+              this.saveLoginData(data);
+              this.getUserDetailInfo();
+              this.loginSuccessCallback(that.loginForm.signAccount);
+            })
+            .catch(error => {
+              console.error(error);
+              that.loading = false;
+            });
+        }
+      },
+      handleLogin() {
+        this.loginForm.tenant = `${Base64.encode(this.loginForm.tenantView)}`;
+        this.$refs.loginForm.validate((valid) => {
+          if (valid) {
+            this.loginSubmit();
+          } else {
+            return false
+          }
+        })
+
+        // let account_c = false;
+        // let password_c = false;
+        // let tenant_c = false;
+        // let code_c = false;
+        // this.$refs.loginForm.validateField("tenant", e => {
+        //   if (!e) {
+        //     tenant_c = true;
+        //   }
+        // });
+        // this.$refs.loginForm.validateField("account", e => {
+        //   if (!e) {
+        //     account_c = true;
+        //   }
+        // });
+        // this.$refs.loginForm.validateField("password", e => {
+        //   if (!e) {
+        //     password_c = true;
+        //   }
+        // });
+        // this.$refs.loginForm.validateField("code", e => {
+        //   if (!e) {
+        //     code_c = true;
+        //   }
+        // });
+        // if (account_c && password_c && code_c && tenant_c) {
+        //   this.loading = true;
+        //   const that = this;
+        //   //that.loginForm["key"] = that.loginForm.key;
+        //   loginApi.login(this.loginForm).then(response => {
+        //     const res = response.data;
+        //     if (res.isSuccess) {
+        //       that.saveLoginData(res.data['token'], res.data['expire']);
+        //       that.saveUserInfo(res.data.user, res.data.permissionsList);
+        //
+        //       that.$message({
+        //         message: this.$t("tips.loginSuccess"),
+        //         type: "success"
+        //       });
+        //       that.$router.push("/");
+        //     } else {
+        //
+        //       that.getCodeImage();
+        //
+        //       this.$store.commit("account/setTenant", this.loginForm.tenant);
+        //     }
+        //   }).finally(()=>that.loading = false);
+        // }
+      },
+      loginSubmit() {
         this.loading = true;
         const that = this;
-        const params = {
-          bindAccount: that.loginForm.bindAccount,
-          bindPassword: that.loginForm.bindPassword,
-          ...that.authUser
-        };
-        params.token = null;
-        that
-          .$post("auth/social/bind/login", params)
-          .then(r => {
-            const data = r.data.data;
-            this.saveLoginData(data);
-            this.getUserDetailInfo();
-            this.loginSuccessCallback(that.loginForm.bindAccount);
-          })
-          .catch(error => {
-            console.error(error);
-            that.loading = false;
-          });
-      }
-    },
-    signLogin() {
-      let account_c = false;
-      let password_c = false;
-      this.$refs.loginForm.validateField("signAccount", e => {
-        if (!e) {
-          account_c = true;
-        }
-      });
-      this.$refs.loginForm.validateField("signPassword", e => {
-        if (!e) {
-          password_c = true;
-        }
-      });
-      if (account_c && password_c) {
-        this.loading = true;
-        const that = this;
-        const params = {
-          bindAccount: that.loginForm.signAccount,
-          bindPassword: that.loginForm.signPassword,
-          ...that.authUser
-        };
-        params.token = null;
-        that
-          .$post("auth/social/sign/login", params)
-          .then(r => {
-            const data = r.data.data;
-            this.saveLoginData(data);
-            this.getUserDetailInfo();
-            this.loginSuccessCallback(that.loginForm.signAccount);
-          })
-          .catch(error => {
-            console.error(error);
-            that.loading = false;
-          });
-      }
-    },
-    handleLogin() {
-      let account_c = false;
-      let password_c = false;
-      let tenant_c = false;
-      let code_c = false;
-      this.$refs.loginForm.validateField("tenant", e => {
-        if (!e) {
-          tenant_c = true;
-        }
-      });
-      this.$refs.loginForm.validateField("account", e => {
-        if (!e) {
-          account_c = true;
-        }
-      });
-      this.$refs.loginForm.validateField("password", e => {
-        if (!e) {
-          password_c = true;
-        }
-      });
-      this.$refs.loginForm.validateField("code", e => {
-        if (!e) {
-          code_c = true;
-        }
-      });
-      if (account_c && password_c && code_c && tenant_c) {
-        this.loading = true;
-        const that = this;
-        that.loginForm["key"] = that.randomId;
+        this.$store.commit("account/setTenant", this.loginForm.tenant);
         loginApi.login(this.loginForm).then(response => {
           const res = response.data;
           if (res.isSuccess) {
-            that.saveLoginData(res.data['token'], res.data['expire']);
-            that.saveUserInfo(res.data.user, res.data.permissionsList);
-
-            // loginApi.loginLog(
-            //   res.data.user.account,
-            //   this.$t("tips.loginSuccess")
-            // );
-            that.$message({
-              message: this.$t("tips.loginSuccess"),
-              type: "success"
-            });
-            that.$router.push("/");
+            that.saveLoginData(res.data['token'], res.data['refreshToken'], res.data['expiration']);
+            that.saveUserInfo(res.data);
+            that.getResource();
           } else {
-
             that.getCodeImage();
-
-            this.$store.commit("account/setTenant", this.loginForm.tenant);
-            // loginApi.loginLog(that.loginForm.account, res.msg);
           }
-        }).finally(()=>that.loading = false);
-      }
-    },
-    saveLoginData(token, expire) {
-      this.$store.commit("account/setTenant", this.loginForm.tenant);
-      this.$store.commit("account/setToken", token);
-      const current = new Date();
-      const expireTime = current.setTime(
-        current.getTime() + 1000 * expire
-      );
-      this.$store.commit("account/setExpireTime", expireTime);
-    },
-    saveUserInfo(user, permissionsList) {
-      this.$store.commit("account/setUser", user);
+        }).finally(() => that.loading = false);
+      },
+      saveLoginData(token, refreshToken, expiration) {
+        this.$store.commit("account/setToken", token);
+        this.$store.commit("account/setRefreshToken", refreshToken);
+        this.$store.commit("account/setExpireTime", expiration);
+      },
+      saveUserInfo(user) {
+        this.$store.commit("account/setUser", {
+          id: user.userId,
+          account: user.account,
+          name: user.name,
+        });
+      },
+      getResource() {
+        loginApi.getResource().then(response => {
+          const res = response.data;
+          if (res.isSuccess) {
+            const permissionsList = res.data;
+            this.$store.commit("account/setPermissions", permissionsList ? permissionsList : []);
 
-      this.$store.commit("account/setPermissions", permissionsList);
-    },
-    loginSuccessCallback(user) {
-      console.log(user);
-      // 登录成功后的回调，记录登录日志，最后登录时间等
+            this.loginSuccess();
+          } else {
+            this.getCodeImage();
+          }
+        });
+      },
+      loginSuccess() {
+        this.$message({
+          message: this.$t("tips.loginSuccess"),
+          type: "success"
+        });
+        this.$router.push("/");
+      },
+      loginSuccessCallback(user) {
+        console.log(user);
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">
-$bg: #283443;
-$light_gray: #fff;
-$cursor: #555;
+  $bg: #283443;
+  $light_gray: #fff;
+  $cursor: #555;
 
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    input {
-      background: transparent;
-      border: 0;
-      -webkit-appearance: none;
-      border-radius: 0;
-      color: #000000;
-      height: 28px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
+  @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+    .login-container .el-input input {
+      color: $cursor;
     }
   }
 
-  .el-form-item {
-    border: 1px solid #dedede;
-    border-radius: 2px;
-    color: #454545;
-    transition: all 0.3s;
-    &:hover {
-      border-color: #57a3f3;
-    }
-  }
-}
-</style>
-<style lang="scss" scoped>
-$bg: #2d3a4b;
-$dark_gray: #aaa;
-$light_gray: #eee;
+  /* reset element-ui css */
+  .login-container {
+    .el-input {
+      display: inline-block;
 
-.login-container {
-  background: url(../../assets/background.jpg) 50% no-repeat;
-  // background-color: #2d3a4b;
-  background-size: cover;
-  width: 100%;
-  height: 100vh;
-  .login-info {
-    position: absolute;
-    left: 15%;
-    top: 44%;
-    margin-top: -100px;
-    color: #fff;
-    .title {
-      font-size: 1.8rem;
-      font-weight: 600;
-    }
-    .sub-title {
-      font-size: 1.5rem;
-      margin: 0.3rem 0 0.7rem 1rem;
-    }
-    .desc {
-      font-size: 0.96rem;
-      line-height: 1.9rem;
-    }
-  }
-  .login-form {
-    position: absolute;
-    top: 50%;
-    left: 70%;
-    margin: -180px 0 0 -160px;
-    width: 320px;
-    height: 440px;
-    padding: 36px;
-    background: #fff;
-    border-radius: 3px;
-    .code-input {
-      width: 50%;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    .code-image {
-      display: inline-block;
-      vertical-align: top;
-      cursor: pointer;
-    }
-    .login-type {
-      text-align: right;
-      display: inline-block;
-      width: 100%;
-    }
-    .logo-wrapper {
-      display: inline-block;
-      margin: 10px 0;
-      img {
-        width: 1.9rem;
-        display: inline-block;
-        margin: 0.8rem 0.8rem -0.8rem 0.8rem;
-        cursor: pointer;
-        &.radius {
-          border-radius: 50%;
+      input {
+        background: transparent;
+        border: 0;
+        -webkit-appearance: none;
+        border-radius: 0;
+        color: #000000;
+        height: 28px;
+        caret-color: $cursor;
+
+        &:-webkit-autofill {
+          box-shadow: 0 0 0 1000px $bg inset !important;
+          -webkit-text-fill-color: $cursor !important;
         }
       }
     }
-  }
-  .login-footer {
-    position: fixed;
-    bottom: 1rem;
-    width: 100%;
-    text-align: center;
-    color: white;
-    font-size: 0.85rem;
-    line-height: 1rem;
-    height: 1rem;
-  }
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
 
-    span {
-      &:first-of-type {
-        margin-right: 16px;
+    .el-form-item {
+      border: 1px solid #dedede;
+      border-radius: 2px;
+      color: #454545;
+      transition: all 0.3s;
+
+      &:hover {
+        border-color: #57a3f3;
       }
     }
   }
+</style>
+<style lang="scss" scoped>
+  $bg: #2d3a4b;
+  $dark_gray: #aaa;
+  $light_gray: #eee;
 
-  .title-container {
-    position: relative;
+  .login-container {
+    background: url(../../assets/background.jpg) 50% no-repeat;
+    // background-color: #2d3a4b;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
 
-    .title {
-      font-size: 20px;
-      color: rgba(0, 0, 0, 0.85);
-      margin: 0 auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .set-language {
-      color: #aaa;
+    .login-info {
       position: absolute;
-      top: 3px;
-      font-size: 18px;
-      right: 0;
-      cursor: pointer;
+      left: 15%;
+      top: 44%;
+      margin-top: -100px;
+      color: #fff;
+
+      .title {
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
+
+      .sub-title {
+        font-size: 1.5rem;
+        margin: 0.3rem 0 0.7rem 1rem;
+      }
+
+      .desc {
+        font-size: 0.96rem;
+        line-height: 1.9rem;
+      }
     }
-  }
 
-  .thirdparty-button {
-    position: absolute;
-    right: 0;
-    bottom: 6px;
-  }
-
-  @media only screen and (max-width: 470px) {
-    .thirdparty-button {
-      display: none;
-    }
-  }
-
-  @media screen and (max-width: 1100px) {
-    .login-info {
-      left: 8%;
-    }
-  }
-
-  @media screen and (max-width: 970px) {
     .login-form {
-      left: 50%;
+      position: absolute;
+      top: 50%;
+      left: 70%;
+      margin: -180px 0 0 -160px;
+      width: 320px;
+      height: 440px;
+      padding: 36px;
+      background: #fff;
+      border-radius: 3px;
+
+      .code-input {
+        width: 50%;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .code-image {
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+      }
+
+      .login-type {
+        text-align: right;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .logo-wrapper {
+        display: inline-block;
+        margin: 10px 0;
+
+        img {
+          width: 1.9rem;
+          display: inline-block;
+          margin: 0.8rem 0.8rem -0.8rem 0.8rem;
+          cursor: pointer;
+
+          &.radius {
+            border-radius: 50%;
+          }
+        }
+      }
     }
-    .login-info {
-      display: none;
+
+    .login-footer {
+      position: fixed;
+      bottom: 1rem;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 0.85rem;
+      line-height: 1rem;
+      height: 1rem;
+    }
+
+    .tips {
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 10px;
+
+      span {
+        &:first-of-type {
+          margin-right: 16px;
+        }
+      }
+    }
+
+    .title-container {
+      position: relative;
+
+      .title {
+        font-size: 20px;
+        color: rgba(0, 0, 0, 0.85);
+        margin: 0 auto 40px auto;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .set-language {
+        color: #aaa;
+        position: absolute;
+        top: 3px;
+        font-size: 18px;
+        right: 0;
+        cursor: pointer;
+      }
+    }
+
+    .thirdparty-button {
+      position: absolute;
+      right: 0;
+      bottom: 6px;
+    }
+
+    @media only screen and (max-width: 470px) {
+      .thirdparty-button {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 1100px) {
+      .login-info {
+        left: 8%;
+      }
+    }
+
+    @media screen and (max-width: 970px) {
+      .login-form {
+        left: 50%;
+      }
+      .login-info {
+        display: none;
+      }
     }
   }
-}
 </style>
