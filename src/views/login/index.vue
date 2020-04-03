@@ -513,54 +513,6 @@
             return false
           }
         })
-
-        // let account_c = false;
-        // let password_c = false;
-        // let tenant_c = false;
-        // let code_c = false;
-        // this.$refs.loginForm.validateField("tenant", e => {
-        //   if (!e) {
-        //     tenant_c = true;
-        //   }
-        // });
-        // this.$refs.loginForm.validateField("account", e => {
-        //   if (!e) {
-        //     account_c = true;
-        //   }
-        // });
-        // this.$refs.loginForm.validateField("password", e => {
-        //   if (!e) {
-        //     password_c = true;
-        //   }
-        // });
-        // this.$refs.loginForm.validateField("code", e => {
-        //   if (!e) {
-        //     code_c = true;
-        //   }
-        // });
-        // if (account_c && password_c && code_c && tenant_c) {
-        //   this.loading = true;
-        //   const that = this;
-        //   //that.loginForm["key"] = that.loginForm.key;
-        //   loginApi.login(this.loginForm).then(response => {
-        //     const res = response.data;
-        //     if (res.isSuccess) {
-        //       that.saveLoginData(res.data['token'], res.data['expire']);
-        //       that.saveUserInfo(res.data.user, res.data.permissionsList);
-        //
-        //       that.$message({
-        //         message: this.$t("tips.loginSuccess"),
-        //         type: "success"
-        //       });
-        //       that.$router.push("/");
-        //     } else {
-        //
-        //       that.getCodeImage();
-        //
-        //       this.$store.commit("account/setTenant", this.loginForm.tenant);
-        //     }
-        //   }).finally(()=>that.loading = false);
-        // }
       },
       loginSubmit() {
         this.loading = true;
@@ -587,6 +539,8 @@
           id: user.userId,
           account: user.account,
           name: user.name,
+          avatar: user.avatar,
+          workDescribe: user.workDescribe
         });
       },
       getResource() {
