@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input :placeholder="$t('table.application.appKey')" class="filter-item search-item"
-                v-model="queryParams.model.appKey"/>
+      <el-input :placeholder="$t('table.application.clientId')" class="filter-item search-item"
+                v-model="queryParams.model.clientId"/>
       <el-input :placeholder="$t('table.application.name')" class="filter-item search-item"
                 v-model="queryParams.model.name"/>
       <el-date-picker
@@ -51,10 +51,10 @@
       v-loading="loading"
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
-      <el-table-column :label="$t('table.application.appKey')" column-key="appKey" :show-overflow-tooltip="true"
-                       align="center" prop="appKey">
+      <el-table-column :label="$t('table.application.clientId')" column-key="clientId" :show-overflow-tooltip="true"
+                       align="center" prop="clientId">
         <template slot-scope="scope">
-          <span>{{ scope.row.appKey }}</span>
+          <span>{{ scope.row.clientId }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.application.name')" :show-overflow-tooltip="true" align="left"
@@ -296,8 +296,7 @@
         if (column['columnKey'] === "operation") {
           return;
         }
-        debugger
-        if (column['columnKey'] === "appKey") {
+        if (column['columnKey'] === "clientId") {
           copy(row[column.property]);
           this.$message({
             message: this.$t('tips.copySelected'),

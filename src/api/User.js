@@ -13,6 +13,10 @@ const apiList = {
     method: 'PUT',
     url: `/authority/user`
   },
+  updateBaseInfo: {
+    method: 'PUT',
+    url: `/authority/user/base`
+  },
   avatar: {
     method: 'PUT',
     url: `/authority/user/avatar`
@@ -66,6 +70,12 @@ export default {
       data
     })
   },
+  updateBaseInfo (data) {
+    return axiosApi({
+      ...apiList.updateBaseInfo,
+      data
+    })
+  },
   updatePassword (data) {
     return axiosApi({
       ...apiList.updatePassword,
@@ -76,6 +86,12 @@ export default {
     return axiosApi({
       ...apiList.delete,
       data
+    })
+  },
+  get (id) {
+    return axiosApi({
+      method: 'GET',
+      url: `/authority/user/${id}`
     })
   },
   reset (data) {

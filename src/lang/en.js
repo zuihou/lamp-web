@@ -226,8 +226,8 @@ export default {
       methodName: "methodName"
     },
     application: {
-      appKey: "appKey",
-      appSecret: "appSecret",
+      clientId: "clientId",
+      clientSecret: "clientSecret",
       website: "website",
       name: "name",
       icon: "icon",

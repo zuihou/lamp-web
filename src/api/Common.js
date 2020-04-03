@@ -10,10 +10,10 @@ const apiList = {
 
 export default {
   uploadFile: `${process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX}${process.env.VUE_APP_BASE_API}/file/attachment/upload`,
-  enums(data, service = 'authority') {
+  enums(data) {
     return axiosApi({
       method: 'GET',
-      url: `/${service}/enums`,
+      url: `/oauth/enums`,
       data
     })
   },

@@ -1,13 +1,13 @@
 import commonApi from '@/api/Common'
 import dictionaryItemApi from '@/api/DictionaryItem'
 
-export const loadEnums = (codes, enums = {}, service = 'authority') => {
+export const loadEnums = (codes, enums = {}) => {
   if (typeof (codes) === 'string') {
     codes = [codes]
   }
 
   if (codes && codes.length > 0) {
-    commonApi.enums({codes: codes}, service).then(response => {
+    commonApi.enums({codes: codes}).then(response => {
       const res = response.data
       for (const code of codes) {
         enums[code] = res.data[code]
@@ -22,7 +22,7 @@ export const loadEnums = (codes, enums = {}, service = 'authority') => {
  * @param enums
  */
 export const initEnums = (codes, enums = {}) => {
-  loadEnums(codes, enums, 'authority')
+  loadEnums(codes, enums)
 }
 /**
  * 初始化文件服务枚举
@@ -30,7 +30,7 @@ export const initEnums = (codes, enums = {}) => {
  * @param enums
  */
 export const initFileEnums = (codes, enums = {}) => {
-  loadEnums(codes, enums, 'file')
+  loadEnums(codes, enums)
 }
 /**
  * 初始化消息服务枚举
@@ -38,7 +38,7 @@ export const initFileEnums = (codes, enums = {}) => {
  * @param enums
  */
 export const initMsgsEnums = (codes, enums = {}) => {
-  loadEnums(codes, enums, 'msgs')
+  loadEnums(codes, enums)
 }
 
 /**

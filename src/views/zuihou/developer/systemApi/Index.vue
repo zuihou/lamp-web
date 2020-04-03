@@ -21,17 +21,20 @@
       <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['systemApi:add']">
         {{ $t("table.add") }}
       </el-button>
+      <el-button @click="scan" class="filter-item" plain type="danger" v-has-permission="['systemApi:add']">
+        扫描接口
+      </el-button>
       <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['systemApi:delete','systemApi:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['systemApi:delete']">{{ $t('table.delete')
-            }}
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['systemApi:delete']">
+            {{ $t('table.delete') }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['systemApi:export']">{{ $t('table.export')
-            }}
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['systemApi:export']">
+            {{ $t('table.export') }}
           </el-dropdown-item>
           <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['systemApi:export']">
             {{ $t("table.exportPreview") }}
@@ -113,12 +116,14 @@
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('table.createTime')" sortable="custom" :show-overflow-tooltip="true" align="center" prop="className" width="170px">
+      <el-table-column :label="$t('table.createTime')" sortable="custom" :show-overflow-tooltip="true" align="center"
+                       prop="className" width="170px">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.operation')" column-key="operation" align="center" class-name="small-padding fixed-width"
+      <el-table-column :label="$t('table.operation')" column-key="operation" align="center"
+                       class-name="small-padding fixed-width"
                        fixed="right" width="110px">
         <template slot-scope="{row}">
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
@@ -193,6 +198,8 @@
     </el-drawer>
     <system-api-edit :dialog-visible="dialog.isVisible" :type="dialog.type" @close="editClose" @success="editSuccess"
                      ref="edit"/>
+    <system-api-scan :dialog-visible="dialogScan.isVisible" :type="dialogScan.type" @close="scanClose" @success="editSuccess"
+                     ref="scan"/>
     <el-dialog
       :close-on-click-modal="false"
       :close-on-press-escape="true"
@@ -211,6 +218,7 @@
 <script>
   import Pagination from '@/components/Pagination'
   import SystemApiEdit from './Edit'
+  import SystemApiScan from './Scan'
   import systemApiApi from '@/api/SystemApi.js'
   import elDragDialog from '@/directive/el-drag-dialog'
   import {downloadFile, initQueryParams} from '@/utils/commons'
@@ -218,10 +226,14 @@
   export default {
     name: 'SystemApi',
     directives: {elDragDialog},
-    components: {Pagination, SystemApiEdit},
+    components: {Pagination, SystemApiEdit, SystemApiScan},
     filters: {},
     data() {
       return {
+        dialogScan: {
+          isVisible: false,
+          type: 'add'
+        },
         dialog: {
           isVisible: false,
           type: 'add'
@@ -379,25 +391,28 @@
         done()
         this.currentRow = {}
       },
-      cellClick (row, column) {
+      cellClick(row, column) {
         if (column['columnKey'] === "operation") {
           return;
         }
 
         let flag = false;
-        this.selection.forEach((item)=>{
-          if(item.id === row.id) {
+        this.selection.forEach((item) => {
+          if (item.id === row.id) {
             flag = true;
             this.$refs.table.toggleRowSelection(row);
           }
         })
-        if(!flag){
+        if (!flag) {
           this.$refs.table.toggleRowSelection(row, true);
         }
 
       },
       editClose() {
         this.dialog.isVisible = false
+      },
+      scanClose() {
+        this.dialogScan.isVisible = false
       },
       editSuccess() {
         this.search()
@@ -407,12 +422,15 @@
         this.dialog.isVisible = true
         this.$refs.edit.setSystemApi(false)
       },
+      scan() {
+        this.dialogScan.type = 'add'
+        this.dialogScan.isVisible = true
+      },
       edit(row) {
         this.$refs.edit.setSystemApi(row)
         this.dialog.type = 'edit'
         this.dialog.isVisible = true
       }
-
     }
   }
 </script>

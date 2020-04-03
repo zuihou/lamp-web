@@ -19,7 +19,7 @@ const apiList = {
   },
   list: {
     method: 'GET',
-    url: `/authority/dictionaryItem/codes`
+    url: `/oauth/dictionaryItem/codes`
   },
   preview: {
     method: 'POST',

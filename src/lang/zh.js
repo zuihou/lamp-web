@@ -226,8 +226,8 @@ export default {
       methodName: "方法名"
     },
     application: {
-      appKey: "appKey",
-      appSecret: "appSecret",
+      clientId: "clientId",
+      clientSecret: "clientSecret",
       website: "官网",
       name: "应用名称",
       icon: "应用图标",

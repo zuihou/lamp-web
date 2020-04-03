@@ -38,6 +38,12 @@ export default {
       data
     })
   },
+  scan(serviceId) {
+    return axiosApi({
+      method: 'GET',
+      url: `/${serviceId}/systemApiScan`
+    })
+  },
   save(data) {
     return axiosApi({
       ...apiList.save,
@@ -56,20 +62,20 @@ export default {
       data
     })
   },
-  preview (data) {
+  preview(data) {
     return axiosApi({
       ...apiList.preview,
       data
     })
   },
-  export (data) {
+  export(data) {
     return axiosApi({
       ...apiList.export,
       responseType: "blob",
       data
     })
   },
-  import (data) {
+  import(data) {
     return axiosApi({
       ...apiList.import,
       data

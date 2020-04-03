@@ -10,7 +10,7 @@
       <el-input v-model="user.mobile" />
     </el-form-item>
     <el-form-item :label="$t('table.user.sex')" prop="sex">
-      <el-select placeholder v-model="user.sex.code" value>
+      <el-select placeholder v-model="user.sex['code']" value>
         <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.Sex" />
       </el-select>
     </el-form-item>
@@ -36,7 +36,10 @@ export default {
       default: () => {
         return {
           name: '',
-          email: ''
+          email: '',
+          sex: {
+            code: 'M'
+          }
         }
       }
     }
@@ -52,7 +55,8 @@ export default {
             } else {
               callback()
             }
-          }, trigger: 'blur'        },
+          }, trigger: 'blur'
+        },
         sex: { required: true, message: this.$t('rules.require'), trigger: 'change' },
         workDescribe: { max: 255, message: '内容超过255字符', trigger: 'blur' }
       }
@@ -69,7 +73,7 @@ export default {
         if (valid) {
           const temp = { ...this.user }
           temp.account = temp.status = temp.avatar = temp.avatar = null
-          userApi.update({ ...temp })
+          userApi.updateBaseInfo({ ...temp })
             .then((response) => {
               const res = response.data
               if (res.isSuccess) {

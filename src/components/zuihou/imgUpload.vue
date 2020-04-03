@@ -32,6 +32,7 @@
 <script>
 import db from "@/utils/localstorage";
 import commonApi from "@/api/Common.js";
+import {Base64} from 'js-base64';
 export default {
   props: {
     uploadRef: {
@@ -107,8 +108,9 @@ export default {
     },
     headers() {
       return {
-        token: db.get("TOKEN", ""),
-        tenant: db.get("TENANT", "")
+        token: 'Bearer ' + db.get("TOKEN", ""),
+        tenant: db.get("TENANT", "") || "",
+        Authorization: `Basic ${Base64.encode(`${process.env.VUE_APP_CLIENT_ID}:${process.env.VUE_APP_CLIENT_SECRET}`)}`
       };
     }
   },

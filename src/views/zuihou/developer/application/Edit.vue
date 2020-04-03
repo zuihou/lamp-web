@@ -2,11 +2,11 @@
   <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type"
              :visible.sync="isVisible" :width="width" top="50px">
     <el-form :model="application" :rules="rules" label-position="right" label-width="100px" ref="form">
-      <el-form-item :label="$t('table.application.appKey')" prop="appKey" v-show="type!=='add' ">
-        <el-input :disabled="type==='view' || type==='edit' " v-model="application.appKey"/>
+      <el-form-item :label="$t('table.application.clientId')" prop="clientId" v-show="type!=='add' ">
+        <el-input :disabled="type==='view' || type==='edit' " v-model="application.clientId"/>
       </el-form-item>
-      <el-form-item :label="$t('table.application.appSecret')" prop="appSecret" v-show="type!=='add' ">
-        <el-input :disabled="type==='view' || type==='edit' " v-model="application.appSecret"/>
+      <el-form-item :label="$t('table.application.clientSecret')" prop="clientSecret" v-show="type!=='add' ">
+        <el-input :disabled="type==='view' || type==='edit' " v-model="application.clientSecret"/>
       </el-form-item>
       <el-form-item :label="$t('table.application.name')" prop="name">
         <el-input :disabled="type==='view'" v-model="application.name"/>
@@ -112,8 +112,8 @@
       initApplication() {
         return {
           id: '',
-          appKey: '',
-          appSecret: '',
+          clientId: '',
+          clientSecret: '',
           website: '',
           name: '',
           icon: '',

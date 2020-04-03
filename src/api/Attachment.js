@@ -44,7 +44,6 @@ export default {
     return axiosApi({
       ...apiList.download,
       responseType: "blob",
-      // responseType: "arraybuffer",
       data
     })
   },

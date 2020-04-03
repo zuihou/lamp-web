@@ -191,15 +191,7 @@ export default {
           {
             validator: (rule, value, callback) => {
               if (!this.user.id) {
-                // 在这里检测是否重复
-                // this.$get(`system/user/check/${value}`).then(response => {
-                //   const res = response.data;
-                //   if (!res.data) {
-                //     callback(this.$t("rules.usernameExist"));
-                //   } else {
-                //     callback();
-                //   }
-                // });
+
                 callback();
               } else {
                 callback();
@@ -257,7 +249,6 @@ export default {
     "user.org.key": "orgSelect"
   },
   mounted() {
-    // initEnums(['Sex'], this.enums)
     window.onresize = () => {
       return (() => {
         this.width = this.initWidth();
@@ -323,7 +314,6 @@ export default {
       this.loadStation(node);
     },
     loadStation(orgId) {
-      //TODO 说是这里有bug？？
       this.user.station.key = null;
       if (orgId) {
         stationApi.page({

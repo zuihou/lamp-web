@@ -268,7 +268,6 @@
             return require(`@/assets/avatar/${this.user.avatar}`)
           }
         }
-        // return this.$store.state.account.user.avatar
       }
     },
     mounted() {
