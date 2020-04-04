@@ -83,14 +83,14 @@
             <el-dropdown-item>{{ $t("navbar.docs") }}</el-dropdown-item>
           </a>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="deleteCache">{{
-              $t("navbar.deleteCache")
-            }}</span>
+            <span style="display:block;" @click="deleteCache">
+              {{ $t("navbar.deleteCache") }}
+            </span>
           </el-dropdown-item>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">{{
-              $t("navbar.logOut")
-            }}</span>
+            <span style="display:block;" @click="logout">
+              {{ $t("navbar.logOut") }}
+            </span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -106,6 +106,7 @@ import db from "@/utils/localstorage";
 import Screenfull from "@/components/Screenfull";
 import Search from "@/components/HeaderSearch";
 import userApi from "@/api/User.js";
+import loginApi from "@/api/Login.js";
 import msgsApi from "@/api/Msgs.js";
 
 export default {
@@ -244,8 +245,9 @@ export default {
           cancelButtonText: this.$t("common.cancel"),
           type: "warning"
         }
-      )
-        .then(() => {
+      ).then(() => {
+          db.remove("EXPIRE_TIME");
+          db.remove("TOKEN");
           db.remove("USER_ROUTER");
           db.remove("PERMISSIONS");
 
@@ -255,25 +257,50 @@ export default {
           // do nothing
         });
     },
-    async reloadData() {
-
-      let userRes = await userApi.reload(this.userId);
-
-      if (userRes.data.isSuccess) {
-        console.log("加载用户&权限成功");
-        const result = userRes.data.data;
-        this.$store.commit("account/setUser", result.user);
-        this.$store.commit("account/setPermissions", result.permissionsList);
+    reloadData() {
+      const param = {
+        grantType: 'refresh_token',
+        refreshToken: db.get('REFRESH_TOKEN', '')
       }
+      loginApi.login(param).then((response) => {
+        const res = response.data;
+        if(res.isSuccess){
+          const data = res.data
+          this.$store.commit("account/setToken", data['token']);
+          this.$store.commit("account/setRefreshToken", data['refreshToken']);
+          this.$store.commit("account/setExpireTime", data['expiration']);
+          this.$store.commit("account/setUser", {
+            id: data.userId,
+            account: data.account,
+            name: data.name,
+            avatar: data.avatar,
+            workDescribe: data.workDescribe
+          });
 
-      if (userRes.data.isSuccess) {
-        setTimeout(() => {
-          location.reload();
-        }, 1000);
-      } else {
-        // 报错就退出
+          this.loadPermissions();
+        } else {
+          this.logout();
+        }
+      }).catch(() => {
         this.logout();
-      }
+      });
+    },
+    loadPermissions() {
+      loginApi.getResource().then(response => {
+        const res = response.data;
+        if (res.isSuccess) {
+          const permissionsList = res.data;
+          this.$store.commit("account/setPermissions", permissionsList ? permissionsList : []);
+
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        } else {
+          this.logout();
+        }
+      }).catch(() => {
+        this.logout();
+      });
     }
   }
 };
