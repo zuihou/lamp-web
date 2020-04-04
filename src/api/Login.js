@@ -1,7 +1,7 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  getCaptcha: `/oauth/anno/captcha`,
+  captcha: `/oauth/anno/captcha`,
   login: `/oauth/anno/token`,
   router: `/oauth/menu/router`,
   resource: `/oauth/resource/visible`,
@@ -11,7 +11,7 @@ export default {
   getCaptcha (randomId) {
     return axiosApi({
       method: 'GET',
-      url: apiList.getCaptcha + `?key=${randomId}`,
+      url: apiList.captcha + `?key=${randomId}`,
       responseType: 'arraybuffer',
       meta: {
         "X-isToken": false
