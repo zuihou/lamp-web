@@ -57,7 +57,11 @@ function handleSuccess(res, resolve, opts) {
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
   if (res.data.isError) {
     // 未登录
-    if (res.data.code === 40001) {
+    if (res.data.code === 40000 || res.data.code === 40001
+      || res.data.code === 40002 || res.data.code === 40003
+      || res.data.code === 40005 || res.data.code === 40006
+      || res.data.code === 40008
+    ) {
       debugger
       MessageBox.alert(res.data.msg, '提醒', {
         confirmButtonText: '确定',
