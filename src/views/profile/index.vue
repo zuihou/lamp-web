@@ -39,9 +39,7 @@
       return {
         activeTab: '',
         user: {
-          sex: {
-            code: 'M'
-          }
+          ...this.$store.state.account.user, ...{sex: {code: 'M'}}
         }
       }
     },
