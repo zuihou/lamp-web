@@ -28,12 +28,6 @@
         >zuihou-admin-ui</a
         >
       </div>
-      <div class="desc">
-        9. 前端项目基于：
-        <a href="https://github.com/wuyouzhuguli/FEBS-Cloud-Web" target="_blank"
-        >FEBS-Cloud-Web</a
-        >
-      </div>
     </div>
     <el-form
       :model="loginForm"
