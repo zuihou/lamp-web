@@ -396,7 +396,7 @@ export default {
   common: {
     system: '微服务SaaS脚手架',
     desc: {
-      a: '基于Spring Boot 2.1.2 & Spring Cloud Greenwich.RELEASE',
+      a: '基于SpringBoot 2.2.5 & SpringCloud Hoxton.SR1',
       b: '使用Jwt自定义统一认证',
       c: '企业级设计和配置，拒绝demo项目',
       d: '前后端分离架构，提高软件开发效率',
