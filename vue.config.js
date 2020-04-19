@@ -52,6 +52,7 @@ module.exports = {
           ['^' + proxyUrl]: proxyUrl
 
           // SpringBoot 项目 请使用以下的配置
+          // ['^/api/oauth']: '/',
           // ['^/api/authority']: '/',
           // ['^/api/file']: '/',
           // ['^/api/msgs']: '/',
