@@ -29,7 +29,7 @@ const constRouter = [
   {
     path: '/login',
     name: '登录页',
-    component: () => resolve => require(['@/views/login/index'], resolve)
+    component: () => import('@/views/login/index')
   },
   {
     path: '/',
