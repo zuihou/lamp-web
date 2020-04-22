@@ -17,19 +17,19 @@ const constRouter = [
     children: [
       {
         path: '/redirect/:path*',
-        component: () => import('@/views/redirect/index')
+        component: resolve => require(['@/views/redirect/index'], resolve)
       }
     ]
   },
   {
     path: '/404',
-    component: () => import('@/views/error-page/404'),
+    component: resolve => require(['@/views/error-page/404'], resolve),
     hidden: true
   },
   {
     path: '/login',
     name: '登录页',
-    component: () => import('@/views/login/index')
+    component: () => resolve => require(['@/views/login/index'], resolve)
   },
   {
     path: '/',
@@ -38,7 +38,7 @@ const constRouter = [
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
+        component: resolve => require(['@/views/dashboard/index'], resolve),
         name: 'Dashboard',
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
@@ -52,14 +52,14 @@ const constRouter = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/profile/index'),
+        component: resolve => require(['@/views/profile/index'], resolve),
         name: 'Profile',
         meta: { title: 'profile', icon: 'user', noCache: true }
       },
       {
         hidden: true,
         path: '/sms/manage/edit',
-        component: () => import('@/views/zuihou/sms/manage/Edit'),
+        component: resolve => require(['@/views/zuihou/sms/manage/Edit'], resolve),
         name: 'smsEdit',
         meta: {
           title: '发送短信', icon: '', noCache: true
@@ -79,7 +79,7 @@ const constRouter = [
     children: [
       {
         path: '404',
-        component: () => import('@/views/error-page/404'),
+        component: resolve => require(['@/views/error-page/404'], resolve),
         name: 'Page404',
         meta: { title: 'page404', noCache: true }
       }
@@ -183,9 +183,11 @@ function filterAsyncRouter (routes) {
 
 function view (path) {
   return function (resolve) {
-    import(`@/views/${path}.vue`).then(mod => {
-      resolve(mod)
-    })
+    // 这段代码莫名奇妙就开始报错了，之前是好的
+    // import(`@/views/${path}.vue`).then(mod => {
+    //   resolve(mod)
+    // })
+    require([`@/views/${path}.vue`], resolve)
   }
 }
 
