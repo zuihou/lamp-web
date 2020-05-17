@@ -11,7 +11,7 @@
         :placeholder="$t('table.station.orgId')"
         :searchable="true"
         class="filter-item search-item"
-        v-model="queryParams.model.orgId.key"
+        v-model="queryParams.model.org.key"
       />
       <el-date-picker
         :range-separator="null"
@@ -235,7 +235,7 @@
         orgList: [],
         queryParams: initQueryParams({
           model: {
-            orgId: {
+            org: {
               key: null
             },
           }
@@ -294,7 +294,7 @@
       reset() {
         this.queryParams = initQueryParams({
           model: {
-            orgId: {key: null}
+            org: {key: null}
           }
         });
         this.$refs.table.clearSort();
