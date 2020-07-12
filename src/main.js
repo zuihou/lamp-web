@@ -17,6 +17,8 @@ import request from '@/utils/request'
 
 import * as filters from './filters' // global filters
 import { hasPermission, hasNoPermission, hasAnyPermission } from './utils/permissionDirect'
+import uploader from 'vue-simple-uploader'
+
 
 const Plugins = [
   hasPermission,
@@ -31,6 +33,7 @@ Plugins.map((plugin) => {
 Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 })
+Vue.use(uploader)
 
 Vue.prototype.$post = request.post
 Vue.prototype.$get = request.get

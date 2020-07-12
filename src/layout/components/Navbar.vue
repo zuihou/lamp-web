@@ -105,7 +105,6 @@ import LangSelect from "@/components/LangSelect";
 import db from "@/utils/localstorage";
 import Screenfull from "@/components/Screenfull";
 import Search from "@/components/HeaderSearch";
-import userApi from "@/api/User.js";
 import loginApi from "@/api/Login.js";
 import msgsApi from "@/api/Msgs.js";
 

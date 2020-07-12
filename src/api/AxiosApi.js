@@ -33,8 +33,8 @@ axios.interceptors.response.use(
 )
 
 function handleError(error, reject, opts) {
-  debugger
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
+  isAlert = isAlert === undefined ? true : isAlert;
   if (isAlert) {
     if (error.code === 'ECONNABORTED') {
       Message({
@@ -55,6 +55,7 @@ function handleError(error, reject, opts) {
 
 function handleSuccess(res, resolve, opts) {
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
+  isAlert = isAlert === undefined ? true : isAlert;
   if (res.data.isError) {
     // 未登录
     if (res.data.code === 40000 || res.data.code === 40001
