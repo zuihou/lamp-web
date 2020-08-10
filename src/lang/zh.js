@@ -32,6 +32,26 @@ export default {
     github: '项目地址'
   },
   table: {
+    blockList: {
+      id: 'ID',
+      ip: '阻止访问ip',
+      requestUri: '请求URI',
+      requestMethod: '请求方法',
+      limitStart: '限制时间起',
+      limitEnd: '限制时间止',
+      status: '状态',
+      location: '位置',
+    },
+    rateLimiter: {
+      id: 'ID',
+      count: '次数',
+      requestUri: '请求URI',
+      requestMethod: '请求方法',
+      limitStart: '限制时间起',
+      limitEnd: '限制时间止',
+      status: '状态',
+      intervalSec: '时间窗口',
+    },
     tenant: {
       code: '企业编码',
       name: '企业名称',
@@ -396,7 +416,7 @@ export default {
   common: {
     system: '微服务SaaS脚手架',
     desc: {
-      a: '基于SpringBoot 2.2.5 & SpringCloud Hoxton.SR1',
+      a: '基于SpringBoot 2.2.9 & SpringCloud Hoxton.SR7',
       b: '使用Jwt自定义统一认证',
       c: '企业级设计和配置，拒绝demo项目',
       d: '前后端分离架构，提高软件开发效率',

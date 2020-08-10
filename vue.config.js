@@ -56,6 +56,7 @@ module.exports = {
           // ['^/api/authority']: '/',
           // ['^/api/file']: '/',
           // ['^/api/msgs']: '/',
+          // ['^/api/gateway']: '/gateway',
           // ['^/api/gate']: '/',
         }
       }

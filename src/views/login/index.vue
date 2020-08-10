@@ -79,7 +79,7 @@
             v-model="loginForm.password"
           />
         </el-form-item>
-        <el-form-item class="code-input" prop="code">
+        <el-form-item class="code-input" prop="code" v-show="isCaptcha">
           <el-input
             :placeholder="$t('login.code')"
             @keyup.enter.native="handleLogin"
@@ -93,6 +93,7 @@
           />
         </el-form-item>
         <img
+          v-show="isCaptcha"
           :src="imageCode"
           @click="getCodeImage"
           alt="codeImage"
@@ -210,7 +211,7 @@
       </el-dropdown>
     </el-form>
     <span class="login-footer">
-      © 2019
+      © 2019 - 2020
       <a href="https://github.com/zuihou" target="_blank">zuihou</a> -
       zuihou-admin-cloud
     </span>
@@ -233,6 +234,8 @@
         //是否启用多租户
         isMultiTenant:
           process.env.VUE_APP_IS_MULTI_TENANT === "true" ? true : false,
+        isCaptcha:
+          process.env.VUE_APP_IS_CAPTCHA === "true" ? true : false,
         tabActiveName: "bindLogin",
         login: {
           type: "up"
@@ -275,9 +278,14 @@
             trigger: "blur"
           },
           code: {
-            required: true,
-            message: this.$t("rules.require"),
-            trigger: "blur"
+            validator: (rule, value, callback) => {
+              if (this.isCaptcha && value === '') {
+                callback('验证码不能为空')
+              } else {
+                callback()
+              }
+              callback()
+            }, trigger: 'blur'
           },
           bindAccount: {
             required: true,

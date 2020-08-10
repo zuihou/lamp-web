@@ -320,6 +320,7 @@
         this.$refs.edit.setParameter(false);
       },
       copy(row) {
+        row.id = null;
         this.$refs.edit.setParameter(row);
         this.dialog.type = "copy";
         this.dialog.isVisible = true;

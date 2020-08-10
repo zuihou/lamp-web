@@ -32,6 +32,26 @@ export default {
     github: 'Github Repository'
   },
   table: {
+    blockList: {
+      id: 'ID',
+      ip: 'ip',
+      requestUri: 'requestUri',
+      requestMethod: 'requestMethod',
+      limitStart: 'limitFrom',
+      limitEnd: 'limitTo',
+      status: 'status',
+      location: 'location',
+    },
+    rateLimiter: {
+      id: 'ID',
+      count: 'count',
+      requestUri: 'requestUri',
+      requestMethod: 'requestMethod',
+      limitStart: 'limitFrom',
+      limitEnd: 'limitTo',
+      status: 'status',
+      intervalSec: 'intervalSec',
+    },
     tenant: {
       code: 'EnterpriseCode',
       name: 'EnterpriseName',
@@ -396,7 +416,7 @@ export default {
   common: {
     system: 'Microservice SaaS System',
     desc: {
-      a: 'Based on SpringBoot 2.2.5 & SpringCloud Hoxton.SR1',
+      a: 'Based on SpringBoot 2.2.9 & SpringCloud Hoxton.SR7',
       b: 'Use Jwt Unified Authentication',
       c: 'Enterprise design and configuration, deny demo project',
       d: 'Front-end separation architecture for increased efficiency',
