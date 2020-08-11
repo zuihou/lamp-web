@@ -41,9 +41,15 @@ function handleError(error, reject, opts) {
         message: '请求超时'
       })
     } else if (error.response && error.response.data) {
-      Message({
-        message: error.response.data.msg
-      })
+      if(error.response.data.msg){
+        Message({
+          message: error.response.data.msg
+        })
+      } else if(error.response.data.message){
+        Message({
+          message: error.response.data.message
+        })
+      }
     } else if (error.message) {
       Message({
         message: error.message
