@@ -51,9 +51,6 @@
           <el-dropdown-item @click.native="batchDelete" v-has-permission="['user:delete']">
             {{ $t("table.delete") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="resetPassword" v-has-permission="['user:reset']">
-            {{ $t("table.resetPassword") }}
-          </el-dropdown-item>
           <el-dropdown-item @click.native="exportExcel" v-has-permission="['user:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
@@ -289,7 +286,7 @@
       :type="updatePasswordDialog.type"
       @close="updatePasswordClose"
       @success="updatePasswordSuccess"
-      ref="edit"
+      ref="editPassword"
     />
     <user-view
       :dialog-visible="userViewVisible"
@@ -554,43 +551,6 @@
       importClose() {
         this.fileImport.isVisible = false;
       },
-      resetPassword() {
-        if (!this.selection.length) {
-          this.$message({
-            message: this.$t("tips.noDataSelected"),
-            type: "warning"
-          });
-          return;
-        }
-        this.$confirm(
-          this.$t("tips.confirmRestPassword"),
-          this.$t("common.tips"),
-          {
-            confirmButtonText: this.$t("common.confirm"),
-            cancelButtonText: this.$t("common.cancel"),
-            type: "warning"
-          }
-        )
-          .then(() => {
-            const ids = [];
-            this.selection.forEach(u => {
-              ids.push(u.id);
-            });
-            userApi.reset({ids: ids}).then(response => {
-              const res = response.data;
-              if (res.isSuccess) {
-                this.$message({
-                  message: this.$t("tips.resetPasswordSuccess"),
-                  type: "success"
-                });
-              }
-              this.clearSelections();
-            });
-          })
-          .catch(() => {
-            this.clearSelections();
-          });
-      },
       singleDelete(row) {
         this.$refs.table.clearSelection()
         this.$refs.table.toggleRowSelection(row, true);
@@ -663,7 +623,7 @@
         this.dialog.isVisible = true;
       },
       updatePassword(row) {
-        this.$refs.edit.setUser(row);
+        this.$refs.editPassword.setUser(row);
         this.updatePasswordDialog.type = "edit";
         this.updatePasswordDialog.isVisible = true;
       },

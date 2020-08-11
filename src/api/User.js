@@ -26,7 +26,7 @@ const apiList = {
     url: `/authority/user`
   },
   reset: {
-    method: 'GET',
+    method: 'POST',
     url: `/authority/user/reset`
   },
   updatePassword: {

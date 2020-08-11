@@ -16,12 +16,6 @@
       ref="form"
     >
       <el-form-item
-        :label="$t('table.user.oldPassword')"
-        prop="oldPassword"
-      >
-          <el-input type="password" v-model="user.oldPassword" />
-      </el-form-item>
-      <el-form-item
         :label="$t('table.user.password')"
         prop="password"
       >
@@ -65,11 +59,6 @@ export default {
       screenWidth: 0,
       width: this.initWidth(),
       rules: {
-        oldPassword: {
-          required: true,
-          message: this.$t("rules.require"),
-          trigger: "blur"
-        },
         password: {
           required: true,
           message: this.$t("rules.require"),
@@ -108,7 +97,6 @@ export default {
     initUser() {
       return {
         id: "",
-        oldPassword: "",
         confirmPassword: "",
         password: ""
       };
@@ -147,7 +135,7 @@ export default {
       });
     },
     editSubmit() {
-      userApi.updatePassword(this.user).then(response => {
+      userApi.reset(this.user).then(response => {
         const res = response.data;
         if (res.isSuccess) {
           this.isVisible = false;
