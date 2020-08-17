@@ -233,13 +233,13 @@
         };
       },
       initAreaTree(parentId = 0) {
-        areaApi.query({parentId: parentId}).then(response => {
+        areaApi.linkage({parentId: parentId}).then(response => {
           const res = response.data;
           this.areaTree = res.data;
         });
       },
       loadTree(node, resolve) {
-        areaApi.query({parentId: node.data.id}).then(response => {
+        areaApi.linkage({parentId: node.data.id}).then(response => {
           const res = response.data;
           resolve(res.data);
         });

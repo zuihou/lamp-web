@@ -21,6 +21,10 @@ const apiList = {
     method: 'POST',
     url: `/authority/area/query`
   },
+  linkage: {
+    method: 'GET',
+    url: `/authority/area/linkage`
+  },
   tree: {
     method: 'GET',
     url: `/authority/area/tree`
@@ -43,6 +47,12 @@ export default {
   query(data) {
     return axiosApi({
       ...apiList.query,
+      data
+    })
+  },
+  linkage(data) {
+    return axiosApi({
+      ...apiList.linkage,
       data
     })
   },
