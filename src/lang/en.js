@@ -127,6 +127,7 @@ export default {
       abbreviation: 'Abbreviation',
       describe: 'Describe',
       parentId: 'ParentId',
+      type: 'Type',
       sortValue: 'SortValue',
       status: 'Status'
     },

@@ -53,13 +53,18 @@
               <el-form-item :label="$t('table.org.abbreviation')" prop="abbreviation">
                 <el-input v-model="org.abbreviation"/>
               </el-form-item>
+              <el-form-item :label="$t('table.org.type')" prop="type">
+                <el-radio-group v-model="org.type.key">
+                  <el-radio-button :key="index" :label="key" :value="key" v-for="(item, key, index) in dicts.ORG_TYPE">{{ item }}</el-radio-button>
+                </el-radio-group>
+              </el-form-item>
               <el-form-item :label="$t('table.org.describe')" prop="describe">
                 <el-input v-model="org.describe"/>
               </el-form-item>
               <el-form-item :label="$t('table.org.status')" prop="status">
                 <el-radio-group v-model="org.status">
-                  <el-radio :label="true">{{ $t('common.status.valid') }}</el-radio>
-                  <el-radio :label="false">{{ $t('common.status.invalid') }}</el-radio>
+                  <el-radio-button :label="true">{{ $t('common.status.valid') }}</el-radio-button>
+                  <el-radio-button :label="false">{{ $t('common.status.invalid') }}</el-radio-button>
                 </el-radio-group>
               </el-form-item>
               <el-form-item :label="$t('table.org.sortValue')" prop="sortValue">
@@ -107,7 +112,7 @@
   import orgApi from '@/api/Org.js'
   import elDragDialog from '@/directive/el-drag-dialog'
   import FileImport from "@/components/zuihou/Import"
-  import {downloadFile} from '@/utils/commons'
+  import { downloadFile, initDicts } from '@/utils/commons'
 
   export default {
     name: 'OrgManager',
@@ -132,11 +137,15 @@
             {required: true, message: this.$t('rules.require'), trigger: 'blur'},
             {min: 1, max: 255, message: this.$t('rules.range3to10'), trigger: 'blur'}
           ]
+        },
+        dicts: {
+          ORG_TYPE: {},
         }
       }
     },
     mounted() {
       this.initOrgTree()
+      initDicts(['ORG_TYPE'], this.dicts)
     },
     methods: {
       initOrg() {
@@ -144,6 +153,9 @@
           id: '',
           abbreviation: '',
           label: '',
+          type: {
+            key: ''
+          },
           parentId: 0,
           status: true,
           describe: '',

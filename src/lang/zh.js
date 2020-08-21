@@ -127,6 +127,7 @@ export default {
       abbreviation: '简称',
       describe: '描述',
       parentId: '上级ID',
+      type: '类型',
       sortValue: '排序',
       status: '状态'
     },

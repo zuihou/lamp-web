@@ -6,6 +6,7 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   page: {
     method: 'POST',
+    // url: `/gate/gateway/blockList/page`,
     url: `/gateway/blockList/page`,
   },
   query: {
