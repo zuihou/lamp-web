@@ -521,6 +521,7 @@
         const that = this;
         this.$store.commit("account/setTenant", this.loginForm.tenant);
         loginApi.login(this.loginForm).then(response => {
+          debugger
           const res = response.data;
           if (res.isSuccess) {
             that.saveLoginData(res.data['token'], res.data['refreshToken'], res.data['expiration']);
@@ -529,7 +530,16 @@
           } else {
             that.getCodeImage();
           }
-        }).finally(() => that.loading = false);
+        }).catch(() => {
+           // if(error.response.data){
+           //   this.$message({
+           //     message: error.response.data.msg,
+           //     type: "error"
+           //   });
+           // }
+          that.getCodeImage();
+        })
+          .finally(() => that.loading = false);
       },
       saveLoginData(token, refreshToken, expiration) {
         this.$store.commit("account/setToken", token);
