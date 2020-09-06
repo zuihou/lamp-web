@@ -178,33 +178,31 @@ registry=https://r.npm.taobao.org
 1. vue.config.js
 
 ```
-    proxy: {
-      [proxyUrl]: {
-        target: targetUrl,
-        changeOrigin: true,
-        pathRewrite: {
-          // SpringCloud 项目使用这段配置
-          // ['^' + proxyUrl]: proxyUrl
+proxy: {
+  [proxyUrl]: {
+    target: targetUrl,
+    changeOrigin: true,
+    pathRewrite: {
+      // zuihou-admin-cloud 项目 请使用以下的配置
+      ['^' + proxyUrl]: proxyUrl
 
-          // SpringBoot 项目 请使用以下的配置
-          ['^/api/authority']: '/',
-          ['^/api/file']: '/',
-          ['^/api/msgs']: '/',
-          ['^/api/gate']: '/',
-        }
-      }
+      // zuihou-admin-boot 项目 请使用以下的配置
+      // ['^/api/oauth']: '/',
+      // ['^/api/authority']: '/',
+      // ['^/api/file']: '/',
+      // ['^/api/msgs']: '/',
+      // ['^/api/gateway']: '/gateway',
+      // ['^/api/gate']: '/',
     }
+  }
+}
 ```
 
 2. .env.development
-
 ```
-# SpringCloud项目使用这个地址
-# VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8760'
-
-# SpringBoot 项目使用这个地址
-VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8764'
-
+# 后端为 zuihou-admin-cloud 项目： http://127.0.0.1:8760 表示zuihou-gateway-server服务的访问地址，非本机访问，请配置内网ip
+# 后端为 zuihou-admin-boot 项目： http://127.0.0.1:8760 表示zuihou-authority-server服务的访问地址，非本机访问，请配置内网ip
+VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8760'
 ```
 
 ## 安装
