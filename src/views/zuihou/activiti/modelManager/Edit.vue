@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-dialog 
+    <el-dialog
       title="模型管理"
-      :fullscreen="true" 
+      :fullscreen="true"
       :visible.sync="editVisible"
       @close="editClose">
       <div id="editView" class="edit-view">
-        
+
       </div>
     </el-dialog>
   </div>
@@ -25,27 +25,27 @@ export default {
   data () {
     return {
       editVisible: false,
-      url: 'http://localhost:8760',
+      url: process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX,
       modelId: null,
     }
   },
   computed: {
-    
+
   },
   watch: {
 
   },
   mounted () {
-    
+
   },
   methods: {
     open(id) {
       this.editVisible = true
       setTimeout(function() {
         var view = document.getElementById('editView')
-        var url = 'http://localhost:8760'
+        var url = process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX
         view.innerHTML = `<iframe width=100% id="frameNode" height=100% scrolling='no' frameborder=0 src=${url}/api/activiti/static/index?modelId=${id}&token=${db.get('TOKEN', '')}></iframe>`;
-      
+
       }, 1000)
     },
     editClose() {

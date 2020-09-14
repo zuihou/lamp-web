@@ -161,7 +161,7 @@
     />
     <ModelEdit ref="modelEdit"></ModelEdit>
 
-    <el-dialog 
+    <el-dialog
       title="新增模型"
       :visible.sync="addVisible"
       @close="addClose">
@@ -170,19 +170,19 @@
           <el-row  style="margin: 0 auto;width:80%;">
             <el-col :span="12">
               <el-form-item label="模型名:" prop="name">
-                <el-input 
+                <el-input
                   v-model="subForm.name"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="模型KEY:" prop="key">
-                <el-input 
+                <el-input
                   v-model="subForm.key"/>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="描述:" prop="description">
-                <el-input 
+                <el-input
                   v-model="subForm.description"/>
               </el-form-item>
             </el-col>
@@ -229,7 +229,7 @@ export default {
       queryParams: initQueryParams({
         model:{}
       }),
-      url: 'http://localhost:8760',
+      url: process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX,
       selection: [],
       loading: false,
       tableData: {

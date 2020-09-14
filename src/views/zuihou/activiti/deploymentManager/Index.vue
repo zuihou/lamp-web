@@ -160,7 +160,7 @@
       v-show="tableData.total > 0"
       align="center"
     />
-    <el-dialog 
+    <el-dialog
       title="流程图"
       :visible.sync="viewTag" :fullscreen="true" >
       <iframe  v-if="viewTag" :src="viewUrl" style="width: 100%; height:700px" ></iframe>
@@ -204,7 +204,7 @@ export default {
       viewXMLTag: false,
       uploadTag: false,
       viewTag: false,
-      url: 'http://localhost:8760',
+      url: process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX,
       suspendStateType: {
         start: '1',
         stop: '2'
@@ -280,8 +280,8 @@ export default {
     },
     singleEdit(row) {
       const vm = this;
-      var data = { 
-        depId: row.deploymentId, 
+      var data = {
+        depId: row.deploymentId,
         suspendState: row.suspendState
       }
       // if (row.suspendState === vm.suspendStateType.stop) {

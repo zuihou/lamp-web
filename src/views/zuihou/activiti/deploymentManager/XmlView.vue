@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-dialog 
+    <el-dialog
       :visible.sync="editVisible"
       @close="editClose">
       <div id="editView" class="edit-view">
-        
+
       </div>
     </el-dialog>
   </div>
@@ -23,18 +23,18 @@ export default {
   data () {
     return {
       editVisible: false,
-      url: 'http://localhost:8760',
+      url: process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX,
       modelId: null,
     }
   },
   computed: {
-    
+
   },
   watch: {
 
   },
   mounted () {
-    
+
   },
   methods: {
     open(row) {
@@ -47,7 +47,7 @@ export default {
       setTimeout(function() {
         view = document.getElementById('editView')
         view.innerHTML = `<iframe width=100% id="frameNode" height=100% scrolling='no' frameborder=0 src=${vm.url}/api/activiti/static/goViewXml?pdid=${row.id}&resourceName=${row.resourceName}&token=${db.get('TOKEN', '')}></iframe>`;
-      
+
       }, 2000)
     },
     editClose() {
