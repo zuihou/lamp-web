@@ -105,7 +105,13 @@ const whiteList = ['/login']
 
 // 加载的路由信息
 let asyncRouter
-
+const parsingMenus = (item) => {
+  if (item.children && item.children.length > 0) {
+    item.component = undefined;
+    item.children = item.children.map(v => parsingMenus(v));
+  }
+  return item;
+};
 // 导航守卫，渲染动态路由
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -120,6 +126,7 @@ router.beforeEach((to, from, next) => {
         if (!userRouter) {
           loginApi.getRouter({}).then((response) => {
               const res = response.data
+              // asyncRouter = res.data.map(v => parsingMenus(v))
               asyncRouter = res.data
 
               if (!(asyncRouter && asyncRouter.length > 0)) {
@@ -164,17 +171,24 @@ function go (to, next) {
   next({ ...to, replace: true })
 }
 
-function filterAsyncRouter (routes) {
+function filterAsyncRouter (routes, parent) {
   return routes.filter((route) => {
     const component = route.component
     if (component) {
       if (route.component === 'Layout') {
-        route.component = Layout
+        if (route.children && route.children.length > 0 && parent) {
+          console.log(route)
+          route.component =  (resolve) => {
+            require(['@/components/RouterWrap/RouterWrap.vue'], resolve);
+          }
+        } else {
+          route.component = Layout
+        }
       } else {
         route.component = view(component)
       }
       if (route.children && route.children.length) {
-        route.children = filterAsyncRouter(route.children)
+        route.children = filterAsyncRouter(route.children, route)
       }
       return true
     }
