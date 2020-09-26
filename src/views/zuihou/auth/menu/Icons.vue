@@ -42,6 +42,16 @@
           </li>
         </ul>
       </el-tab-pane>
+      <el-tab-pane label="自定义" name="fifth">
+        <ul>
+          <li :key="icon" v-for="icon in icons.customIcons">
+            <span :class="{'active':activeIndex === icon}">
+              <svg-icon class="icon-item" :icon-class="icon" class-name="disabled"  @click.native="chooseIcon(icon)" @dblclick.native="confirm" />
+            </span>
+            <p>{{ icon }}</p>
+          </li>
+        </ul>
+      </el-tab-pane>
     </el-tabs>
     <div class="dialog-footer" slot="footer">
       <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
@@ -282,6 +292,7 @@ const foodIcons = [
   'el-icon-ice-cream-square',
   'el-icon-ice-cream-round'
 ]
+import customIcons from '@/views/icons/svg-icons'
 export default {
   name: 'Icons',
   props: {
@@ -297,7 +308,8 @@ export default {
         commonIcons,
         directivityIcons,
         solidIcons,
-        foodIcons
+        foodIcons,
+        customIcons
       },
       activeIndex: '',
       choosedIcon: '',
@@ -361,17 +373,20 @@ export default {
         this.icons.directivityIcons = directivityIcons
         this.icons.solidIcons = solidIcons
         this.icons.foodIcons = foodIcons
+        this.icons.customIcons = customIcons
         this.activeName = 'first'
       }
       const commonList = commonIcons.filter(item => item.indexOf(this.name) !== -1)
       const directivityList = directivityIcons.filter(item => item.indexOf(this.name) !== -1)
       const solidList = solidIcons.filter(item => item.indexOf(this.name) !== -1)
       const foodIconsList = foodIcons.filter(item => item.indexOf(this.name) !== -1)
+      const customIconsList = customIcons.filter(item => item.indexOf(this.name) !== -1)
 
       this.icons.commonIcons = commonList
       this.icons.directivityIcons = directivityList
       this.icons.solidIcons = solidList
       this.icons.foodIcons = foodIconsList
+      this.icons.customIcons = customIconsList
 
       if (commonList.length > 0) {
         this.activeName = 'first'
@@ -390,6 +405,11 @@ export default {
 
       if (foodIconsList.length > 0) {
         this.activeName = 'fourth'
+        return
+      }
+
+      if (customIconsList.length > 0) {
+        this.activeName = 'fifth'
         return
       }
 
@@ -436,7 +456,7 @@ ul {
     position: relative;
   }
   span.active {
-    i {
+    i, .icon-item {
       border-radius: 2px;
       border-color: #4a4a48;
       background-color: #4a4a48;
@@ -444,7 +464,7 @@ ul {
       transition: all 0.3s;
     }
   }
-  i {
+  i,.icon-item {
     font-size: 1.7rem;
     border: 1px solid #f1f1f1;
     padding: 0.2rem;
@@ -465,5 +485,6 @@ ul {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
 }
 </style>
