@@ -29,7 +29,7 @@ const constRouter = [
   {
     path: '/login',
     name: '登录页',
-    component: () => import('@/views/login/index')
+    component: () => resolve => require(['@/views/login/index'], resolve)
   },
   {
     path: '/',
@@ -40,7 +40,7 @@ const constRouter = [
         path: 'dashboard',
         component: resolve => require(['@/views/dashboard/index'], resolve),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+        meta: {title: 'dashboard', icon: 'dashboard', affix: true}
       }
     ]
   },
@@ -54,7 +54,7 @@ const constRouter = [
         path: 'index',
         component: resolve => require(['@/views/profile/index'], resolve),
         name: 'Profile',
-        meta: { title: 'profile', icon: 'user', noCache: true }
+        meta: {title: 'profile', icon: 'user', noCache: true}
       },
       {
         hidden: true,
@@ -81,22 +81,14 @@ const constRouter = [
         path: '404',
         component: resolve => require(['@/views/error-page/404'], resolve),
         name: 'Page404',
-        meta: { title: 'page404', noCache: true }
+        meta: {title: 'page404', noCache: true}
       }
     ]
-  },
-  {
-    path: "*",
-    // redirect: '/404',
-    component: resolve => require(['@/views/error-page/404'], resolve),
-    name: "all_404",
-    hidden: false,
-    alwaysShow: false
   }
 ]
 
 const router = new Router({
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: constRouter
 })
 
@@ -118,18 +110,24 @@ router.beforeEach((to, from, next) => {
       if (!asyncRouter) {
         if (!userRouter) {
           loginApi.getRouter({}).then((response) => {
-              const res = response.data
-              // asyncRouter = res.data.map(v => parsingMenus(v))
-              asyncRouter = res.data
+            const res = response.data
+            asyncRouter = res.data
 
-              if (!(asyncRouter && asyncRouter.length > 0)) {
-                asyncRouter = []
-              }
+            if (!(asyncRouter && asyncRouter.length > 0)) {
+              asyncRouter = []
+            }
+            asyncRouter.push({
+              alwaysShow: false,
+              component: "error-page/404",
+              hidden: false,
+              name: "404",
+              path: "*"
+            });
 
-              store.commit('account/setRoutes', asyncRouter)
+            store.commit('account/setRoutes', asyncRouter)
 
-              go(to, next)
-           })
+            go(to, next)
+          })
         } else {
           asyncRouter = userRouter
           go(to, next)
@@ -151,25 +149,25 @@ router.afterEach(() => {
   NProgress.done()
 })
 
-function go (to, next) {
+function go(to, next) {
   asyncRouter = filterAsyncRouter(asyncRouter)
   router.addRoutes(asyncRouter)
-  next({ ...to, replace: true })
+  next({...to, replace: true})
 }
 
-function filterAsyncRouter (routes, parent) {
+function filterAsyncRouter(routes, parent) {
   return routes.filter((route) => {
     const component = route.component
     if (component) {
       if (route.component === 'Layout') {
         if (route.children && route.children.length > 0 && parent) {
-          route.component =  (resolve) => {
+          route.component = (resolve) => {
             require(['@/components/RouterWrap/RouterWrap.vue'], resolve);
           }
         } else {
           route.component = Layout
         }
-      } else if(typeof component === 'string'){
+      } else if (typeof component === 'string') {
         route.component = view(component)
       }
       if (route.children && route.children.length) {
@@ -180,7 +178,7 @@ function filterAsyncRouter (routes, parent) {
   })
 }
 
-function view (path) {
+function view(path) {
   return function (resolve) {
     require([`@/views/${path}.vue`], resolve)
   }

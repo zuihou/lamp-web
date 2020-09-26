@@ -43,8 +43,10 @@ export default {
       this.editVisible = true
       setTimeout(function() {
         var view = document.getElementById('editView')
-        var url = process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX
-        view.innerHTML = `<iframe width=100% id="frameNode" height=100% scrolling='no' frameborder=0 src=${url}/api/activiti/static/index?modelId=${id}&token=${db.get('TOKEN', '')}></iframe>`;
+        var urlPrefix = process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX
+        let url = `${urlPrefix}/api/activiti/static/index?modelId=${id}&tenant=${db.get('TENANT', '')}&token=Bearer ${db.get('TOKEN', '')}`
+        debugger
+        view.innerHTML = `<iframe width=100% id="frameNode" height=100% scrolling='no' frameborder=0 src="${url}"></iframe>`;
 
       }, 1000)
     },
