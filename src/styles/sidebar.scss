@@ -13,13 +13,12 @@
     background-color: $menuBg;
     height: 100%;
     position: fixed;
-    font-size: 0;
+    font-size: 0px;
     top: 0;
     bottom: 0;
     left: 0;
     z-index: 1001;
     overflow: hidden;
-    box-shadow: 2px 0 6px rgba(0,0,0,.25);
 
     // reset element-ui css
     .horizontal-collapse-transition {
@@ -31,7 +30,7 @@
     }
 
     .el-scrollbar__bar.is-vertical {
-      right: 0;
+      right: 0px;
     }
 
     .el-scrollbar {
@@ -58,6 +57,11 @@
       margin-right: 16px;
     }
 
+    .sub-el-icon {
+      margin-right: 12px;
+      margin-left: -2px;
+    }
+
     .el-menu {
       border: none;
       height: 100%;
@@ -76,13 +80,11 @@
       color: $subMenuActiveText !important;
     }
 
-    .is-active {
-      background: #313131 !important;
-    }
+    & .nest-menu .el-submenu>.el-submenu__title,
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
-      background-color: $subMenuBg;
-      padding-left: 48px !important;
+      background-color: $subMenuBg !important;
+
       &:hover {
         background-color: $subMenuHover !important;
       }
@@ -108,6 +110,10 @@
         .svg-icon {
           margin-left: 20px;
         }
+
+        .sub-el-icon {
+          margin-left: 19px;
+        }
       }
     }
 
@@ -119,6 +125,10 @@
 
         .svg-icon {
           margin-left: 20px;
+        }
+
+        .sub-el-icon {
+          margin-left: 19px;
         }
 
         .el-submenu__icon-arrow {
@@ -149,7 +159,7 @@
   // mobile responsive
   .mobile {
     .main-container {
-      margin-left: 0;
+      margin-left: 0px;
     }
 
     .sidebar-container {
@@ -180,6 +190,10 @@
   &>.el-menu {
     .svg-icon {
       margin-right: 16px;
+    }
+    .sub-el-icon {
+      margin-right: 12px;
+      margin-left: -2px;
     }
   }
 

@@ -9,7 +9,6 @@
         <img v-if='logo' :src='logo' class='sidebar-logo' />
         <h1 class='sidebar-title'>
           {{ $t('system.title') }}
-          <span>cloud</span>
         </h1>
       </router-link>
     </transition>
@@ -58,30 +57,26 @@ export default {
 
     & .sidebar-logo {
       width: 32px;
-      margin-right: 12px;
-      display: inline-block;
+      height: 32px;
       vertical-align: middle;
-      margin-bottom: -2px;
+      margin-right: 12px;
     }
 
     & .sidebar-title {
       display: inline-block;
       margin: 0;
       color: #fff;
-      font-weight: 500;
+      font-weight: 600;
       line-height: 50px;
       font-size: 19px;
+      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
-      & span {
-        font-size: 12px;
-        letter-spacing: 1px;
-      }
     }
   }
 
   &.collapse {
     .sidebar-logo {
-      margin-right: 0;
+      margin-right: 0px;
     }
   }
 }

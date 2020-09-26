@@ -521,7 +521,6 @@
         const that = this;
         this.$store.commit("account/setTenant", this.loginForm.tenant);
         loginApi.login(this.loginForm).then(response => {
-          debugger
           const res = response.data;
           if (res.isSuccess) {
             that.saveLoginData(res.data['token'], res.data['refreshToken'], res.data['expiration']);

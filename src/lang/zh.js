@@ -413,7 +413,7 @@ export default {
     sidebarLogo: '侧边栏 Logo'
   },
   system: {
-    title: 'zuihou-admin'
+    title: 'zuihou-admin-cloud'
   },
   tips: {
     systemError: '系统维护中，请稍微再试~',

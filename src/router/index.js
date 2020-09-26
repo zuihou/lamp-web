@@ -85,15 +85,14 @@ const constRouter = [
       }
     ]
   },
-  // 为什么写在这里 就会出错？
-  // {
-  //   path: "*",
-  //   // redirect: '/404',
-  //   component: () => import('@/views/error-page/404'),
-  //   name: "all_404",
-  //   hidden: false,
-  //   alwaysShow: false
-  // }
+  {
+    path: "*",
+    // redirect: '/404',
+    component: resolve => require(['@/views/error-page/404'], resolve),
+    name: "all_404",
+    hidden: false,
+    alwaysShow: false
+  }
 ]
 
 const router = new Router({
@@ -103,15 +102,9 @@ const router = new Router({
 
 const whiteList = ['/login']
 
-// 加载的路由信息
+// 异步的路由信息， 同时，左侧菜单也会根据这个来显示
 let asyncRouter
-const parsingMenus = (item) => {
-  if (item.children && item.children.length > 0) {
-    item.component = undefined;
-    item.children = item.children.map(v => parsingMenus(v));
-  }
-  return item;
-};
+
 // 导航守卫，渲染动态路由
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -132,13 +125,6 @@ router.beforeEach((to, from, next) => {
               if (!(asyncRouter && asyncRouter.length > 0)) {
                 asyncRouter = []
               }
-              asyncRouter.push({
-                alwaysShow: false,
-                component: "error-page/404",
-                hidden: false,
-                name: "404",
-                path: "*"
-              });
 
               store.commit('account/setRoutes', asyncRouter)
 
@@ -177,14 +163,13 @@ function filterAsyncRouter (routes, parent) {
     if (component) {
       if (route.component === 'Layout') {
         if (route.children && route.children.length > 0 && parent) {
-          console.log(route)
           route.component =  (resolve) => {
             require(['@/components/RouterWrap/RouterWrap.vue'], resolve);
           }
         } else {
           route.component = Layout
         }
-      } else {
+      } else if(typeof component === 'string'){
         route.component = view(component)
       }
       if (route.children && route.children.length) {
@@ -197,10 +182,6 @@ function filterAsyncRouter (routes, parent) {
 
 function view (path) {
   return function (resolve) {
-    // 这段代码莫名奇妙就开始报错了，之前是好的
-    // import(`@/views/${path}.vue`).then(mod => {
-    //   resolve(mod)
-    // })
     require([`@/views/${path}.vue`], resolve)
   }
 }
