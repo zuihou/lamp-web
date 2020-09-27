@@ -309,7 +309,7 @@
         const isUrl = this.isUrl(this.menu.path)
         if (isUrl) {
           this.menu.component = 'Layout'
-        } else {
+        } else if(this.menu.id === ""){
           if (this.menu.path) {
             this.menu.component = `zuihou${this.menu.path}/Index`
           } else {
