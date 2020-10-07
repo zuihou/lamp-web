@@ -19,13 +19,13 @@
             v-model="queryParams.model.name"
           />
         </el-form-item>
+        <el-button @click="search" class="filter-item" plain type="primary">
+          {{ $t("table.search") }}
+        </el-button>
+        <el-button @click="reset" class="filter-item" plain type="warning">
+          {{ $t("table.reset") }}
+        </el-button>
       </el-form>
-      <el-button @click="search" class="filter-item" plain type="primary">
-        {{ $t("table.search") }}
-      </el-button>
-      <el-button @click="reset" class="filter-item" plain type="warning">
-        {{ $t("table.reset") }}
-      </el-button>
     </div>
 
 
@@ -74,8 +74,10 @@
         width="120px"
       >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.isSuspended != null" :type="scope.row.isSuspended ? 'warning' : 'success'">{{ scope.row.isSuspended ? '已挂起' : '已激活' }}</el-tag>
-          <el-tag v-else type="info"> 已结束 </el-tag>
+          <el-tag v-if="scope.row.isSuspended != null" :type="scope.row.isSuspended ? 'warning' : 'success'">
+            {{ scope.row.isSuspended ? '已挂起' : '已激活' }}
+          </el-tag>
+          <el-tag v-else type="info"> 已结束</el-tag>
         </template>
 
       </el-table-column>
@@ -171,17 +173,17 @@
       :visible.sync="taskTransVisible"
       @close="taskTransVisibleClose">
       <div id="userView" class="edit-view">
-          <el-select v-model="targetUser" placeholder="待办类型">
-            <el-option
-              v-for="item in users"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-          <el-button @click="singleTrans" class="filter-item" plain type="primary">
-            确定
-          </el-button>
+        <el-select v-model="targetUser" placeholder="待办类型">
+          <el-option
+            v-for="item in users"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <el-button @click="singleTrans" class="filter-item" plain type="primary">
+          确定
+        </el-button>
       </div>
     </el-dialog>
   </div>
@@ -192,13 +194,13 @@ import Pagination from "@/components/Pagination";
 import ModelEdit from "./Edit";
 import activitiApi from "@/api/Activiti.js";
 import userApi from "@/api/User.js";
-import { renderSize } from "@/utils/utils";
-import { onlinePreview } from "@/settings";
-import { downloadFile, initQueryParams } from '@/utils/commons'
+import {renderSize} from "@/utils/utils";
+import {onlinePreview} from "@/settings";
+import {downloadFile, initQueryParams} from '@/utils/commons'
 
 export default {
   name: "RuTaskManage",
-  components: { Pagination, ModelEdit },
+  components: {Pagination, ModelEdit},
   filters: {},
   data() {
     return {
@@ -212,7 +214,7 @@ export default {
       tableKey: 0,
       isHist: false,
       queryParams: initQueryParams({
-        model:{}
+        model: {}
       }),
       suspendStateType: {
         start: '1',
@@ -256,19 +258,19 @@ export default {
         }
       }).finally(() => this.loading = false);
     },
-    cellClick (row, column) {
+    cellClick(row, column) {
       if (column['columnKey'] === "operation") {
         return;
       }
       let flag = false;
-      this.selection.forEach((item)=>{
-        if(item.id === row.id) {
+      this.selection.forEach((item) => {
+        if (item.id === row.id) {
           flag = true;
           this.$refs.table.toggleRowSelection(row);
         }
       })
 
-      if(!flag){
+      if (!flag) {
         this.$refs.table.toggleRowSelection(row, true);
       }
     },
@@ -355,10 +357,10 @@ export default {
     },
     singleDelete(row) {
       this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
-          confirmButtonText: this.$t("common.confirm"),
-          cancelButtonText: this.$t("common.cancel"),
-          type: "warning"
-        })
+        confirmButtonText: this.$t("common.confirm"),
+        cancelButtonText: this.$t("common.cancel"),
+        type: "warning"
+      })
         .then(() => {
           this.delete({ids: [row.id]});
         })
@@ -369,18 +371,18 @@ export default {
     delete(data) {
       activitiApi.deleteInst(data).then(response => {
         const res = response.data;
-          if (res.isSuccess) {
-            this.$message({
-              message: this.$t("tips.deleteSuccess"),
-              type: 'success'
-            });
-            this.search();
-          } else {
-            this.$message({
-              message: response.msg,
-              type: 'error'
-            });
-          }
+        if (res.isSuccess) {
+          this.$message({
+            message: this.$t("tips.deleteSuccess"),
+            type: 'success'
+          });
+          this.search();
+        } else {
+          this.$message({
+            message: response.msg,
+            type: 'error'
+          });
+        }
       }).finally(() => this.loading = false);
     },
     singleDetail(row) {
@@ -398,22 +400,26 @@ export default {
 .file-breadcrumb {
   margin: 10px 0px 20px;
 }
+
 .page {
   text-align: center;
   margin-top: 5px;
 }
+
 .button-list {
   margin-right: 10px;
   font-size: 20px !important;
   color: #22a2ed;
   vertical-align: middle;
 }
+
 .title {
   color: #777;
   font-size: 2em;
   border-bottom: 1px solid #e5e5e5;
 }
-div{
+
+div {
   &.hover-effect {
     cursor: pointer;
     transition: background 0.3s;
