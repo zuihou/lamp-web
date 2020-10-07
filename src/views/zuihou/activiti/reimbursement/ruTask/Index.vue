@@ -39,21 +39,9 @@
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
-        :label="$t('table.ruTaskModel.id')"
-        :show-overflow-tooltip="true"
-        align="left"
-        prop="id"
-        width="150px"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
         :label="$t('table.ruTaskModel.name')"
         :show-overflow-tooltip="true"
         align="center"
-        width="250px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
@@ -116,6 +104,7 @@
         :label="$t('table.ruTaskModel.createTime')"
         align="center"
         :show-overflow-tooltip="true"
+        width="170px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.inst.data.startTime }}</span>

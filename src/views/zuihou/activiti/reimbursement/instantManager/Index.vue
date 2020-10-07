@@ -40,7 +40,6 @@
             class="filter-item search-item"
             v-model="queryParams.model.name"
           />
-          </el-input>
         </el-form-item>
       </el-form>
       <el-button @click="search" class="filter-item" plain type="primary">
@@ -64,22 +63,10 @@
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
-        :label="$t('table.instantReimbursementModel.id')"
-        :show-overflow-tooltip="true"
-        align="left"
-        prop="id"
-        width="350px"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
         :label="$t('table.instantReimbursementModel.name')"
         :show-overflow-tooltip="true"
         align="center"
         prop="name"
-        width="250px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
@@ -136,6 +123,7 @@
         :label="$t('table.instantReimbursementModel.createTime')"
         align="center"
         :show-overflow-tooltip="true"
+        width="170px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>

@@ -39,21 +39,9 @@
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
-        :label="$t('table.ruTaskModel.id')"
-        :show-overflow-tooltip="true"
-        align="left"
-        prop="id"
-        width="150px"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
         :label="$t('table.ruTaskModel.name')"
         :show-overflow-tooltip="true"
         align="center"
-        width="250px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
@@ -73,7 +61,7 @@
         :label="$t('table.ruTaskModel.type')"
         :show-overflow-tooltip="true"
         align="center"
-        width="300px"
+        width="100px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.biz.data.type }}</span>
@@ -106,7 +94,7 @@
         :label="$t('table.ruTaskModel.startUser')"
         :show-overflow-tooltip="true"
         align="center"
-        width="250px"
+        width="170px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.inst.data.startUser.data }}</span>
@@ -116,7 +104,7 @@
         :label="$t('table.ruTaskModel.startTime')"
         align="center"
         :show-overflow-tooltip="true"
-        width="250px"
+        width="170px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.inst.data.startTime }}</span>
@@ -128,6 +116,7 @@
         column-key="operation"
         class-name="small-padding fixed-width"
         fixed="right"
+        width="200px"
       >
         <template slot-scope="{ row }">
           <i

@@ -32,16 +32,6 @@
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
-        :label="$t('table.definitionModel.tenantId')"
-        :show-overflow-tooltip="true"
-        align="center"
-        width="120px"
-      >
-        <template slot-scope="scope">
-          <el-tag type="success">{{ scope.row.tenantId }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
         :label="$t('table.definitionModel.id')"
         :show-overflow-tooltip="true"
         align="left"
@@ -97,6 +87,7 @@
         :label="$t('table.definitionModel.deploymentTime')"
         align="center"
         :show-overflow-tooltip="true"
+        width="170px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.deploymentTime }}</span>

@@ -64,22 +64,10 @@
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
-        :label="$t('table.instantModel.id')"
-        :show-overflow-tooltip="true"
-        align="left"
-        prop="id"
-        width="350px"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
         :label="$t('table.instantModel.name')"
         :show-overflow-tooltip="true"
         align="center"
         prop="name"
-        width="250px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
@@ -124,7 +112,7 @@
         :label="$t('table.instantModel.starttime')"
         align="center"
         :show-overflow-tooltip="true"
-        width="360px"
+        width="170px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.starttime }}</span>
@@ -134,7 +122,7 @@
         :label="$t('table.instantModel.endtime')"
         align="center"
         :show-overflow-tooltip="true"
-        width="360px"
+        width="170px"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.endtime }}</span>
@@ -146,6 +134,7 @@
         column-key="operation"
         class-name="small-padding fixed-width"
         fixed="right"
+        width="200px"
       >
         <template slot-scope="{ row }">
           <i
