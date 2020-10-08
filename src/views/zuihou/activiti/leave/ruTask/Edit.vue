@@ -7,10 +7,10 @@
       <el-form id="model" :model="subFormInst" label-position="left" label-width="80px" ref="form" :inline="true"  style="text-align:left">
         <el-row  style="margin: 0 auto;width:80%;">
           <el-col :span="12">
-            <el-form-item label="开始时间" prop="starttime">
+            <el-form-item label="开始时间" prop="startTime">
               <el-date-picker
                 :disabled="row.id != null"
-                v-model="subFormInst.starttime"
+                v-model="subFormInst.startTime"
                 value-format="yyyy-MM-dd "
                 type="date"
                 placeholder="选择时间">
@@ -18,10 +18,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="结束时间" prop="endtime">
+            <el-form-item label="结束时间" prop="endTime">
               <el-date-picker
                 :disabled="row.id != null"
-                v-model="subFormInst.endtime"
+                v-model="subFormInst.endTime"
                 value-format="yyyy-MM-dd"
                 type="date"
                 placeholder="选择时间">
@@ -29,10 +29,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="请假时长" prop="whenlong">
+            <el-form-item label="请假时长" prop="whenLong">
               <el-input
                 :disabled="row.id != null"
-                v-model="subFormInst.whenlong"/>
+                v-model="subFormInst.whenLong"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -185,9 +185,9 @@
 import activitiApi from "@/api/Activiti.js";
 function subFormInst(){
   return {
-    starttime: '',
-    endtime: '',
-    whenlong: '',
+    startTime: '',
+    endTime: '',
+    whenLong: '',
     type: '',
     reason: ''
   }

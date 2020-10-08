@@ -133,13 +133,12 @@
 </template>
 <script>
 
-import db from '@/utils/localstorage'
 import activitiApi from "@/api/Activiti.js";
 function subForm(){
   return {
-    starttime: '',
-    endtime: '',
-    whenlong: '',
+    startTime: '',
+    endTime: '',
+    whenLong: '',
     type: '',
     reason: ''
   }
@@ -196,11 +195,12 @@ export default {
         return
       }
       vm.loading = true
-      activitiApi.getItemList({ instId: vm.row.instId}).then(response => {
+      debugger
+      activitiApi.getItemList({ instId: vm.row.inst.key}).then(response => {
         const res = response.data;
         if (res.code === 0 && res.data) {
           vm.tableData = res.data
-          vm.getReadyTaskByInst(vm.row.instId)
+          vm.getReadyTaskByInst(vm.row.inst.key)
         }
       }).finally();
     },
@@ -209,6 +209,7 @@ export default {
       if (!vm.row.id) {
         return
       }
+      debugger
       activitiApi.getDetailInstReimbursement({ id: vm.row.id}).then(response => {
         const res = response.data;
         if (res.code === 0) {

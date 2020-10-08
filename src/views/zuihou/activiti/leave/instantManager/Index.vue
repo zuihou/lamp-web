@@ -116,7 +116,7 @@
         width="170px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.starttime }}</span>
+          <span>{{ scope.row.startTime }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -126,7 +126,7 @@
         width="170px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.endtime }}</span>
+          <span>{{ scope.row.endTime }}</span>
         </template>
       </el-table-column>
       <el-table-column
