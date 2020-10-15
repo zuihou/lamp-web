@@ -25,7 +25,7 @@
             </el-tooltip>
           </div>
           <commonTree :tree-data="menuTree" @nodeClick="nodeClick" ref="menuTree">
-            <template scope="treeNode">
+            <template slot-scope="treeNode">
               <span class="tree-icon">
                 <i :class="treeNode.data.icon ? treeNode.data.icon : 'el-icon-document'"/>
               </span>
@@ -65,9 +65,10 @@
                 <span>{{ menuComponent }}</span>
               </el-form-item>
               <el-form-item :label="$t('table.menu.icon')" prop="icon">
-                <el-input v-model="menu.icon">
-                  <el-button @click="chooseIcons" icon="el-icon-brush" slot="append" style="padding-left: 0;"/>
-                </el-input>
+<!--                <el-input v-model="menu.icon">-->
+<!--                  <el-button @click="chooseIcons" icon="el-icon-brush" slot="append" style="padding-left: 0;"/>-->
+<!--                </el-input>-->
+                <e-icon-picker v-model="menu.icon"/>
               </el-form-item>
               <el-row>
                 <el-col :span="12">
