@@ -13,7 +13,7 @@
         {{ $t("table.reset") }}
       </el-button>
 
-      <el-button @click="upload" class="filter-item" plain type="danger" v-has-permission="['file:add']">
+      <el-button @click="upload" class="filter-item" plain type="danger">
         {{ $t("table.upload") }}
       </el-button>
     </div>
