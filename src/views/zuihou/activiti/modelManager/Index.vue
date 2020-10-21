@@ -358,6 +358,7 @@ export default {
     publish(row) {
       activitiApi.publishModel({modelId: row.id}).then(response => {
         const res = response.data;
+        debugger
           if (res.isSuccess) {
             this.$message({
               message: this.$t("tips.publishSuccess"),

@@ -291,7 +291,7 @@ export default {
     singleView(row) {
       const vm = this;
       vm.viewTag = true;
-      vm.viewUrl = `${vm.url}/api/activiti/static/readResource?pdid=${row.id}&resourceName=${row.diagramResourceName}`;
+      vm.viewUrl = `${process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX}/api/activiti/static/readResource?pdid=${row.id}&resourceName=${row.diagramResourceName}`;
     },
     singleViewXML(row) {
       const vm = this;
