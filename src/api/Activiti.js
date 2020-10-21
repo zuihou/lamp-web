@@ -27,7 +27,7 @@ const apiList = {
     url: `/activiti/definition/page`
   },
   deleteDefinition: {
-    method: 'post',
+    method: 'delete',
     url: `/activiti/definition/delete`
   },
   updateSuspendState: {

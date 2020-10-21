@@ -80,7 +80,9 @@
         width="120px"
       >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.suspendState === suspendStateType.start ? 'success' : 'warning'">{{ scope.row.suspendStateName }}</el-tag>
+          <el-tag :type="scope.row.suspendState === suspendStateType.start ? 'success' : 'warning'">
+            {{ scope.row.suspendStateName }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -153,41 +155,30 @@
     />
     <el-dialog
       title="流程图"
-      :visible.sync="viewTag" :fullscreen="true" >
-      <iframe  v-if="viewTag" :src="viewUrl" style="width: 100%; height:700px" ></iframe>
-    </el-dialog>
-    <el-dialog
-      title="上传"
-      :visible.sync="uploadTag" :fullscreen="true">
-      <el-upload
-        class="upload-demo"
-        drag
-        action="/api/activiti/definition/upload"
-        :on-success="fetch"
-        :headers="headers"
-        multiple>
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-      </el-upload>
+      :visible.sync="viewTag" :fullscreen="true">
+      <iframe v-if="viewTag" :src="viewUrl" style="width: 100%; height:700px"></iframe>
     </el-dialog>
     <XmlView ref="XmlView"></XmlView>
+    <upload
+      :dialog-visible="uploadTag"
+      type="上传"
+      @close="uploadClose"
+      @success="uploadSuccess"
+      ref="edit"
+    />
   </div>
 </template>
 
 <script>
 import Pagination from "@/components/Pagination";
 import XmlView from "./XmlView";
+import Upload from "./Upload";
 import activitiApi from "@/api/Activiti.js";
-import { renderSize } from "@/utils/utils";
-import { onlinePreview } from "@/settings";
-import { downloadFile, initQueryParams } from '@/utils/commons'
-import db from '@/utils/localstorage'
-
+import {initQueryParams} from '@/utils/commons'
 
 export default {
   name: "DeploymentManage",
-  components: { Pagination, XmlView },
+  components: {Pagination, XmlView, Upload},
   filters: {},
   data() {
     return {
@@ -195,31 +186,23 @@ export default {
       viewXMLTag: false,
       uploadTag: false,
       viewTag: false,
-      url: process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX,
       suspendStateType: {
         start: '1',
         stop: '2'
       },
       tableKey: 0,
       queryParams: initQueryParams({
-        model:{}
+        model: {}
       }),
       selection: [],
       loading: false,
       tableData: {
         records: [],
         total: 0
-      }
+      },
     };
   },
   computed: {
-    headers() {
-      return {
-        token: 'Bearer ' + db.get("TOKEN", ""),
-        tenant: db.get("TENANT", "") || "",
-        Authorization: `Basic ${Base64.encode(`${process.env.VUE_APP_CLIENT_ID}:${process.env.VUE_APP_CLIENT_SECRET}`)}`
-      };
-    }
   },
   mounted() {
     this.fetch();
@@ -237,19 +220,19 @@ export default {
         }
       }).finally(() => this.loading = false);
     },
-    cellClick (row, column) {
+    cellClick(row, column) {
       if (column['columnKey'] === "operation") {
         return;
       }
       let flag = false;
-      this.selection.forEach((item)=>{
-        if(item.id === row.id) {
+      this.selection.forEach((item) => {
+        if (item.id === row.id) {
           flag = true;
           this.$refs.table.toggleRowSelection(row);
         }
       })
 
-      if(!flag){
+      if (!flag) {
         this.$refs.table.toggleRowSelection(row, true);
       }
     },
@@ -263,7 +246,7 @@ export default {
     },
     reset() {
       this.queryParams = initQueryParams({
-        model:{}
+        model: {}
       });
       this.$refs.table.clearSort();
       this.$refs.table.clearFilter();
@@ -271,40 +254,35 @@ export default {
     },
     singleEdit(row) {
       const vm = this;
+      debugger
       var data = {
-        depId: row.deploymentId,
+        id: row.id,
         suspendState: row.suspendState
       }
-      // if (row.suspendState === vm.suspendStateType.stop) {
-      //   data.suspendState = vm.suspendStateType.start;
-      // } else {
-      //   data.suspendState = vm.suspendStateType.stop;
-      // }
-
       activitiApi.updateSuspendState(data).then(response => {
         const res = response.data;
-          if (res.isSuccess) {
-            this.$message({
-              message: this.$t("tips.updateSuccess"),
-              type: 'success'
-            });
-            this.search();
-          } else {
-            this.$message({
-              message: response.msg,
-              type: 'error'
-            });
-          }
+        if (res.isSuccess) {
+          this.$message({
+            message: this.$t("tips.updateSuccess"),
+            type: 'success'
+          });
+          this.search();
+        } else {
+          this.$message({
+            message: response.msg,
+            type: 'error'
+          });
+        }
       }).finally(() => this.loading = false);
     },
     singleDelete(row) {
       this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
-          confirmButtonText: this.$t("common.confirm"),
-          cancelButtonText: this.$t("common.cancel"),
-          type: "warning"
-        })
+        confirmButtonText: this.$t("common.confirm"),
+        cancelButtonText: this.$t("common.cancel"),
+        type: "warning"
+      })
         .then(() => {
-          this.delete({ids: [row.deploymentId]});
+          this.delete({deploymentIds: [row.deploymentId]});
         })
         .catch(() => {
           this.reset();
@@ -322,18 +300,18 @@ export default {
     delete(data) {
       activitiApi.deleteDefinition(data).then(response => {
         const res = response.data;
-          if (res.isSuccess) {
-            this.$message({
-              message: this.$t("tips.deleteSuccess"),
-              type: 'success'
-            });
-            this.search();
-          } else {
-            this.$message({
-              message: response.msg,
-              type: 'error'
-            });
-          }
+        if (res.isSuccess) {
+          this.$message({
+            message: this.$t("tips.deleteSuccess"),
+            type: 'success'
+          });
+          this.search();
+        } else {
+          this.$message({
+            message: response.msg,
+            type: 'error'
+          });
+        }
       }).finally(() => this.loading = false);
     },
     upload() {
@@ -342,20 +320,26 @@ export default {
     singleMappingrow(row) {
       activitiApi.saveModelByPro({processDefinitionId: row.id}).then(response => {
         const res = response.data;
-          if (res.isSuccess) {
-            this.$message({
-              message: this.$t("tips.mappingSuccess"),
-              type: 'success'
-            });
-            this.search();
-          } else {
-            this.$message({
-              message: response.msg,
-              type: 'error'
-            });
-          }
+        if (res.isSuccess) {
+          this.$message({
+            message: this.$t("tips.mappingSuccess"),
+            type: 'success'
+          });
+          this.search();
+        } else {
+          this.$message({
+            message: response.msg,
+            type: 'error'
+          });
+        }
       }).finally(() => this.loading = false);
     },
+    uploadClose() {
+      this.uploadTag = false
+    },
+    uploadSuccess() {
+      this.search();
+    }
 
   }
 };
@@ -364,22 +348,26 @@ export default {
 .file-breadcrumb {
   margin: 10px 0px 20px;
 }
+
 .page {
   text-align: center;
   margin-top: 5px;
 }
+
 .button-list {
   margin-right: 10px;
   font-size: 20px !important;
   color: #22a2ed;
   vertical-align: middle;
 }
+
 .title {
   color: #777;
   font-size: 2em;
   border-bottom: 1px solid #e5e5e5;
 }
-div{
+
+div {
   &.hover-effect {
     cursor: pointer;
     transition: background 0.3s;
