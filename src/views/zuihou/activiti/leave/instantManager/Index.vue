@@ -130,6 +130,16 @@
         </template>
       </el-table-column>
       <el-table-column
+        :label="$t('table.createTime')"
+        align="center"
+        :show-overflow-tooltip="true"
+        width="170px"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.createTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         :label="$t('table.operation')"
         align="center"
         column-key="operation"
