@@ -332,6 +332,7 @@ export default {
       id: '流程主键',
       tenantId: '租户编号',
       name: '流程名称',
+      deploymentName: '部署名称',
       key: '流程标识',
       version: '流程版本',
       suspendStateName: '状态',

@@ -3,6 +3,7 @@
     <div class="filter-container">
       <el-input
         :placeholder="$t('table.definitionModel.name')"
+        clearable
         class="filter-item search-item"
         v-model="queryParams.model.name"
       />
@@ -51,6 +52,17 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="$t('table.definitionModel.deploymentName')"
+        :show-overflow-tooltip="true"
+        align="center"
+        prop="name"
+        width="350px"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.deploymentName }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -133,7 +145,7 @@
           <i
             title="查看流程XML"
             @click="singleViewXML(row)"
-            class="el-icon-picture-outline table-operation"
+            class="el-icon-s-operation table-operation"
             style="color: #f50;"
           />
           <i

@@ -37,6 +37,7 @@
         <el-form-item :label="$t('table.instantModel.name')">
           <el-input
             :placeholder="$t('table.instantModel.name')"
+            clearable
             class="filter-item search-item"
             v-model="queryParams.model.name"
           />

@@ -1,8 +1,23 @@
 <template>
   <el-dialog :close-on-click-modal="false" :title="title" :type="type" :visible.sync="isVisible" :width="width" @dragDialog="handleDrag" top="50px" v-el-drag-dialog>
     <el-form :model="attachment" :rules="rules" label-position="right" label-width="100px" ref="form">
+      <el-form-item :label="$t('table.definitionModel.deploymentName')">
+        <el-input
+          clearable
+          style="width: 200px"
+          v-model="attachment.defName"
+        />
+      </el-form-item>
       <el-form-item label="文件" prop="fileLength">
-        <fileUpload :acceptSize="5*1024*1024" :action="action" :auto-upload="false" :limit="5" @fileLengthVaild="fileLengthVaild" @setId="setIdAndSubmit" ref="fileRef">
+        <fileUpload 
+          :acceptSize="5*1024*1024"
+          accept=".zip"
+          :action="action" 
+          :auto-upload="false" 
+          :limit="5" 
+          @fileLengthVaild="fileLengthVaild" 
+          @setId="setIdAndSubmit" 
+          ref="fileRef">
           <el-button size="small" slot="trigger" type="primary">选取文件</el-button>
           <div class="el-upload__tip" slot="tip">文件不超过5MB, 只能上传zip文件</div>
         </fileUpload>
@@ -46,6 +61,7 @@ export default {
           validator: (rule, value, callback) => {
             const vm = this;
             if (vm.fileLength === 0) {
+              debugger
               callback(new Error("请上传文件"))
             } else if (vm.fileLength > 5) {
               callback(new Error("一次性只能上传5个文件"))
@@ -88,6 +104,7 @@ export default {
         bizId: '',
         bizType: '',
         file: null,
+        defName: '',
       }
     },
     handleDrag () {
@@ -142,7 +159,7 @@ export default {
     editSubmit () {
       const vm = this
       vm.disabled = true
-      vm.$refs.fileRef.submitFile(this.attachment.id, this.attachment.bizId, this.attachment.bizType)
+      vm.$refs.fileRef.submitFile(this.attachment.id, this.attachment.bizId, this.attachment.bizType, this.attachment.defName)
     },
     setIdAndSubmit (isUploadCompleted) {
       const vm = this

@@ -3,6 +3,7 @@
     <div class="filter-container">
       <el-input
         :placeholder="$t('table.activitiModel.name')"
+        clearable
         class="filter-item search-item"
         v-model="queryParams.model.name"
       />
@@ -120,7 +121,7 @@
             style="color: #00e1ff;"
           />
           <i
-            title="导出流程XML"
+            title="导出流程ZIP"
             @click="singleExport(row)"
             class="el-icon-download table-operation"
             style="color: #59ff00;"

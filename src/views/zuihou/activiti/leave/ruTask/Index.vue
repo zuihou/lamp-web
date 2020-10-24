@@ -15,6 +15,7 @@
         <el-form-item :label="$t('table.ruTaskModel.name')">
           <el-input
             :placeholder="$t('table.ruTaskModel.name')"
+            clearable
             class="filter-item search-item"
             v-model="queryParams.model.name"
           />

@@ -326,7 +326,7 @@ export default {
       };
     },
     // 附件上传服务器触发方法
-    submitFile(id, bizId, bizType) {
+    submitFile(id, bizId, bizType, name) {
       const vm = this;
       vm.fileOtherData.id = id;
       if (bizId) {
@@ -334,6 +334,9 @@ export default {
         vm.isUpload = true;
       }
       vm.fileOtherData.bizType = bizType;
+      if (name) {
+        vm.fileOtherData.name = name
+      }
       vm.$refs[vm.uploadRef].submit();
       vm.addFileAry = [];
     },

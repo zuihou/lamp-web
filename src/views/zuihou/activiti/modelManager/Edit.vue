@@ -3,6 +3,7 @@
     <el-dialog
       title="模型管理"
       :fullscreen="true"
+      :modal-append-to-body="false"
       :visible.sync="editVisible"
       @close="editClose">
       <div id="editView" class="edit-view">

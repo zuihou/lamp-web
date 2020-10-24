@@ -37,6 +37,7 @@
         <el-form-item :label="$t('table.instantReimbursementModel.name')">
           <el-input
             :placeholder="$t('table.instantReimbursementModel.name')"
+            clearable
             class="filter-item search-item"
             v-model="queryParams.model.name"
           />
