@@ -119,7 +119,7 @@
                             onclick="window.open('https://github.com/zuihou/')">github</el-tag>
                     <el-divider direction="vertical"/>
                     <el-tag type="danger" effect="dark" style="cursor: pointer"
-                            onclick="window.open('https://www.kancloud.cn/zuihou/zuihou-admin-cloud/1620904/')">增强商业版</el-tag>
+                            onclick="window.open('https://www.kancloud.cn/zuihou/zuihou-admin-cloud/2003629')">增强商业版</el-tag>
                     </span>
                   </div>
                 </el-card>
