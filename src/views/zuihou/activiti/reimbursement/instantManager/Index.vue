@@ -398,4 +398,10 @@ div {
     }
   }
 }
+
+/deep/.el-table:not(.el-table--scrollable-x) {
+    .el-table__fixed-right {
+        height: calc(100% - 1px) !important;
+    }
+}
 </style>
