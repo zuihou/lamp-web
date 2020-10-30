@@ -101,7 +101,7 @@
                      width="420"
                      trigger="click">
                       <div>1.二维码打赏45元及以上，备注邮箱可得开发文档一份（支持后续更新，比看云的价格便宜哦）</div>
-                      <div>2.二维码额外支付499元及以上，备注邮箱后加群联系群主，作者在线指导24小时（累计），解答项目相关的一切问题、二开注意事项</div>
+                      <div>2.额外支付499元及以上，备注邮箱后加群联系作者，作者远程指导、解答项目相关后端问题、二开注意事项。时间：一周（工作日晚上1小时，周末晚上2小时）</div>
                       <img :src="donation" width="400px" height="200px"/>
                      <el-tag type="danger"  style="cursor: pointer" slot="reference" >
                         超级VIP
@@ -215,7 +215,7 @@
           },
           {
             name: 'Mybatis-Plus',
-            des: 'Mybatis-plus 3.2.0：Mybatis 增强组件',
+            des: 'Mybatis-plus：Mybatis 增强组件',
             avatar: 'MP'
           },
           {
