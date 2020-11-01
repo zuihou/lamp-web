@@ -1,22 +1,22 @@
 import axios from 'axios'
-import {Message, MessageBox} from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import db from '@/utils/localstorage'
-import {Base64} from 'js-base64';
+import { Base64 } from 'js-base64';
 
 // 请求添加条件，如token
 axios.interceptors.request.use(config => {
-    const isToken = config.headers['X-isToken'] === false ? config.headers['X-isToken'] : true;
-    const token = db.get('TOKEN', '');
-    if (token && isToken) {
-      config.headers.token = 'Bearer ' + token;
-    }
+  const isToken = config.headers['X-isToken'] === false ? config.headers['X-isToken'] : true;
+  const token = db.get('TOKEN', '');
+  if (token && isToken) {
+    config.headers.token = 'Bearer ' + token;
+  }
 
-    config.headers.tenant = db.get('TENANT', '')
-    const clientId = process.env.VUE_APP_CLIENT_ID;
-    const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
-    config.headers['Authorization'] = `Basic ${Base64.encode(`${clientId}:${clientSecret}`)}`;
-    return config
-  },
+  config.headers.tenant = db.get('TENANT', '')
+  const clientId = process.env.VUE_APP_CLIENT_ID;
+  const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
+  config.headers['Authorization'] = `Basic ${Base64.encode(`${clientId}:${clientSecret}`)}`;
+  return config
+},
   error => {
     return Promise.reject(error)
   }
@@ -32,7 +32,7 @@ axios.interceptors.response.use(
   }
 )
 
-function handleError(error, reject, opts) {
+function handleError (error, reject, opts) {
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
   isAlert = isAlert === undefined ? true : isAlert;
   if (isAlert) {
@@ -41,13 +41,25 @@ function handleError(error, reject, opts) {
         message: '请求超时'
       })
     } else if (error.response && error.response.data) {
-      if(error.response.data.msg){
-        Message({
-          message: error.response.data.msg
+      const resData = error.response.data;
+      if (resData.code === 40000 || resData.code === 40001
+        || resData.code === 40002 || resData.code === 40003
+        || resData.code === 40005 || resData.code === 40006
+        || resData.code === 40008
+      ) {
+        MessageBox.alert(resData.msg || resData.message, '提醒', {
+          confirmButtonText: '确定',
+          callback: () => {
+            window.location.hash = '/login'
+          }
         })
-      } else if(error.response.data.message){
+      } if (resData.msg) {
         Message({
-          message: error.response.data.message
+          message: resData.msg
+        })
+      } else if (resData.message) {
+        Message({
+          message: resData.message
         })
       }
     } else if (error.message) {
@@ -59,18 +71,19 @@ function handleError(error, reject, opts) {
   reject(error)
 }
 
-function handleSuccess(res, resolve, opts) {
+function handleSuccess (res, resolve, opts) {
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
   isAlert = isAlert === undefined ? true : isAlert;
-  if (res.data.isError) {
+  const resData = res.data;
+  if (resData.isError) {
     // 未登录
-    if (res.data.code === 40000 || res.data.code === 40001
-      || res.data.code === 40002 || res.data.code === 40003
-      || res.data.code === 40005 || res.data.code === 40006
-      || res.data.code === 40008
+    if (resData.code === 40000 || resData.code === 40001
+      || resData.code === 40002 || resData.code === 40003
+      || resData.code === 40005 || resData.code === 40006
+      || resData.code === 40008
     ) {
       debugger
-      MessageBox.alert(res.data.msg, '提醒', {
+      MessageBox.alert(resData.msg, '提醒', {
         confirmButtonText: '确定',
         callback: () => {
           window.location.hash = '/login'
@@ -78,7 +91,7 @@ function handleSuccess(res, resolve, opts) {
       })
     } else {
       if (isAlert) {
-        Message.error(res.data.msg);
+        Message.error(resData.msg);
       }
     }
   }
