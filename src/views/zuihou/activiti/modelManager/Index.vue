@@ -336,7 +336,7 @@ export default {
     },
     export(row) {
       const vm = this
-      var url = `${vm.url}/api/activiti/static/exportXMLByModelId?modelId=${row.id}`;
+      var url = `/api/activiti/static/exportXMLByModelId?modelId=${row.id}`;
       window.location.href = url;
     },
     delete(row) {

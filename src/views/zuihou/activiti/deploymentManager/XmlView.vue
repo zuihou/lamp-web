@@ -46,7 +46,7 @@ export default {
       }
       setTimeout(function() {
         view = document.getElementById('editView')
-        view.innerHTML = `<iframe width=100% id="frameNode" height=100% scrolling='no' frameborder=0 src=${vm.url}/api/activiti/static/goViewXml?pdid=${row.id}&resourceName=${row.resourceName}&token=${db.get('TOKEN', '')}></iframe>`;
+        view.innerHTML = `<iframe width=100% id="frameNode" height=100% scrolling='no' frameborder=0 src=/api/activiti/static/goViewXml?pdid=${row.id}&resourceName=${row.resourceName}&token=${db.get('TOKEN', '')}></iframe>`;
 
       }, 2000)
     },
