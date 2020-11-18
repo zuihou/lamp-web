@@ -75,7 +75,7 @@ function handleSuccess (res, resolve, opts) {
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
   isAlert = isAlert === undefined ? true : isAlert;
   const resData = res.data;
-  if (resData.isError) {
+  if (!resData.isSuccess) {
     // 未登录
     if (resData.code === 40000 || resData.code === 40001
       || resData.code === 40002 || resData.code === 40003
