@@ -1,12 +1,12 @@
 ### zuihou-ui
 
-zuihou-ui 是[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)微服务权限系统的 `租户后台`，基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
+zuihou-ui 是[lamp-cloud](https://github.com/zuihou/lamp-cloud)微服务权限系统的 `租户后台`，基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
 
 所谓`租户后台`，即是给租户（客户）使用，而`开发&运营后台`则是给使用此框架的公司内部人员维护项目使用。
 
 ## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢!!
 
-## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+## 详细文档: https://www.kancloud.cn/zuihou/lamp-cloud
 
 ## 交流群： 63202894
     加群前请先将下方项目点star，支持下群主，谢谢😘
@@ -17,7 +17,7 @@ zuihou-ui 是[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud)�
 
 | 项目          | gitee                                          | github                                       |
 | ------------- | ---------------------------------------------- | -------------------------------------------- |
-| 微服务项目    | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud |
+| 微服务项目    | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud |
 | 单体项目      | https://gitee.com/zuihou111/zuihou-admin-boot  | https://github.com/zuihou/zuihou-admin-boot  |
 | 租户后台      | https://gitee.com/zuihou111/zuihou-ui          | https://github.com/zuihou/zuihou-ui          |
 | 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui    | https://github.com/zuihou/zuihou-admin-ui    |
@@ -76,7 +76,7 @@ B公司和C公司分别拿着账号， 在 zuihou-ui(租户后台) 上试用， 
 
 ## 适当修改配置
 
-由于本项目为了同时支持 zuihou-admin-cloud 和 zuihou-admin-boot 2 个项目，但前者由于多了一个网关服务，所以在请求 URI 上比后者多了一段 网关的 URI，
+由于本项目为了同时支持 lamp-cloud 和 zuihou-admin-boot 2 个项目，但前者由于多了一个网关服务，所以在请求 URI 上比后者多了一段 网关的 URI，
 （比如，同样是获取验证码的接口， 在者的地址：/api/authority/anno/captcha， 后者：/anno/captcha）
 所以想要前端项目尽可能少的改动代码，需要通过 nginx 或者 vue 的 uri 代理功能（但 uri 代理只能在开发环境使用）
 
@@ -91,7 +91,7 @@ proxy: {
     target: targetUrl,
     changeOrigin: true,
     pathRewrite: {
-      // zuihou-admin-cloud 项目 请使用以下的配置
+      // lamp-cloud 项目 请使用以下的配置
       ['^' + proxyUrl]: proxyUrl
 
       // zuihou-admin-boot 项目 请使用以下的配置
@@ -108,7 +108,7 @@ proxy: {
 
 2. .env.development
 ```
-# 后端为 zuihou-admin-cloud 项目： http://127.0.0.1:8760 表示zuihou-gateway-server服务的访问地址，非本机访问，请配置内网ip
+# 后端为 lamp-cloud 项目： http://127.0.0.1:8760 表示zuihou-gateway-server服务的访问地址，非本机访问，请配置内网ip
 # 后端为 zuihou-admin-boot 项目： http://127.0.0.1:8760 表示zuihou-authority-server服务的访问地址，非本机访问，请配置内网ip
 VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8760'
 ```
@@ -154,4 +154,4 @@ npm run build:prod
 
 由于本人前端技能特别水，在做这 2 个前端项目时，都是边学边写，所以前端的 bug 较多，代码写的也不规范，导致 eslint 报了很多警告，
 若你会前端（vue）的或者知道怎么设置 vscode 的格式化规则或者知道怎么设置.eslint 配置的规则，欢迎提交 pr 或者进 qq 群指导一下群主。
-本人感激不尽，并赠送后端文档（https://kancloud.cn/zuihou/zuihou-admin-cloud）一份，且提供zuihou-admin-cloud项目的任何支持（启动运行，报错，二次开发，部署等）。
+本人感激不尽，并赠送后端文档（https://kancloud.cn/zuihou/lamp-cloud）一份，且提供lamp-cloud项目的任何支持（启动运行，报错，二次开发，部署等）。

@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-info">
-      <div class="title">zuihou-ui</div>
+      <div class="title">lamp-vue</div>
       <div class="title">{{ $t("common.system") }}</div>
       <div class="desc">1. {{ $t("common.desc.a") }}</div>
       <div class="desc">2. {{ $t("common.desc.b") }}</div>
@@ -10,23 +10,14 @@
       <div class="desc">5. {{ $t("common.desc.e") }}</div>
       <div class="desc">6. {{ $t("common.desc.f") }}</div>
       <div class="desc">
-        7.
-        <a href="http://tangyh.top:180/zuihou-admin-ui" target="_blank"
-          >开发&运营后台</a
-        >
-      </div>
-      <div class="desc">
         8. 源码：
-        <a href="https://github.com/zuihou/zuihou-admin-cloud" target="_blank"
+        <a href="https://github.com/zuihou/lamp-cloud" target="_blank"
           >github</a
         >、
-        <a href="https://gitee.com/zuihou111/zuihou-admin-cloud" target="_blank"
+        <a href="https://gitee.com/zuihou111/lamp-cloud" target="_blank"
           >gitee</a
         >、
-        <a href="https://gitee.com/zuihou111/zuihou-ui" target="_blank">ui</a>、
-        <a href="https://gitee.com/zuihou111/zuihou-admin-ui" target="_blank"
-          >zuihou-admin-ui</a
-        >
+        <a href="https://gitee.com/zuihou111/lamp-vue" target="_blank">ui</a>
       </div>
     </div>
     <el-form
@@ -211,7 +202,7 @@
     <span class="login-footer">
       © 2019 - 2020
       <a href="https://github.com/zuihou" target="_blank">zuihou</a> -
-      zuihou-admin-cloud
+      lamp-cloud
     </span>
   </div>
 </template>
@@ -246,8 +237,8 @@ export default {
         { img: "microsoft.png", name: "microsoft", radius: false }
       ],
       loginForm: {
-        account: "zuihou",
-        password: "zuihou",
+        account: "lamp",
+        password: "lamp",
         tenantView: "0000", //显示用的
         tenant: "", //传递给后端的
         key: randomNum(24, 16),
@@ -518,7 +509,6 @@ export default {
       this.loading = true;
       const that = this;
       this.$store.commit("account/setTenant", this.loginForm.tenant);
-      debugger;
       loginApi
         .login(this.loginForm)
         .then(response => {

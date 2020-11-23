@@ -266,7 +266,6 @@ export default {
     },
     singleEdit(row) {
       const vm = this;
-      debugger
       var data = {
         id: row.id,
         suspendState: row.suspendState

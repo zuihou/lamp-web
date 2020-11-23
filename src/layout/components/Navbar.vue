@@ -41,7 +41,7 @@
               </div>
             </div>
             <div class="avue-notice__more">
-              <router-link :to="{path:'/msgs/myMsgs'}">点击查看更多<i class="el-icon-more"/></router-link>
+              <router-link :to="{path:'/msg/myMsgs'}">点击查看更多<i class="el-icon-more"/></router-link>
             </div>
           </div>
           <el-badge :value="tableData.total" :max="99" :hidden="tableData.total <= 0" class="badge-item" slot="reference">
@@ -72,13 +72,13 @@
           </el-dropdown-item>
           <a
             target="_blank"
-            href="https://github.com/zuihou/zuihou-admin-cloud"
+            href="https://github.com/zuihou/lamp-cloud"
           >
             <el-dropdown-item>{{ $t("navbar.github") }}</el-dropdown-item>
           </a>
           <a
             target="_blank"
-            href="https://www.kancloud.cn/zuihou/zuihou-admin-cloud/"
+            href="https://www.kancloud.cn/zuihou/lamp-cloud/"
           >
             <el-dropdown-item>{{ $t("navbar.docs") }}</el-dropdown-item>
           </a>
@@ -202,7 +202,7 @@ export default {
       this.mark([row.id], ids => {
         this.loadMyMsgs();
         this.$router.push({
-          path: "/msgs/sendMsgs",
+          path: "/msg/sendMsgs",
           query: {
             id: row.id,
             type: "view"

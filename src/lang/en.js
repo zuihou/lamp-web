@@ -14,7 +14,7 @@ export default {
     deleteCache: 'DeleteCache'
   },
   login: {
-    title: 'zuihou-admin-cloud',
+    title: 'lamp-cloud',
     logIn: 'Login',
     tenant: 'tenant',
     username: 'Username',
@@ -351,7 +351,7 @@ export default {
     sidebarLogo: 'Sidebar Logo'
   },
   system: {
-    title: 'zuihou-admin-cloud'
+    title: 'lamp-cloud'
   },
   tips: {
     systemError: 'System maintenance, please try again~',

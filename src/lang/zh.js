@@ -14,7 +14,7 @@ export default {
     deleteCache: '清除缓存'
   },
   login: {
-    title: 'zuihou-admin-cloud',
+    title: 'lamp-cloud',
     logIn: '立即登录',
     tenant: '企业',
     username: '账号',
@@ -414,7 +414,7 @@ export default {
     sidebarLogo: '侧边栏 Logo'
   },
   system: {
-    title: 'zuihou-admin-cloud'
+    title: 'lamp-cloud'
   },
   tips: {
     systemError: '系统维护中，请稍微再试~',

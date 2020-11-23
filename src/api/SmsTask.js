@@ -2,32 +2,32 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    url: `/msgs/smsTask/page`,
+    url: `/msg/smsTask/page`,
     method: 'POST'
   },
   save: {
-    url: `/msgs/smsTask`,
+    url: `/msg/smsTask`,
     method: 'POST'
   },
   update: {
-    url: `/msgs/smsTask`,
+    url: `/msg/smsTask`,
     method: 'PUT'
   },
   delete: {
-    url: `/msgs/smsTask`,
+    url: `/msg/smsTask`,
     method: 'DELETE'
   },
   preview: {
     method: 'POST',
-    url: `/msgs/smsTask/preview`
+    url: `/msg/smsTask/preview`
   },
   export: {
     method: 'POST',
-    url: `/msgs/smsTask/export`
+    url: `/msg/smsTask/export`
   },
   import: {
     method: 'POST',
-    url: `/msgs/smsTask/import`
+    url: `/msg/smsTask/import`
   }
 }
 
@@ -58,7 +58,7 @@ export default {
   },
   get (id) {
     return axiosApi({
-      url: `/msgs/smsTask/${id}`,
+      url: `/msg/smsTask/${id}`,
       method: 'GET'
     })
   },

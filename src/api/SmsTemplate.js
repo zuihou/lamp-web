@@ -2,36 +2,36 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    url: `/msgs/smsTemplate/page`,
+    url: `/msg/smsTemplate/page`,
     method: 'POST'
   },
   save: {
-    url: `/msgs/smsTemplate`,
+    url: `/msg/smsTemplate`,
     method: 'POST'
   },
   update: {
-    url: `/msgs/smsTemplate`,
+    url: `/msg/smsTemplate`,
     method: 'PUT'
   },
   delete: {
-    url: `/msgs/smsTemplate`,
+    url: `/msg/smsTemplate`,
     method: 'DELETE'
   },
   check: {
-    url: `/msgs/smsTemplate/check`,
+    url: `/msg/smsTemplate/check`,
     method: 'GET'
   },
   preview: {
     method: 'POST',
-    url: `/msgs/smsTemplate/preview`
+    url: `/msg/smsTemplate/preview`
   },
   export: {
     method: 'POST',
-    url: `/msgs/smsTemplate/export`
+    url: `/msg/smsTemplate/export`
   },
   import: {
     method: 'POST',
-    url: `/msgs/smsTemplate/import`
+    url: `/msg/smsTemplate/import`
   }
 }
 

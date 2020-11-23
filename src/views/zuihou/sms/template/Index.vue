@@ -175,7 +175,7 @@ export default {
       fileImport: {
         isVisible: false,
         type: "import",
-        action: `${process.env.VUE_APP_BASE_API}/msgs/smsTemplate/import`
+        action: `${process.env.VUE_APP_BASE_API}/msg/smsTemplate/import`
       },
       tableKey: 0,
       queryParams: initQueryParams({

@@ -48,10 +48,10 @@ module.exports = {
         target: targetUrl,
         changeOrigin: true,
         pathRewrite: {
-          // zuihou-admin-cloud  项目使用这段配置
+          // lamp-cloud  项目使用这段配置
           ['^' + proxyUrl]: proxyUrl
 
-          // zuihou-admin-boot 项目 请使用以下的配置
+          // lamp-boot 项目 请使用以下的配置
           // ['^/api/oauth']: '/',
           // ['^/api/authority']: '/',
           // ['^/api/file']: '/',

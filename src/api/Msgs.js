@@ -2,32 +2,32 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    url: `/msgs/msgsCenterInfo/page`,
+    url: `/msg/msg/page`,
     method: 'POST'
   },
   mark: {
-    url: `/msgs/msgsCenterInfo/mark`,
+    url: `/msg/msg/mark`,
     method: 'GET'
   },
   save: {
-    url: `/msgs/msgsCenterInfo`,
+    url: `/msg/msg`,
     method: 'POST'
   },
   delete: {
-    url: `/msgs/msgsCenterInfo`,
+    url: `/msg/msg`,
     method: 'DELETE'
   },
   preview: {
     method: 'POST',
-    url: `/msgs/msgsCenterInfo/preview`
+    url: `/msg/msg/preview`
   },
   export: {
     method: 'POST',
-    url: `/msgs/msgsCenterInfo/export`
+    url: `/msg/msg/export`
   },
   import: {
     method: 'POST',
-    url: `/msgs/msgsCenterInfo/import`
+    url: `/msg/msg/import`
   }
 }
 
@@ -59,7 +59,7 @@ export default {
   },
   get (id) {
     return axiosApi({
-      url: `/msgs/msgsCenterInfo/${id}`,
+      url: `/msg/msg/${id}`,
       method: 'GET'
     })
   },
