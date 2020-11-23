@@ -98,18 +98,18 @@
       </el-table-column>
       <el-table-column
         :filter-multiple="false"
-        column-key="status"
+        column-key="state"
         :filters="[
-          { text: $t('common.status.valid'), value: true },
-          { text: $t('common.status.invalid'), value: false }
+          { text: $t('common.state.valid'), value: true },
+          { text: $t('common.state.invalid'), value: false }
         ]"
-        :label="$t('table.station.status')"
+        :label="$t('table.station.state')"
         class-name="status-col"
         width="70px"
       >
         <template slot-scope="{ row }">
-          <el-tag :type="row.status | statusFilter">{{
-            row.status ? $t("common.status.valid") : $t("common.status.invalid")
+          <el-tag :type="row.state | stateFilter">{{
+            row.state ? $t("common.state.valid") : $t("common.state.invalid")
             }}
           </el-tag>
         </template>
@@ -208,12 +208,12 @@
     directives: {elDragDialog},
     components: {Pagination, StationEdit, Treeselect, FileImport},
     filters: {
-      statusFilter(status) {
+      stateFilter(state) {
         const map = {
           false: "danger",
           true: "success"
         };
-        return map[status] || "success";
+        return map[state] || "success";
       }
     },
     data() {
@@ -262,7 +262,7 @@
     methods: {
       initOrg() {
         orgApi
-          .allTree({status: true})
+          .allTree({state: true})
           .then(response => {
             const res = response.data;
             this.orgList = res.data;

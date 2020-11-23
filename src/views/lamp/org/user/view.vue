@@ -68,8 +68,8 @@
       <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-bangzhu" />
-          <span>{{ $t('table.user.status') +'：' }}</span>
-          {{ user.status ? $t('common.status.valid') : $t('common.status.invalid') }}
+          <span>{{ $t('table.user.state') +'：' }}</span>
+          {{ user.state ? $t('common.state.valid') : $t('common.state.invalid') }}
         </div>
       </el-col>
     </el-row>

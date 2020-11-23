@@ -74,7 +74,7 @@ export default {
       stationId: '岗位',
       email: '邮箱',
       sex: '性别',
-      status: '状态',
+      state: '状态',
       mobile: '电话',
       avatar: '头像',
       workDescribe: '个人描述',
@@ -129,13 +129,13 @@ export default {
       parentId: '上级ID',
       type: '类型',
       sortValue: '排序',
-      status: '状态'
+      state: '状态'
     },
     station: {
       name: '岗位名称',
       describe: '描述',
       orgId: '组织',
-      status: '状态'
+      state: '状态'
     },
     optLog: {
       requestIp: 'IP',
@@ -507,6 +507,10 @@ export default {
       secret: '保密'
     },
     status: {
+      valid: '启用',
+      invalid: '禁用'
+    },
+    state: {
       valid: '启用',
       invalid: '禁用'
     },

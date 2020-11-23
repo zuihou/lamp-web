@@ -108,10 +108,10 @@
           <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.POSITION_STATUS" />
         </el-select>
       </el-form-item>
-      <el-form-item :label="$t('table.user.status')" prop="status">
-        <el-radio-group v-model="user.status">
-          <el-radio :label="true">{{ $t("common.status.valid") }}</el-radio>
-          <el-radio :label="false">{{ $t("common.status.invalid") }}</el-radio>
+      <el-form-item :label="$t('table.user.state')" prop="state">
+        <el-radio-group v-model="user.state">
+          <el-radio :label="true">{{ $t("common.state.valid") }}</el-radio>
+          <el-radio :label="false">{{ $t("common.state.invalid") }}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('table.user.workDescribe')" prop="workDescribe">
@@ -220,7 +220,7 @@ export default {
           message: this.$t("rules.require"),
           trigger: "change"
         },
-        status: {
+        state: {
           required: true,
           message: this.$t("rules.require"),
           trigger: "blur"
@@ -290,7 +290,7 @@ export default {
         positionStatus: {
           key: ""
         },
-        status: true,
+        state: true,
         avatar: "",
         workDescribe: "",
         password: "123456"
@@ -318,7 +318,7 @@ export default {
       if (orgId) {
         stationApi.page({
           size: 10000,
-          model:{ orgId: { key: orgId }, status: true }
+          model:{ orgId: { key: orgId }, state: true }
         }).then(response => {
           const res = response.data;
           this.stationList = res.data.records;

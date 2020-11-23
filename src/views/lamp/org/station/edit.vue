@@ -30,10 +30,10 @@
           v-model="station.org.key"
         />
       </el-form-item>
-      <el-form-item :label="$t('table.station.status')" prop="status">
-        <el-radio-group v-model="station.status">
-          <el-radio :label="true">{{ $t("common.status.valid") }}</el-radio>
-          <el-radio :label="false">{{ $t("common.status.invalid") }}</el-radio>
+      <el-form-item :label="$t('table.station.state')" prop="state">
+        <el-radio-group v-model="station.state">
+          <el-radio :label="true">{{ $t("common.state.valid") }}</el-radio>
+          <el-radio :label="false">{{ $t("common.state.invalid") }}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('table.station.describe')" prop="describe">
@@ -107,7 +107,7 @@ export default {
             trigger: "blur"
           }
         ],
-        status: {
+        state: {
           required: true,
           message: this.$t("rules.require"),
           trigger: "blur"
@@ -148,7 +148,7 @@ export default {
           key: null,
           data: null
         },
-        status: true,
+        state: true,
         describe: ""
       };
     },

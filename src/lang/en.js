@@ -74,7 +74,7 @@ export default {
       stationId: 'Station',
       email: 'Email',
       sex: 'Gender',
-      status: 'Status',
+      state: 'state',
       mobile: 'Mobile',
       avatar: 'Avatar',
       workDescribe: 'WorkDescribe',
@@ -129,13 +129,13 @@ export default {
       parentId: 'ParentId',
       type: 'Type',
       sortValue: 'SortValue',
-      status: 'Status'
+      state: 'Status'
     },
     station: {
       name: 'Name',
       describe: 'Describe',
       orgId: 'Org',
-      status: 'Status'
+      state: 'State'
     },
     optLog: {
       requestIp: 'IP',
@@ -444,6 +444,10 @@ export default {
       secret: 'Secret'
     },
     status: {
+      valid: 'Valid',
+      invalid: 'Invalid'
+    },
+    state: {
       valid: 'Valid',
       invalid: 'Invalid'
     },

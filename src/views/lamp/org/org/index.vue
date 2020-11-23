@@ -18,7 +18,7 @@
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item @click.native="deleteOrg" v-has-permission="['org:delete']">{{ $t('table.delete') }}
-                </el-dropdown-item>
+                </el-dropdown-item>Ø
                 <el-dropdown-item @click.native="exportExcel" v-has-permission="['org:export']">
                   {{ $t("table.export") }}
                 </el-dropdown-item>
@@ -61,10 +61,10 @@
               <el-form-item :label="$t('table.org.describe')" prop="describe">
                 <el-input v-model="org.describe"/>
               </el-form-item>
-              <el-form-item :label="$t('table.org.status')" prop="status">
-                <el-radio-group v-model="org.status">
-                  <el-radio-button :label="true">{{ $t('common.status.valid') }}</el-radio-button>
-                  <el-radio-button :label="false">{{ $t('common.status.invalid') }}</el-radio-button>
+              <el-form-item :label="$t('table.org.state')" prop="state">
+                <el-radio-group v-model="org.state">
+                  <el-radio-button :label="true">{{ $t('common.state.valid') }}</el-radio-button>
+                  <el-radio-button :label="false">{{ $t('common.state.invalid') }}</el-radio-button>
                 </el-radio-group>
               </el-form-item>
               <el-form-item :label="$t('table.org.sortValue')" prop="sortValue">
@@ -113,6 +113,7 @@
   import elDragDialog from '@/directive/el-drag-dialog'
   import FileImport from "@/components/zuihou/Import"
   import { downloadFile, initDicts } from '@/utils/commons'
+  import roleApi from "@/api/Role";
 
   export default {
     name: 'OrgManager',
@@ -136,6 +137,18 @@
           label: [
             {required: true, message: this.$t('rules.require'), trigger: 'blur'},
             {min: 1, max: 255, message: this.$t('rules.range3to10'), trigger: 'blur'}
+          ],
+          type: [
+            {required: true, message: this.$t('rules.require'), trigger: 'change'},
+            {
+              validator: (rule, value, callback) => {
+                if (value.key === null || value.key.trim().length <= 0) {
+                  callback(this.$t('rules.require'))
+                } else {
+                  callback()
+                }
+              }, trigger: 'change'
+            }
           ]
         },
         dicts: {
@@ -157,7 +170,7 @@
             key: ''
           },
           parentId: 0,
-          status: true,
+          state: true,
           describe: '',
           sortValue: 0
         }
