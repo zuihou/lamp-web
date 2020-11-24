@@ -14,6 +14,7 @@ export default {
     device: 'desktop',
     language: getLanguage(),
     sidebarLogo: db.get('SIDEBAR_LOGO', true),
+    uniqueOpened: db.get('UNIQUE_OPENED', true),
     multipage: db.get('MULTIPAGE', true),
     fixSiderbar: db.get('FIX_SIDERBAR', true),
     fixHeader: db.get('FIX_HEADER', true),
@@ -77,6 +78,10 @@ export default {
     setSidebarLogo(state, val) {
       db.save('SIDEBAR_LOGO', val)
       state.sidebarLogo = val
+    },
+    setUniqueOpened(state, val) {
+      db.save('UNIQUE_OPENED', val)
+      state.uniqueOpened = val
     },
     setTheme(state, val) {
       state.theme = val

@@ -412,7 +412,8 @@ export default {
     theme: '主题色',
     tagsView: '开启 Tags-View',
     fixedHeader: '固定 Header',
-    sidebarLogo: '侧边栏 Logo'
+    sidebarLogo: '侧边栏 Logo',
+    uniqueOpened: '只保持一个子菜单的展开'
   },
   system: {
     title: 'lamp-cloud'

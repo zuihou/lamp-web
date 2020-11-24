@@ -11,6 +11,11 @@
       </div>
 
       <div class='drawer-item'>
+        <span>{{ $t('settings.uniqueOpened') }}</span>
+        <el-switch v-model='uniqueOpened' class='drawer-switch' />
+      </div>
+
+      <div class='drawer-item'>
         <span>{{ $t('settings.tagsView') }}</span>
         <el-switch v-model='tagsView' class='drawer-switch' />
       </div>
@@ -59,6 +64,14 @@ export default {
       },
       set (val) {
         this.$store.commit('setting/setSidebarLogo', val)
+      }
+    },
+    uniqueOpened: {
+      get () {
+        return this.$store.state.setting.uniqueOpened
+      },
+      set (val) {
+        this.$store.commit('setting/setUniqueOpened', val)
       }
     }
   },
