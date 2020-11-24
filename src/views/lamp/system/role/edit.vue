@@ -8,10 +8,10 @@
       <el-form-item :label="$t('table.role.name')" prop="name">
         <el-input v-model="role.name"/>
       </el-form-item>
-      <el-form-item :label="$t('table.role.status')" prop="status">
-        <el-radio-group v-model="role.status">
-          <el-radio-button :label="true">{{ $t('common.status.valid') }}</el-radio-button>
-          <el-radio-button :label="false">{{ $t('common.status.invalid') }}</el-radio-button>
+      <el-form-item :label="$t('table.role.state')" prop="state">
+        <el-radio-group v-model="role.state">
+          <el-radio-button :label="true">{{ $t('common.state.valid') }}</el-radio-button>
+          <el-radio-button :label="false">{{ $t('common.state.invalid') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('table.role.describe')" prop="describe">
@@ -94,7 +94,7 @@
               }, trigger: 'blur'
             }
           ],
-          status: {required: true, message: this.$t('rules.require'), trigger: 'blur'},
+          state: {required: true, message: this.$t('rules.require'), trigger: 'blur'},
           orgList: {
             validator: (rule, value, callback) => {
               if (this.role.dsType.code === 'CUSTOMIZE') {
@@ -141,7 +141,7 @@
           code: '',
           name: '',
           orgList: [],
-          status: true,
+          state: true,
           describe: '',
           dsType: {
             code: 'SELF',
@@ -160,7 +160,7 @@
         }
       },
       initOrg() {
-        orgApi.allTree({status: true})
+        orgApi.allTree({state: true})
           .then((response) => {
             const res = response.data
 

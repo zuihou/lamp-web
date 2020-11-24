@@ -96,8 +96,8 @@ export default {
       code: '编码',
       name: '角色名称',
       describe: '角色描述',
-      status: '状态',
-      readonly: '是否内置',
+      state: '状态',
+      readonly: '内置',
       createTime: '创建时间',
       dsType: '数据范围',
       orgList: '组织'
@@ -107,15 +107,16 @@ export default {
       label: '名称',
       describe: '描述',
       code: '权限编码',
-      isPublic: '是否公有',
+      isGeneral: '通用菜单',
       path: '路由URI',
       type: '类型',
       component: '组件',
-      isEnable: '是否启用',
+      state: '状态',
       sortValue: '排序',
       parentId: '上级ID',
       icon: '图标',
-      group: '分组'
+      group: '分组',
+      readonly: '内置'
     },
     resource: {
       code: '编码',
@@ -382,6 +383,7 @@ export default {
       createTime: '处理时间',
     },
     status: '状态',
+    state: '状态',
     refresh: '刷新',
     operation: '操作',
     search: '搜索',

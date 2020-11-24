@@ -4,7 +4,7 @@
       <el-form-item :label="$t('table.resource.code')" prop="code">
         <el-input :disabled="type==='edit'" @keyup.enter.native="submitForm" v-model="resource.code" />
         <p class="note">建议使用:作为分隔符，并以view、add、update、delete、export、import、download、upload等关键词结尾</p>
-        <p class="note">如：menu:add、 resource:view、 file:upload</p>
+        <p class="note">如：authority:menu:add、 authority:resource:view、 msg:sms:add</p>
       </el-form-item>
       <el-form-item :label="$t('table.resource.name')" @keyup.enter.native="submitForm" prop="name">
         <el-input v-model="resource.name" />

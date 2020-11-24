@@ -102,7 +102,7 @@ export default {
       }
     },
     initUserList () {
-      userApi.page({ current: 1, size: 100000, model: {status: true} })
+      userApi.page({ current: 1, size: 100000, model: {state: true} })
         .then((response) => {
           const res = response.data
 

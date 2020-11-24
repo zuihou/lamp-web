@@ -25,26 +25,26 @@
       />
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t("table.search") }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t("table.reset") }}</el-button>
-      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['station:add']">
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['authority:station:add']">
         {{ $t("table.add") }}
       </el-button>
       <el-dropdown class="filter-item" trigger="click"
-                   v-has-any-permission="['station:delete','station:export','station:import']">
+                   v-has-any-permission="['authority:station:delete','authority:station:export','authority:station:import']">
         <el-button>
           {{ $t("table.more") }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['station:delete']">
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['authority:station:delete']">
             {{ $t("table.delete") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['station:export']">
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['authority:station:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['station:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['authority:station:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="importExcel" v-has-permission="['station:import']">
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['authority:station:import']">
             {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -137,17 +137,17 @@
             @click="edit(row)"
             class="el-icon-edit table-operation"
             style="color: #2db7f5;"
-            v-hasPermission="['station:update']"
+            v-hasPermission="['authority:station:update']"
           />
           <i
             @click="singleDelete(row)"
             class="el-icon-delete table-operation"
             style="color: #f50;"
-            v-hasPermission="['station:delete']"
+            v-hasPermission="['authority:station:delete']"
           />
           <el-link
             class="no-perm"
-            v-has-no-permission="['station:update', 'station:delete']"
+            v-has-no-permission="['authority:station:update', 'authority:station:delete']"
           >{{ $t("tips.noPermission") }}
           </el-link
           >

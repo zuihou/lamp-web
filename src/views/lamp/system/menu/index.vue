@@ -8,16 +8,16 @@
                       clearable v-model="label"/>
             <el-tooltip class="item" content="新增/删除时，请先勾选菜单" effect="dark" placement="right">
               <el-dropdown class="filter-item" trigger="click"
-                           v-has-any-permission="['menu:add','menu:delete','menu:export']">
+                           v-has-any-permission="['authority:menu:add','authority:menu:delete','authority:menu:export']">
                 <el-button>
                   {{ $t('table.more') }}
                   <i class="el-icon-arrow-down el-icon--right"/>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item @click.native="add" v-has-permission="['menu:add']">
+                  <el-dropdown-item @click.native="add" v-has-permission="['authority:menu:add']">
                     {{ $t('table.add') }}
                   </el-dropdown-item>
-                  <el-dropdown-item @click.native="deleteMenu" v-has-permission="['menu:delete']">
+                  <el-dropdown-item @click.native="deleteMenu" v-has-permission="['authority:menu:delete']">
                     {{ $t('table.delete') }}
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -30,7 +30,7 @@
                 <i :class="treeNode.data.icon ? treeNode.data.icon : 'el-icon-document'"/>
               </span>
               <span class="tree-icon">
-                <el-badge :type="treeNode.data.isEnable ? 'success' :'danger'" class="status-item" is-dot/>
+                <el-badge :type="treeNode.data.state ? 'success' :'danger'" class="status-item" is-dot/>
               </span>
             </template>
           </commonTree>
@@ -42,7 +42,7 @@
             <span>{{ menu.id === '' ? this.$t('common.add') : this.$t('common.edit') }}</span>
           </div>
           <div>
-            <el-form :model="menu" :rules="rules" label-position="right" label-width="100px" ref="form">
+            <el-form :model="menu" :rules="rules" label-position="right" label-width="80px" ref="form">
               <el-form-item :label="$t('table.menu.parentId')" prop="parentId">
                 <el-tooltip :content="$t('tips.topId')" class="item" effect="dark" placement="right">
                   <el-input readonly v-model="menu.parentId"/>
@@ -51,12 +51,6 @@
               <el-form-item :label="$t('table.menu.label')" prop="label">
                 <el-input v-model="menu.label"/>
               </el-form-item>
-              <!-- <el-form-item :label='$t("table.menu.type")' prop='type'>
-                <el-radio-group v-model='menu.type'>
-                  <el-radio label='DIR'>目录</el-radio>
-                  <el-radio label='MENU'>菜单</el-radio>
-                </el-radio-group>
-              </el-form-item>-->
               <el-form-item :label="$t('table.menu.path')" prop="path">
                 <el-input @keyup.native="menuPath" v-model="menu.path"/>
               </el-form-item>
@@ -72,15 +66,15 @@
               </el-form-item>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item :label="$t('table.status')" prop="isEnable">
-                    <el-switch :active-text="$t('common.status.valid')" :inactive-text="$t('common.status.invalid')"
-                               v-model="menu.isEnable"/>
+                  <el-form-item :label="$t('table.state')" prop="state">
+                    <el-switch :active-text="$t('common.state.valid')" :inactive-text="$t('common.state.invalid')"
+                               v-model="menu.state"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item :label="$t('table.menu.isPublic')" prop="isPublic">
+                  <el-form-item :label="$t('table.menu.isGeneral')" prop="isGeneral">
                     <el-switch :active-text="$t('common.yes')" :inactive-text="$t('common.no')"
-                               v-model="menu.isPublic"/>
+                               v-model="menu.isGeneral"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -120,16 +114,16 @@
               <el-button @click="resourceSearch" class="filter-item" plain type="primary">{{ $t('table.search') }}
               </el-button>
               <el-dropdown class="filter-item" trigger="click"
-                           v-has-any-permission="['resource:add','resource:delete']">
+                           v-has-any-permission="['authority:resource:add','authority:resource:delete']">
                 <el-button>
                   {{ $t('table.more') }}
                   <i class="el-icon-arrow-down el-icon--right"/>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item :disabled="!menu.id" @click.native="resourceAdd"
-                                    v-has-permission="['resource:add']">{{ $t('table.add') }}
+                                    v-has-permission="['authority:resource:add']">{{ $t('table.add') }}
                   </el-dropdown-item>
-                  <el-dropdown-item @click.native="resourceBatchDelete" v-has-permission="['resource:delete']">{{
+                  <el-dropdown-item @click.native="resourceBatchDelete" v-has-permission="['authority:resource:delete']">{{
                     $t('table.delete') }}
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -165,10 +159,10 @@
                                width="100px">
                 <template slot-scope="{row}">
                   <i @click="resourceEdit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
-                     v-hasPermission="['resource:update']"/>
+                     v-hasPermission="['authority:resource:update']"/>
                   <i @click="resourceSingleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
-                     v-hasPermission="['resource:delete']"/>
-                  <el-link class="no-perm" v-has-no-permission="['resource:update','resource:delete']">{{
+                     v-hasPermission="['authority:resource:delete']"/>
+                  <el-link class="no-perm" v-has-no-permission="['authority:resource:update','authority:resource:delete']">{{
                     $t('tips.noPermission') }}
                   </el-link>
                 </template>
@@ -330,10 +324,10 @@
           label: '',
           describe: '',
           code: '',
-          isPublic: false,
+          isGeneral: false,
           path: '',
           component: '',
-          isEnable: true,
+          state: true,
           sortValue: '',
           parentId: 0,
           icon: '',

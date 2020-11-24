@@ -23,22 +23,22 @@
         {{ $t("table.add") }}
       </el-button>
       <el-dropdown class="filter-item" trigger="click"
-                   v-has-any-permission="[ 'role:delete', 'role:export', 'role:import']">
+                   v-has-any-permission="[ 'authority:role:delete', 'authority:role:export', 'authority:role:import']">
         <el-button>
           {{ $t("table.more") }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['role:delete']">
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['authority:role:delete']">
             {{ $t("table.delete") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['role:export']">
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['authority:role:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['role:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['authority:role:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="importExcel" v-has-permission="['role:import']">
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['authority:role:import']">
             {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -117,18 +117,18 @@
       </el-table-column>
       <el-table-column
         :filter-multiple="false"
-        column-key="status"
+        column-key="state"
         :filters="[
-          { text: $t('common.status.valid'), value: true },
-          { text: $t('common.status.invalid'), value: false }
+          { text: $t('common.state.valid'), value: true },
+          { text: $t('common.state.invalid'), value: false }
         ]"
-        :label="$t('table.role.status')"
+        :label="$t('table.role.state')"
         class-name="status-col"
         width="70px"
       >
         <template slot-scope="{ row }">
-          <el-tag :type="row.status | statusFilter">{{
-            row.status ? $t("common.status.valid") : $t("common.status.invalid")
+          <el-tag :type="row.state | stateFilter">{{
+            row.state ? $t("common.state.valid") : $t("common.state.invalid")
             }}
           </el-tag>
         </template>
@@ -157,51 +157,36 @@
             class="el-icon-edit table-operation"
             style="color: #2db7f5;"
             title="修改"
-            v-hasPermission="['role:update']"
+            v-hasPermission="['authority:role:update']"
           />
           <i
             @click="singleDelete(row)"
             class="el-icon-delete table-operation"
             style="color: #f50;"
             title="删除"
-            v-hasPermission="['role:delete']"
+            v-hasPermission="['authority:role:delete']"
           />
           <i
             @click="authUser(row)"
             class="el-icon-user table-operation"
             style="color: #87d068;"
             title="授权用户"
-            v-hasPermission="['role:auth']"
+            v-hasPermission="['authority:role:auth']"
           />
           <i
             @click="authResource(row)"
             class="el-icon-setting table-operation"
             style="color: #E6A23C"
             title="分配权限"
-            v-hasPermission="['role:config']"
+            v-hasPermission="['authority:role:config']"
           />
-
-          <!-- dropdown 有时候会有bug，不知道这么解决 -->
-
-          <!-- <el-dropdown v-has-any-permission="['role:delete','role:auth','role:config']">
-            <span class="el-dropdown-link">
-              {{ $t('table.more') }}
-              <i class="el-icon-arrow-down el-icon--right" />
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="singleDelete(row)" icon="el-icon-delete" v-hasPermission="['role:delete']">删除</el-dropdown-item>
-              <el-dropdown-item @click.native="authUser(row)" icon="el-icon-user" v-hasPermission="['role:auth']">授权</el-dropdown-item>
-              <el-dropdown-item @click.native="authResource(row)" icon="el-icon-setting" v-hasPermission="['role:config']">配置</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown> -->
-
           <el-link
             class="no-perm"
             v-has-no-permission="[
-              'role:update',
-              'role:delete',
-              'role:auth',
-              'role:config'
+              'authority:role:update',
+              'authority:role:delete',
+              'authority:role:auth',
+              'authority:role:config'
             ]"
           >{{ $t("tips.noPermission") }}
           </el-link
@@ -275,12 +260,12 @@
     directives: {elDragDialog},
     components: {Pagination, RoleEdit, UserRole, RoleAuthority, FileImport},
     filters: {
-      statusFilter(status) {
+      stateFilter(state) {
         const map = {
           false: "danger",
           true: "success"
         };
-        return map[status] || "success";
+        return map[state] || "success";
       }
     },
     data() {

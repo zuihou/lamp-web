@@ -7,25 +7,25 @@
             <el-input :placeholder="$t('table.org.label')" class="filter-item search-item" v-model="label"/>
             <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
             <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
-            <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['org:add']">{{
+            <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['authority:org:add']">{{
               $t("table.add") }}
             </el-button>
             <el-dropdown class="filter-item" trigger="click"
-                         v-has-any-permission="['org:delete','org:export', 'org:import']">
+                         v-has-any-permission="['authority:org:delete','authority:org:export', 'authority:org:import']">
               <el-button>
                 {{ $t('table.more') }}
                 <i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click.native="deleteOrg" v-has-permission="['org:delete']">{{ $t('table.delete') }}
-                </el-dropdown-item>Ø
-                <el-dropdown-item @click.native="exportExcel" v-has-permission="['org:export']">
+                <el-dropdown-item @click.native="deleteOrg" v-has-permission="['authority:org:delete']">{{ $t('table.delete') }}
+                </el-dropdown-item>
+                <el-dropdown-item @click.native="exportExcel" v-has-permission="['authority:org:export']">
                   {{ $t("table.export") }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['org:export']">
+                <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['authority:org:export']">
                   {{ $t("table.exportPreview") }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="importExcel" v-has-permission="['org:import']">
+                <el-dropdown-item @click.native="importExcel" v-has-permission="['authority:org:import']">
                   {{ $t("table.import") }}
                 </el-dropdown-item>
               </el-dropdown-menu>
