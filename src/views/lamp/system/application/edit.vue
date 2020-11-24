@@ -24,10 +24,10 @@
           </el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item :label="$t('table.application.status')" prop="status">
-        <el-radio-group border="true" size="small" v-model="application.status">
-          <el-radio-button :label="true">{{ $t('common.status.valid') }}</el-radio-button>
-          <el-radio-button :label="false">{{ $t('common.status.invalid') }}</el-radio-button>
+      <el-form-item :label="$t('table.application.state')" prop="state">
+        <el-radio-group border="true" size="small" v-model="application.state">
+          <el-radio-button :label="true">{{ $t('common.state.valid') }}</el-radio-button>
+          <el-radio-button :label="false">{{ $t('common.state.invalid') }}</el-radio-button>
         </el-radio-group>
         <aside class="tips">禁用：提示"请求地址,禁止访问!";</aside>
       </el-form-item>
@@ -73,7 +73,7 @@
             {required: true, message: this.$t('rules.require'), trigger: 'blur'},
             {min: 1, max: 255, message: this.$t('rules.range4to10'), trigger: 'blur'}
           ],
-          status: {required: true, message: this.$t('rules.require'), trigger: 'blur'}
+          state: {required: true, message: this.$t('rules.require'), trigger: 'blur'}
 
         },
         serviceList: [
@@ -119,7 +119,7 @@
           icon: '',
           appType: {code: 'SERVER'},
           describe: '',
-          status: true,
+          state: true,
         }
       },
       initWidth() {

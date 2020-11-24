@@ -34,25 +34,25 @@
       <el-button @click="reset" class="filter-item" plain type="warning">
         {{ $t("table.reset") }}
       </el-button>
-      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['parameter:add']">
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['authority:parameter:add']">
         {{ $t("table.add") }}
       </el-button>
       <el-dropdown class="filter-item" trigger="click"
-                   v-has-any-permission="['parameter:delete', 'parameter:export', 'parameter:import']">
+                   v-has-any-permission="['authority:parameter:delete', 'authority:parameter:export', 'authority:parameter:import']">
         <el-button>
           {{ $t("table.more") }}<i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['parameter:delete']">
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['authority:parameter:delete']">
             {{ $t("table.delete") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['parameter:export']">
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['authority:parameter:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['parameter:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['authority:parameter:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="importExcel" v-has-permission="['parameter:import']">
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['authority:parameter:import']">
             {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -95,13 +95,13 @@
           <span>{{ scope.row.describe }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.parameter.status')" :show-overflow-tooltip="true" align="center"
-                       :filter-multiple="false" column-key="status"
-                       :filters="[{ text: $t('common.status.valid'), value: true },{ text: $t('common.status.invalid'), value: false }]"
-                       prop="status" width="80px">
+      <el-table-column :label="$t('table.parameter.state')" :show-overflow-tooltip="true" align="center"
+                       :filter-multiple="false" column-key="state"
+                       :filters="[{ text: $t('common.state.valid'), value: true },{ text: $t('common.state.invalid'), value: false }]"
+                       prop="state" width="80px">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status ? 'success' : 'danger'" slot>
-            {{ scope.row.status ? $t("common.status.valid") : $t("common.status.invalid") }}
+          <el-tag :type="scope.row.state ? 'success' : 'danger'" slot>
+            {{ scope.row.state ? $t("common.state.valid") : $t("common.state.invalid") }}
           </el-tag>
         </template>
       </el-table-column>
@@ -110,7 +110,7 @@
                        :filters="[{ text: $t('common.yes'), value: 'true' }, { text: $t('common.no'), value: 'false' }]"
                        prop="readonly" width="70px">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.readonly ? 'success' : 'danger'" slot>
+          <el-tag :type="scope.row.readonly ? 'danger' : 'success'" slot>
             {{ scope.row.readonly ? $t("common.yes") : $t("common.no") }}
           </el-tag>
         </template>
@@ -129,12 +129,12 @@
         :label="$t('table.operation')" column-key="operation" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{ row }">
           <i @click="copy(row)" class="el-icon-copy-document table-operation" :title="$t('common.delete')"
-             style="color: #2db7f5;" v-hasPermission="['parameter:add']"/>
+             style="color: #2db7f5;" v-hasPermission="['authority:parameter:add']"/>
           <i @click="edit(row)" class="el-icon-edit table-operation" :title="$t('common.delete')"
-             style="color: #2db7f5;" v-hasPermission="['parameter:update']"/>
+             style="color: #2db7f5;" v-hasPermission="['authority:parameter:update']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" :title="$t('common.delete')"
-             style="color: #f50;" v-hasPermission="['parameter:delete']"/>
-          <el-link class="no-perm" v-has-no-permission="['parameter:update', 'parameter:add', 'parameter:delete']">
+             style="color: #f50;" v-hasPermission="['authority:parameter:delete']"/>
+          <el-link class="no-perm" v-has-no-permission="['authority:parameter:update', 'authority:parameter:add', 'authority:parameter:delete']">
             {{ $t("tips.noPermission") }}
           </el-link>
         </template>

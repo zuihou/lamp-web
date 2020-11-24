@@ -20,13 +20,13 @@
             <el-button @click="reset" class="filter-item" plain type="warning" >
               {{ $t("table.reset") }}
             </el-button>
-            <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['area:add']">
+            <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['authority:area:add']">
               {{ $t("table.add") }}
             </el-button>
             <el-dropdown
               class="filter-item"
               trigger="click"
-              v-has-any-permission="[ 'area:delete', 'area:export']"
+              v-has-any-permission="[ 'authority:area:delete', 'authority:area:export']"
             >
               <el-button>
                 {{ $t("table.more") }}
@@ -35,7 +35,8 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
                   @click.native="deleteArea"
-                  v-has-permission="['area:delete']"
+                  v-has-permission="['authority:' +
+                   'delete']"
                 >{{ $t("table.delete") }}
                 </el-dropdown-item>
 

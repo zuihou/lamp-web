@@ -23,24 +23,24 @@
         {{ $t("table.reset") }}
       </el-button>
       <el-dropdown class="filter-item" trigger="click"
-                   v-has-any-permission="['loginLog:delete', 'loginLog:export']">
+                   v-has-any-permission="['authority:loginLog:delete', 'authority:loginLog:export']">
         <el-button>
           {{ $t("table.more") }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['loginLog:delete']">
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['authority:loginLog:delete']">
             {{ $t("table.delete") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['loginLog:export']">
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['authority:loginLog:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['loginLog:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['authority:loginLog:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['loginLog:delete']">
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['authority:loginLog:delete']">
         <el-button>
           清理日志
           <i class="el-icon-arrow-down el-icon--right"/>
@@ -196,10 +196,10 @@
             @click="singleDelete(row)"
             class="el-icon-delete table-operation"
             style="color: #f50;"
-            v-has-permission="['loginLog:delete']"
+            v-has-permission="['authority:loginLog:delete']"
           />
 
-          <el-link class="no-perm" v-has-no-permission="['loginLog:delete']">{{
+          <el-link class="no-perm" v-has-no-permission="['authority:loginLog:delete']">{{
             $t("tips.noPermission")
             }}
           </el-link>

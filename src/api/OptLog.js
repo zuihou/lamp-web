@@ -34,6 +34,12 @@ export default {
       data
     })
   },
+  get (id) {
+    return axiosApi({
+      url: `/authority/optLog/${id}`,
+      method: 'get'
+    })
+  },
   delete (data) {
     return axiosApi({
       ...apiList.delete,

@@ -255,7 +255,7 @@ export default {
       icon: "应用图标",
       appType: "类型",
       describe: "备注",
-      status: "状态"
+      state: "状态"
     },
     dictionary: {
       type: "类型",
@@ -287,8 +287,8 @@ export default {
       name: "参数名称",
       value: '参数值',
       describe: '描述',
-      status: '状态',
-      readonly: '只读'
+      state: '状态',
+      readonly: '内置'
     },
     gen: {
       config: {

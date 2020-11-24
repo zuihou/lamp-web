@@ -16,23 +16,23 @@
       />
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
-      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['application:add']">
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['authority:application:add']">
         {{ $t("table.add") }}
       </el-button>
       <el-dropdown class="filter-item" trigger="click"
-                   v-has-any-permission="['application:delete','application:export']">
+                   v-has-any-permission="['authority:application:delete','authority:application:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['application:delete']">{{ $t('table.delete')
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['authority:application:delete']">{{ $t('table.delete')
             }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['application:export']">
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['authority:application:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['application:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['authority:application:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -75,11 +75,11 @@
           <span>{{ scope.row.appType ? scope.row.appType.desc : '' }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.application.status')" :show-overflow-tooltip="true" align="center"
-                       prop="status" width="70px">
+      <el-table-column :label="$t('table.application.state')" :show-overflow-tooltip="true" align="center"
+                       prop="state" width="70px">
         <template slot-scope="scope">
-          <el-badge :type="scope.row.status ? 'success' :'danger'" class="status-item" is-dot/>
-          <span>{{ scope.row.status? $t('common.status.valid') : $t('common.status.invalid') }}</span>
+          <el-badge :type="scope.row.state ? 'success' :'danger'" class="state-item" is-dot/>
+          <span>{{ scope.row.state? $t('common.state.valid') : $t('common.state.invalid') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.application.describe')" :show-overflow-tooltip="true" align="left"
@@ -99,9 +99,9 @@
                        class-name="small-padding fixed-width" fixed="right" width="110px">
         <template slot-scope="{row}">
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
-             v-has-permission="['application:update']"/>
+             v-has-permission="['authority:application:update']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
-             v-has-permission="['application:delete']"/>
+             v-has-permission="['authority:application:delete']"/>
         </template>
       </el-table-column>
     </el-table>

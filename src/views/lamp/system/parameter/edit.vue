@@ -28,10 +28,10 @@
       <el-form-item :label="$t('table.parameter.describe')" prop="describe">
         <el-input type="textarea" v-model="parameter.describe" placeholder="描述"/>
       </el-form-item>
-      <el-form-item :label="$t('table.parameter.status')" prop="status">
-        <el-radio-group v-model="parameter.status" size="medium">
-          <el-radio-button :label="true">{{ $t("common.status.valid") }}</el-radio-button>
-          <el-radio-button :label="false">{{ $t("common.status.invalid") }}</el-radio-button>
+      <el-form-item :label="$t('table.parameter.state')" prop="state">
+        <el-radio-group v-model="parameter.state" size="medium">
+          <el-radio-button :label="true">{{ $t("common.state.valid") }}</el-radio-button>
+          <el-radio-button :label="false">{{ $t("common.state.invalid") }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('table.parameter.readonly')" prop="readonly">
@@ -65,7 +65,17 @@ export default {
       screenWidth: 0,
       width: this.initWidth(),
       rules: {
-
+        key: [
+          {required: true, message: this.$t("rules.require"), trigger: "blur"},
+          { min: 1, max: 255, message: '最多不能超过255字符', trigger: "blur"}
+        ],
+        name: [
+          {required: true, message: this.$t("rules.require"), trigger: "blur"},
+          { min: 1, max: 255, message: '最多不能超过255字符', trigger: "blur"}
+        ],
+        value: [
+          { max: 255, message: '最多不能超过255字符', trigger: "blur"}
+        ],
       }
     };
   },
@@ -99,7 +109,7 @@ export default {
         name: '',
         value: '',
         describe: '',
-        status: true,
+        state: true,
         readonly: false,
       };
     },
@@ -116,7 +126,7 @@ export default {
     setParameter(val) {
       const vm = this;
       if (val) {
-        vm.parameter = { ...val };
+        vm.parameter = { ...vm.parameter, ...val };
       }
     },
     close() {

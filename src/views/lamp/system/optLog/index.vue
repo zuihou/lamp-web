@@ -16,22 +16,22 @@
       />
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
-      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['optLog:delete','optLog:export']">
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['authority:optLog:delete','authority:optLog:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['optLog:delete']">{{ $t('table.delete') }}
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['authority:optLog:delete']">{{ $t('table.delete') }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['optLog:export']">{{ $t('table.export') }}
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['authority:optLog:export']">{{ $t('table.export') }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['optLog:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['authority:optLog:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['optLog:delete']">
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['authority:optLog:delete']">
         <el-button>
           清理日志
           <i class="el-icon-arrow-down el-icon--right"/>
@@ -153,10 +153,10 @@
                        width="110px">
         <template slot-scope="{row}">
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
-             v-has-permission="['optLog:delete']"/>
+             v-has-permission="['authority:optLog:delete']"/>
           <i @click="onView(row)" class="el-icon-view table-operation" style="color: #87d068;"
-             v-has-permission="['optLog:view']"/>
-          <el-link class="no-perm" v-has-no-permission="['optLog:delete','optLog:view']">{{ $t('tips.noPermission') }}
+             v-has-permission="['authority:optLog:view']"/>
+          <el-link class="no-perm" v-has-no-permission="['authority:optLog:delete','authority:optLog:view']">{{ $t('tips.noPermission') }}
           </el-link>
         </template>
       </el-table-column>
@@ -440,8 +440,13 @@
         }
       },
       onView(row) {
-        this.currentRow = row
-        this.drawer = true
+        optLogApi.get(row.id) .then((response) => {
+          const res = response.data
+          if (res.isSuccess) {
+            this.currentRow = res.data
+            this.drawer = true
+          }
+        })
       },
       closeDrawer(done) {
         done()

@@ -255,7 +255,7 @@ export default {
       icon: "icon",
       appType: "appType",
       describe: "describe",
-      status: "status"
+      state: "state"
     },
     dictionary: {
       type: "type",
@@ -287,7 +287,7 @@ export default {
       name: "name",
       value: 'value',
       describe: 'describe',
-      status: 'status',
+      state: 'state',
       readonly: 'readonly'
     },
     gen: {
