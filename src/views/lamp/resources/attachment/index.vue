@@ -22,13 +22,13 @@
       <el-button @click="reset" class="filter-item" plain type="warning">
         {{ $t("table.reset") }}
       </el-button>
-      <el-button @click="upload" class="filter-item" plain type="danger" v-has-permission="['file:add']">
+      <el-button @click="upload" class="filter-item" plain type="danger" v-has-permission="['file:attachment:add']">
         {{ $t("table.upload") }}
       </el-button>
       <el-dropdown
         class="filter-item"
         trigger="click"
-        v-has-any-permission="['file:delete', 'file:download']"
+        v-has-any-permission="['file:attachment:delete', 'file:attachment:download']"
       >
         <el-button>
           {{ $t("table.more") }}
@@ -37,12 +37,12 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
             @click.native="batchDelete"
-            v-has-permission="['file:delete']"
+            v-has-permission="['file:attachment:delete']"
             >{{ $t("table.delete") }}</el-dropdown-item
           >
           <el-dropdown-item
             @click.native="batchDownload"
-            v-has-permission="['file:download']"
+            v-has-permission="['file:attachment:download']"
             >{{ $t("table.download") }}</el-dropdown-item
           >
         </el-dropdown-menu>
@@ -138,17 +138,17 @@
             @click="singleDownload(row)"
             class="el-icon-download table-operation"
             style="color: #f50;"
-            v-hasPermission="['file:download']"
+            v-hasPermission="['file:attachment:download']"
           />
           <i
             @click="singleDelete(row)"
             class="el-icon-delete table-operation"
             style="color: #f50;"
-            v-hasPermission="['file:delete']"
+            v-hasPermission="['file:attachment:delete']"
           />
           <el-link
             class="no-perm"
-            v-has-no-permission="['file:update', 'file:delete']"
+            v-has-no-permission="['file:attachment:update', 'file:attachment:delete']"
             >{{ $t("tips.noPermission") }}</el-link
           >
         </template>
