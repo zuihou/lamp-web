@@ -16,6 +16,22 @@ const apiList = {
   delete: {
     method: 'DELETE',
     url: `/authority/dictionary`
+  },
+  pageType: {
+    method: 'POST',
+    url:`/authority/dictionary/pageType`,
+  },
+  updateType: {
+    method: 'PUT',
+    url: `/authority/dictionary/type`
+  },
+  saveType: {
+    method: 'POST',
+    url: `/authority/dictionary/type`
+  },
+  deleteType: {
+    method: 'DELETE',
+    url: `/authority/dictionary/type`
   }
 }
 
@@ -43,5 +59,29 @@ export default {
       ...apiList.delete,
       data
     })
-  }
+  },
+  pageType (data) {
+    return axiosApi({
+      ...apiList.pageType,
+      data
+    })
+  },
+  saveType (data) {
+    return axiosApi({
+      ...apiList.saveType,
+      data
+    })
+  },
+  updateType (data) {
+    return axiosApi({
+      ...apiList.updateType,
+      data
+    })
+  },
+  deleteType (data) {
+    return axiosApi({
+      ...apiList.deleteType,
+      data
+    })
+  },
 }

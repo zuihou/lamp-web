@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="10">
-      <el-col :sm="12" :xs="24">
+      <el-col :sm="8" :xs="24">
         <el-card class="box-card">
           <div class="clearfix" slot="header">
             <span>字典列表</span>
@@ -9,10 +9,10 @@
           <dictionary @dictionaryClick="dictionaryClick" @resetItem="resetItem" ref="dictionary" />
         </el-card>
       </el-col>
-      <el-col :sm="12" :xs="24">
+      <el-col :sm="16" :xs="24">
         <el-card class="box-card">
           <div class="clearfix" slot="header">
-            <span>字典详情</span>
+            <span>[{{dictionary.label}}]字典详情</span>
           </div>
           <dictionary-item ref="dictionaryItem" />
         </el-card>
@@ -33,7 +33,9 @@ export default {
   },
   data () {
     return {
-
+      dictionary:{
+        label: ''
+      }
     }
   },
   computed: {
@@ -48,10 +50,13 @@ export default {
   },
   methods: {
     dictionaryClick (row) {
+      debugger
+      this.dictionary = row
       this.$refs.dictionaryItem.dictionaryClick(row)
     },
     resetItem () {
-      this.$refs.dictionaryItem.dictionaryClick({ id: -1 })
+      debugger
+      this.$refs.dictionaryItem.dictionaryClick({ type: '###' })
     }
   }
 }

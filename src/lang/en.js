@@ -259,18 +259,16 @@ export default {
     },
     dictionary: {
       type: "type",
-      name: "name",
-      describe: "describe",
-      status: "status"
-    },
-    dictionaryItem: {
-      dictionaryId: "dictionaryId",
-      dictionaryType: "dictionaryType",
+      label: "label",
       code: "code",
       name: "name",
       describe: "describe",
-      status: "status",
-      sortValue: "sortValue"
+      sortValue: "sortValue",
+      state: "state",
+      icon: "icon",
+      cssStyle: "cssStyle",
+      cssClass: "cssClass",
+      readonly: "readonly"
     },
     area: {
       code: "code",
@@ -337,7 +335,8 @@ export default {
     resetPassword: 'RestPassword',
     openInNewPage: 'New Page',
     createTime: 'createTime',
-    updateTime: 'updateTime'
+    updateTime: 'updateTime',
+    keyword: 'keyword'
   },
   tagsView: {
     refresh: 'Refresh',

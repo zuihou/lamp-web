@@ -259,18 +259,16 @@ export default {
     },
     dictionary: {
       type: "类型",
-      name: "名称",
-      describe: "描述",
-      status: "状态"
-    },
-    dictionaryItem: {
-      dictionaryId: "字典ID",
-      dictionaryType: "类型",
+      label: "类型标签",
       code: "编码",
       name: "名称",
       describe: "描述",
-      status: "状态",
-      sortValue: "排序"
+      state: "状态",
+      sortValue: "排序",
+      icon: "图标",
+      cssStyle: "样式",
+      cssClass: "类选择器",
+      readonly:"内置"
     },
     area: {
       code: "编码",
@@ -400,7 +398,8 @@ export default {
     resetPassword: '密码重置',
     openInNewPage: '新页面打开',
     createTime: '创建时间',
-    updateTime: '修改时间'
+    updateTime: '修改时间',
+    keyword: '关键词'
   },
   tagsView: {
     refresh: '刷新当前',

@@ -4,17 +4,14 @@
       <el-form-item :label="$t('table.dictionary.type')" prop="type">
         <el-input :disabled="type==='edit'" v-model="dictionary.type" />
       </el-form-item>
-      <el-form-item :label="$t('table.dictionary.name')" prop="name">
-        <el-input v-model="dictionary.name" />
+      <el-form-item :label="$t('table.dictionary.label')" prop="label">
+        <el-input v-model="dictionary.label" />
       </el-form-item>
-      <el-form-item :label="$t('table.dictionary.status')" prop="status">
-        <el-radio-group v-model="dictionary.status">
-          <el-radio :label="true">{{ $t('common.status.valid') }}</el-radio>
-          <el-radio :label="false">{{ $t('common.status.invalid') }}</el-radio>
+      <el-form-item :label="$t('table.dictionary.state')" prop="state">
+        <el-radio-group v-model="dictionary.state">
+          <el-radio :label="true">{{ $t('common.state.valid') }}</el-radio>
+          <el-radio :label="false">{{ $t('common.state.invalid') }}</el-radio>
         </el-radio-group>
-      </el-form-item>
-      <el-form-item :label="$t('table.dictionary.describe')" prop="describe">
-        <el-input v-model="dictionary.describe" />
       </el-form-item>
     </el-form>
     <div class="dialog-footer" slot="footer">
@@ -50,14 +47,14 @@ export default {
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 64, message: this.$t('rules.range4to10'), trigger: 'blur' }
         ],
-        name: [
+        label: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 64, message: this.$t('rules.range4to10'), trigger: 'blur' }
         ],
         describe: [
           { min: 1, max: 200, message: this.$t('rules.range4to10'), trigger: 'blur' }
         ],
-        status: { required: true, message: this.$t('rules.require'), trigger: 'blur' }
+        state: { required: true, message: this.$t('rules.require'), trigger: 'blur' }
       }
     }
   },
@@ -89,10 +86,9 @@ export default {
     initDictionary () {
       return {
         id: '',
-        name: '',
+        label: '',
         type: '',
-        status: true,
-        describe: ''
+        state: true
       }
     },
     initWidth () {
@@ -140,7 +136,7 @@ export default {
     },
     save () {
       const vm = this
-      dictionaryApi.save(this.dictionary)
+      dictionaryApi.saveType(this.dictionary)
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
@@ -154,7 +150,7 @@ export default {
         })
     },
     update () {
-      dictionaryApi.update(this.dictionary)
+      dictionaryApi.updateType(this.dictionary)
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {

@@ -1,23 +1,20 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input :placeholder="$t('table.dictionary.type')" size="small" class="filter-item search-item"
-                v-model="queryParams.model.type"/>
-      <el-input :placeholder="$t('table.dictionary.name')" size="small" class="filter-item search-item"
-                v-model="queryParams.model.name"/>
+      <el-input :placeholder="$t('table.keyword')" size="small" class="filter-item search-item"
+                v-model="queryParams.model.label" clearable/>
       <el-button @click="search" class="filter-item" plain type="primary" size="small">{{ $t('table.search') }}</el-button>
-      <el-button @click="reset" class="filter-item" plain type="warning" size="small">{{ $t('table.reset') }}</el-button>
       <el-dropdown class="filter-item" trigger="click"
-                   v-has-any-permission="['dict:delete','dict:export', 'dict:import']">
+                   v-has-any-permission="['authority:dictionary:delete','authority:dictionary:add']">
         <el-button size="small">
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="add" v-has-permission="['dict:add']">
+          <el-dropdown-item @click.native="add" v-has-permission="['authority:dictionary:add']">
             {{ $t('table.add') }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['dict:delete']">
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['authority:dictionary:delete']">
             {{ $t('table.delete') }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -43,44 +40,33 @@
           <span>{{ scope.row.type }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.dictionary.name')" :show-overflow-tooltip="true" align="center" prop="name">
+      <el-table-column :label="$t('table.dictionary.label')" :show-overflow-tooltip="true" align="center" prop="name">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('table.dictionary.describe')" :show-overflow-tooltip="true" align="center"
-                       prop="describe">
-        <template slot-scope="scope">
-          <span>{{ scope.row.describe }}</span>
+          <span>{{ scope.row.label }}</span>
         </template>
       </el-table-column>
       <el-table-column
         :filter-multiple="false"
-        column-key="status"
-        :filters="[{ text: $t('common.status.valid'), value: true }, { text: $t('common.status.invalid'), value: false }]"
-        :label="$t('table.dictionary.status')"
+        column-key="state"
+        :filters="[{ text: $t('common.state.valid'), value: true }, { text: $t('common.state.invalid'), value: false }]"
+        :label="$t('table.dictionary.state')"
         class-name="status-col"
         width="70px"
       >
         <template slot-scope="{row}">
-          <el-tag :type="row.status | statusFilter">{{ row.status ? $t('common.status.valid') :
-            $t('common.status.invalid') }}
+          <el-tag :type="row.state | statusFilter">{{ row.state ? $t('common.state.valid') :
+            $t('common.state.invalid') }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.createTime')"  align="center" prop="createTime" sortable="custom" width="170px">
-        <template slot-scope="scope">
-          <span>{{ scope.row.createTime }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="$t('table.operation')" align="center" class-name="small-padding fixed-width"
-                       width="100px">
+                       width="70px">
         <template slot-scope="{row}">
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
-             v-hasPermission="['dict:update']"/>
-          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
-             v-hasPermission="['dict:delete']"/>
-          <el-link class="no-perm" v-has-no-permission="['dict:update','dict:delete']">{{ $t('tips.noPermission') }}
+             v-hasPermission="['authority:dictionary:update']"/>
+          <i @click="singleDelete(row)" class="el-icon-delete " style="color: #f50;"
+             v-hasPermission="['authority:dictionary:delete']"/>
+          <el-link class="no-perm" v-has-no-permission="['authority:dictionary:update','authority:dictionary:delete']">{{ $t('tips.noPermission') }}
           </el-link>
         </template>
       </el-table-column>
@@ -170,11 +156,11 @@
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-          const ids = []
+          const types = []
           this.selection.forEach((u) => {
-            ids.push(u.id)
+            types.push(u.type)
           })
-          this.delete(ids)
+          this.delete(types)
         }).catch(() => {
           this.clearSelections()
         })
@@ -182,8 +168,8 @@
       clearSelections() {
         this.$refs.table.clearSelection()
       },
-      delete(ids) {
-        dictionaryApi.delete({'ids': ids})
+      delete(types) {
+        dictionaryApi.deleteType({'types': types})
           .then((response) => {
             const res = response.data
             if (res.isSuccess) {
@@ -211,7 +197,7 @@
         this.queryParams.current = params.current ? params.current : this.queryParams.current;
         this.queryParams.size = params.size ? params.size : this.queryParams.size;
 
-        dictionaryApi.page(this.queryParams).then(response => {
+        dictionaryApi.pageType(this.queryParams).then(response => {
           const res = response.data;
           if (res.isSuccess) {
             this.tableData = res.data;
