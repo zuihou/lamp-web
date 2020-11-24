@@ -33,10 +33,10 @@
           placeholder="限制时间">
         </el-time-picker>
       </el-form-item>
-      <el-form-item :label="$t('table.rateLimiter.status')" prop="status">
-        <el-radio-group v-model="rateLimiter.status" size="medium">
-          <el-radio-button :label="true">{{ $t("common.status.valid") }}</el-radio-button>
-          <el-radio-button :label="false">{{ $t("common.status.invalid") }}</el-radio-button>
+      <el-form-item :label="$t('table.rateLimiter.state')" prop="state">
+        <el-radio-group v-model="rateLimiter.state" size="medium">
+          <el-radio-button :label="true">{{ $t("common.state.valid") }}</el-radio-button>
+          <el-radio-button :label="false">{{ $t("common.state.invalid") }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
     </el-form>
@@ -120,7 +120,7 @@ export default {
         limitStart: '',
         limitEnd: '',
         limit:'',
-        status: true,
+        state: true,
         intervalSec: 0,
       };
     },

@@ -39,8 +39,7 @@ export default {
       requestMethod: 'requestMethod',
       limitStart: 'limitFrom',
       limitEnd: 'limitTo',
-      status: 'status',
-      location: 'location',
+      state: 'state',
     },
     rateLimiter: {
       id: 'ID',
@@ -49,14 +48,14 @@ export default {
       requestMethod: 'requestMethod',
       limitStart: 'limitFrom',
       limitEnd: 'limitTo',
-      status: 'status',
+      state: 'state',
       intervalSec: 'intervalSec',
     },
     tenant: {
       code: 'EnterpriseCode',
       name: 'EnterpriseName',
       type: 'Type',
-      status: 'Status',
+      state: 'state',
       duty: 'Duty',
       expirationTime: 'ExpirationTime',
       logo: 'Logo',
@@ -199,7 +198,7 @@ export default {
     },
     smsTask: {
       templateId: 'templateId',
-      status: 'status',
+      state: 'state',
       sourceType: 'sourceType',
       receiver: 'receiver',
       topic: 'topic',
@@ -231,21 +230,6 @@ export default {
       isDelete: 'isDelete',
       isRead: 'isRead',
       readTime: 'readTime'
-    },
-    systemApi: {
-      code: "code",
-      name: "name",
-      describe: "describe",
-      requestMethod: "requestMethod",
-      contentType: "contentType",
-      serviceId: "serviceId",
-      path: "path",
-      status: "status",
-      isPersist: "isPersist",
-      isAuth: "isAuth",
-      isOpen: "isOpen",
-      className: "className",
-      methodName: "methodName"
     },
     application: {
       clientId: "clientId",

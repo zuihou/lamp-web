@@ -39,8 +39,7 @@ export default {
       requestMethod: '请求方法',
       limitStart: '限制时间起',
       limitEnd: '限制时间止',
-      status: '状态',
-      location: '位置',
+      state: '状态',
     },
     rateLimiter: {
       id: 'ID',
@@ -49,14 +48,14 @@ export default {
       requestMethod: '请求方法',
       limitStart: '限制时间起',
       limitEnd: '限制时间止',
-      status: '状态',
+      state: '状态',
       intervalSec: '时间窗口',
     },
     tenant: {
       code: '企业编码',
       name: '企业名称',
       type: '类型',
-      status: '状态',
+      state: '状态',
       duty: '责任人',
       expirationTime: '有效期',
       logo: 'logo',
@@ -199,7 +198,7 @@ export default {
     },
     smsTask: {
       templateId: '短信模板',
-      status: '执行状态',
+      state: '执行状态',
       sourceType: '来源类型',
       receiver: '接收者',
       topic: '主题',
@@ -231,21 +230,6 @@ export default {
       isDelete: '是否删除',
       isRead: '状态',
       readTime: '读消息的时间'
-    },
-    systemApi: {
-      code: "接口编码",
-      name: "接口名称",
-      describe: "资源描述",
-      requestMethod: "请求方式",
-      contentType: "响应类型",
-      serviceId: "服务ID",
-      path: "请求路径",
-      status: "状态",
-      isPersist: "保留数据",
-      isAuth: "是否需要认证",
-      isOpen: "是否公开",
-      className: "类名",
-      methodName: "方法名"
     },
     application: {
       clientId: "clientId",

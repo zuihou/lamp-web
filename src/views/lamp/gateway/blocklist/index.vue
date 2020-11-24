@@ -76,20 +76,14 @@
           <span>{{ scope.row.limitEnd }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.blockList.status')" :show-overflow-tooltip="true" align="center" prop="status"
-                       :filter-multiple="false" column-key="status"
-                       :filters="[{ text: $t('common.status.valid'), value: true },{ text: $t('common.status.invalid'), value: false }]"
+      <el-table-column :label="$t('table.blockList.state')" :show-overflow-tooltip="true" align="center" prop="state"
+                       :filter-multiple="false" column-key="state"
+                       :filters="[{ text: $t('common.state.valid'), value: true },{ text: $t('common.state.invalid'), value: false }]"
                         width="">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status ? 'success' : 'danger'" slot>
-            {{ scope.row.status ? $t("common.status.valid") : $t("common.status.invalid") }}
+          <el-tag :type="scope.row.state ? 'success' : 'danger'" slot>
+            {{ scope.row.state ? $t("common.state.valid") : $t("common.state.invalid") }}
           </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('table.blockList.location')" :show-overflow-tooltip="true" align="center" prop="location"
-                        width="">
-        <template slot-scope="scope">
-          <span>{{ scope.row.location }}</span>
         </template>
       </el-table-column>
       <el-table-column
