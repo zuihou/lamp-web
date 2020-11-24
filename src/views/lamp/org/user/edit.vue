@@ -22,7 +22,7 @@
         />
       </el-form-item>
       <el-form-item :label="$t('table.user.name')" prop="name">
-        <el-input v-model="user.name" />
+        <el-input v-model="user.name"/>
       </el-form-item>
       <el-form-item
         :label="$t('table.user.password')"
@@ -35,7 +35,7 @@
           effect="dark"
           placement="top-start"
         >
-          <el-input type="password" value="123456" />
+          <el-input type="password" value="123456"/>
         </el-tooltip>
       </el-form-item>
       <el-form-item :label="$t('table.user.avatar')" prop="avatar">
@@ -50,7 +50,7 @@
           list-type="picture-card"
           ref="imgFileRef"
         >
-          <i class="el-icon-plus" />
+          <i class="el-icon-plus"/>
         </imgUpload>
       </el-form-item>
       <el-form-item :label="$t('table.user.orgId')" prop="orgId">
@@ -67,8 +67,6 @@
       </el-form-item>
       <el-form-item :label="$t('table.user.stationId')" prop="stationId">
         <el-select
-          :loading="remoteStationLoading"
-          :multiple="false"
           filterable
           placeholder="请输入关键词"
           v-model="user.station.key"
@@ -82,10 +80,10 @@
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.email')" prop="email">
-        <el-input v-model="user.email" />
+        <el-input v-model="user.email"/>
       </el-form-item>
       <el-form-item :label="$t('table.user.mobile')" prop="mobile">
-        <el-input v-model="user.mobile" />
+        <el-input v-model="user.mobile"/>
       </el-form-item>
       <el-form-item :label="$t('table.user.sex')" prop="sex">
         <el-select placeholder style="width:100%" v-model="user.sex.code" value>
@@ -94,18 +92,19 @@
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.nation')" prop="nation">
-        <el-select style="width:100%"  :placeholder="$t('table.user.nation')" v-model="user.nation.key" value>
-          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.NATION" />
+        <el-select style="width:100%" :placeholder="$t('table.user.nation')" v-model="user.nation.key" value>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.NATION"/>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.education')" prop="education">
-        <el-select style="width:100%"  :placeholder="$t('table.user.education')" v-model="user.education.key" value>
-          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.EDUCATION" />
+        <el-select style="width:100%" :placeholder="$t('table.user.education')" v-model="user.education.key" value>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.EDUCATION"/>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.positionStatus')" prop="positionStatus">
-        <el-select style="width:100%"  :placeholder="$t('table.user.positionStatus')" v-model="user.positionStatus.key" value>
-          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.POSITION_STATUS" />
+        <el-select style="width:100%" :placeholder="$t('table.user.positionStatus')" v-model="user.positionStatus.key"
+                   value>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.POSITION_STATUS"/>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.state')" prop="state">
@@ -115,21 +114,23 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('table.user.workDescribe')" prop="workDescribe">
-        <el-input v-model="user.workDescribe" />
+        <el-input v-model="user.workDescribe"/>
       </el-form-item>
     </el-form>
     <div class="dialog-footer" slot="footer">
       <el-button @click="isVisible = false" plain type="warning">{{
-        $t("common.cancel")
-      }}</el-button>
+          $t("common.cancel")
+        }}
+      </el-button>
       <el-button @click="submitForm" plain type="primary">{{
-        $t("common.confirm")
-      }}</el-button>
+          $t("common.confirm")
+        }}
+      </el-button>
     </div>
   </el-dialog>
 </template>
 <script>
-import { validMobile } from "@/utils/my-validate";
+import {validMobile} from "@/utils/my-validate";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import imgUpload from "@/components/zuihou/imgUpload";
@@ -138,7 +139,7 @@ import stationApi from "@/api/Station.js";
 
 export default {
   name: "UserEdit",
-  components: { Treeselect, imgUpload },
+  components: {Treeselect, imgUpload},
   props: {
     dialogVisible: {
       type: Boolean,
@@ -167,10 +168,10 @@ export default {
       imgFileTotal: 0,
       // 上传成功数
       successNum: 0,
-      enums:{
-        Sex:{}
+      enums: {
+        Sex: {}
       },
-      dicts:{
+      dicts: {
         NATION: {},
         POSITION_STATUS: {},
         EDUCATION: {},
@@ -244,10 +245,7 @@ export default {
         : this.$t("common.edit");
     }
   },
-  watch: {
-    // 监听deptId
-    "user.org.key": "orgSelect"
-  },
+  watch: {},
   mounted() {
     window.onresize = () => {
       return (() => {
@@ -275,7 +273,7 @@ export default {
         org: {
           key: null
         },
-        station: { key: null },
+        station: {key: null},
         email: "",
         mobile: "",
         sex: {
@@ -307,25 +305,17 @@ export default {
       }
     },
 
-    loadListOptions({ callback }) {
+    loadListOptions({callback}) {
       callback();
     },
-    orgSelect(node) {
-      this.loadStation(node);
-    },
-    loadStation(orgId) {
-      this.user.station.key = null;
-      if (orgId) {
-        stationApi.page({
-          size: 10000,
-          model:{ orgId: { key: orgId }, state: true }
-        }).then(response => {
-          const res = response.data;
-          this.stationList = res.data.records;
-        });
-      } else {
-        this.stationList = [];
-      }
+    loadStation() {
+      stationApi.page({
+        size: 10000,
+        model: {state: true}
+      }).then(response => {
+        const res = response.data;
+        this.stationList = res.data.records;
+      });
     },
     setIdAndSubmit(bizId, url) {
       const vm = this;
@@ -341,7 +331,7 @@ export default {
     setUser(val, orgs, dicts, enums) {
       const vm = this;
       if (val) {
-        vm.user = { ...val };
+        vm.user = {...val};
 
       }
       vm.dicts = dicts;
@@ -358,6 +348,7 @@ export default {
           isDetail: false
         });
       });
+      vm.loadStation();
     },
     close() {
       this.$emit("close");

@@ -19,7 +19,7 @@
       <el-button @click="reset" class="filter-item" plain type="warning">
         {{ $t("table.reset") }}
       </el-button>
-      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['user:add']">
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['authority:role:add']">
         {{ $t("table.add") }}
       </el-button>
       <el-dropdown class="filter-item" trigger="click"
