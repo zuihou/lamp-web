@@ -1,49 +1,49 @@
 <template>
   <div class="app-container">
-    <el-form :model="msgsCenterInfo" :rules="rules" label-position="right" label-width="100px" ref="form" status-icon>
+    <el-form :model="msg" :rules="rules" label-position="right" label-width="100px" ref="form" status-icon>
       <el-row>
         <el-col :span="8">
-          <el-form-item :label="$t('table.msgs.title')" prop="msgsCenterInfoDTO.title">
-            <el-input :disabled="type==='view'" :maxlength="255" v-model="msgsCenterInfo.msgsCenterInfoDTO.title" />
+          <el-form-item :label="$t('table.msg.title')" prop="msgDTO.title">
+            <el-input :disabled="type==='view'" :maxlength="255" v-model="msg.msgDTO.title" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="$t('table.msgs.bizType')" prop="msgsCenterInfoDTO.bizType">
-            <el-select :disabled="type==='view'" clearable placeholder style="width:100%" v-model="msgsCenterInfo.msgsCenterInfoDTO.bizType.code" value>
-              <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.MsgsBizType" />
+          <el-form-item :label="$t('table.msg.bizType')" prop="msgDTO.bizType">
+            <el-select :disabled="type==='view'" clearable placeholder style="width:100%" v-model="msg.msgDTO.bizType.code" value>
+              <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.MsgBizType" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="$t('table.msgs.bizId')" prop="msgsCenterInfoDTO.bizId">
-            <el-input :disabled="type==='view'" :maxlength="255" v-model="msgsCenterInfo.msgsCenterInfoDTO.bizId" />
+          <el-form-item :label="$t('table.msg.bizId')" prop="msgDTO.bizId">
+            <el-input :disabled="type==='view'" :maxlength="255" v-model="msg.msgDTO.bizId" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-form-item :label="$t('table.msgs.msgsCenterType')" prop="msgsCenterInfoDTO.msgsCenterType">
-            <el-select :disabled="type==='view'" @change="msgsCenterTypeChange" placeholder style="width:100%" v-model="msgsCenterInfo.msgsCenterInfoDTO.msgsCenterType.code" value>
-              <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.MsgsCenterType" />
+          <el-form-item :label="$t('table.msg.msgType')" prop="msgDTO.msgType">
+            <el-select :disabled="type==='view'" @change="msgTypeChange" placeholder style="width:100%" v-model="msg.msgDTO.msgType.code" value>
+              <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.MsgType" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="接收类型" prop="msgsCenterInfoDTO.receiveType" v-show="type!=='view'">
-            <el-radio-group :disabled="type==='view' || disabledReceiveType" v-model="msgsCenterInfo.receiveType">
+          <el-form-item label="接收类型" prop="msgDTO.receiveType" v-show="type!=='view'">
+            <el-radio-group :disabled="type==='view' || disabledReceiveType" v-model="msg.receiveType">
               <el-radio-button label="user">用户</el-radio-button>
               <el-radio-button label="role">角色</el-radio-button>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="接收用户" prop="userIdList" v-if="msgsCenterInfo.receiveType==='user'" v-show="type!=='view'">
-            <el-select :disabled="type==='view' || disabledReceiveType" @change="userSelect" collapse-tags multiple placeholder style="width:100%" v-model="msgsCenterInfo.userIdList" value>
+          <el-form-item label="接收用户" prop="userIdList" v-if="msg.receiveType==='user'" v-show="type!=='view'">
+            <el-select :disabled="type==='view' || disabledReceiveType" @change="userSelect" collapse-tags multiple placeholder style="width:100%" v-model="msg.userIdList" value>
               <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in allUserList" />
             </el-select>
           </el-form-item>
           <el-form-item label="接收角色" prop="roleCodeList" v-else v-show="type!=='view'">
-            <el-select :disabled="type==='view' || disabledReceiveType" @change="roleSelect" collapse-tags multiple placeholder style="width:100%" v-model="msgsCenterInfo.roleCodeList" value>
+            <el-select :disabled="type==='view' || disabledReceiveType" @change="roleSelect" collapse-tags multiple placeholder style="width:100%" v-model="msg.roleCodeList" value>
               <el-option :key="item.code" :label="item.name" :value="item.code" v-for="item in allRoleList" />
             </el-select>
           </el-form-item>
@@ -52,26 +52,26 @@
 
       <el-row>
         <el-col :span="8">
-          <el-form-item :label="$t('table.msgs.author')" prop="msgsCenterInfoDTO.author">
-            <el-input :disabled="type==='view'" :maxlength="255" v-model="msgsCenterInfo.msgsCenterInfoDTO.author" />
+          <el-form-item :label="$t('table.msg.author')" prop="msgDTO.author">
+            <el-input :disabled="type==='view'" :maxlength="255" v-model="msg.msgDTO.author" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="$t('table.msgs.handlerUrl')" prop="msgsCenterInfoDTO.handlerUrl">
-            <el-input :disabled="type==='view'" :maxlength="255" v-model="msgsCenterInfo.msgsCenterInfoDTO.handlerUrl" />
+          <el-form-item :label="$t('table.msg.handlerUrl')" prop="msgDTO.handlerUrl">
+            <el-input :disabled="type==='view'" :maxlength="255" v-model="msg.msgDTO.handlerUrl" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="$t('table.msgs.isSingleHandle')" prop="msgsCenterInfoDTO.isSingleHandle">
-            <el-radio-group :disabled="type==='view'" v-model="msgsCenterInfo.msgsCenterInfoDTO.isSingleHandle">
+          <el-form-item :label="$t('table.msg.isSingleHandle')" prop="msgDTO.isSingleHandle">
+            <el-radio-group :disabled="type==='view'" v-model="msg.msgDTO.isSingleHandle">
               <el-radio-button :label="true">{{ $t('common.yes') }}</el-radio-button>
               <el-radio-button :label="false">{{ $t('common.no') }}</el-radio-button>
             </el-radio-group>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item prop="msgsCenterInfoDTO.content" style="margin-bottom: 30px;">
-        <Tinymce :height="400" ref="content" v-model="msgsCenterInfo.msgsCenterInfoDTO.content" />
+      <el-form-item prop="msgDTO.content" style="margin-bottom: 30px;">
+        <Tinymce :height="400" ref="content" v-model="msg.msgDTO.content" />
       </el-form-item>
     </el-form>
     <div class="dialog-footer">
@@ -80,7 +80,7 @@
   </div>
 </template>
 <script>
-import msgsApi from '@/api/Msgs.js'
+import msgApi from '@/api/Msg.js'
 import roleApi from '@/api/Role.js'
 import userApi from '@/api/User.js'
 import Tinymce from '@/components/Tinymce'
@@ -105,26 +105,26 @@ export default {
         isVisible: false
       },
       type: 'add',
-      msgsCenterInfo: this.initMsgsCenterInfo(),
+      msg: this.initMsg(),
       disabled: false,
       disabledReceiveType: false,
       enums:{
-        MsgsBizType:{},
-        MsgsCenterType:{}
+        MsgBizType:{},
+        MsgType:{}
       },
       rules: {
-        "msgsCenterInfoDTO.title": [
+        "msgDTO.title": [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 255, message: "长度在 1 到 255 个字符", trigger: 'blur' }
         ],
-        "msgsCenterInfoDTO.content": [
+        "msgDTO.content": [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 65535, message: "长度在 1 到 65535 个字符", trigger: 'blur' }
         ],
-        "msgsCenterInfoDTO.msgsCenterType": { required: true, message: this.$t('rules.require'), trigger: 'change' },
+        "msgDTO.msgType": { required: true, message: this.$t('rules.require'), trigger: 'change' },
         "roleCodeList": {
           validator: (rule, value, callback) => {
-            if (this.msgsCenterInfo.receiveType === 'role' && this.msgsCenterInfo.msgsCenterInfoDTO.msgsCenterType.code !== 'PUBLICITY' && this.msgsCenterInfo.roleCodeList.length <= 0) {
+            if (this.msg.receiveType === 'role' && this.msg.msgDTO.msgType.code !== 'PUBLICITY' && this.msg.roleCodeList.length <= 0) {
               callback('请选择角色')
             } else {
               callback()
@@ -133,14 +133,14 @@ export default {
         },
         "userIdList": {
           validator: (rule, value, callback) => {
-            if (this.msgsCenterInfo.receiveType === 'user' && this.msgsCenterInfo.msgsCenterInfoDTO.msgsCenterType.code !== 'PUBLICITY' && this.msgsCenterInfo.userIdList.length <= 0) {
+            if (this.msg.receiveType === 'user' && this.msg.msgDTO.msgType.code !== 'PUBLICITY' && this.msg.userIdList.length <= 0) {
               callback('请选择用户')
             } else {
               callback()
             }
           }, trigger: 'blur'
         },
-        "msgsCenterInfoDTO.handlerUrl": { min: 1, max: 255, message: "长度在 1 到 255 个字符", trigger: 'blur' }
+        "msgDTO.handlerUrl": { min: 1, max: 255, message: "长度在 1 到 255 个字符", trigger: 'blur' }
       }
     }
   },
@@ -149,7 +149,7 @@ export default {
   },
   watch: {
     $route () {
-      if (this.$route.path === '/msg/sendMsgs') {
+      if (this.$route.path === '/resources/msg/edit') {
         this.loadMsgs()
         this.loadUserList()
         this.loadRoleList()
@@ -160,21 +160,21 @@ export default {
     this.loadMsgs()
     this.loadUserList()
     this.loadRoleList()
-    initMsgsEnums(['MsgsCenterType', 'MsgsBizType'], this.enums)
+    initMsgsEnums(['MsgType', 'MsgBizType'], this.enums)
   },
   methods: {
-    initMsgsCenterInfo () {
+    initMsg () {
       return {
         userIdList: [],
         roleCodeList: [],
         receiveType: 'user',
-        msgsCenterInfoDTO: {
+        msgDTO: {
           id: '',
           bizId: '',
           bizType: {
             code: ''
           },
-          msgsCenterType: {
+          msgType: {
             code: ''
           },
           title: '',
@@ -191,16 +191,16 @@ export default {
       const id = this.$route.query.id
       this.type = type
       if (type === 'view') {
-        msgsApi.get(id)
+        msgApi.get(id)
           .then((response) => {
             const res = response.data
             if (res.isSuccess) {
-              this.msgsCenterInfo.msgsCenterInfoDTO = res.data
-              if (this.msgsCenterInfo.msgsCenterInfoDTO.bizType === null) {
-                this.msgsCenterInfo.msgsCenterInfoDTO.bizType = { code: '' }
+              this.msg.msgDTO = res.data
+              if (this.msg.msgDTO.bizType === null) {
+                this.msg.msgDTO.bizType = { code: '' }
               }
-              if (this.msgsCenterInfo.msgsCenterInfoDTO.msgsCenterType === null) {
-                this.msgsCenterInfo.msgsCenterInfoDTO.msgsCenterType = { code: '' }
+              if (this.msg.msgDTO.msgType === null) {
+                this.msg.msgDTO.msgType = { code: '' }
               }
             }
           })
@@ -231,7 +231,7 @@ export default {
           }
         })
     },
-    msgsCenterTypeChange (select) {
+    msgTypeChange (select) {
       if (select === 'PUBLICITY') {
         this.disabledReceiveType = true
       } else {
@@ -247,12 +247,12 @@ export default {
 
       // 若是全部选择
       if (val.includes('-1')) {
-        this.msgsCenterInfo.userIdList = allValues
+        this.msg.userIdList = allValues
       }
 
       // 取消全部选中  上次有 当前没有 表示取消全选
       if (oldVal.includes('-1') && !val.includes('-1')) {
-        this.msgsCenterInfo.userIdList = []
+        this.msg.userIdList = []
       }
 
       // 点击非全部选中  需要排除全部选中 以及 当前点击的选项
@@ -260,18 +260,18 @@ export default {
       if (oldVal.includes('-1') && val.includes('-1')) {
         const index = val.indexOf('-1')
         val.splice(index, 1) // 排除全选选项
-        this.msgsCenterInfo.userIdList = val
+        this.msg.userIdList = val
       }
 
       //全选未选 但是其他选项全部选上 则全选选上 上次和当前 都没有全选
       if (!oldVal.includes('-1') && !val.includes('-1')) {
         if (val.length === allValues.length - 1) {
-          this.msgsCenterInfo.userIdList = ['-1'].concat(val)
+          this.msg.userIdList = ['-1'].concat(val)
         }
       }
 
       //储存当前最后的结果 作为下次的老数据
-      this.oldChooseUserIdList[1] = this.msgsCenterInfo.userIdList
+      this.oldChooseUserIdList[1] = this.msg.userIdList
     },
     roleSelect (val) {
       //保留所有值
@@ -282,12 +282,12 @@ export default {
 
       // 若是全部选择
       if (val.includes('-1')) {
-        this.msgsCenterInfo.roleCodeList = allValues
+        this.msg.roleCodeList = allValues
       }
 
       // 取消全部选中  上次有 当前没有 表示取消全选
       if (oldVal.includes('-1') && !val.includes('-1')) {
-        this.msgsCenterInfo.roleCodeList = []
+        this.msg.roleCodeList = []
       }
 
       // 点击非全部选中  需要排除全部选中 以及 当前点击的选项
@@ -295,24 +295,24 @@ export default {
       if (oldVal.includes('-1') && val.includes('-1')) {
         const index = val.indexOf('-1')
         val.splice(index, 1) // 排除全选选项
-        this.msgsCenterInfo.roleCodeList = val
+        this.msg.roleCodeList = val
       }
 
       //全选未选 但是其他选项全部选上 则全选选上 上次和当前 都没有全选
       if (!oldVal.includes('-1') && !val.includes('-1')) {
         if (val.length === allValues.length - 1) {
-          this.msgsCenterInfo.roleCodeList = ['-1'].concat(val)
+          this.msg.roleCodeList = ['-1'].concat(val)
         }
       }
 
       //储存当前最后的结果 作为下次的老数据
-      this.oldChooseRoleIdList[1] = this.msgsCenterInfo.roleCodeList
+      this.oldChooseRoleIdList[1] = this.msg.roleCodeList
     },
     reset () {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
-      this.msgsCenterInfo = this.initMsgsCenterInfo()
+      this.msg = this.initMsg()
       this.disabledReceiveType = false;
 
       //这里报错
@@ -327,7 +327,7 @@ export default {
     },
     submitForm (draft) {
       const vm = this
-      console.log(vm.msgsCenterInfo)
+      console.log(vm.msg)
 
       this.$refs.form.validate((valid) => {
         if (valid) {
@@ -348,7 +348,7 @@ export default {
     save () {
       const vm = this
       vm.disabled = true
-      msgsApi.save(vm.msgsCenterInfo)
+      msgApi.save(vm.msg)
         .then((response) => {
           vm.disabled = false
           const res = response.data
@@ -358,14 +358,14 @@ export default {
               type: 'success'
             })
             vm.reset()
-            vm.$router.push('/msg/myMsgs')
+            vm.$router.push('/resources/msg')
           }
         })
     },
     update () {
       const vm = this
       vm.disabled = true
-      msgsApi.update(vm.msgs)
+      msgApi.update(vm.msg)
         .then((response) => {
           vm.disabled = false
           const res = response.data
@@ -375,7 +375,7 @@ export default {
               type: 'success'
             })
             vm.reset()
-            vm.$router.push('/msg/myMsgs')
+            vm.$router.push('/resources/msg')
           }
         })
     }

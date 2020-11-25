@@ -232,7 +232,7 @@
 
 <script>
   import Pagination from "@/components/Pagination";
-  import msgsApi from "@/api/Msgs.js";
+  import msgsApi from "@/api/Msg.js";
   import {convertEnum} from "@/utils/utils";
   import elDragDialog from '@/directive/el-drag-dialog'
   import FileImport from "@/components/zuihou/Import"
@@ -296,7 +296,7 @@
     },
     watch: {
       '$route'(to) {
-        if (to.path === '/msg/myMsgs') {
+        if (to.path === '/resources/msg') {
           this.fetch();
         }
       }

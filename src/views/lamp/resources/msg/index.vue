@@ -2,12 +2,12 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input
-        :placeholder="$t('table.msgs.title')"
+        :placeholder="$t('table.msg.title')"
         class="filter-item search-item"
         v-model="queryParams.model.title"
       />
       <el-input
-        :placeholder="$t('table.msgs.content')"
+        :placeholder="$t('table.msg.content')"
         class="filter-item search-item"
         v-model="queryParams.model.content"
       />
@@ -27,39 +27,39 @@
       <el-button @click="reset" class="filter-item" plain type="warning">
         {{ $t("table.reset") }}
       </el-button>
-      <router-link :to="{ path: '/msg/sendMsgs', query: { type: 'add' } }">
-        <el-button class="filter-item" plain type="danger" v-has-permission="['msgs:add']">
+      <router-link :to="{ path: '/resources/msg/edit', query: { type: 'add' } }">
+        <el-button class="filter-item" plain type="danger" v-has-permission="['msg:msg:add']">
           {{ $t("table.add") }}
         </el-button>
       </router-link>
       <el-dropdown
         class="filter-item"
         trigger="click"
-        v-has-any-permission="['msgs:delete', 'msgs:export']"
+        v-has-any-permission="['msg:msg:delete', 'msg:msg:export']"
       >
         <el-button>
           {{ $t("table.more") }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <!--          <router-link :to="{ path: '/msg/sendMsgs', query: { type: 'add' } }">-->
-          <!--            <el-dropdown-item v-has-permission="['msgs:add']">-->
+          <!--          <router-link :to="{ path: '/resources/msg/edit', query: { type: 'add' } }">-->
+          <!--            <el-dropdown-item v-has-permission="['msg:msg:add']">-->
           <!--              {{ $t("table.add") }}-->
           <!--            </el-dropdown-item>-->
           <!--          </router-link>-->
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['msgs:delete']">
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['msg:msg:delete']">
             {{ $t("table.delete") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="batchMark" v-has-permission="['msgs:mark']">
+          <el-dropdown-item @click.native="batchMark" v-has-permission="['msg:msg:mark']">
             标记已读
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['msgs:export']">
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['msg:msg:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['msgs:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['msg:msg:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="importExcel" v-has-permission="['msgs:import']">
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['msg:msg:import']">
             {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -80,7 +80,7 @@
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <el-table-column
-        :label="$t('table.msgs.title')"
+        :label="$t('table.msg.title')"
         :show-overflow-tooltip="true"
         align="center"
         prop="templateId"
@@ -90,7 +90,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.msgs.content')"
+        :label="$t('table.msg.content')"
         :show-overflow-tooltip="true"
         align="center"
         prop="receiver"
@@ -100,7 +100,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.msgs.author')"
+        :label="$t('table.msg.author')"
         :show-overflow-tooltip="true"
         align="center"
         width="100px"
@@ -112,7 +112,7 @@
       <el-table-column
         :filter-multiple="false"
         :filters="bizTypeFilters"
-        :label="$t('table.msgs.bizType')"
+        :label="$t('table.msg.bizType')"
         :show-overflow-tooltip="true"
         align="center"
         column-key="bizType.code"
@@ -124,18 +124,18 @@
       </el-table-column>
       <el-table-column
         :filter-multiple="false"
-        :filters="msgsCenterTypeFilters"
-        :label="$t('table.msgs.msgsCenterType')"
+        :filters="msgTypeFilters"
+        :label="$t('table.msg.msgType')"
         :show-overflow-tooltip="true"
         class-name="status-col"
-        column-key="msgsCenterType.code"
+        column-key="msgCenterType.code"
         width="100px"
       >
         <template slot-scope="scope">
           <span>{{
-            scope.row.msgsCenterType
-              ? scope.row.msgsCenterType.desc
-              : scope.row.msgsCenterType
+            scope.row.msgType
+              ? scope.row.msgType.desc
+              : scope.row.msgType
           }}</span>
         </template>
       </el-table-column>
@@ -145,7 +145,7 @@
           { text: '已读', value: 'true' },
           { text: '未读', value: 'false' }
         ]"
-        :label="$t('table.msgs.isRead')"
+        :label="$t('table.msg.isRead')"
         align="center"
         column-key="isRead"
         prop="isRead"
@@ -182,17 +182,17 @@
             @click="view(row)"
             class="el-icon-view table-operation"
             style="color: #2db7f5;"
-            v-hasPermission="['msgs:view']"
+            v-hasPermission="['msg:msg:view']"
           />
           <i
             @click="singleDelete(row)"
             class="el-icon-delete table-operation"
             style="color: #f50;"
-            v-hasPermission="['msgs:delete']"
+            v-hasPermission="['msg:msg:delete']"
           />
           <el-link
             class="no-perm"
-            v-has-no-permission="['msgs:view', 'msgs:delete']"
+            v-has-no-permission="['msg:msg:view', 'msg:msg:delete']"
           >{{ $t("tips.noPermission") }}
           </el-link
           >
@@ -232,7 +232,7 @@
 
 <script>
   import Pagination from "@/components/Pagination";
-  import msgsApi from "@/api/Msgs.js";
+  import msgApi from "@/api/Msg.js";
   import {convertEnum} from "@/utils/utils";
   import elDragDialog from '@/directive/el-drag-dialog'
   import FileImport from "@/components/zuihou/Import"
@@ -240,7 +240,7 @@
 
 
   export default {
-    name: "MsgsList",
+    name: "MsgList",
     directives: {elDragDialog},
     components: {Pagination, FileImport},
     filters: {
@@ -271,7 +271,7 @@
         tableKey: 0,
         queryParams: initQueryParams({
           model: {
-            msgsCenterType: {code: null},
+            msgType: {code: null},
             bizType: {code: null},
           }
         }),
@@ -281,28 +281,28 @@
           total: 0
         },
         enums: {
-          MsgsCenterType: {},
-          MsgsBizType: {},
+          MsgType: {},
+          MsgBizType: {},
         },
       };
     },
     computed: {
-      msgsCenterTypeFilters() {
-        return convertEnum(this.enums.MsgsCenterType);
+      msgTypeFilters() {
+        return convertEnum(this.enums.MsgType);
       },
       bizTypeFilters() {
-        return convertEnum(this.enums.MsgsBizType);
+        return convertEnum(this.enums.MsgBizType);
       }
     },
     watch: {
       '$route'(to) {
-        if (to.path === '/msg/myMsgs') {
+        if (to.path === '/resources/msg') {
           this.fetch();
         }
       }
     },
     mounted() {
-      initMsgsEnums(['MsgsCenterType', 'MsgsBizType'], this.enums)
+      initMsgsEnums(['MsgType', 'MsgBizType'], this.enums)
       this.fetch();
     },
     methods: {
@@ -320,7 +320,7 @@
       reset() {
         this.queryParams = initQueryParams({
           model:{
-            msgsCenterType: {code: null},
+            msgType: {code: null},
             bizType: {code: null},
           }
         });
@@ -334,7 +334,7 @@
           this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
         }
         this.queryParams.map.fileName = '导出消息数据';
-        msgsApi.preview(this.queryParams).then(response => {
+        msgApi.preview(this.queryParams).then(response => {
           const res = response.data;
           this.preview.isVisible = true;
           this.preview.context = res.data;
@@ -346,7 +346,7 @@
           this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
         }
         this.queryParams.map.fileName = '导出消息数据';
-        msgsApi.export(this.queryParams).then(response => {
+        msgApi.export(this.queryParams).then(response => {
           downloadFile(response);
         });
       },
@@ -395,7 +395,7 @@
       },
 
       delete(ids) {
-        msgsApi.delete({ids: ids}).then(response => {
+        msgApi.delete({ids: ids}).then(response => {
           const res = response.data;
           if (res.isSuccess) {
             this.$message({
@@ -424,14 +424,16 @@
             this.selection.forEach(u => {
               ids.push(u.id);
             });
-            this.mark(ids);
+            this.mark(ids, ()=>{
+              this.search();
+            });
           })
           .catch(() => {
             this.clearSelections();
           });
       },
       mark(ids, callback) {
-        msgsApi.mark({msgCenterIds: ids}).then(response => {
+        msgApi.mark({msgCenterIds: ids}).then(response => {
           const res = response.data;
           if (typeof callback === "function") {
             callback(ids);
@@ -441,7 +443,7 @@
       view(row) {
         if (row.isRead) {
           this.$router.push({
-            path: "/msg/sendMsgs",
+            path: "/resources/msg/edit",
             query: {
               id: row.id,
               type: "view"
@@ -450,7 +452,7 @@
         } else {
           this.mark([row.id], ids => {
             this.$router.push({
-              path: "/msg/sendMsgs",
+              path: "/resources/msg/edit",
               query: {
                 id: row.id,
                 type: "view"
@@ -461,7 +463,7 @@
       },
       edit(row) {
         this.$router.push({
-          path: "/msg/sendMsgs",
+          path: "/resources/msg/edit",
           query: {
             id: row.id,
             type: "edit"
@@ -478,7 +480,7 @@
         this.queryParams.current = params.current ? params.current : this.queryParams.current;
         this.queryParams.size = params.size ? params.size : this.queryParams.size;
 
-        msgsApi.page(this.queryParams).then(response => {
+        msgApi.page(this.queryParams).then(response => {
           const res = response.data;
           if (res.isSuccess) {
             this.tableData = res.data;

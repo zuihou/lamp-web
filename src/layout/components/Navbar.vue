@@ -26,7 +26,7 @@
             <div class="msgs-title-content">
               <div  class="msgs-title">消息</div>
               <div  class="msgs-title-icon">
-                <el-switch v-model="msgsRefresh" @change="msgsRefreshChange" title="是否自动刷新消息" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+                <el-switch v-model="msgRefresh" @change="msgRefreshChange" title="是否自动刷新消息" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
               </div>
             </div>
             <div v-for="item in tableData.records" :key="item.id" class="avue-notice__item">
@@ -34,14 +34,14 @@
                 <a href="javascript:;" @click="view(item)">
                 <div class="avue-notice__title">
                   <div class="avue-notice__name">{{ item.title }}</div>
-                  <span class="avue-notice__tag"><el-tag size="small" effect="plain" :type="item.msgsCenterType ? item.msgsCenterType['code'] : '' | msgsTypeFilter">{{ item.msgsCenterType ? item.msgsCenterType['desc'] : '' }}</el-tag></span>
+                  <span class="avue-notice__tag"><el-tag size="small" effect="plain" :type="item.msgType ? item.msgType['code'] : '' | msgTypeFilter">{{ item.msgType ? item.msgType['desc'] : '' }}</el-tag></span>
                 </div>
                 <div class="avue-notice__subtitle">{{ item.createTime }}</div>
                 </a>
               </div>
             </div>
             <div class="avue-notice__more">
-              <router-link :to="{path:'/msg/myMsgs'}">点击查看更多<i class="el-icon-more"/></router-link>
+              <router-link :to="{path:'/resources/msg'}">点击查看更多<i class="el-icon-more"/></router-link>
             </div>
           </div>
           <el-badge :value="tableData.total" :max="99" :hidden="tableData.total <= 0" class="badge-item" slot="reference">
@@ -106,7 +106,7 @@ import db from "@/utils/localstorage";
 import Screenfull from "@/components/Screenfull";
 import Search from "@/components/HeaderSearch";
 import loginApi from "@/api/Login.js";
-import msgsApi from "@/api/Msgs.js";
+import msgsApi from "@/api/Msg.js";
 
 export default {
   components: {
@@ -120,7 +120,7 @@ export default {
     userAvatarFilter(name) {
       return name.charAt(0);
     },
-    msgsTypeFilter(status) {
+    msgTypeFilter(status) {
       const map = {
         WAIT: "",
         NOTIFY: "success",
@@ -132,8 +132,8 @@ export default {
   },
   mounted() {
     this.loadMyMsgs();
-    if(this.msgsRefresh) {
-      this.msgsRefreshChange(true);
+    if(this.msgRefresh) {
+      this.msgRefreshChange(true);
     }
   },
   data() {
@@ -142,8 +142,8 @@ export default {
         total: 0,
         records: []
       },
-      msgsRefresh: db.get('MSGS_REFRESH', false), // 消息是否自动刷新
-      msgsRefreshTimer: null
+      msgRefresh: db.get('MSG_REFRESH', false), // 消息是否自动刷新
+      msgRefreshTimer: null
     }
   },
   computed: {
@@ -202,7 +202,7 @@ export default {
       this.mark([row.id], ids => {
         this.loadMyMsgs();
         this.$router.push({
-          path: "/msg/sendMsgs",
+          path: "/resources/msg/edit",
           query: {
             id: row.id,
             type: "view"
@@ -210,16 +210,16 @@ export default {
         });
       });
     },
-    msgsRefreshChange(val) {
-      db.save('MSGS_REFRESH', val);
+    msgRefreshChange(val) {
+      db.save('MSG_REFRESH', val);
       if(val) {
-        this.msgsRefreshTimer = setInterval(() => {
+        this.msgRefreshTimer = setInterval(() => {
           this.loadMyMsgs();
         }, 15000)
       } else {
-        clearInterval(this.msgsRefreshTimer);
+        clearInterval(this.msgRefreshTimer);
         console.log("定时拉取消息停止了！")
-        this.msgsRefreshTimer = null;
+        this.msgRefreshTimer = null;
       }
     },
     toggleSideBar() {

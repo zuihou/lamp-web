@@ -64,9 +64,32 @@ const constRouter = [
         meta: {
           title: '发送短信', icon: '', noCache: true
         }
-      }
+      },
     ]
   },
+  {
+    path: '/resources',
+    component: Layout,
+    redirect: '/resources/msg',
+    hidden: true,
+    alwaysShow: true,
+    meta: {
+      title: '资源中心', icon: '', noCache: true, breadcrumb: true
+    },
+    children: [
+      {
+        hidden: true,
+        alwaysShow: false,
+        path: '/resources/msg/edit',
+        component: resolve => require(['@/views/lamp/resources/msg/edit'], resolve),
+        name: '发送消息',
+        meta: {
+          title: '发送消息', icon: '', noCache: true, breadcrumb: true
+        }
+      },
+    ]
+  },
+
   {
     path: '/error',
     component: Layout,
@@ -84,7 +107,7 @@ const constRouter = [
         meta: {title: 'page404', noCache: true}
       }
     ]
-  }
+  },
 ]
 
 const router = new Router({

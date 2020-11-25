@@ -217,10 +217,10 @@ export default {
       message: 'message',
       fee: 'fee'
     },
-    msgs: {
+    msg: {
       bizType: 'bizType',
       bizId: 'bizId',
-      msgsCenterType: 'msgsCenterType',
+      msgType: 'msgType',
       title: 'title',
       content: 'content',
       author: 'author',

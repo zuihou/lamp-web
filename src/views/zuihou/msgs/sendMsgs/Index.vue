@@ -80,7 +80,7 @@
   </div>
 </template>
 <script>
-import msgsApi from '@/api/Msgs.js'
+import msgsApi from '@/api/Msg.js'
 import roleApi from '@/api/Role.js'
 import userApi from '@/api/User.js'
 import Tinymce from '@/components/Tinymce'
@@ -358,7 +358,7 @@ export default {
               type: 'success'
             })
             vm.reset()
-            vm.$router.push('/msg/myMsgs')
+            vm.$router.push('/resources/msg')
           }
         })
     },
@@ -375,7 +375,7 @@ export default {
               type: 'success'
             })
             vm.reset()
-            vm.$router.push('/msg/myMsgs')
+            vm.$router.push('/resources/msg')
           }
         })
     }

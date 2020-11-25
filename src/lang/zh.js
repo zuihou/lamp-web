@@ -217,10 +217,10 @@ export default {
       message: '状态码的描述',
       fee: '计费条数'
     },
-    msgs: {
+    msg: {
       bizType: '业务类型',
       bizId: '业务ID',
-      msgsCenterType: '消息类型',
+      msgType: '消息类型',
       title: '标题',
       content: '内容',
       author: '作者',
