@@ -23,7 +23,7 @@
 </template>
 <script>
 import elDragDialog from '@/directive/el-drag-dialog'
-import fileUpload from "@/components/zuihou/fileUpload"
+import fileUpload from "@/components/lamp/fileUpload"
 
 export default {
   name: 'AttachmentEdit',

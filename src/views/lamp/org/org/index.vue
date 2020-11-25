@@ -111,7 +111,7 @@
 <script>
   import orgApi from '@/api/Org.js'
   import elDragDialog from '@/directive/el-drag-dialog'
-  import FileImport from "@/components/zuihou/Import"
+  import FileImport from "@/components/lamp/Import"
   import { downloadFile, initDicts } from '@/utils/commons'
 
   export default {

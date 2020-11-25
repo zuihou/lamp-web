@@ -137,7 +137,7 @@
             @click="edit(row)"
             class="el-icon-edit table-operation"
             style="color: #2db7f5;"
-            v-hasPermission="['authority:station:update']"
+            v-hasPermission="['authority:station:edit']"
           />
           <i
             @click="singleDelete(row)"
@@ -147,7 +147,7 @@
           />
           <el-link
             class="no-perm"
-            v-has-no-permission="['authority:station:update', 'authority:station:delete']"
+            v-has-no-permission="['authority:station:edit', 'authority:station:delete']"
           >{{ $t("tips.noPermission") }}
           </el-link
           >
@@ -196,7 +196,7 @@
   import Treeselect from "@riophae/vue-treeselect";
   import "@riophae/vue-treeselect/dist/vue-treeselect.css";
   import elDragDialog from '@/directive/el-drag-dialog'
-  import FileImport from "@/components/zuihou/Import"
+  import FileImport from "@/components/lamp/Import"
   import Pagination from "@/components/Pagination";
   import StationEdit from "./edit";
   import stationApi from "@/api/Station.js";
@@ -303,10 +303,10 @@
       },
       exportExcelPreview() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出岗位数据';
+        this.queryParams.extra.fileName = '导出岗位数据';
         stationApi.preview({...this.queryParams, ...{size: 10000}}).then(response => {
           const res = response.data;
           this.preview.isVisible = true;
@@ -315,10 +315,10 @@
       },
       exportExcel() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出岗位数据';
+        this.queryParams.extra.fileName = '导出岗位数据';
         stationApi.export({...this.queryParams, ...{size: 10000}}).then(response => {
           downloadFile(response);
         });
@@ -391,8 +391,8 @@
       fetch(params = {}) {
         this.loading = true;
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
 
         this.queryParams.current = params.current ? params.current : this.queryParams.current;

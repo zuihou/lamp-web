@@ -131,10 +131,10 @@
           <i @click="copy(row)" class="el-icon-copy-document table-operation" :title="$t('common.delete')"
              style="color: #2db7f5;" v-hasPermission="['authority:parameter:add']"/>
           <i @click="edit(row)" class="el-icon-edit table-operation" :title="$t('common.delete')"
-             style="color: #2db7f5;" v-hasPermission="['authority:parameter:update']"/>
+             style="color: #2db7f5;" v-hasPermission="['authority:parameter:edit']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" :title="$t('common.delete')"
              style="color: #f50;" v-hasPermission="['authority:parameter:delete']"/>
-          <el-link class="no-perm" v-has-no-permission="['authority:parameter:update', 'authority:parameter:add', 'authority:parameter:delete']">
+          <el-link class="no-perm" v-has-no-permission="['authority:parameter:edit', 'authority:parameter:add', 'authority:parameter:delete']">
             {{ $t("tips.noPermission") }}
           </el-link>
         </template>
@@ -180,7 +180,7 @@
   import ParameterEdit from "./edit";
   import parameterApi from "@/api/Parameter.js";
   import elDragDialog from '@/directive/el-drag-dialog'
-  import FileImport from "@/components/zuihou/Import"
+  import FileImport from "@/components/lamp/Import"
   import {downloadFile, initDicts, initEnums, initQueryParams} from '@/utils/commons'
 
   export default {
@@ -242,10 +242,10 @@
       },
       exportExcelPreview() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出参数数据';
+        this.queryParams.extra.fileName = '导出参数数据';
         parameterApi.preview(this.queryParams).then(response => {
           const res = response.data;
           this.preview.isVisible = true;
@@ -254,10 +254,10 @@
       },
       exportExcel() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出参数数据';
+        this.queryParams.extra.fileName = '导出参数数据';
         parameterApi.export(this.queryParams).then(response => {
           downloadFile(response);
         });
@@ -333,8 +333,8 @@
       fetch(params = {}) {
         this.loading = true;
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
 
         this.queryParams.current = params.current ? params.current : this.queryParams.current;

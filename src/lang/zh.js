@@ -55,7 +55,9 @@ export default {
       code: '企业编码',
       name: '企业名称',
       type: '类型',
-      state: '状态',
+      connectType: '连接类型',
+      status: '状态',
+      readonly: '内置',
       duty: '责任人',
       expirationTime: '有效期',
       logo: 'logo',
@@ -383,7 +385,8 @@ export default {
     openInNewPage: '新页面打开',
     createTime: '创建时间',
     updateTime: '修改时间',
-    keyword: '关键词'
+    keyword: '关键词',
+    readonly: '内置'
   },
   tagsView: {
     refresh: '刷新当前',
@@ -403,6 +406,7 @@ export default {
     title: 'lamp-cloud'
   },
   tips: {
+    readonly: '系统数据，不能操作',
     systemError: '系统维护中，请稍微再试~',
     usernameShouldNotBeEmpty: '用户名不能为空',
     passwordShouldNotBeEmpty: '密码不能为空',
@@ -427,7 +431,7 @@ export default {
     onlyChooseOne: '只能选择一个节点作为父节点',
     noNodeSelected: '请先选择节点',
     confirmDeleteNode: '选中节点及其子结点将被永久删除, 是否继续？',
-    iframeGrant: '用户名：zuihou 密码：zuihou',
+    iframeGrant: '用户名：lamp 密码：lamp',
     notEqual: '两次输入不一致',
     oldPasswordIncorrect: '原密码不正确',
     uploadSuccess: '上传成功',

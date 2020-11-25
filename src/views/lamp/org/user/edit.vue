@@ -133,7 +133,7 @@
 import {validMobile} from "@/utils/my-validate";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-import imgUpload from "@/components/zuihou/imgUpload";
+import imgUpload from "@/components/lamp/imgUpload";
 import userApi from "@/api/User.js";
 import stationApi from "@/api/Station.js";
 

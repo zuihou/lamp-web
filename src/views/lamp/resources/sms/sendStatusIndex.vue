@@ -174,8 +174,8 @@
       fetch(params = {}) {
         this.loading = true;
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
 
         this.queryParams.current = params.current ? params.current : this.queryParams.current;

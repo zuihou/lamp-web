@@ -70,10 +70,10 @@
                          width="100px">
           <template slot-scope="{row}">
             <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
-               v-hasPermission="['authority:dictionary:update']"/>
+               v-hasPermission="['authority:dictionary:edit']"/>
             <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
                v-hasPermission="['authority:dictionary:delete']"/>
-            <el-link class="no-perm" v-has-no-permission="['authority:dictionary:update','authority:dictionary:delete']">{{ $t('tips.noPermission') }}
+            <el-link class="no-perm" v-has-no-permission="['authority:dictionary:edit','authority:dictionary:delete']">{{ $t('tips.noPermission') }}
             </el-link>
           </template>
         </el-table-column>
@@ -222,8 +222,8 @@
       fetch(params = {}) {
         this.loading = true;
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
 
         this.queryParams.current = params.current ? params.current : this.queryParams.current;

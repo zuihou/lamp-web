@@ -120,13 +120,13 @@
           <i @click="view(row)" class="el-icon-view table-operation" style="color: #2db7f5;"
              v-hasPermission="['msg:sms:view']"/>
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
-             v-hasPermission="['msg:sms:update']" v-show="row.draft"/>
+             v-hasPermission="['msg:sms:edit']" v-show="row.draft"/>
           <i @click="copy(row)" class="el-icon-copy-document table-operation" style="color: #909399;"
              v-hasPermission="['msg:sms:add']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
              v-hasPermission="['msg:sms:delete']"/>
           <el-link class="no-perm"
-                   v-has-no-permission="['msg:sms:update','msg:sms:delete','msg:sms:add','msg:sms:view']">
+                   v-has-no-permission="['msg:sms:edit','msg:sms:delete','msg:sms:add','msg:sms:view']">
             {{ $t('tips.noPermission') }}
           </el-link>
         </template>
@@ -163,7 +163,7 @@
   import smsTaskApi from '@/api/SmsTask.js'
   import {convertEnum} from '@/utils/utils'
   import elDragDialog from '@/directive/el-drag-dialog'
-  import FileImport from "@/components/zuihou/Import"
+  import FileImport from "@/components/lamp/Import"
   import {downloadFile, initMsgEnums, initQueryParams} from '@/utils/commons'
 
   export default {
@@ -241,10 +241,10 @@
       },
       exportExcelPreview() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出用户数据';
+        this.queryParams.extra.fileName = '导出用户数据';
         smsTaskApi.preview(this.queryParams).then(response => {
           const res = response.data;
           this.preview.isVisible = true;
@@ -253,10 +253,10 @@
       },
       exportExcel() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出用户数据';
+        this.queryParams.extra.fileName = '导出用户数据';
         smsTaskApi.export(this.queryParams).then(response => {
           downloadFile(response);
         });
@@ -345,8 +345,8 @@
       fetch(params = {}) {
         this.loading = true;
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
 
         this.queryParams.current = params.current ? params.current : this.queryParams.current;

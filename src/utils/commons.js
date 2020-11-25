@@ -122,7 +122,7 @@ export const initQueryParams = params => {
     model: {
 
     },
-    map: {},
+    extra: {},
     timeRange: null
   };
   return params ? { ...defParams, ...params } : defParams;

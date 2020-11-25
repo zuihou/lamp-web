@@ -2,4 +2,4 @@
 cnpm install
 npm run build:docker
 
-docker build -t zuihou-ui .
+docker build -t lamp-web .

@@ -235,7 +235,7 @@
   import msgApi from "@/api/Msg.js";
   import {convertEnum} from "@/utils/utils";
   import elDragDialog from '@/directive/el-drag-dialog'
-  import FileImport from "@/components/zuihou/Import"
+  import FileImport from "@/components/lamp/Import"
   import {downloadFile, initMsgEnums, initQueryParams} from '@/utils/commons'
 
 
@@ -330,10 +330,10 @@
       },
       exportExcelPreview() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出消息数据';
+        this.queryParams.extra.fileName = '导出消息数据';
         msgApi.preview(this.queryParams).then(response => {
           const res = response.data;
           this.preview.isVisible = true;
@@ -342,10 +342,10 @@
       },
       exportExcel() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出消息数据';
+        this.queryParams.extra.fileName = '导出消息数据';
         msgApi.export(this.queryParams).then(response => {
           downloadFile(response);
         });
@@ -473,8 +473,8 @@
       fetch(params = {}) {
         this.loading = true;
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
 
         this.queryParams.current = params.current ? params.current : this.queryParams.current;

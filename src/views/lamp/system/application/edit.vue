@@ -77,11 +77,11 @@
 
         },
         serviceList: [
-          {id: "zuihou-authority-server", name: "权限服务"},
-          {id: "zuihou-file-server", name: "文件服务"},
-          {id: "zuihou-msgs-server", name: "消息服务"},
-          {id: "zuihou-demo-server", name: "演示服务"},
-          {id: "zuihou-order-server", name: "订单服务"},
+          {id: "lamp-authority-server", name: "权限服务"},
+          {id: "lamp-file-server", name: "文件服务"},
+          {id: "lamp-msgs-server", name: "消息服务"},
+          {id: "lamp-demo-server", name: "演示服务"},
+          {id: "lamp-order-server", name: "订单服务"},
         ]
       }
     },

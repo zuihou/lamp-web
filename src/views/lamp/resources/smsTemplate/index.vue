@@ -108,9 +108,9 @@
       </el-table-column>
       <el-table-column :label="$t('table.operation')" align="center" column-key="operation" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
-          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['msg:smsTemplate:update']" />
+          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['msg:smsTemplate:edit']" />
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['msg:smsTemplate:delete']" />
-          <el-link class="no-perm" v-has-no-permission="['msg:smsTemplate:update','msg:smsTemplate:delete']">{{ $t('tips.noPermission') }}</el-link>
+          <el-link class="no-perm" v-has-no-permission="['msg:smsTemplate:edit','msg:smsTemplate:delete']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>
@@ -146,7 +146,7 @@ import SmsTemplateEdit from './edit'
 import smsTemplateApi from '@/api/SmsTemplate.js'
 import { convertEnum } from '@/utils/utils'
 import elDragDialog from '@/directive/el-drag-dialog'
-import FileImport from "@/components/zuihou/Import"
+import FileImport from "@/components/lamp/Import"
 import { downloadFile, initDicts, initMsgEnums, initQueryParams } from '@/utils/commons'
 
 export default {
@@ -225,10 +225,10 @@ export default {
     },
     exportExcelPreview() {
       if (this.queryParams.timeRange) {
-        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
       }
-      this.queryParams.map.fileName = '导出用户数据';
+      this.queryParams.extra.fileName = '导出用户数据';
       smsTemplateApi.preview(this.queryParams).then(response => {
         const res = response.data;
         this.preview.isVisible = true;
@@ -237,10 +237,10 @@ export default {
     },
     exportExcel() {
       if (this.queryParams.timeRange) {
-        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
       }
-      this.queryParams.map.fileName = '导出用户数据';
+      this.queryParams.extra.fileName = '导出用户数据';
       smsTemplateApi.export(this.queryParams).then(response => {
         downloadFile(response);
       });
@@ -312,8 +312,8 @@ export default {
     fetch (params = {}) {
       this.loading = true;
       if (this.queryParams.timeRange) {
-        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
       }
 
       this.queryParams.current = params.current ? params.current : this.queryParams.current;

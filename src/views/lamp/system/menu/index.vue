@@ -159,10 +159,10 @@
                                width="100px">
                 <template slot-scope="{row}">
                   <i @click="resourceEdit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
-                     v-hasPermission="['authority:resource:update']"/>
+                     v-hasPermission="['authority:resource:edit']"/>
                   <i @click="resourceSingleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
                      v-hasPermission="['authority:resource:delete']"/>
-                  <el-link class="no-perm" v-has-no-permission="['authority:resource:update','authority:resource:delete']">{{
+                  <el-link class="no-perm" v-has-no-permission="['authority:resource:edit','authority:resource:delete']">{{
                     $t('tips.noPermission') }}
                   </el-link>
                 </template>
@@ -198,7 +198,7 @@
   </div>
 </template>
 <script>
-  import commonTree from '@/components/zuihou/CommonTree.vue'
+  import commonTree from '@/components/lamp/CommonTree.vue'
   import Icons from './icons'
   import ResourceEdit from './edit'
   import Pagination from '@/components/Pagination'
@@ -265,11 +265,10 @@
           if (isUrl) {
             comp = `跳转地址：${this.menu.path}`
           } else {
-            // comp = `前端组件：src/views/zuihou${this.menu.path}/Index.vue`
             comp = `组件路径：src/views/${this.menu.component}.vue`
           }
         } else {
-          comp = `组件路径：src/views/zuihou/Index.vue`
+          comp = `组件路径：src/views/lamp/index.vue`
         }
         return comp
       }
@@ -306,9 +305,9 @@
           this.menu.component = 'Layout'
         } else if(this.menu.id === ""){
           if (this.menu.path) {
-            this.menu.component = `zuihou${this.menu.path}/Index`
+            this.menu.component = `lamp${this.menu.path}/index`
           } else {
-            this.menu.component = `zuihou/Index`
+            this.menu.component = `lamp/index`
           }
         }
       },
@@ -516,8 +515,8 @@
       },
       resourceFetch(params = {}) {
         if (this.resourceQueryParams.timeRange) {
-          this.resourceQueryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.resourceQueryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.resourceQueryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.resourceQueryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
 
         this.resourceQueryParams.current = params.current ? params.current : this.resourceQueryParams.current;

@@ -63,10 +63,10 @@
                        width="70px">
         <template slot-scope="{row}">
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
-             v-hasPermission="['authority:dictionary:update']"/>
+             v-hasPermission="['authority:dictionary:edit']"/>
           <i @click="singleDelete(row)" class="el-icon-delete " style="color: #f50;"
              v-hasPermission="['authority:dictionary:delete']"/>
-          <el-link class="no-perm" v-has-no-permission="['authority:dictionary:update','authority:dictionary:delete']">{{ $t('tips.noPermission') }}
+          <el-link class="no-perm" v-has-no-permission="['authority:dictionary:edit','authority:dictionary:delete']">{{ $t('tips.noPermission') }}
           </el-link>
         </template>
       </el-table-column>

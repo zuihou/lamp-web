@@ -23,7 +23,7 @@ const db = {
   clear () {
     // localStorage.clear()
 
-    // 为了使 zuihou-admin-ui 和 zuihou-ui 能在同一个域下 独立使用， 清除缓存时，需要区分来
+    // 为了不同路径能在同一个域下 独立使用， 清除缓存时，需要区分来
 
     let projectName = process.env.VUE_APP_PROJECT_NAME
     for (const key in localStorage) {

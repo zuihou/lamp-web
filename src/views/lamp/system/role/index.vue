@@ -157,7 +157,7 @@
             class="el-icon-edit table-operation"
             style="color: #2db7f5;"
             title="修改"
-            v-hasPermission="['authority:role:update']"
+            v-hasPermission="['authority:role:edit']"
           />
           <i
             @click="singleDelete(row)"
@@ -183,7 +183,7 @@
           <el-link
             class="no-perm"
             v-has-no-permission="[
-              'authority:role:update',
+              'authority:role:edit',
               'authority:role:delete',
               'authority:role:auth',
               'authority:role:config'
@@ -249,7 +249,7 @@
   import elDragDialog from '@/directive/el-drag-dialog'
   import RoleEdit from "./edit";
   import UserRole from "./userRole";
-  import FileImport from "@/components/zuihou/Import"
+  import FileImport from "@/components/lamp/Import"
   import RoleAuthority from "./roleAuthority";
   import roleApi from "@/api/Role.js";
   import {convertEnum} from '@/utils/utils'
@@ -358,10 +358,10 @@
       },
       exportExcelPreview() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出角色数据';
+        this.queryParams.extra.fileName = '导出角色数据';
         roleApi.preview(this.queryParams).then(response => {
           const res = response.data;
           this.preview.isVisible = true;
@@ -370,10 +370,10 @@
       },
       exportExcel() {
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
-        this.queryParams.map.fileName = '导出角色数据';
+        this.queryParams.extra.fileName = '导出角色数据';
         roleApi.export(this.queryParams).then(response => {
           downloadFile(response);
         });
@@ -446,8 +446,8 @@
       fetch(params = {}) {
         this.loading = true;
         if (this.queryParams.timeRange) {
-          this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
         }
 
         this.queryParams.current = params.current ? params.current : this.queryParams.current;

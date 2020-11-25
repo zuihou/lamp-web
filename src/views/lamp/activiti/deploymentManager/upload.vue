@@ -9,14 +9,14 @@
         />
       </el-form-item>
       <el-form-item label="文件" prop="fileLength">
-        <fileUpload 
+        <fileUpload
           :acceptSize="5*1024*1024"
           accept=".zip"
-          :action="action" 
-          :auto-upload="false" 
-          :limit="5" 
-          @fileLengthVaild="fileLengthVaild" 
-          @setId="setIdAndSubmit" 
+          :action="action"
+          :auto-upload="false"
+          :limit="5"
+          @fileLengthVaild="fileLengthVaild"
+          @setId="setIdAndSubmit"
           ref="fileRef">
           <el-button size="small" slot="trigger" type="primary">选取文件</el-button>
           <div class="el-upload__tip" slot="tip">文件不超过5MB, 只能上传zip文件</div>
@@ -31,7 +31,7 @@
 </template>
 <script>
 import elDragDialog from '@/directive/el-drag-dialog'
-import fileUpload from "@/components/zuihou/fileUpload"
+import fileUpload from "@/components/lamp/fileUpload"
 
 export default {
   name: 'DeploymentManagerUpload',

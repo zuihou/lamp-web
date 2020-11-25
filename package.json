@@ -1,5 +1,5 @@
 {
-  "name": "zuihou-ui",
+  "name": "lamp-web",
   "version": "1.0.0",
   "description": "lamp-cloud 前端项目",
   "author": "zuihou",
@@ -24,10 +24,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/zuihou/zuihou-ui"
+    "url": "https://github.com/zuihou/lamp-web"
   },
   "bugs": {
-    "url": "https://github.com/zuihou/zuihou-ui/issues"
+    "url": "https://github.com/zuihou/lamp-web/issues"
   },
   "dependencies": {
     "@riophae/vue-treeselect": "0.0.38",

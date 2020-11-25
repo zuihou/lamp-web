@@ -56,6 +56,16 @@ export function validAlphabets(str) {
 }
 
 /**
+ * 验证是否为 合理的编码
+ * @param {string} str
+ * @returns {Boolean}
+ */
+export function validCode (str) {
+  const reg = /^[A-Za-z0-9_]+$/
+  return reg.test(str)
+}
+
+/**
  * @param {string} email
  * @returns {Boolean}
  */

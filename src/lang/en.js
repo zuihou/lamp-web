@@ -55,7 +55,8 @@ export default {
       code: 'EnterpriseCode',
       name: 'EnterpriseName',
       type: 'Type',
-      state: 'state',
+      status: 'status',
+      readonly: 'readonly',
       duty: 'Duty',
       expirationTime: 'ExpirationTime',
       logo: 'Logo',
@@ -320,7 +321,8 @@ export default {
     openInNewPage: 'New Page',
     createTime: 'createTime',
     updateTime: 'updateTime',
-    keyword: 'keyword'
+    keyword: 'keyword',
+    readonly: 'readonly'
   },
   tagsView: {
     refresh: 'Refresh',
@@ -340,6 +342,7 @@ export default {
     title: 'lamp-cloud'
   },
   tips: {
+    readonly: 'Readonly Data, Inoperable',
     systemError: 'System maintenance, please try again~',
     usernameShouldNotBeEmpty: 'Username can not be empty',
     passwordShouldNotBeEmpty: 'Password can not be empty',
@@ -356,7 +359,7 @@ export default {
     confirmDelete: 'The selected data will be permanently deleted, continue?',
     confirmDeleteCache: 'Whether to clear the user permission cache immediately?',
     containCurrentUser: 'The operation has been canceled because it contains the currently logged in user',
-    neverLogin: 'Never logged in to the zuihou system',
+    neverLogin: 'Never logged in to the lamp-web system',
     nothing: 'Nothing',
     topId: 'A value of 0 indicates a top-level node',
     choose: 'Select: ',
@@ -364,7 +367,7 @@ export default {
     onlyChooseOne: 'Only one node can be selected as the parent node',
     noNodeSelected: 'Please select a node first',
     confirmDeleteNode: 'The selected node and its child nodes will be permanently deleted. Continue?',
-    iframeGrant: 'Userame: zuihou Password: zuihou',
+    iframeGrant: 'Userame: lamp Password: lamp',
     notEqual: 'Inconsistent values entered twice',
     oldPasswordIncorrect: 'Old password incorrect',
     uploadSuccess: 'Upload Successfully',

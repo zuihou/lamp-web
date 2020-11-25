@@ -119,28 +119,28 @@
                     <el-tag
                       effect="plain"
                       style="cursor: pointer"
-                      @click="handleClipboard('zuihou', $event)"
+                      @click="handleClipboard('lamp', $event)"
                     >
-                      管理员(zuihou)
+                      超级管理员(lamp)
                     </el-tag>
                     <el-divider direction="vertical" />
                     <el-tag
                       effect="plain"
                       style="cursor: pointer"
-                      @click="handleClipboard('test', $event)"
+                      @click="handleClipboard('general', $event)"
                       type="success"
-                      >总经理(test)
+                      >普通管理员(general)
                     </el-tag>
                     <el-divider direction="vertical" />
                     <el-tag
                       effect="plain"
                       style="cursor: pointer"
-                      @click="handleClipboard('manong', $event)"
+                      @click="handleClipboard('normal', $event)"
                       type="info"
-                      >码农(manong)
+                      >普通用户(normal)
                     </el-tag>
                     <el-divider content-position="right"
-                      >密码都是： zuihou</el-divider
+                      >密码都是： lamp</el-divider
                     >
                     <span>获取文档</span>
                     <el-divider direction="vertical" />
@@ -196,7 +196,7 @@
                         type="danger"
                         effect="dark"
                         style="cursor: pointer"
-                        onclick="window.open('https://www.kancloud.cn/zuihou/lamp-cloud/2003629')"
+                        onclick="window.open('https://www.kancloud.cn/zuihou/lamp-cloud')"
                         >增强商业版</el-tag
                       >
                     </span>

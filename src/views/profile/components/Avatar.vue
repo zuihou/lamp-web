@@ -31,7 +31,7 @@
   </el-dialog>
 </template>
 <script>
-import imgUpload from "@/components/zuihou/imgUpload"
+import imgUpload from "@/components/lamp/imgUpload"
 import userApi from '@/api/User.js'
 const hthz = [
   'default.jpg', '1d22f3e41d284f50b2c8fc32e0788698.jpeg',

@@ -17,7 +17,7 @@
         <a href="https://gitee.com/zuihou111/lamp-cloud" target="_blank"
           >gitee</a
         >、
-        <a href="https://gitee.com/zuihou111/lamp-vue" target="_blank">ui</a>
+        <a href="https://gitee.com/zuihou111/lamp-web" target="_blank">lamp-web</a>
       </div>
     </div>
     <el-form
