@@ -87,7 +87,7 @@
   import Pagination from '@/components/Pagination'
   import smsSendStatusApi from '@/api/SmsSendStatus.js'
   import {convertEnum} from '@/utils/utils'
-  import { initMsgsEnums, initQueryParams } from '@/utils/commons'
+  import { initMsgEnums, initQueryParams } from '@/utils/commons'
 
   export default {
     name: 'SmsSendStatusManage',
@@ -142,7 +142,7 @@
       },
     },
     mounted() {
-      initMsgsEnums('SendStatus', this.enums)
+      initMsgEnums('SendStatus', this.enums)
     },
     methods: {
       onSelectChange(selection) {

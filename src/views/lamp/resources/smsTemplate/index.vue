@@ -147,7 +147,7 @@ import smsTemplateApi from '@/api/SmsTemplate.js'
 import { convertEnum } from '@/utils/utils'
 import elDragDialog from '@/directive/el-drag-dialog'
 import FileImport from "@/components/zuihou/Import"
-import { downloadFile, initDicts, initMsgsEnums, initQueryParams } from '@/utils/commons'
+import { downloadFile, initDicts, initMsgEnums, initQueryParams } from '@/utils/commons'
 
 export default {
   name: 'SmsTemplateManage',
@@ -197,7 +197,7 @@ export default {
     }
   },
   mounted () {
-    initMsgsEnums(['ProviderType'], this.enums)
+    initMsgEnums(['ProviderType'], this.enums)
     this.fetch()
   },
   methods: {

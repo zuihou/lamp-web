@@ -3,54 +3,123 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   page: {
     method: 'POST',
-    url: `/authority/tenant/page`
+    url: `/tenant/tenant/page`
   },
   update: {
     method: 'PUT',
-    url: `/authority/tenant`
+    url: `/tenant/tenant`
   },
   save: {
     method: 'POST',
-    url: `/authority/tenant`
+    url: `/tenant/tenant`
   },
   saveInit: {
     method: 'POST',
-    url: `/authority/tenant/init`
+    url: `/tenant/tenant/init`
+  },
+  updateStatus: {
+    method: 'POST',
+    url: `/tenant/tenant/status`
   },
   remove: {
     method: 'DELETE',
-    url: `/authority/tenant/remove`
+    url: `/tenant/tenant`
+  },
+  list: {
+    method: 'POST',
+    url: `/tenant/tenant/query`
+  },
+  preview: {
+    method: 'POST',
+    url: `/tenant/tenant/preview`
+  },
+  export: {
+    method: 'POST',
+    url: `/tenant/tenant/export`
+  },
+  import: {
+    method: 'POST',
+    url: `/tenant/tenant/import`
+  },
+  initConnect: {
+    method: 'POST',
+    url: `/tenant/tenant/initConnect`
   }
 }
 
 export default {
-  page(data) {
+  page (data) {
     return axiosApi({
       ...apiList.page,
       data
     })
   },
-  save(data) {
+  save (data) {
     return axiosApi({
       ...apiList.save,
       data
     })
   },
-  saveInit(data) {
+  // 同步创建租户，防止在切换回默认数据源时，执行其他方法
+  async saveInit (data) {
     return axiosApi({
       ...apiList.saveInit,
       data
     })
   },
-  update(data) {
+  update (data) {
     return axiosApi({
       ...apiList.update,
       data
     })
   },
-  remove(data) {
+  updateStatus (data) {
+    return axiosApi({
+      ...apiList.updateStatus,
+      formData: true,
+      data
+    })
+  },
+  remove (data) {
     return axiosApi({
       ...apiList.remove,
+      data
+    })
+  },
+  list (data) {
+    return axiosApi({
+      ...apiList.list,
+      data
+    })
+  },
+  check (code) {
+    return axiosApi({
+      method: 'GET',
+      url: `/tenant/tenant/check/${code}`
+    })
+  },
+  preview (data) {
+    return axiosApi({
+      ...apiList.preview,
+      data
+    })
+  },
+  export (data) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data
+    })
+  },
+  import (data) {
+    return axiosApi({
+      ...apiList.import,
+      data
+    })
+  },
+  initConnect (data) {
+    return axiosApi({
+      ...apiList.initConnect,
       data
     })
   }

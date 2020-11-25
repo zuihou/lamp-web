@@ -164,7 +164,7 @@
   import {convertEnum} from '@/utils/utils'
   import elDragDialog from '@/directive/el-drag-dialog'
   import FileImport from "@/components/zuihou/Import"
-  import {downloadFile, initMsgsEnums, initQueryParams} from '@/utils/commons'
+  import {downloadFile, initMsgEnums, initQueryParams} from '@/utils/commons'
 
   export default {
     name: 'StationManage',
@@ -221,7 +221,7 @@
       }
     },
     mounted() {
-      initMsgsEnums(['TaskStatus'], this.enums)
+      initMsgEnums(['TaskStatus'], this.enums)
       this.fetch()
     },
     methods: {

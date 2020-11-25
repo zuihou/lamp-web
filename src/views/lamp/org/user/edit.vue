@@ -93,18 +93,18 @@
       </el-form-item>
       <el-form-item :label="$t('table.user.nation')" prop="nation">
         <el-select style="width:100%" :placeholder="$t('table.user.nation')" v-model="user.nation.key" value>
-          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.NATION"/>
+          <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.NATION"/>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.education')" prop="education">
         <el-select style="width:100%" :placeholder="$t('table.user.education')" v-model="user.education.key" value>
-          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.EDUCATION"/>
+          <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.EDUCATION"/>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.positionStatus')" prop="positionStatus">
         <el-select style="width:100%" :placeholder="$t('table.user.positionStatus')" v-model="user.positionStatus.key"
                    value>
-          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.POSITION_STATUS"/>
+          <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.POSITION_STATUS"/>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.state')" prop="state">
@@ -172,9 +172,9 @@ export default {
         Sex: {}
       },
       dicts: {
-        NATION: {},
-        POSITION_STATUS: {},
-        EDUCATION: {},
+        NATION: [],
+        POSITION_STATUS: [],
+        EDUCATION: [],
       },
       rules: {
         account: [

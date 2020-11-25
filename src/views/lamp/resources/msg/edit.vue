@@ -84,7 +84,7 @@ import msgApi from '@/api/Msg.js'
 import roleApi from '@/api/Role.js'
 import userApi from '@/api/User.js'
 import Tinymce from '@/components/Tinymce'
-import {initMsgsEnums} from '@/utils/commons.js'
+import {initMsgEnums} from '@/utils/commons.js'
 
 export default {
   name: 'MsgsEdit',
@@ -160,7 +160,7 @@ export default {
     this.loadMsgs()
     this.loadUserList()
     this.loadRoleList()
-    initMsgsEnums(['MsgType', 'MsgBizType'], this.enums)
+    initMsgEnums(['MsgType', 'MsgBizType'], this.enums)
   },
   methods: {
     initMsg () {

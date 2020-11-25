@@ -236,7 +236,7 @@
   import {convertEnum} from "@/utils/utils";
   import elDragDialog from '@/directive/el-drag-dialog'
   import FileImport from "@/components/zuihou/Import"
-  import {downloadFile, initMsgsEnums, initQueryParams} from '@/utils/commons'
+  import {downloadFile, initMsgEnums, initQueryParams} from '@/utils/commons'
 
 
   export default {
@@ -302,7 +302,7 @@
       }
     },
     mounted() {
-      initMsgsEnums(['MsgType', 'MsgBizType'], this.enums)
+      initMsgEnums(['MsgType', 'MsgBizType'], this.enums)
       this.fetch();
     },
     methods: {

@@ -1,5 +1,5 @@
 import commonApi from '@/api/Common'
-import dictionaryItemApi from '@/api/DictionaryItem'
+import dictionaryApi from '@/api/Dictionary'
 
 export const loadEnums = (codes, enums = {}) => {
   if (typeof (codes) === 'string') {
@@ -37,7 +37,7 @@ export const initFileEnums = (codes, enums = {}) => {
  * @param codes
  * @param enums
  */
-export const initMsgsEnums = (codes, enums = {}) => {
+export const initMsgEnums = (codes, enums = {}) => {
   loadEnums(codes, enums)
 }
 
@@ -52,7 +52,7 @@ export const initDicts = (codes, dicts = {}) => {
   }
 
   if (codes && codes.length > 0) {
-    dictionaryItemApi.list({codes: codes}).then(response => {
+    dictionaryApi.codes({codes: codes}).then(response => {
       const res = response.data
       for (const code of codes) {
         dicts[code] = res.data[code]

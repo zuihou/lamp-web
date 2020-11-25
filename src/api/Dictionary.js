@@ -32,10 +32,20 @@ const apiList = {
   deleteType: {
     method: 'DELETE',
     url: `/authority/dictionary/type`
-  }
+  },
+  codes: {
+    method: 'GET',
+    url: `/oauth/dictionary/codes`
+  },
 }
 
 export default {
+  codes (data) {
+    return axiosApi({
+      ...apiList.codes,
+      data
+    })
+  },
   page (data) {
     return axiosApi({
       ...apiList.page,

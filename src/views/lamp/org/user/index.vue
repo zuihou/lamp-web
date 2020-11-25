@@ -5,7 +5,7 @@
                 class="filter-item search-item" clearable v-model="queryParams.model.account"/>
       <el-select clearable :placeholder="$t('table.user.nation')" v-model="queryParams.model.nation.key"
                  class="filter-item search-item">
-        <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.NATION"/>
+        <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.NATION"/>
       </el-select>
       <treeselect clearable
                   :clear-value-text="$t('common.clear')"
@@ -330,7 +330,7 @@
   import UserView from "./view";
   import userApi from "@/api/User.js";
   import orgApi from "@/api/Org.js";
-  import { convertEnum } from '@/utils/utils'
+  import { convertEnum, convertDict } from '@/utils/utils'
   import { downloadFile, initDicts, initEnums, initQueryParams } from '@/utils/commons'
 
   export default {
@@ -411,9 +411,9 @@
           Sex: {}
         },
         dicts: {
-          NATION: {},
-          POSITION_STATUS: {},
-          EDUCATION: {},
+          NATION: [],
+          POSITION_STATUS: [],
+          EDUCATION: [],
         }
       };
     },
@@ -425,13 +425,13 @@
         return convertEnum(this.enums.Sex)
       },
       nationList() {
-        return convertEnum(this.dicts.NATION)
+        return convertDict(this.dicts.NATION)
       },
       educationList() {
-        return convertEnum(this.dicts.EDUCATION)
+        return convertDict(this.dicts.EDUCATION)
       },
       positionStatusList() {
-        return convertEnum(this.dicts.POSITION_STATUS)
+        return convertDict(this.dicts.POSITION_STATUS)
       }
     },
     watch: {

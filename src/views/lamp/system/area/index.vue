@@ -35,8 +35,7 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
                   @click.native="deleteArea"
-                  v-has-permission="['authority:' +
-                   'delete']"
+                  v-has-permission="['authority:area:delete']"
                 >{{ $t("table.delete") }}
                 </el-dropdown-item>
 
@@ -123,8 +122,8 @@
                   size="small"
                   v-model="area.level.key"
                 >
-                  <el-radio-button :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.AREA_LEVEL">
-                    {{ item }}
+                  <el-radio-button :key="index" :label="item.code" :value="item.code" v-for="(item, key, index) in dicts.AREA_LEVEL">
+                    {{ item.name }}
                   </el-radio-button>
                 </el-radio-group>
               </el-form-item>
@@ -167,7 +166,7 @@
       return {
         label: "",
         areaTree: [],
-        dicts:{AREA_LEVEL:{}},
+        dicts:{AREA_LEVEL:[]},
         area: this.initArea(),
         rules: {
           label: [

@@ -55,7 +55,7 @@
               </el-form-item>
               <el-form-item :label="$t('table.org.type')" prop="type">
                 <el-radio-group v-model="org.type.key">
-                  <el-radio-button :key="index" :label="key" :value="key" v-for="(item, key, index) in dicts.ORG_TYPE">{{ item }}</el-radio-button>
+                  <el-radio-button :key="index" :label="item.code" :value="item.code" v-for="(item, key, index) in dicts.ORG_TYPE">{{item.name}}</el-radio-button>
                 </el-radio-group>
               </el-form-item>
               <el-form-item :label="$t('table.org.describe')" prop="describe">
@@ -113,7 +113,6 @@
   import elDragDialog from '@/directive/el-drag-dialog'
   import FileImport from "@/components/zuihou/Import"
   import { downloadFile, initDicts } from '@/utils/commons'
-  import roleApi from "@/api/Role";
 
   export default {
     name: 'OrgManager',
@@ -152,7 +151,7 @@
           ]
         },
         dicts: {
-          ORG_TYPE: {},
+          ORG_TYPE: [],
         }
       }
     },
