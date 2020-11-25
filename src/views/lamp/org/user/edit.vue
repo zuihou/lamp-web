@@ -331,8 +331,10 @@ export default {
     setUser(val, orgs, dicts, enums) {
       const vm = this;
       if (val) {
-        vm.user = {...val};
-
+        vm.user = {...vm.user,...val};
+        if(!vm.user.sex){
+          vm.user.sex = {code: ''}
+        }
       }
       vm.dicts = dicts;
       vm.enums = enums;

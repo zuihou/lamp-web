@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <aside> 新增租户(待初始化） -> 初始化连接 (正常) -> 使用内置超级管理员(账号：lampAdmin 密码：lamp)登录 lamp-web</aside>
+    <aside>新增租户步骤：1. 添加租户 2.点击操作列: 初始化连接 3.点击超级用户页面去新增一个超级管理员账号 4.将刚创建的超级管理员提供给租户，登录lamp-web</aside>
     <div class="filter-container">
       <el-input
         v-model="queryParams.model.code"

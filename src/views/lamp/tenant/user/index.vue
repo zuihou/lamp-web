@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <aside> 2.5.1 版本，将租户服务和权限服务分离后，为了让租户服务职责简单，租户服务启动和运行时没有动态初始化租户库的数据源了，所以不能查看其他租户的用户数据了。
-      可以使用初始化租户时，内置的超级管理员账号登录lamp-web系统查看
+    <aside>
+      该菜单和用户管理的区别在于：这里只能查询到所有租户的超级管理员和内置用户。<br>
+      内置用户：系统初始化时会初始化2个用户（内置用户和超级管理员），内置用户用于开发者运营时使用，超级管理员则提供给租户使用。
     </aside>
     <div class="filter-container">
       <el-select
         v-model="queryParams.model.tenantCode"
-        clearable
-        :placeholder="$t('table.user.tenantCode')"
+        placeholder="租户"
         class="filter-item search-item"
         @change="codeChange"
       >
@@ -95,7 +95,7 @@
       <el-table-column :label="$t('table.operation')" column-key="operation" align="center"
                        class-name="small-padding fixed-width" width="150px">
         <template slot-scope="{row}">
-          <i class="el-icon-edit table-operation" style="color: #2db7f5;" @click="edit(row)"/>
+<!--          <i class="el-icon-edit table-operation" style="color: #2db7f5;" @click="edit(row)"/>-->
           <i class="el-icon-delete table-operation" style="color: #f50;" @click="singleDelete(row)"/>
           <i
             class="el-icon-refresh-left"
@@ -244,7 +244,7 @@ export default {
       })
     },
     add() {
-      this.$refs.edit.setGlobalUser({
+      this.$refs.edit.setUser({
         tenantCode: this.queryParams.model.tenantCode
       })
       this.$refs.edit.type = 'add'
@@ -326,7 +326,7 @@ export default {
         return
       }
       row.tenantCode = this.queryParams.model.tenantCode
-      this.$refs.edit.setGlobalUser(row)
+      this.$refs.edit.setUser(row)
       this.$refs.edit.type = 'edit'
       this.dialog.title = this.$t('common.edit')
       this.dialog.isVisible = true
@@ -346,7 +346,13 @@ export default {
 
       this.queryParams.current = params.current ? params.current : this.queryParams.current
       this.queryParams.size = params.size ? params.size : this.queryParams.size
-
+      if(!this.queryParams.model.tenantCode){
+        this.$message({
+          message: '请先选择租户',
+          type: 'error'
+        })
+        return ;
+      }
       globalUserApi.page(this.queryParams).then(response => {
         const res = response.data
         if (res.isSuccess) {

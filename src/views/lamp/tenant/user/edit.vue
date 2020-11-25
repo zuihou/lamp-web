@@ -1,28 +1,28 @@
 <template>
   <el-dialog :close-on-click-modal="false" :close-on-press-escape="false" :title="title" :visible.sync="isVisible" :width="width" top="50px">
-    <el-form ref="form" :model="globalUser" :rules="rules" label-position="right" label-width="130px">
-      <el-form-item :label="$t('table.globalUser.tenantCode')" prop="tenantCode">
-        <el-select v-model="globalUser.tenantCode" :disabled="type === 'edit'" placeholder="企业">
+    <el-form ref="form" :model="user" :rules="rules" label-position="right" label-width="130px">
+      <el-form-item label="租户" prop="tenantCode">
+        <el-select v-model="user.tenantCode" :disabled="type === 'edit'" placeholder="企业">
           <el-option v-for="item in tenantList" :key="item.code" :label="item.name + '(' + item.code + ')'" :value="item.code" />
         </el-select>
       </el-form-item>
-      <el-form-item :label="$t('table.globalUser.account')" prop="account">
-        <el-input v-model="globalUser.account" :disabled="type === 'edit'" />
+      <el-form-item :label="$t('table.user.account')" prop="account">
+        <el-input v-model="user.account" :disabled="type === 'edit'" />
       </el-form-item>
-      <el-form-item v-show="type === 'add'" :label="$t('table.globalUser.password')" prop="password">
-        <el-input v-model="globalUser.password" maxlength="64" type="password" />
+      <el-form-item v-show="type === 'add'" :label="$t('table.user.password')" prop="password">
+        <el-input v-model="user.password" maxlength="64" type="password" />
       </el-form-item>
-      <el-form-item v-show="type === 'add'" :label="$t('table.globalUser.confirmPassword')" prop="confirmPassword">
-        <el-input v-model="globalUser.confirmPassword" maxlength="64" type="password" />
+      <el-form-item v-show="type === 'add'" :label="$t('table.user.confirmPassword')" prop="confirmPassword">
+        <el-input v-model="user.confirmPassword" maxlength="64" type="password" />
       </el-form-item>
-      <el-form-item :label="$t('table.globalUser.name')" prop="name">
-        <el-input v-model="globalUser.name" maxlength="50" />
+      <el-form-item :label="$t('table.user.name')" prop="name">
+        <el-input v-model="user.name" maxlength="50" />
       </el-form-item>
-      <el-form-item :label="$t('table.globalUser.mobile')" prop="mobile">
-        <el-input v-model="globalUser.mobile" maxlength="20" />
+      <el-form-item :label="$t('table.user.mobile')" prop="mobile">
+        <el-input v-model="user.mobile" maxlength="20" />
       </el-form-item>
-      <el-form-item :label="$t('table.globalUser.email')" prop="email">
-        <el-input v-model="globalUser.email" maxlength="255" />
+      <el-form-item :label="$t('table.user.email')" prop="email">
+        <el-input v-model="user.email" maxlength="255" />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -51,7 +51,7 @@ export default {
     return {
       tenantList: [],
       type: 'add',
-      globalUser: this.initGlobalUser(),
+      user: this.initUser(),
       screenWidth: 0,
       width: this.initWidth(),
       rules: {
@@ -60,16 +60,16 @@ export default {
           { min: 4, max: 30, message: this.$t('rules.range4to10'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
-              if (!this.globalUser.id && this.globalUser.tenantCode) {
+              if (!this.user.id && this.user.tenantCode) {
                 const checkData = {
-                  tenantCode: this.globalUser.tenantCode,
+                  tenantCode: this.user.tenantCode,
                   account: value
                 }
                 globalUserApi.check(checkData)
                   .then((response) => {
                     const res = response.data
                     if (res.data) {
-                      callback(this.$t('rules.accountExist'))
+                      callback(this.$t('rules.usernameExist'))
                     } else {
                       callback()
                     }
@@ -105,16 +105,16 @@ export default {
   },
   methods: {
     initTenantList () {
-      tenantApi.list()
+      tenantApi.list({status: {code: 'NORMAL'}})
         .then((response) => {
           const res = response.data
           this.tenantList = res.data
         })
     },
-    initGlobalUser () {
+    initUser () {
       return {
         id: '',
-        tenantCode: 'admin',
+        tenantCode: '0000',
         name: '',
         account: '',
         mobile: '',
@@ -133,8 +133,8 @@ export default {
         return '800px'
       }
     },
-    setGlobalUser (val) {
-      this.globalUser = { ...val }
+    setUser (val) {
+      this.user = { ...val }
     },
     close () {
       this.$emit('close')
@@ -153,7 +153,7 @@ export default {
       })
     },
     save () {
-      globalUserApi.save(this.globalUser)
+      globalUserApi.save(this.user)
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
@@ -167,7 +167,7 @@ export default {
         })
     },
     update () {
-      globalUserApi.update(this.globalUser)
+      globalUserApi.update(this.user)
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
@@ -184,7 +184,7 @@ export default {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
-      this.globalUser = this.initGlobalUser()
+      this.user = this.initUser()
     }
   }
 }
