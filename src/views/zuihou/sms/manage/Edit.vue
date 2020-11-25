@@ -171,7 +171,7 @@ export default {
   },
   watch: {
     $route () {
-      if (this.$route.path === '/sms/manage/edit') {
+      if (this.$route.path === '/resources/sms/edit') {
         this.initSmsTemplateList()
         this.loadSendStatus()
       }
@@ -384,7 +384,7 @@ export default {
               type: 'success'
             })
             vm.reset()
-            vm.$router.push('/sms/manage')
+            vm.$router.push('/resources/sms')
           }
         })
     },
@@ -401,7 +401,7 @@ export default {
               type: 'success'
             })
             vm.reset()
-            vm.$router.push('/sms/manage')
+            vm.$router.push('/resources/sms')
           }
         })
     },

@@ -19,27 +19,27 @@
       />
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
-      <router-link :to="{path:'/sms/manage/edit',query: {type: 'add'}}">
-        <el-button class="filter-item" plain type="danger" v-has-permission="['sms:manage:add']">
+      <router-link :to="{path:'/resources/sms/edit',query: {type: 'add'}}">
+        <el-button class="filter-item" plain type="danger" v-has-permission="['msg:sms:add']">
           {{ $t("table.add") }}
         </el-button>
       </router-link>
-      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['sms:manage:delete','sms:manage:export']">
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['msg:sms:delete','msg:sms:export']">
         <el-button>
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right"/>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['sms:manage:delete']">{{ $t('table.delete')
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['msg:sms:delete']">{{ $t('table.delete')
             }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['sms:manage:export']">
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['msg:sms:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['sms:manage:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['msg:sms:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="importExcel" v-has-permission="['sms:manage:import']">
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['msg:sms:import']">
             {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -115,18 +115,18 @@
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.operation')" align="center" column-key="operation"
-                       class-name="small-padding fixed-width" width="100px">
+                       class-name="small-padding fixed-width" width="130px">
         <template slot-scope="{row}">
           <i @click="view(row)" class="el-icon-view table-operation" style="color: #2db7f5;"
-             v-hasPermission="['sms:manage:view']"/>
+             v-hasPermission="['msg:sms:view']"/>
           <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;"
-             v-hasPermission="['sms:manage:update']" v-show="row.draft"/>
+             v-hasPermission="['msg:sms:update']" v-show="row.draft"/>
           <i @click="copy(row)" class="el-icon-copy-document table-operation" style="color: #909399;"
-             v-hasPermission="['sms:manage:add']"/>
+             v-hasPermission="['msg:sms:add']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;"
-             v-hasPermission="['sms:manage:delete']"/>
+             v-hasPermission="['msg:sms:delete']"/>
           <el-link class="no-perm"
-                   v-has-no-permission="['sms:manage:update','sms:manage:delete','sms:manage:add','sms:manage:view']">
+                   v-has-no-permission="['msg:sms:update','msg:sms:delete','msg:sms:add','msg:sms:view']">
             {{ $t('tips.noPermission') }}
           </el-link>
         </template>
@@ -215,7 +215,7 @@
     },
     watch: {
       '$route'(to) {
-        if (to.path === '/sms/manage') {
+        if (to.path === '/resources/sms') {
           this.fetch();
         }
       }
@@ -317,7 +317,7 @@
       },
       copy(row) {
         this.$router.push({
-          path: '/sms/manage/edit',
+          path: '/resources/sms/edit',
           query: {
             id: row.id,
             type: 'copy'
@@ -326,7 +326,7 @@
       },
       view(row) {
         this.$router.push({
-          path: '/sms/manage/edit',
+          path: '/resources/sms/edit',
           query: {
             id: row.id,
             type: 'view'
@@ -335,7 +335,7 @@
       },
       edit(row) {
         this.$router.push({
-          path: '/sms/manage/edit',
+          path: '/resources/sms/edit',
           query: {
             id: row.id,
             type: 'edit'

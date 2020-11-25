@@ -188,7 +188,7 @@ export default {
       appId: '应用ID',
       appSecret: '应用密码',
       url: 'SMS服务域名',
-      customCode: '模板编码',
+      customCode: '自定义编码',
       name: '模板名称',
       content: '模板内容',
       templateParams: '模板参数',
@@ -198,7 +198,7 @@ export default {
     },
     smsTask: {
       templateId: '短信模板',
-      state: '执行状态',
+      status: '执行状态',
       sourceType: '来源类型',
       receiver: '接收者',
       topic: '主题',

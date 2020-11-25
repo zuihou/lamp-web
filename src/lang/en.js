@@ -198,7 +198,7 @@ export default {
     },
     smsTask: {
       templateId: 'templateId',
-      state: 'state',
+      status: 'status',
       sourceType: 'sourceType',
       receiver: 'receiver',
       topic: 'topic',

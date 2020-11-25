@@ -18,21 +18,21 @@
       />
       <el-button @click="search" size="small" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" size="small" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
-      <el-button @click="add" size="small" class="filter-item" plain type="danger" v-has-permission="['sms:template:add']">
+      <el-button @click="add" size="small" class="filter-item" plain type="danger" v-has-permission="['msg:smsTemplate:add']">
         {{ $t("table.add") }}
       </el-button>
-      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['sms:template:delete','sms:template:export']">
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['msg:smsTemplate:delete','msg:smsTemplate:export']">
         <el-button size="small" >
           {{ $t('table.more') }}
           <i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['sms:template:delete']">{{ $t('table.delete') }}</el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['sms:template:export']">{{ $t('table.export') }}</el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['sms:template:export']">
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['msg:smsTemplate:delete']">{{ $t('table.delete') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['msg:smsTemplate:export']">{{ $t('table.export') }}</el-dropdown-item>
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['msg:smsTemplate:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="importExcel" v-has-permission="['sms:template:import']">
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['msg:smsTemplate:import']">
             {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -108,9 +108,9 @@
       </el-table-column>
       <el-table-column :label="$t('table.operation')" align="center" column-key="operation" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
-          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['sms:template:update']" />
-          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['sms:template:delete']" />
-          <el-link class="no-perm" v-has-no-permission="['sms:template:update','sms:template:delete']">{{ $t('tips.noPermission') }}</el-link>
+          <i @click="edit(row)" class="el-icon-edit table-operation" style="color: #2db7f5;" v-hasPermission="['msg:smsTemplate:update']" />
+          <i @click="singleDelete(row)" class="el-icon-delete table-operation" style="color: #f50;" v-hasPermission="['msg:smsTemplate:delete']" />
+          <el-link class="no-perm" v-has-no-permission="['msg:smsTemplate:update','msg:smsTemplate:delete']">{{ $t('tips.noPermission') }}</el-link>
         </template>
       </el-table-column>
     </el-table>

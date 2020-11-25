@@ -56,15 +56,6 @@ const constRouter = [
         name: 'Profile',
         meta: {title: 'profile', icon: 'user', noCache: true}
       },
-      {
-        hidden: true,
-        path: '/sms/manage/edit',
-        component: resolve => require(['@/views/zuihou/sms/manage/Edit'], resolve),
-        name: 'smsEdit',
-        meta: {
-          title: '发送短信', icon: '', noCache: true
-        }
-      },
     ]
   },
   {
@@ -85,6 +76,15 @@ const constRouter = [
         name: '发送消息',
         meta: {
           title: '发送消息', icon: '', noCache: true, breadcrumb: true
+        }
+      },
+      {
+        hidden: true,
+        path: '/resources/sms/edit',
+        component: resolve => require(['@/views/lamp/resources/sms/edit'], resolve),
+        name: 'smsEdit',
+        meta: {
+          title: '发送短信', icon: '', noCache: true
         }
       },
     ]

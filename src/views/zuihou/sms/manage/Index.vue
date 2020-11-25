@@ -19,7 +19,7 @@
       />
       <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
       <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
-      <router-link :to="{path:'/sms/manage/edit',query: {type: 'add'}}">
+      <router-link :to="{path:'/resources/sms/edit',query: {type: 'add'}}">
         <el-button class="filter-item" plain type="danger" v-has-permission="['sms:manage:add']">
           {{ $t("table.add") }}
         </el-button>
@@ -215,7 +215,7 @@
     },
     watch: {
       '$route'(to) {
-        if (to.path === '/sms/manage') {
+        if (to.path === '/resources/sms') {
           this.fetch();
         }
       }
@@ -317,7 +317,7 @@
       },
       copy(row) {
         this.$router.push({
-          path: '/sms/manage/edit',
+          path: '/resources/sms/edit',
           query: {
             id: row.id,
             type: 'copy'
@@ -326,7 +326,7 @@
       },
       view(row) {
         this.$router.push({
-          path: '/sms/manage/edit',
+          path: '/resources/sms/edit',
           query: {
             id: row.id,
             type: 'view'
@@ -335,7 +335,7 @@
       },
       edit(row) {
         this.$router.push({
-          path: '/sms/manage/edit',
+          path: '/resources/sms/edit',
           query: {
             id: row.id,
             type: 'edit'
