@@ -27,7 +27,8 @@
           <commonTree :tree-data="menuTree" @nodeClick="nodeClick" ref="menuTree">
             <template slot-scope="treeNode">
               <span class="tree-icon">
-                <i :class="treeNode.data.icon ? treeNode.data.icon : 'el-icon-document'"/>
+<!--                <i :class="treeNode.data.icon ? treeNode.data.icon : 'el-icon-document'"/>-->
+                <e-icon :icon-name="treeNode.data.icon ? treeNode.data.icon : 'el-icon-document'" class="sub-el-icon"/>
               </span>
               <span class="tree-icon">
                 <el-badge :type="treeNode.data.state ? 'success' :'danger'" class="status-item" is-dot/>

@@ -41,8 +41,8 @@
         链接：jdbc:mysql://127.0.0.1:3306/lamp_extend_1111?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true<br>
 
         其中:<br>
-        1111-基础服务：用于 认证服务数据源、权限服务数据源、文件服务数据源、消息服务数据源， 所以这些服务的配置文件中需要配置 lamp.database.tenantDatabasePrefix = lamp_base<br>
-        1111-扩展服务：用于 网关服务数据源， 所以这些服务的配置文件中需要配置 lamp.database.tenantDatabasePrefix = lamp_extend
+        1111-基础服务：用于 认证服务数据源、权限服务数据源、文件服务数据源数据源， 所以这些服务的配置文件中需要配置 lamp.database.tenantDatabasePrefix = lamp_base<br>
+        1111-扩展服务：用于 消息服务、网关服务数据源， 所以这些服务的配置文件中需要配置 lamp.database.tenantDatabasePrefix = lamp_extend
       </aside>
     </el-form>
     <div slot="footer" class="dialog-footer">

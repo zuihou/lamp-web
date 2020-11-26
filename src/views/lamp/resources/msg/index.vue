@@ -128,7 +128,7 @@
         :label="$t('table.msg.msgType')"
         :show-overflow-tooltip="true"
         class-name="status-col"
-        column-key="msgCenterType.code"
+        column-key="msgType.code"
         width="100px"
       >
         <template slot-scope="scope">

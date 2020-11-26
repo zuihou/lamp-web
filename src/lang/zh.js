@@ -67,6 +67,15 @@ export default {
       passwordErrorNum: '密码输错次数',
       passwordErrorLockTime: '账号锁定时间'
     },
+    datasourceConfig: {
+      id: 'ID',
+      name: '名称',
+      poolName: '数据源名',
+      username: '账号',
+      password: '密码',
+      url: '链接',
+      driverClassName: '驱动'
+    },
     user: {
       account: '账号',
       name: '姓名',

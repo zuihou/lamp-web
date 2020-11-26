@@ -120,7 +120,10 @@ export default {
   initConnect (data) {
     return axiosApi({
       ...apiList.initConnect,
-      data
+      custom: {
+        timeout: 60000
+      },
+      data,
     })
   }
 }

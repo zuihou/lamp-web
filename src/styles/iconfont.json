@@ -1,0 +1,254 @@
+{
+  "id": "2037893",
+  "name": "e-icon-picker-example",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "16672903",
+      "name": "编组 15",
+      "font_class": "bianzu15",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "16672904",
+      "name": "编组 26",
+      "font_class": "bianzu26",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "16672905",
+      "name": "编组 20",
+      "font_class": "bianzu20",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "16672906",
+      "name": "编组 19",
+      "font_class": "bianzu19",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "16672907",
+      "name": "编组 16",
+      "font_class": "bianzu16",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "16672908",
+      "name": "编组 23",
+      "font_class": "bianzu23",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "16672909",
+      "name": "编组 24",
+      "font_class": "bianzu24",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "16672910",
+      "name": "编组 21",
+      "font_class": "bianzu21",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "16672911",
+      "name": "编组 18",
+      "font_class": "bianzu18",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "16672912",
+      "name": "编组 27",
+      "font_class": "bianzu27",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "16672913",
+      "name": "编组 17",
+      "font_class": "bianzu17",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "16672914",
+      "name": "编组 22",
+      "font_class": "bianzu22",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "16672915",
+      "name": "编组 28",
+      "font_class": "bianzu28",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "16672916",
+      "name": "编组 25",
+      "font_class": "bianzu25",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "16672980",
+      "name": "编组 31",
+      "font_class": "bianzu31",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "16672981",
+      "name": "编组 30",
+      "font_class": "bianzu30",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "16672982",
+      "name": "编组 29",
+      "font_class": "bianzu29",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "16672983",
+      "name": "编组 44",
+      "font_class": "bianzu44",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "16672984",
+      "name": "编组 43",
+      "font_class": "bianzu43",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "16672985",
+      "name": "编组 32",
+      "font_class": "bianzu32",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "16672986",
+      "name": "编组 42",
+      "font_class": "bianzu42",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "16673010",
+      "name": "编组 47",
+      "font_class": "bianzu47",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "16673011",
+      "name": "编组 45",
+      "font_class": "bianzu45",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "16673012",
+      "name": "编组 49",
+      "font_class": "bianzu49",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "16673013",
+      "name": "编组 46",
+      "font_class": "bianzu46",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "16673014",
+      "name": "编组 48",
+      "font_class": "bianzu48",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "16673015",
+      "name": "编组 50",
+      "font_class": "bianzu50",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "16673016",
+      "name": "编组 52",
+      "font_class": "bianzu52",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "16673017",
+      "name": "编组 54",
+      "font_class": "bianzu54",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "16673018",
+      "name": "编组 51",
+      "font_class": "bianzu51",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "16673019",
+      "name": "编组 53",
+      "font_class": "bianzu53",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "16673020",
+      "name": "编组 55",
+      "font_class": "bianzu55",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "16673021",
+      "name": "编组 57",
+      "font_class": "bianzu57",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "16673022",
+      "name": "编组 58",
+      "font_class": "bianzu58",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "16673024",
+      "name": "编组 56",
+      "font_class": "bianzu56",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    }
+  ]
+}

@@ -90,9 +90,11 @@ module.exports = {
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
-        symbolId: 'icon-[name]'
+        symbolId: '[name]'
+        // symbolId: 'icon-[name]'
       })
-      .end()
+      .end().use('svgo-loader').loader('svgo-loader')
+      .tap(options => ({...options, plugins: [{removeAttrs: {attrs: 'fill'}}]})).end();
 
     // set preserveWhitespace
     config.module

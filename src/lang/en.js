@@ -66,6 +66,15 @@ export default {
       passwordErrorNum: 'PasswordErrorNum',
       passwordErrorLockTime: 'PasswordErrorLockTime'
     },
+    datasourceConfig: {
+      id: 'ID',
+      name: 'name',
+      poolName: 'poolName',
+      username: 'username',
+      password: 'password',
+      url: 'url',
+      driverClassName: 'driverClassName'
+    },
     user: {
       account: 'Account',
       name: 'Name',

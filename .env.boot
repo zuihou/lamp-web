@@ -16,7 +16,7 @@ VUE_APP_IS_CAPTCHA = true
 # 客户端秘钥
 VUE_APP_CLIENT_ID=lamp_web
 VUE_APP_CLIENT_SECRET=lamp_web_secret
-
+VUE_APP_SVG = '@/icons/svg'
 # base api
 VUE_APP_BASE_API = '/api'
 

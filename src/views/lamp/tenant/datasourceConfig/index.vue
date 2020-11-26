@@ -341,9 +341,14 @@ export default {
         return
       }
 
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       this.isTestConnect = true
       datasourceConfigApi.testConnect(row).then((response) => {
-        debugger
         const res = response.data
         if (res.isSuccess && res.data) {
           this.$message({
@@ -360,7 +365,8 @@ export default {
         console.log(error)
         debugger
       }).finally(() => {
-        this.isTestConnect = false
+        this.isTestConnect = false;
+        loading.close();
       })
     },
     copy (row) {
