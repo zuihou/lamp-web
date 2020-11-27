@@ -12,7 +12,7 @@ axios.interceptors.request.use(config => {
     }
 
     const isTenant = config.headers['X-isTenant'] === false ? config.headers['X-isTenant'] : true;
-    if (isTenant) {
+    if (isTenant && process.env.VUE_APP_IS_MULTI_TENANT_TYPE !== "NONE") {
       config.headers.tenant = db.get('TENANT', '')
     }
     const clientId = process.env.VUE_APP_CLIENT_ID;

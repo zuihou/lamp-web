@@ -221,9 +221,8 @@ export default {
   data() {
     return {
       //是否启用多租户
-      isMultiTenant:
-        process.env.VUE_APP_IS_MULTI_TENANT === "true" ? true : false,
-      isCaptcha: process.env.VUE_APP_IS_CAPTCHA === "true" ? true : false,
+      isMultiTenant: process.env.VUE_APP_IS_MULTI_TENANT_TYPE !== "NONE",
+      isCaptcha: process.env.VUE_APP_IS_CAPTCHA === "true" ,
       tabActiveName: "bindLogin",
       login: {
         type: "up"

@@ -9,7 +9,7 @@
         <el-tooltip class="item" content="本地表示使用默认物理数据库，远程表示自己指定其他物理数据库" effect="dark" placement="right-start">
           <el-radio-group v-model="tenant.connectType" @change="connectTypeChange">
             <el-radio label="LOCAL">本地</el-radio>
-            <el-radio label="REMOTE">远程</el-radio>
+            <el-radio label="REMOTE" :disabled="connectTypeDisabled">远程</el-radio>
           </el-radio-group>
         </el-tooltip>
       </el-form-item>
@@ -131,6 +131,7 @@ export default {
       datasourceConfigList: [],
       width: this.initWidth(),
       confirmDisabled: false,
+      connectTypeDisabled: process.env.VUE_APP_IS_MULTI_TENANT_TYPE !== 'DATASOURCE',
       rules: {
         tenant: [
           {required: true, message: this.$t('rules.require'), trigger: 'blur'}
@@ -207,12 +208,14 @@ export default {
   },
   methods: {
     loadDatasourceConfigList() {
-      datasourceConfigApi.query()
-        .then((response) => {
-          if (response.data.isSuccess) {
-            this.datasourceConfigList = response.data.data
-          }
-        })
+      if(process.env.VUE_APP_IS_MULTI_TENANT_TYPE === "DATASOURCE"){
+        datasourceConfigApi.query()
+          .then((response) => {
+            if (response.data.isSuccess) {
+              this.datasourceConfigList = response.data.data
+            }
+          })
+      }
     },
     initTenant() {
       return {
