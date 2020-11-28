@@ -84,16 +84,6 @@ const convertEnum = obj => {
   return list
 }
 const convertDict = (list = []) => {
-  // const list = []
-  // if (obj) {
-  //   for (let index in obj) {
-  //     list.push({
-  //       text: obj[index].name,
-  //       value: obj[index].code
-  //     })
-  //   }
-  // }
-  // return list
   return list.map(item => {
     return {
       text: item.name,

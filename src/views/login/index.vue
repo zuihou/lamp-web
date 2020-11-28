@@ -12,10 +12,10 @@
       <div class="desc">
         8. 源码：
         <a href="https://github.com/zuihou/lamp-cloud" target="_blank"
-          >github</a
+        >github</a
         >、
         <a href="https://gitee.com/zuihou111/lamp-cloud" target="_blank"
-          >gitee</a
+        >gitee</a
         >、
         <a href="https://gitee.com/zuihou111/lamp-web" target="_blank">lamp-web</a>
       </div>
@@ -30,7 +30,7 @@
     >
       <div class="title-container">
         <h3 class="title">{{ $t("login.title") }}</h3>
-        <lang-select class="set-language" />
+        <lang-select class="set-language"/>
       </div>
       <span v-if="login.type === 'up'">
         <el-form-item prop="tenant" v-show="isMultiTenant">
@@ -95,7 +95,7 @@
           @click.native.prevent="handleLogin"
           style="width:100%;margin-bottom:14px;"
           type="primary"
-          >{{ $t("login.logIn") }}</el-button
+        >{{ $t("login.logIn") }}</el-button
         >
       </span>
       <span v-if="login.type === 'social'">
@@ -144,7 +144,7 @@
               @click.native.prevent="bindLogin"
               style="width:100%;margin-bottom:14px;"
               type="primary"
-              >{{ $t("common.bindLogin") }}</el-button
+            >{{ $t("common.bindLogin") }}</el-button
             >
           </el-tab-pane>
           <el-tab-pane :label="$t('common.signLogin')" name="signLogin">
@@ -176,7 +176,7 @@
               @click.native.prevent="signLogin"
               style="width:100%;margin-bottom:14px;"
               type="primary"
-              >{{ $t("common.signLogin") }}</el-button
+            >{{ $t("common.signLogin") }}</el-button
             >
           </el-tab-pane>
         </el-tabs>
@@ -189,12 +189,12 @@
           <el-dropdown-item
             :disabled="login.type === 'up'"
             @click.native="login.type = 'up'"
-            >{{ $t("login.type.up") }}
+          >{{ $t("login.type.up") }}
           </el-dropdown-item>
           <el-dropdown-item
             :disabled="login.type === 'social'"
             @click.native="login.type = 'social'"
-            >{{ $t("login.type.social") }}
+          >{{ $t("login.type.social") }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -210,30 +210,30 @@
 <script>
 import LangSelect from "@/components/LangSelect";
 import db from "@/utils/localstorage";
-import { randomNum } from "@/utils";
-import { socialLoginUrl } from "@/settings";
+import {randomNum} from "@/utils";
+import {socialLoginUrl} from "@/settings";
 import loginApi from "@/api/Login.js";
-import { Base64 } from "js-base64";
+import {Base64} from "js-base64";
 
 export default {
   name: "Login",
-  components: { LangSelect },
+  components: {LangSelect},
   data() {
     return {
       //是否启用多租户
       isMultiTenant: process.env.VUE_APP_IS_MULTI_TENANT_TYPE !== "NONE",
-      isCaptcha: process.env.VUE_APP_IS_CAPTCHA === "true" ,
+      isCaptcha: process.env.VUE_APP_IS_CAPTCHA === "true",
       tabActiveName: "bindLogin",
       login: {
         type: "up"
       },
       logo: [
-        { img: "gitee.png", name: "gitee", radius: true },
-        { img: "github.png", name: "github", radius: true },
-        { img: "tencent_cloud.png", name: "tencent_cloud", radius: true },
-        { img: "qq.png", name: "qq", radius: false },
-        { img: "dingtalk.png", name: "dingtalk", radius: true },
-        { img: "microsoft.png", name: "microsoft", radius: false }
+        {img: "gitee.png", name: "gitee", radius: true},
+        {img: "github.png", name: "github", radius: true},
+        {img: "tencent_cloud.png", name: "tencent_cloud", radius: true},
+        {img: "qq.png", name: "qq", radius: false},
+        {img: "dingtalk.png", name: "dingtalk", radius: true},
+        {img: "microsoft.png", name: "microsoft", radius: false}
       ],
       loginForm: {
         account: "lamp",
@@ -325,7 +325,8 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {
     db.clear();
     this.getCodeImage();
@@ -397,10 +398,10 @@ export default {
         that
           .$confirm(
             that.$t("common.current") +
-              authUser.source +
-              that.$t("common.socialAccount") +
-              authUser.nickname +
-              that.$t("common.socialTips"),
+            authUser.source +
+            that.$t("common.socialAccount") +
+            authUser.nickname +
+            that.$t("common.socialTips"),
             that.$t("common.tips"),
             {
               confirmButtonText: that.$t("common.signLogin"),
@@ -552,12 +553,13 @@ export default {
     getResource() {
       loginApi.getResource().then(response => {
         const res = response.data;
+        debugger
         if (res.isSuccess) {
-          const permissionsList = res.data;
-          this.$store.commit(
-            "account/setPermissions",
-            permissionsList ? permissionsList : []
-          );
+          const authorityResource = res.data;
+          const permissionsList = authorityResource.resourceList || [];
+
+          this.$store.commit("account/setPermissions", permissionsList);
+          this.$store.commit("account/setAuthorityResource", authorityResource);
 
           this.loginSuccess();
         } else {

@@ -288,8 +288,10 @@ export default {
       loginApi.getResource().then(response => {
         const res = response.data;
         if (res.isSuccess) {
-          const permissionsList = res.data;
-          this.$store.commit("account/setPermissions", permissionsList ? permissionsList : []);
+          const authorityResource = res.data;
+          const permissionsList = authorityResource.resourceList || [];
+          this.$store.commit("account/setPermissions", permissionsList);
+          this.$store.commit("account/setAuthorityResource", authorityResource);
 
           setTimeout(() => {
             location.reload();

@@ -15,7 +15,7 @@ import './utils/error-log' // error log
 import request from '@/utils/request'
 
 import * as filters from './filters' // global filters
-import {hasAnyPermission, hasNoPermission, hasPermission} from './utils/permissionDirect'
+import {hasAnyPermission, hasNoPermission, hasPermission, hasAnyRole, hasNoRole, hasRole} from './utils/permissionDirect'
 import uploader from 'vue-simple-uploader'
 
 import "e-icon-picker/dist/symbol.js"; //基本彩色图标库
@@ -45,7 +45,8 @@ iconList.addIcon(svgIcons);
 const Plugins = [
   hasPermission,
   hasNoPermission,
-  hasAnyPermission
+  hasAnyPermission,
+  hasAnyRole, hasNoRole, hasRole
 ]
 
 Plugins.map((plugin) => {

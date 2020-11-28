@@ -7,8 +7,9 @@ export default {
     token: db.get('TOKEN', ''),
     tenant: db.get('TENANT', ''),
     expireTime: db.get('EXPIRE_TIME', 0),
-    user: db.get('USER'),
+    user: db.get('USER') || {},
     permissions: db.get('PERMISSIONS') || [],
+    authorityResource: db.get('AUTHORITY_RESOURCE') || {"enabled": true, "caseSensitive": false, "resourceList": [], "roleList": []},
     routes: db.get('USER_ROUTER') || []
   },
   mutations: {
@@ -35,6 +36,10 @@ export default {
     setPermissions (state, val) {
       db.save('PERMISSIONS', val)
       state.permissions = val
+    },
+    setAuthorityResource (state, val) {
+      db.save('AUTHORITY_RESOURCE', val)
+      state.authorityResource = val
     },
     setRoutes (state, val) {
       db.save('USER_ROUTER', val)
