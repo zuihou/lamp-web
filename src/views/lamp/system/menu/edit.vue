@@ -3,8 +3,13 @@
     <el-form :model="resource" :rules="rules" label-position="right" label-width="100px" ref="form">
       <el-form-item :label="$t('table.resource.code')" prop="code">
         <el-input :disabled="type==='edit'" @keyup.enter.native="submitForm" v-model="resource.code" />
-        <p class="note">建议使用:作为分隔符，并以view、add、update、delete、export、import、download、upload等关键词结尾</p>
-        <p class="note">如：authority:menu:add、 authority:resource:view、 msg:sms:add</p>
+        <p class="note">参考shiro的权限配置方式，使用:</p>
+        <p class="note"><b>;</b>  作为权限编码分隔符， <b>:</b> 作为功能层级分隔符，<b>,</b> 作为多个功能点的分隔符，<b>*</b> 作为任意通配符</p>
+        <p class="note">建议以view、add、update、delete、export、import、download、upload等关键词结尾</p>
+        <p class="note">如：authority:menu:add 只有菜单新增权限</p>
+        <p class="note">如：tenant:tenant:initConnect;tenant:datasourceConfig:view 租户初始化和数据源查询权限</p>
+        <p class="note">如：authority:resource:* 资源模块任意权限</p>
+        <p class="note">如：msg:sms:add,edit 短信功能的新增和修改权限</p>
       </el-form-item>
       <el-form-item :label="$t('table.resource.name')" @keyup.enter.native="submitForm" prop="name">
         <el-input v-model="resource.name" />
@@ -49,8 +54,8 @@ export default {
           },
           {
             min: 1,
-            max: 255,
-            message: this.$t('rules.range4to10'),
+            max: 500,
+            message: '不能超过500字符',
             trigger: 'blur'
           },
           {
@@ -191,5 +196,8 @@ p.note {
   margin: 0;
   padding: 0;
   line-height: 1.4rem;
+}
+p.note b {
+  color: red;
 }
 </style>
