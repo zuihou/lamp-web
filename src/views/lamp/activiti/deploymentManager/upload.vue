@@ -61,7 +61,6 @@ export default {
           validator: (rule, value, callback) => {
             const vm = this;
             if (vm.fileLength === 0) {
-              debugger
               callback(new Error("请上传文件"))
             } else if (vm.fileLength > 5) {
               callback(new Error("一次性只能上传5个文件"))

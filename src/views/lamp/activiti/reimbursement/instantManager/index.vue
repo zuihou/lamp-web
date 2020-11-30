@@ -12,16 +12,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="删除状态">
-          <el-select v-model="queryParams.model.isDelete" placeholder="删除状态">
-            <el-option
-              v-for="item in isDelete"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="完成状态">
           <el-select v-model="queryParams.model.isOver" placeholder="完成状态">
             <el-option
@@ -85,14 +75,14 @@
       </el-table-column>
 
       <el-table-column
-        :label="$t('table.instantReimbursementModel.number')"
+        :label="$t('table.instantReimbursementModel.amount')"
         :show-overflow-tooltip="true"
         align="center"
         prop="name"
         width="250px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.number }}</span>
+          <span>{{ scope.row.amount }}</span>
         </template>
       </el-table-column>
 
@@ -200,7 +190,6 @@ function subForm() {
   return {
     model: {
       isMine: true,
-      isDelete: false,
       isOver: null
     }
   }
@@ -228,13 +217,6 @@ export default {
         value: true, label: '自己'
       }, {
         value: false, label: '所有人'
-      }],
-      isDelete: [{
-        value: null, label: '所有'
-      }, {
-        value: true, label: '已删除'
-      }, {
-        value: false, label: '未删除'
       }],
       isOver: [{
         value: null, label: '所有'

@@ -50,12 +50,10 @@ export default {
   },
   methods: {
     dictionaryClick (row) {
-      debugger
       this.dictionary = row
       this.$refs.dictionaryItem.dictionaryClick(row)
     },
     resetItem () {
-      debugger
       this.$refs.dictionaryItem.dictionaryClick({ type: '###' })
     }
   }

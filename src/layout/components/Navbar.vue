@@ -238,7 +238,6 @@ export default {
         userId: db.get('USER', {id: null}).id,
         clientId: process.env.VUE_APP_CLIENT_ID,
       }
-      debugger
       loginApi.logout(param).finally(() => this.clean());
     },
     clean() {
@@ -268,7 +267,6 @@ export default {
       }
       loginApi.login(param).then((response) => {
         const res = response.data;
-        debugger
         if (res.isSuccess) {
           const data = res.data
           this.$store.commit("account/setToken", data['token']);

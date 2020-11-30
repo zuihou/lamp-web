@@ -37,7 +37,7 @@
               <el-input
                 type="number"
                 :disabled="row.id != null"
-                v-model="subForm.number"/>
+                v-model="subForm.amount"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -56,7 +56,7 @@
       >
 
         <el-table-column
-          :label="$t('table.ruTaskItemModel.createUser')"
+          :label="$t('table.ruTaskItemModel.createdBy')"
           :show-overflow-tooltip="true"
           align="center"
           prop="id"
@@ -195,7 +195,6 @@ export default {
         return
       }
       vm.loading = true
-      debugger
       activitiApi.getItemList({ instId: vm.row.inst.key}).then(response => {
         const res = response.data;
         if (res.code === 0 && res.data) {
@@ -209,7 +208,6 @@ export default {
       if (!vm.row.id) {
         return
       }
-      debugger
       activitiApi.getDetailInstReimbursement({ id: vm.row.id}).then(response => {
         const res = response.data;
         if (res.code === 0) {

@@ -12,16 +12,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="删除状态">
-          <el-select v-model="queryParams.model.isDelete" placeholder="删除状态">
-            <el-option
-              v-for="item in isDelete"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="完成状态">
           <el-select v-model="queryParams.model.isOver" placeholder="完成状态">
             <el-option
@@ -111,7 +101,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.instantModel.starttime')"
+        :label="$t('table.instantModel.startTime')"
         align="center"
         :show-overflow-tooltip="true"
         width="170px"
@@ -121,7 +111,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.instantModel.endtime')"
+        :label="$t('table.instantModel.endTime')"
         align="center"
         :show-overflow-tooltip="true"
         width="170px"
@@ -208,7 +198,6 @@ function subForm() {
   return {
     model: {
       isMine: true,
-      isDelete: false,
       isOver: null
     }
   }
@@ -236,13 +225,6 @@ export default {
         value: true, label: '自己'
       }, {
         value: false, label: '所有人'
-      }],
-      isDelete: [{
-        value: null, label: '所有'
-      }, {
-        value: true, label: '已删除'
-      }, {
-        value: false, label: '未删除'
       }],
       isOver: [{
         value: null, label: '所有'

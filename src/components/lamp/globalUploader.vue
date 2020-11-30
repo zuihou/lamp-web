@@ -130,7 +130,6 @@
                     // 文件状态设为“合并中”
                     this.statusSet(file.id, 'merging');
 
-                    debugger
                     // api.mergeSimpleUpload({
                     //     tempName: res.tempName,
                     //     fileName: file.name,

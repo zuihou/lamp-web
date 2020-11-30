@@ -55,7 +55,7 @@
         width="200px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.biz.data.reason }}</span>
+          <span>{{ scope.row.biz && scope.row.biz.data ? scope.row.biz.data.reason : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -65,7 +65,7 @@
         width="200px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.biz.data.type }}</span>
+          <span>{{ scope.row.biz && scope.row.biz.data ? scope.row.biz.data.type : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column

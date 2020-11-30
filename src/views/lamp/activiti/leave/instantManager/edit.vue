@@ -77,7 +77,7 @@
       >
 
         <el-table-column
-          :label="$t('table.ruTaskItemModel.createUser')"
+          :label="$t('table.ruTaskItemModel.createdBy')"
           :show-overflow-tooltip="true"
           align="center"
           prop="id"
@@ -194,7 +194,6 @@ export default {
   methods: {
     open(row) {
       this.editVisible = true
-      debugger
       this.row = row
       if (row) {
         this.getDetail()

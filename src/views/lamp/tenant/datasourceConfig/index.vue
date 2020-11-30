@@ -363,7 +363,6 @@ export default {
         }
       }).catch((error) => {
         console.log(error)
-        debugger
       }).finally(() => {
         this.isTestConnect = false;
         loading.close();

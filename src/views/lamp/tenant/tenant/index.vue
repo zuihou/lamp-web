@@ -476,7 +476,6 @@ export default {
       })
     },
     changeStatus (row) {
-      debugger
       let status = 'NORMAL'
       if (row.status['code'] === 'NORMAL') {
         status = 'FORBIDDEN'

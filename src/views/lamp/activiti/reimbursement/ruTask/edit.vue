@@ -35,7 +35,7 @@
             <el-form-item label="报销金额" prop="reason">
               <el-input
                 :disabled="row.id != null"
-                v-model="subFormInst.number"/>
+                v-model="subFormInst.amount"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,7 +53,7 @@
       v-loading="loading"
       >
         <el-table-column
-          :label="$t('table.ruTaskItemModel.createUser')"
+          :label="$t('table.ruTaskItemModel.createdBy')"
           :show-overflow-tooltip="true"
           align="center"
           prop="id"
@@ -162,9 +162,9 @@
 import activitiApi from "@/api/Activiti.js";
 function subFormInst(){
   return {
-    starttime: '',
-    endtime: '',
-    whenlong: '',
+    startTime: '',
+    endTime: '',
+    whenLong: '',
     type: '',
     reason: ''
   }
@@ -179,7 +179,8 @@ function subForm(){
     bizId: '',
     taskId: '',
     instId: '',
-    tenantId: '',
+    tenantCode: '',
+    module: 'reimbursement',
   }
 }
 export default {
@@ -221,7 +222,7 @@ export default {
       this.subForm.bizId = this.row.biz.data.id
       this.subForm.taskId = this.row.id
       this.subForm.instId = this.row.inst.data.id
-      this.subForm.tenantId = this.row.tenantId
+      this.subForm.tenantCode = this.row.tenantCode
       this.subForm.itemName = this.row.name
 
       if (this.row.taskDefKey === 'BX1') {
@@ -247,11 +248,12 @@ export default {
         return
       }
       vm.loading = true
-      activitiApi.getItemList({ instId: vm.row.inst.data.id}).then(response => {
+      const instId = vm.row.inst.data.id;
+      activitiApi.getItemList({ instId: instId}).then(response => {
         const res = response.data;
         if (res.code === 0 && res.data) {
           vm.tableData = res.data
-          vm.getReadyTaskByInst(vm.row.inst.data.id)
+          vm.getReadyTaskByInst(instId)
         }
       }).finally();
     },

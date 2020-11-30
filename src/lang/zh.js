@@ -318,12 +318,6 @@ export default {
         updateTime: '更新时间'
       }
     },
-    eximport: {
-      field1: '字段1',
-      field2: '字段2',
-      field3: '字段3',
-      createTime: '导入时间'
-    },
     activitiModel: {
       id: '模型主键',
       name: '模型名称',
@@ -346,20 +340,20 @@ export default {
     },
     instantModel: {
       id: '主键',
-      tenantId: '租户编号',
+      tenantCode: '租户编号',
       name: '请假人员',
       type: '请假类型',
       isOver: '完成状态',
       suspendStateName: '激活状态',
-      starttime: '开始时间',
-      endtime: '结束时间',
+      startTime: '开始时间',
+      endTime: '结束时间',
     },
     instantReimbursementModel: {
       id: '主键',
       tenantId: '租户编号',
       name: '报销人员',
       type: '报销类型',
-      number: '报销金额',
+      amount: '报销金额',
       isOver: '完成状态',
       suspendStateName: '激活状态',
       createTime: '申请时间',
@@ -384,7 +378,7 @@ export default {
       itemName: '事项名称',
       itemRemake: '事项备注',
       result: '事项结果',
-      createUser: '处理人',
+      createdBy: '处理人',
       createTime: '处理时间',
     },
     status: '状态',

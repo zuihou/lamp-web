@@ -75,7 +75,7 @@
       v-loading="loading"
       >
         <el-table-column
-          :label="$t('table.ruTaskItemModel.createUser')"
+          :label="$t('table.ruTaskItemModel.createdBy')"
           :show-overflow-tooltip="true"
           align="center"
           prop="id"
@@ -201,7 +201,8 @@ function subForm(){
     bizId: '',
     taskId: '',
     instId: '',
-    tenantId: '',
+    tenantCode: '',
+    module: 'leave'
   }
 }
 export default {
@@ -240,7 +241,7 @@ export default {
       this.subForm.bizId = this.row.biz.data.id
       this.subForm.taskId = this.row.id
       this.subForm.instId = this.row.inst.data.id
-      this.subForm.tenantId = this.row.tenantId
+      this.subForm.tenantCode = this.row.tenantCode
       this.subForm.itemName = this.row.name
 
       if (this.row.taskDefKey === 'QJ1') {
@@ -282,7 +283,6 @@ export default {
       }
       activitiApi.getItemDetail({ taskId: vm.row.id}).then(response => {
         const res = response.data;
-        debugger
         if (res.code === 0 && res.data) {
           vm.subForm.id = res.data.id
           vm.subForm.itemName = res.data.itemName
