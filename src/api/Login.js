@@ -2,7 +2,8 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   captcha: `/oauth/anno/captcha`,
-  login: `/oauth/anno/token`,
+  login: `/oauth/noToken/login`,
+  logout: `/oauth/noToken/logout`,
   router: `/oauth/menu/router`,
   resource: `/oauth/resource/visible`,
 }
@@ -18,11 +19,21 @@ export default {
       }
     })
   },
-  login (data) {
+  login (data, meta) {
     return axiosApi({
       method: 'POST',
       url: apiList.login,
-      data
+      data,
+      meta
+    })
+  },
+  logout (data, meta) {
+    return axiosApi({
+      method: 'POST',
+      formData: true,
+      url: apiList.logout,
+      data,
+      meta
     })
   },
   getRouter (data) {

@@ -53,11 +53,12 @@ function handleError(error, reject, opts) {
         if (resData.code === 40000 || resData.code === 40001
           || resData.code === 40002 || resData.code === 40003
           || resData.code === 40005 || resData.code === 40006
-          || resData.code === 40008
+          || resData.code === 40008 || resData.code === 40009
         ) {
           MessageBox.alert(resData.msg || resData.message, '提醒', {
             confirmButtonText: '确定',
             callback: () => {
+              db.clear();
               window.location.hash = '/login'
             }
           })

@@ -76,6 +76,18 @@ export default {
       url: '链接',
       driverClassName: '驱动'
     },
+    online:{
+      userId: "用户id",
+      loginIp: "登录IP",
+      location: "登录地点",
+      clientId: "客户端Key",
+      token: "token",
+      name: "姓名",
+      expireTime: "过期时间",
+      account: "账号",
+      expireMillis: "有效期",
+      loginTime: "登录时间",
+    },
     user: {
       account: '账号',
       name: '姓名',

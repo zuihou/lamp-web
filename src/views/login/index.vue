@@ -510,7 +510,7 @@ export default {
       const that = this;
       this.$store.commit("account/setTenant", this.loginForm.tenant);
       loginApi
-        .login(this.loginForm)
+        .login(this.loginForm, {tenant: this.loginForm.tenant, "X-isTenant": false})
         .then(response => {
           const res = response.data;
           if (res.isSuccess) {
@@ -553,7 +553,6 @@ export default {
     getResource() {
       loginApi.getResource().then(response => {
         const res = response.data;
-        debugger
         if (res.isSuccess) {
           const authorityResource = res.data;
           const permissionsList = authorityResource.resourceList || [];

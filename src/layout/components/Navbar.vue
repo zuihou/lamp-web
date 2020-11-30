@@ -7,16 +7,16 @@
       @toggleClick="toggleSideBar"
     />
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container"/>
 
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
         <div class="right-menu-item" style="color:red">
           演示环境维护不易，请勿乱删乱改数据！
         </div>
-        <search id="header-search" class="right-menu-item" placeholder="搜索菜单" />
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-        <lang-select class="right-menu-item hover-effect" />
+        <search id="header-search" class="right-menu-item" placeholder="搜索菜单"/>
+        <screenfull id="screenfull" class="right-menu-item hover-effect"/>
+        <lang-select class="right-menu-item hover-effect"/>
         <el-popover
           placement="bottom"
           width="400"
@@ -24,19 +24,22 @@
           trigger="click">
           <div class="avue-notice">
             <div class="msgs-title-content">
-              <div  class="msgs-title">消息</div>
-              <div  class="msgs-title-icon">
-                <el-switch v-model="msgRefresh" @change="msgRefreshChange" title="是否自动刷新消息" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+              <div class="msgs-title">消息</div>
+              <div class="msgs-title-icon">
+                <el-switch v-model="msgRefresh" @change="msgRefreshChange" title="是否自动刷新消息" active-color="#13ce66"
+                           inactive-color="#ff4949"></el-switch>
               </div>
             </div>
             <div v-for="item in tableData.records" :key="item.id" class="avue-notice__item">
               <div class="avue-notice__content">
                 <a href="javascript:;" @click="view(item)">
-                <div class="avue-notice__title">
-                  <div class="avue-notice__name">{{ item.title }}</div>
-                  <span class="avue-notice__tag"><el-tag size="small" effect="plain" :type="item.msgType ? item.msgType['code'] : '' | msgTypeFilter">{{ item.msgType ? item.msgType['desc'] : '' }}</el-tag></span>
-                </div>
-                <div class="avue-notice__subtitle">{{ item.createTime }}</div>
+                  <div class="avue-notice__title">
+                    <div class="avue-notice__name">{{ item.title }}</div>
+                    <span class="avue-notice__tag"><el-tag size="small" effect="plain"
+                                                           :type="item.msgType ? item.msgType['code'] : '' | msgTypeFilter">{{ item.msgType ? item.msgType['desc'] : ''
+                      }}</el-tag></span>
+                  </div>
+                  <div class="avue-notice__subtitle">{{ item.createTime }}</div>
                 </a>
               </div>
             </div>
@@ -44,7 +47,8 @@
               <router-link :to="{path:'/resources/msg'}">点击查看更多<i class="el-icon-more"/></router-link>
             </div>
           </div>
-          <el-badge :value="tableData.total" :max="99" :hidden="tableData.total <= 0" class="badge-item" slot="reference">
+          <el-badge :value="tableData.total" :max="99" :hidden="tableData.total <= 0" class="badge-item"
+                    slot="reference">
             <i class="el-icon-bell"/>
           </el-badge>
         </el-popover>
@@ -67,8 +71,8 @@
           </router-link>
           <el-dropdown-item>
             <span style="display:block;" @click="setting">{{
-              $t("navbar.setting")
-            }}</span>
+                $t("navbar.setting")
+              }}</span>
           </el-dropdown-item>
           <a
             target="_blank"
@@ -132,7 +136,7 @@ export default {
   },
   mounted() {
     this.loadMyMsgs();
-    if(this.msgRefresh) {
+    if (this.msgRefresh) {
       this.msgRefreshChange(true);
     }
   },
@@ -178,14 +182,14 @@ export default {
   methods: {
     loadMyMsgs() {
       const params = {
-        model:{}
+        model: {}
       };
       params.size = 10;
       params.current = 1;
       params.model.isRead = false;
       msgsApi.page(params, {isAlert: false}).then(response => {
         const res = response.data;
-        if(res.isSuccess){
+        if (res.isSuccess) {
           this.tableData = res.data;
         }
       });
@@ -212,7 +216,7 @@ export default {
     },
     msgRefreshChange(val) {
       db.save('MSG_REFRESH', val);
-      if(val) {
+      if (val) {
         this.msgRefreshTimer = setInterval(() => {
           this.loadMyMsgs();
         }, 15000)
@@ -229,7 +233,13 @@ export default {
       this.$store.commit("setting/openSettingBar", true);
     },
     logout() {
-      this.clean();
+      let param = {
+        token: db.get('TOKEN', ''),
+        userId: db.get('USER', {id: null}).id,
+        clientId: process.env.VUE_APP_CLIENT_ID,
+      }
+      debugger
+      loginApi.logout(param).finally(() => this.clean());
     },
     clean() {
       db.clear();
@@ -245,13 +255,8 @@ export default {
           type: "warning"
         }
       ).then(() => {
-          db.remove("EXPIRE_TIME");
-          db.remove("TOKEN");
-          db.remove("USER_ROUTER");
-          db.remove("PERMISSIONS");
-
-          this.reloadData();
-        })
+        this.reloadData();
+      })
         .catch(() => {
           // do nothing
         });
@@ -263,7 +268,8 @@ export default {
       }
       loginApi.login(param).then((response) => {
         const res = response.data;
-        if(res.isSuccess){
+        debugger
+        if (res.isSuccess) {
           const data = res.data
           this.$store.commit("account/setToken", data['token']);
           this.$store.commit("account/setRefreshToken", data['refreshToken']);
@@ -281,6 +287,11 @@ export default {
           this.logout();
         }
       }).catch(() => {
+        db.remove("EXPIRE_TIME");
+        db.remove("TOKEN");
+        db.remove("USER_ROUTER");
+        db.remove("PERMISSIONS");
+
         this.logout();
       });
     },
@@ -314,6 +325,7 @@ export default {
   position: relative;
   background: #fff;
   border-bottom: 1px solid #f1f1f1;
+
   .hamburger-container {
     line-height: 46px;
     height: 100%;
@@ -369,6 +381,7 @@ export default {
       .avatar-wrapper {
         margin-top: 5px;
         position: relative;
+
         .user-name {
           vertical-align: top;
           font-size: 1rem;
@@ -376,6 +389,7 @@ export default {
           margin-top: -4px;
           display: inline-block;
         }
+
         .user-avatar {
           cursor: pointer;
           width: 2rem;
@@ -395,26 +409,31 @@ export default {
     }
   }
 }
+
 .el-badge {
-  /deep/.el-badge__content.is-fixed {
+  /deep/ .el-badge__content.is-fixed {
     top: 10px
   }
 }
+
 .msgs-title-content {
   color: #303133;
   font-size: 20px;
   line-height: 1;
   margin: 12px 0px 5px 0px;
-  overflow:hidden;
+  overflow: hidden;
+
   .msgs-title {
     margin-left: 20px;
     float: left;
   }
+
   .msgs-title-icon {
     float: right;
     margin-right: 28px;
   }
 }
+
 .avue-notice__item {
   padding: 12px 24px;
   border-bottom: 1px solid #e8eaec;
@@ -429,23 +448,27 @@ export default {
   -ms-flex-align: start;
   align-items: flex-start;
 }
+
 .avue-notice__content {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
+
 .avue-notice__title {
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
   color: #515a6e;
   margin-bottom: 4px;
-  overflow:hidden
+  overflow: hidden
 }
+
 .avue-notice__tag {
   float: right;
   margin-top: 2px;
 }
+
 .avue-notice__name {
   line-height: 25px;
   overflow: hidden;
@@ -454,11 +477,13 @@ export default {
   width: 280px;
   float: left;
 }
+
 .avue-notice__subtitle {
   font-size: 12px;
   color: #808695;
 }
-.avue-notice__more{
+
+.avue-notice__more {
   text-align: center;
   padding: 20px 0 10px
 }

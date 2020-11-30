@@ -66,6 +66,18 @@ export default {
       passwordErrorNum: 'PasswordErrorNum',
       passwordErrorLockTime: 'PasswordErrorLockTime'
     },
+    online:{
+      userId: "userId",
+      loginIp: "loginIp",
+      location: "location",
+      clientId: "clientId",
+      token: "token",
+      name: "name:",
+      expireTime: "expireTime",
+      account: "account",
+      expireMillis: "expireMillis",
+      loginTime: "loginTime",
+    },
     datasourceConfig: {
       id: 'ID',
       name: 'name',
