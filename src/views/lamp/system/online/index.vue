@@ -1,7 +1,10 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-
+      <el-input :placeholder="$t('table.online.name')" class="filter-item search-item"
+                v-model="queryParams.name"/>
+      <el-button @click="search" class="filter-item" plain type="primary">{{ $t('table.search') }}</el-button>
+      <el-button @click="reset" class="filter-item" plain type="warning">{{ $t('table.reset') }}</el-button>
     </div>
     <el-table
       :data="tableData"
@@ -15,7 +18,7 @@
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
+      <el-table-column align="center" type="selection" column-key="selectionId" width="40px" :reserve-selection="true"/>
       <el-table-column :label="$t('table.online.account')" :show-overflow-tooltip="true" align="center" prop="account"
                        width="100px">
         <template slot-scope="scope">
@@ -89,6 +92,9 @@ export default {
       tableKey: 0,
       loading: false,
       selection: [],
+      queryParams: {
+        name: ''
+      },
       tableData: [],
     }
   },
@@ -100,10 +106,9 @@ export default {
     onSelectChange(selection) {
       this.selection = selection
     },
-
     fetch() {
       this.loading = true;
-      onlineApi.list().then(response => {
+      onlineApi.list(this.queryParams).then(response => {
         const res = response.data;
         if (res.isSuccess) {
           this.tableData = res.data;
@@ -119,6 +124,7 @@ export default {
       })
     },
     reset() {
+      this.queryParams = { name: ''}
       this.$refs.table.clearSort()
       this.$refs.table.clearFilter()
       this.search()
@@ -139,7 +145,7 @@ export default {
       this.search()
     },
     cellClick(row, column) {
-      if (column['columnKey'] === "operation") {
+      if (column['columnKey'] !== "selectionId") {
         return;
       }
       let flag = false;

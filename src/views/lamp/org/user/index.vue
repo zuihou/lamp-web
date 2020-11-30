@@ -76,7 +76,7 @@
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
+      <el-table-column align="center" type="selection" width="40px" column-key="selectionId" :reserve-selection="true"/>
       <el-table-column
         :label="$t('table.user.avatar')"
         align="center"
@@ -664,7 +664,7 @@
         this.search()
       },
       cellClick (row, column) {
-        if (column['columnKey'] === "operation") {
+        if (column['columnKey'] !== "selectionId") {
           return;
         }
         let flag = false;

@@ -15,6 +15,7 @@ export default {
   list(data) {
     return axiosApi({
       ...apiList.list,
+      formData: true,
       data
     })
   },
