@@ -27,11 +27,11 @@ const apiList = {
   },
   preview: {
     method: 'POST',
-    url: `/authority/user/preview`
+    url: `/authority/role/preview`
   },
   export: {
     method: 'POST',
-    url: `/authority/user/export`
+    url: `/authority/role/export`
   },
   import: {
     method: 'POST',
