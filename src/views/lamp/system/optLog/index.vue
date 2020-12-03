@@ -251,7 +251,8 @@
             httpMethod: {
               key: null
             }
-          }
+          },
+          sort: 'createTime'
         }),
         selection: [],
         tableData: {},
