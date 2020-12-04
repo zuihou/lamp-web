@@ -488,7 +488,7 @@ export default {
   common: {
     system: 'SaaS型微服务快速开发平台',
     desc: {
-      a: '基于SpringBoot 2.2.9 & SpringCloud Hoxton.SR7',
+      a: '基于SpringBoot 2.3.6 & SpringCloud Hoxton.SR9',
       b: '使用Jwt自定义统一认证',
       c: '企业级设计和配置，拒绝demo项目',
       d: '前后端分离架构，提高软件开发效率',

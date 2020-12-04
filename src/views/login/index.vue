@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-info">
-      <div class="title">lamp-vue</div>
+      <div class="title">lamp-web</div>
       <div class="title">{{ $t("common.system") }}</div>
       <div class="desc">1. {{ $t("common.desc.a") }}</div>
       <div class="desc">2. {{ $t("common.desc.b") }}</div>
@@ -11,13 +11,10 @@
       <div class="desc">6. {{ $t("common.desc.f") }}</div>
       <div class="desc">
         8. 源码：
-        <a href="https://github.com/zuihou/lamp-cloud" target="_blank"
-        >github</a
-        >、
-        <a href="https://gitee.com/zuihou111/lamp-cloud" target="_blank"
-        >gitee</a
-        >、
-        <a href="https://gitee.com/zuihou111/lamp-web" target="_blank">lamp-web</a>
+        <a href="https://github.com/zuihou" target="_blank"
+        >github</a>、
+        <a href="https://gitee.com/zuihou111" target="_blank"
+        >gitee</a>
       </div>
     </div>
     <el-form

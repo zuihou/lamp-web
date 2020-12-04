@@ -484,7 +484,7 @@ export default {
   common: {
     system: 'Microservice SaaS System',
     desc: {
-      a: 'Based on SpringBoot 2.2.9 & SpringCloud Hoxton.SR7',
+      a: 'Based on SpringBoot 2.3.6 & SpringCloud Hoxton.SR9',
       b: 'Use Jwt Unified Authentication',
       c: 'Enterprise design and configuration, deny demo project',
       d: 'Front-end separation architecture for increased efficiency',

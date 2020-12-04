@@ -19,8 +19,9 @@ lamp-web 是[lamp-cloud](https://github.com/zuihou/lamp-cloud)微服务权限系
 | ------------- | ---------------------------------------------- | -------------------------------------------- |
 | 微服务项目    | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud |
 | 单体项目      | https://gitee.com/zuihou111/lamp-boot  | https://github.com/zuihou/lamp-boot  |
-| 租户后台      | https://gitee.com/zuihou111/zuihou-web | https://github.com/zuihou/lamp-web         |
+| 后台管理      | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web  |
 | 代码生成器    | https://gitee.com/zuihou111/lamp-generator | https://github.com/zuihou/lamp-generator   |
+| 定时调度器    | https://gitee.com/zuihou111/lamp-job | https://github.com/zuihou/lamp-job   |
 
 ## 演示地址
 
