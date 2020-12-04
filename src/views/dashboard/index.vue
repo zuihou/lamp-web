@@ -119,17 +119,18 @@
                     <el-tag
                       effect="plain"
                       style="cursor: pointer"
-                      @click="handleClipboard('lamp', $event)"
+                      @click="handleClipboard('lamp_pt', $event)"
                     >
-                      超级管理员(lamp)
+                      平台管理员(lamp_pt)
                     </el-tag>
                     <el-divider direction="vertical" />
                     <el-tag
                       effect="plain"
                       style="cursor: pointer"
-                      @click="handleClipboard('general', $event)"
                       type="success"
-                      >普通管理员(general)
+                      @click="handleClipboard('lamp', $event)"
+                    >
+                      超级管理员(lamp)
                     </el-tag>
                     <el-divider direction="vertical" />
                     <el-tag
@@ -140,7 +141,7 @@
                       >普通用户(normal)
                     </el-tag>
                     <el-divider content-position="right"
-                      >密码都是： lamp</el-divider
+                      >密码密码密码密码密码都是： lamp</el-divider
                     >
                     <span>获取文档</span>
                     <el-divider direction="vertical" />
