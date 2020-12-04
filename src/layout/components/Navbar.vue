@@ -190,7 +190,7 @@ export default {
         let foot = this.tips.substring(1);
         // 头尾拼接后赋给data => tit属性
         this.tips = foot + head;
-      },700)
+      },1000)
     },
     loadMyMsg() {
       const params = {
