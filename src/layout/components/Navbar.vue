@@ -11,8 +11,8 @@
 
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
-        <div class="right-menu-item" style="color:red">
-          演示环境维护不易，请勿乱删乱改数据！
+        <div class="right-menu-item" style="color:red;width:500px;">
+          {{tips}}
         </div>
         <search id="header-search" class="right-menu-item" placeholder="搜索菜单"/>
         <screenfull id="screenfull" class="right-menu-item hover-effect"/>
@@ -135,6 +135,7 @@ export default {
     },
   },
   mounted() {
+    this.tipsScrolling();
     this.loadMyMsg();
     if (this.msgRefresh) {
       this.msgRefreshChange(true);
@@ -142,6 +143,7 @@ export default {
   },
   data() {
     return {
+      tips: ' 演示环境禁止修改、删除重要数据！请登录租户【0000】，账号【lamp_pt】创建其他租户管理员账号后测试全部功能!!! ',
       tableData: {
         total: 0,
         records: []
@@ -180,6 +182,16 @@ export default {
     }
   },
   methods: {
+    tipsScrolling (){
+      setInterval(() => { //ES6箭头函数
+        // 截取首字符串(第一个)
+        let head = this.tips.substring(0,1);
+        // 截取除首字符串外所有字符串(除第一个所有)
+        let foot = this.tips.substring(1);
+        // 头尾拼接后赋给data => tit属性
+        this.tips = foot + head;
+      },700)
+    },
     loadMyMsg() {
       const params = {
         model: {}
