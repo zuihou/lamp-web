@@ -85,7 +85,7 @@ proxy: {
       // ['^/api/oauth']: '/',
       // ['^/api/authority']: '/',
       // ['^/api/file']: '/',
-      // ['^/api/msgs']: '/',
+      // ['^/api/msg']: '/',
       // ['^/api/gateway']: '/gateway',
       // ['^/api/gate']: '/',
     }

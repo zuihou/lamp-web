@@ -150,26 +150,26 @@ export default {
       return `密码输错${this.tenant.passwordErrorNum}次数后锁定账号`
     },
     passwordErrorLockTimeTips () {
-      let msgs = ''
+      let msg = ''
       switch (this.passwordErrorLockTimeUnit) {
         case 'h':
-          msgs = `${this.passwordErrorLockTime}小时`
+          msg = `${this.passwordErrorLockTime}小时`
           break
         case 'd':
-          msgs = `${this.passwordErrorLockTime}天`
+          msg = `${this.passwordErrorLockTime}天`
           break
         case 'w':
-          msgs = `${this.passwordErrorLockTime}周`
+          msg = `${this.passwordErrorLockTime}周`
           break
         case 'm':
-          msgs = `${this.passwordErrorLockTime}月`
+          msg = `${this.passwordErrorLockTime}月`
           break
         case '0':
         default:
-          msgs = `当天23:59:59`
+          msg = `当天23:59:59`
           break
       }
-      return `密码输错${this.tenant.passwordErrorNum}次数后锁定账号${msgs}`
+      return `密码输错${this.tenant.passwordErrorNum}次数后锁定账号${msg}`
     },
     uploadFileUrl () {
       return commonApi.uploadFile

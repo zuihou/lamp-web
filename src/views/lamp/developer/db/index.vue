@@ -7,7 +7,7 @@
       <i-frame :src="fileDruid" @refresh="fileRefresh" ref="fileDruid" />
     </el-tab-pane>
     <el-tab-pane label="消息服务" name="third">
-      <i-frame :src="msgsDruid" @refresh="msgsRefresh" ref="msgsDruid" />
+      <i-frame :src="msgDruid" @refresh="msgRefresh" ref="msgDruid" />
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -21,7 +21,7 @@ export default {
     return {
       authorityDruid: '',
       fileDruid: '',
-      msgsDruid: '',
+      msgDruid: '',
       activeName: 'first'
     }
   },
@@ -43,8 +43,8 @@ export default {
     this.fileDruid = this.druidUrl("file")
     this.$refs.fileDruid.url = this.fileDruid
 
-    this.msgsDruid = this.druidUrl("msgs")
-    this.$refs.msgsDruid.url = this.msgsDruid
+    this.msgDruid = this.druidUrl("msg")
+    this.$refs.msgDruid.url = this.msgDruid
   },
   methods: {
     authorityRefresh (u) {
@@ -53,8 +53,8 @@ export default {
     fileRefresh (u) {
       this.fileDruid = u
     },
-    msgsRefresh (u) {
-      this.msgsDruid = u
+    msgRefresh (u) {
+      this.msgDruid = u
     },
     handleClick (tab, event) {
       console.log(tab, event);

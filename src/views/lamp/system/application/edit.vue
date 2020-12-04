@@ -79,7 +79,7 @@
         serviceList: [
           {id: "lamp-authority-server", name: "权限服务"},
           {id: "lamp-file-server", name: "文件服务"},
-          {id: "lamp-msgs-server", name: "消息服务"},
+          {id: "lamp-msg-server", name: "消息服务"},
           {id: "lamp-demo-server", name: "演示服务"},
           {id: "lamp-order-server", name: "订单服务"},
         ]

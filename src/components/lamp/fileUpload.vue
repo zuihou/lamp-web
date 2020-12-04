@@ -150,8 +150,8 @@ export default {
               dangerouslyUseHTMLString: true,
               showClose: true,
               duration: 10000,
-              onClose: (msgs)=>{
-                copy(msgs['message']);
+              onClose: (msg)=>{
+                copy(msg['message']);
                 vm.$message({
                   message: "复制错误消息成功",
                   type: "success",

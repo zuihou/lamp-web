@@ -87,7 +87,7 @@ import Tinymce from '@/components/Tinymce'
 import {initMsgEnums} from '@/utils/commons.js'
 
 export default {
-  name: 'MsgsEdit',
+  name: 'MsgEdit',
   components: { Tinymce },
   filters: {
 
@@ -150,14 +150,14 @@ export default {
   watch: {
     $route () {
       if (this.$route.path === '/resources/msg/edit') {
-        this.loadMsgs()
+        this.loadMsg()
         this.loadUserList()
         this.loadRoleList()
       }
     }
   },
   mounted () {
-    this.loadMsgs()
+    this.loadMsg()
     this.loadUserList()
     this.loadRoleList()
     initMsgEnums(['MsgType', 'MsgBizType'], this.enums)
@@ -186,7 +186,7 @@ export default {
         }
       }
     },
-    loadMsgs () {
+    loadMsg () {
       const type = this.$route.query.type
       const id = this.$route.query.id
       this.type = type

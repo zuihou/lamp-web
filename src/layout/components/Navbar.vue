@@ -23,9 +23,9 @@
           class="right-menu-item hover-effect"
           trigger="click">
           <div class="avue-notice">
-            <div class="msgs-title-content">
-              <div class="msgs-title">消息</div>
-              <div class="msgs-title-icon">
+            <div class="msg-title-content">
+              <div class="msg-title">消息</div>
+              <div class="msg-title-icon">
                 <el-switch v-model="msgRefresh" @change="msgRefreshChange" title="是否自动刷新消息" active-color="#13ce66"
                            inactive-color="#ff4949"></el-switch>
               </div>
@@ -110,7 +110,7 @@ import db from "@/utils/localstorage";
 import Screenfull from "@/components/Screenfull";
 import Search from "@/components/HeaderSearch";
 import loginApi from "@/api/Login.js";
-import msgsApi from "@/api/Msg.js";
+import msgApi from "@/api/Msg.js";
 
 export default {
   components: {
@@ -135,7 +135,7 @@ export default {
     },
   },
   mounted() {
-    this.loadMyMsgs();
+    this.loadMyMsg();
     if (this.msgRefresh) {
       this.msgRefreshChange(true);
     }
@@ -180,14 +180,14 @@ export default {
     }
   },
   methods: {
-    loadMyMsgs() {
+    loadMyMsg() {
       const params = {
         model: {}
       };
       params.size = 10;
       params.current = 1;
       params.model.isRead = false;
-      msgsApi.page(params, {isAlert: false}).then(response => {
+      msgApi.page(params, {isAlert: false}).then(response => {
         const res = response.data;
         if (res.isSuccess) {
           this.tableData = res.data;
@@ -195,7 +195,7 @@ export default {
       });
     },
     mark(ids, callback) {
-      msgsApi.mark({msgCenterIds: ids}).then(response => {
+      msgApi.mark({msgCenterIds: ids}).then(response => {
         const res = response.data;
         if (typeof callback === "function") {
           callback(ids);
@@ -204,7 +204,7 @@ export default {
     },
     view(row) {
       this.mark([row.id], ids => {
-        this.loadMyMsgs();
+        this.loadMyMsg();
         this.$router.push({
           path: "/resources/msg/edit",
           query: {
@@ -218,7 +218,7 @@ export default {
       db.save('MSG_REFRESH', val);
       if (val) {
         this.msgRefreshTimer = setInterval(() => {
-          this.loadMyMsgs();
+          this.loadMyMsg();
         }, 15000)
       } else {
         clearInterval(this.msgRefreshTimer);
@@ -414,19 +414,19 @@ export default {
   }
 }
 
-.msgs-title-content {
+.msg-title-content {
   color: #303133;
   font-size: 20px;
   line-height: 1;
   margin: 12px 0px 5px 0px;
   overflow: hidden;
 
-  .msgs-title {
+  .msg-title {
     margin-left: 20px;
     float: left;
   }
 
-  .msgs-title-icon {
+  .msg-title-icon {
     float: right;
     margin-right: 28px;
   }
