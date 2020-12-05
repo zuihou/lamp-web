@@ -1,53 +1,57 @@
-### lamp-web
+# lamp 快速开发平台
 
-lamp-web 是[lamp-cloud](https://github.com/zuihou/lamp-cloud)微服务权限系统的 `租户后台`，基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
+[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
+[![](https://img.shields.io/badge/Author-lamp-orange.svg)](https://github.com/zuihou/lamp-cloud)
+[![](https://img.shields.io/badge/version-3.0.0-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
+[![GitHub stars](https://img.shields.io/github/stars/zuihou/lamp-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/lamp-cloud/stargazers)
+[![star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/zuihou/lamp-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/lamp-cloud/network/members)
+[![fork](https://gitee.com/zuihou111/lamp-cloud/badge/fork.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/members)
 
-所谓`租户后台`，即是给租户（客户）使用，而`开发&运营后台`则是给使用此框架的公司内部人员维护项目使用。
+# lamp 项目名字由来
+## 叙事版：
+在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。
+走着走着，在一盏路灯下，孩砸盯着路灯打破宁静，喊出：灯灯～ 我和媳妇愣了一下，然后对视着一起说：哈哈，这个名字好～
 
-## 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢!!
+## 简洁版：
+`灯灯`： 是我小孩学说话时会说的第一个词，也是我在想了很多项目名后，小孩一语点破的一个名字，`lamp`象征着光明，给困境的我们带来希望，给加班夜归的程序员们指引前方～
 
-## 详细文档: https://www.kancloud.cn/zuihou/lamp-cloud
+`灯灯`（简称灯， 英文名：lamp），他是一个项目的统称，包含以下几个子项目
 
-## 交流群： 63202894
-    加群前请先将下方项目点star，支持下群主，谢谢😘
+## lamp 项目组成
+| 项目 | gitee | github | 备注 |
+|---|---|---|---|
+| 工具集 | https://gitee.com/zuihou111/lamp-util | https://github.com/zuihou/lamp-util | 业务无关的工具集，cloud和boot 项目都依赖它 |
+| 微服务版 | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud | SpringCloud 版 |
+| 单体版 | https://gitee.com/zuihou111/lamp-boot | https://github.com/zuihou/lamp-boot | SpringBoot 版（和lamp-cloud功能基本一致）|
+| 租户后台 | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web | PC端管理系统 |
+| 代码生成器 | https://gitee.com/zuihou111/lamp-generator | https://github.com/zuihou/lamp-generator | 给开发人员使用 |
+| 定时调度器 | https://gitee.com/zuihou111/lamp-jobs | https://github.com/zuihou/lamp-jobs | 尚未开发 |
 
-## 项目代码地址
-
-微服务后端 代码：
-
-| 项目          | gitee                                          | github                                       |
-| ------------- | ---------------------------------------------- | -------------------------------------------- |
-| 微服务项目    | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud |
-| 单体项目      | https://gitee.com/zuihou111/lamp-boot  | https://github.com/zuihou/lamp-boot  |
-| 后台管理      | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web  |
-| 代码生成器    | https://gitee.com/zuihou111/lamp-generator | https://github.com/zuihou/lamp-generator   |
-| 定时调度器    | https://gitee.com/zuihou111/lamp-job | https://github.com/zuihou/lamp-job   |
-
-## 演示地址
-
-> 演示环境中内置租户没有写入权限，若要在演示环境测试增删改，请到`开发&运营后台`自行创建租户后测试
+# lamp-web 简介
+`lamp-web` 的前身是`zuihou-ui` + `zuihou-admin-ui`，在3.0.0版本之后，将2个系统何必为`lamp-web`，它是`lamp`项目的其中一员。原来在zuihou-admin-ui系统的功能已经合并到内置租户【0000】，账号【lamp_pt】中。
+`lamp-web` 是 [lamp-cloud](https://github.com/zuihou/lamp-cloud) 和 [lamp-boot](https://github.com/zuihou/lamp-boot) 项目共用的管理后台，它基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
 
 
-## 项目截图：
+## lamp 会员版项目演示地址 （服务器没法备案，只能加上端口~~~）
+- 地址： http://tangyh.top:10000/lamp-web/
+- 以下内置账号仅限于内置的0000租户 
+- 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)
+- 超级管理员： lamp/lamp    
+- 普通管理员： general/lamp
+- 普通账号： normal/lamp
 
-| 预览                                                   | 预览                                                   |
-| ------------------------------------------------------ | ------------------------------------------------------ |
-| ![SBA监控.png](image/项目相关/开发%26运营后台预览.png) | ![SBA监控.png](image/项目相关/租户后台预览.png)        |
-| ![SBA监控.png](image/监控界面/sba.png)                 | ![SBA监控.png](image/监控界面/zipkin.png)              |
-| ![swagger.png](image/项目相关/swagger获取token.jpg)    | ![admin-api.png](image/项目相关/admin-api.png)         |
-| ![SBA监控.png](image/1000star.png)                     | ![定时任务.png](image/项目相关/zuihou-jobs-server.png) |
+> ps: 演示环境中内置租户没有写入权限，若要在演示环境测试增删改，请使用lamp_pt账号查询租户管理员账号后,登录新租户测试
 
-## 功能介绍：
-0. 租户管理：运营管理所有的租户创建
-1. 用户中心：组织、岗位、用户数据维护、重置用户密码等
-2. 权限管理：菜单、资源配置、角色管理、给角色绑定用户、给角色授权菜单和资源
-3. 基础配置：字典、地区、系统参数等信息维护
-4. 开发者管理：应用管理、数据库监控、操作日志、登录日志、swagger接口文档、注册中心、各种监控
-5. 消息中心：本站消息发送和查看
-6. 短信中心：各大运营商的短信基本信息配置，配置后，系统即有发送短信的能力
-7. 文件中心：提供了系统附件上传和存储能力，内置支持本地存储、FastDFS存储、阿里云存储，通过配置只有切换
-8. 网关管理：限流能力、阻止访问能力（即hei名单）
-9. 流程管理：工作流常用功能（模型管理、流程部署等）
+## lamp-cloud/lamp-boot + lamp-web 功能介绍：
+1. 租户管理：运营人员管理所有的租户创建
+2. 工作台：普通用户常用功能
+3. 组织管理：组织、岗位、用户数据维护、重置用户密码等
+4. 资源中心：消息、短信、附件管理
+5. 流程管理：流程部署、模型管理、流程示例
+6. 系统设置：菜单、资源配置、角色管理、给角色绑定用户、给角色授权菜单和资源、字典、地区、系统参数、操作日志、登录日志、应用管理等
+7. 网关设置：限流和阻止访问
+8. 开发者管理：定时任务、接口文档、注册&配置中心、服务监控、数据库监控、zipkin监控、SkyWalking监控
 
 ## 技术栈
 
@@ -61,85 +65,52 @@ lamp-web 是[lamp-cloud](https://github.com/zuihou/lamp-cloud)微服务权限系
 - Element-UI
 - ECharts
 
+# 项目截图：
 
-## 适当修改配置
+| 预览 | 预览 |
+|---|---|
+| ![预览.png]（image/项目相关/开发%26运营后台预览.png) | ![预览.png]（image/项目相关/租户后台预览.png) |
+| ![预览.png]（image/监控界面/sba.png) | ![预览.png]（image/监控界面/zipkin1_2_19_2.png) |
+| ![预览.png]（image/监控界面/zipkin2_2_19_2.png) | ![预览.png]（image/监控界面/zipkin3_2_19_2.png) |
+| ![预览.png]（image/项目相关/swagger获取token.jpg) | ![预览.png]（image/软著V2.5.0.jpg)  |
+| ![预览.png]（image/监控界面/sw拓扑图.png) | ![预览.png]（image/监控界面/sw追踪列表.png)  |
+| ![预览.png]（image/1000star.png) | ![预览.png]（image/项目相关/zuihou-jobs-server.png) |
 
-由于本项目为了同时支持 lamp-cloud 和 lamp-boot 2 个项目，但前者由于多了一个网关服务，所以在请求 URI 上比后者多了一段 网关的 URI，
-（比如，同样是获取验证码的接口， 在者的地址：/api/authority/anno/captcha， 后者：/anno/captcha）
-所以想要前端项目尽可能少的改动代码，需要通过 nginx 或者 vue 的 uri 代理功能（但 uri 代理只能在开发环境使用）
+# 交流群，加群前请先给项目点个 "Star"，谢谢！😘
 
-- 使用 nginx 请在群公告下载后直接使用
-- 使用 vue 自带的代理功能需要修改一下 前端项目的配置文件
+- 63202894（主群 满员请加群2）
+- 1011148503（群2）    
 
-1. vue.config.js
+# 如果觉得本项目对您有任何一点帮助，请点右上角 "Star" 支持一下， 并向您的基友、同事们宣传一下吧，谢谢！
 
-```
-proxy: {
-  [proxyUrl]: {
-    target: targetUrl,
-    changeOrigin: true,
-    pathRewrite: {
-      // lamp-cloud 项目 请使用以下的配置
-      ['^' + proxyUrl]: proxyUrl
+# 详细文档:  https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+    ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 并 备注邮箱，可得开发文档一份（支持后续更新） 
+        打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
 
-      // lamp-boot 项目 请使用以下的配置
-      // ['^/api/oauth']: '/',
-      // ['^/api/authority']: '/',
-      // ['^/api/file']: '/',
-      // ['^/api/msg']: '/',
-      // ['^/api/gateway']: '/gateway',
-      // ['^/api/gate']: '/',
-    }
-  }
-}
-```
+# 遇到问题请先查看历史issue，未找到解决方案，在提交issue（问题描述详细一些，报错截图大一些，复现步骤全一些）
+    https://github.com/zuihou/lamp-cloud/issues    
 
-2. .env.development
-```
-# 后端为 lamp-cloud 项目： http://127.0.0.1:8760 表示lamp-gateway-server服务的访问地址，非本机访问，请配置内网ip
-# 后端为 lamp-boot 项目： http://127.0.0.1:8760 表示lamp-authority-server服务的访问地址，非本机访问，请配置内网ip
-VUE_APP_DEV_REQUEST_DOMAIN_PREFIX = 'http://127.0.0.1:8760'
-```
+# 会员版
+本项目分为开源版和会员版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 会员版源码在私有gitlab托管，购买后开通账号。
 
-## 安装
+会员版和开源版区别请看：[会员版](会员版.md)
 
-```
-npm install --registry=https://registry.npm.taobao.org
+# 项目不错，支持一下吧
+![扫码支持.png](image/请作者买瓶防脱发药水吧.png)
 
-上面的命令报错？就逐个试试以下命令：
+# 感谢 JetBrains 提供的免费开源 License：
+[![JetBrains]（image/jetbrains.png)](https://www.jetbrains.com/?from=lamp-cloud)
+    
+# 友情链接 & 特别鸣谢
+* SaaS型微服务快速开发平台：[https://github.com/zuihou/lamp-cloud](https://github.com/zuihou/lamp-cloud)
+* SaaS型单体快速开发平台：[https://github.com/zuihou/lamp-boot](https://github.com/zuihou/lamp-boot)
+* MyBatis-Plus：[https://mybatis.plus/](https://mybatis.plus/)
+* knife4j：[http://doc.xiaominfo.com/](http://doc.xiaominfo.com/)
+* hutool：[https://hutool.cn/](https://hutool.cn/)
+* xxl-job：[http://www.xuxueli.com/xxl-job/](http://www.xuxueli.com/xxl-job/)
+* kkfileview：[https://kkfileview.keking.cn](https://kkfileview.keking.cn)
+* FEBS Cloud Web： [https://gitee.com/mrbirdd/FEBS-Cloud-Web](https://gitee.com/mrbirdd/FEBS-Cloud-Web)
+    lamp-web 基于本项目改造， 感谢 [wuyouzhuguli](https://github.com/wuyouzhuguli)
+* Cloud-Platform： [https://gitee.com/geek_qi/cloud-platform](https://gitee.com/geek_qi/cloud-platform)
+    作者学习时接触到的第一个微服务项目
 
-npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
-
-git config --global url."https://".insteadOf git://
-
-npm install chromedriver --chromedriver_cdnurl=http://cdn.npm.taobao.org/dist/chromedriver
-
-cnpm install core-js@2.6.9 
-
-还不行？ 就用淘宝镜像吧...
-
-# 安装cnpm
-npm install -g cnpm --registry=https://registry.npm.taobao.org
-
-
-cnpm install --registry=https://registry.npm.taobao.org
-```
-
-### 本地开发环境运行
-
-```
-npm run dev
-```
-
-### 访问：http://localhost:8080/
-
-### 生产环境运行
-```
-npm run build:prod
-```
-
-## 求助：
-
-由于本人前端技能特别水，在做这 2 个前端项目时，都是边学边写，所以前端的 bug 较多，代码写的也不规范，导致 eslint 报了很多警告，
-若你会前端（vue）的或者知道怎么设置 vscode 的格式化规则或者知道怎么设置.eslint 配置的规则，欢迎提交 pr 或者进 qq 群指导一下群主。
-必有重谢。
