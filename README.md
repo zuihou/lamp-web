@@ -1,7 +1,7 @@
 # lamp 快速开发平台
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
-[![](https://img.shields.io/badge/Author-lamp-orange.svg)](https://github.com/zuihou/lamp-cloud)
+[![](https://img.shields.io/badge/Author-zuihou-orange.svg)](https://github.com/zuihou)
 [![](https://img.shields.io/badge/version-3.0.0-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
 [![GitHub stars](https://img.shields.io/github/stars/zuihou/lamp-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/lamp-cloud/stargazers)
 [![star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
@@ -13,27 +13,28 @@
 在一个夜黑风高的晚上，小孩吵着要出去玩，于是和`程序员老婆`一起带小孩出去放风，路上顺便讨论起项目要换个什么名字，在各自想出的名字都被对方一一否决后，大家陷入了沉思。
 走着走着，在一盏路灯下，孩砸盯着路灯打破宁静，喊出：灯灯～ 我和媳妇愣了一下，然后对视着一起说：哈哈，这个名字好～
 
-## 简洁版：
-`灯灯`： 是我小孩学说话时会说的第一个词，也是我在想了很多项目名后，小孩一语点破的一个名字，`lamp`象征着光明，给困境的我们带来希望，给加班夜归的程序员们指引前方～
+## 解释版：
+`灯灯`： 是我小孩学说话时会说的第一个词，也是我在想了很多项目名后，小孩一语点破的一个名字，灯灯象征着光明，给困境的我们带来希望，给加班夜归的程序员们指引前方～
 
-`灯灯`（简称灯， 英文名：lamp），他是一个项目的统称，包含以下几个子项目
+`灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，包含以下几个子项目
 
 ## lamp 项目组成
 | 项目 | gitee | github | 备注 |
 |---|---|---|---|
 | 工具集 | https://gitee.com/zuihou111/lamp-util | https://github.com/zuihou/lamp-util | 业务无关的工具集，cloud和boot 项目都依赖它 |
 | 微服务版 | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud | SpringCloud 版 |
-| 单体版 | https://gitee.com/zuihou111/lamp-boot | https://github.com/zuihou/lamp-boot | SpringBoot 版（和lamp-cloud功能基本一致）|
+| 单体版 | https://gitee.com/zuihou111/lamp-boot | https://github.com/zuihou/lamp-boot | SpringBoot 版(和lamp-cloud功能基本一致)|
 | 租户后台 | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web | PC端管理系统 |
 | 代码生成器 | https://gitee.com/zuihou111/lamp-generator | https://github.com/zuihou/lamp-generator | 给开发人员使用 |
 | 定时调度器 | https://gitee.com/zuihou111/lamp-jobs | https://github.com/zuihou/lamp-jobs | 尚未开发 |
 
 # lamp-web 简介
-`lamp-web` 的前身是`zuihou-ui` + `zuihou-admin-ui`，在3.0.0版本之后，将2个系统何必为`lamp-web`，它是`lamp`项目的其中一员。原来在zuihou-admin-ui系统的功能已经合并到内置租户【0000】，账号【lamp_pt】中。
-`lamp-web` 是 [lamp-cloud](https://github.com/zuihou/lamp-cloud) 和 [lamp-boot](https://github.com/zuihou/lamp-boot) 项目共用的管理后台，它基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
+`lamp-web` 的前身是`zuihou-ui` + `zuihou-admin-ui`，从3.0.0版本开始，将2个系统合并为`lamp-web`，它是`lamp`项目的其中一员。原来在zuihou-admin-ui系统的功能已经合并到内置租户【0000】，账号【lamp_pt】中。
+
+`lamp-web` 是 [lamp-cloud](https://github.com/zuihou/lamp-cloud) 和 [lamp-boot](https://github.com/zuihou/lamp-boot) 2个后台项目共用的管理后台，仅需在启动时调整`vue.config.js`文件中的代理。它基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
 
 
-## lamp 会员版项目演示地址 （服务器没法备案，只能加上端口~~~）
+## lamp 会员版项目演示地址 
 - 地址： http://tangyh.top:10000/lamp-web/
 - 以下内置账号仅限于内置的0000租户 
 - 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)
@@ -69,25 +70,26 @@
 
 | 预览 | 预览 |
 |---|---|
-| ![预览.png]（image/项目相关/开发%26运营后台预览.png) | ![预览.png]（image/项目相关/租户后台预览.png) |
-| ![预览.png]（image/监控界面/sba.png) | ![预览.png]（image/监控界面/zipkin1_2_19_2.png) |
-| ![预览.png]（image/监控界面/zipkin2_2_19_2.png) | ![预览.png]（image/监控界面/zipkin3_2_19_2.png) |
-| ![预览.png]（image/项目相关/swagger获取token.jpg) | ![预览.png]（image/软著V2.5.0.jpg)  |
-| ![预览.png]（image/监控界面/sw拓扑图.png) | ![预览.png]（image/监控界面/sw追踪列表.png)  |
-| ![预览.png]（image/1000star.png) | ![预览.png]（image/项目相关/zuihou-jobs-server.png) |
+| ![预览.png](image/架构图/lamp-cloud架构图.png) | ![预览.png](image/业务/swagger.png) |
+| ![预览.png](image/业务/nacos.jpg) | ![预览.png](image/业务/工作流.png) |
+| ![预览.png](image/业务/项目预览1.png) | ![预览.png](image/业务/项目预览2.png) |
+| ![预览.png](image/监控/sba1.png) | ![预览.png](image/监控/sba2.png) |
+| ![预览.png](image/监控/zipkin1_2_19_2.png) | ![预览.png](image/监控/zipkin3_2_19_2.png) |
+| ![预览.png](image/监控/sw拓扑图.png) | ![预览.png](image/监控/sw追踪列表.png)  |
+| ![预览.png](image/1000star.png) | ![预览.png](image/软著V2.5.0.jpg) |
 
 # 交流群，加群前请先给项目点个 "Star"，谢谢！😘
 
-- 63202894（主群 满员请加群2）
-- 1011148503（群2）    
+- 63202894(主群 满员请加群2)
+- 1011148503(群2)    
 
 # 如果觉得本项目对您有任何一点帮助，请点右上角 "Star" 支持一下， 并向您的基友、同事们宣传一下吧，谢谢！
 
 # 详细文档:  https://www.kancloud.cn/zuihou/zuihou-admin-cloud
-    ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 并 备注邮箱，可得开发文档一份（支持后续更新） 
+    ps: gitee捐献 或者 二维码打赏(本页最下方)： 45元及以上 并 备注邮箱，可得开发文档一份(支持后续更新) 
         打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
 
-# 遇到问题请先查看历史issue，未找到解决方案，在提交issue（问题描述详细一些，报错截图大一些，复现步骤全一些）
+# 遇到问题请先查看历史issue，未找到解决方案，在提交issue(问题描述详细一些，报错截图大一些，复现步骤全一些)
     https://github.com/zuihou/lamp-cloud/issues    
 
 # 会员版
@@ -96,10 +98,10 @@
 会员版和开源版区别请看：[会员版](会员版.md)
 
 # 项目不错，支持一下吧
-![扫码支持.png](image/请作者买瓶防脱发药水吧.png)
+![扫码支持.png](image/捐赠.png)
 
 # 感谢 JetBrains 提供的免费开源 License：
-[![JetBrains]（image/jetbrains.png)](https://www.jetbrains.com/?from=lamp-cloud)
+[![JetBrains](image/jetbrains.png)](https://www.jetbrains.com/?from=lamp-cloud)
     
 # 友情链接 & 特别鸣谢
 * 微服务快速开发平台：[https://github.com/zuihou/lamp-cloud](https://github.com/zuihou/lamp-cloud)
