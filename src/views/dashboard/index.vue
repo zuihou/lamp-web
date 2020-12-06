@@ -100,7 +100,7 @@
                     <el-divider direction="vertical" />
                     <span
                       ><el-tag
-                        >lamp-cloud SaaS型微服务快速开发平台</el-tag
+                        >lamp快速开发平台</el-tag
                       ></span
                     >
                     <el-divider direction="vertical" />

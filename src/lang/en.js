@@ -482,7 +482,7 @@ export default {
     invalidURL: 'URL is invalid'
   },
   common: {
-    system: 'Microservice SaaS System',
+    system: 'Microservice System',
     desc: {
       a: 'Based on SpringBoot 2.3.6 & SpringCloud Hoxton.SR9',
       b: 'Use Jwt Unified Authentication',

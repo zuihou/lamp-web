@@ -486,7 +486,7 @@ export default {
     invalidURL: '不是有效的URL'
   },
   common: {
-    system: 'SaaS型微服务快速开发平台',
+    system: '快速开发平台',
     desc: {
       a: '基于SpringBoot 2.3.6 & SpringCloud Hoxton.SR9',
       b: '使用Jwt自定义统一认证',

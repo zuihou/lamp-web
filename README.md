@@ -102,8 +102,8 @@
 [![JetBrains]（image/jetbrains.png)](https://www.jetbrains.com/?from=lamp-cloud)
     
 # 友情链接 & 特别鸣谢
-* SaaS型微服务快速开发平台：[https://github.com/zuihou/lamp-cloud](https://github.com/zuihou/lamp-cloud)
-* SaaS型单体快速开发平台：[https://github.com/zuihou/lamp-boot](https://github.com/zuihou/lamp-boot)
+* 微服务快速开发平台：[https://github.com/zuihou/lamp-cloud](https://github.com/zuihou/lamp-cloud)
+* 单体快速开发平台：[https://github.com/zuihou/lamp-boot](https://github.com/zuihou/lamp-boot)
 * MyBatis-Plus：[https://mybatis.plus/](https://mybatis.plus/)
 * knife4j：[http://doc.xiaominfo.com/](http://doc.xiaominfo.com/)
 * hutool：[https://hutool.cn/](https://hutool.cn/)
