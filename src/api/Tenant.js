@@ -23,7 +23,7 @@ const apiList = {
   },
   remove: {
     method: 'DELETE',
-    url: `/tenant/tenant`
+    url: `/tenant/tenant/deleteAll`
   },
   list: {
     method: 'POST',

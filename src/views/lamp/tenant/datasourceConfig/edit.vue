@@ -53,6 +53,7 @@
 </template>
 <script>
 import datasourceConfigApi from '@/api/DatasourceConfig.js'
+import globalUserApi from "@/api/GlobalUser";
 
 export default {
   name: 'DatasourceConfigEdit',
@@ -84,7 +85,17 @@ export default {
           { required: true, message: this.$t('rules.require'), trigger: 'blur' }
         ],
         url: [
-          { required: true, message: this.$t('rules.require'), trigger: 'blur' }
+          { required: true, message: this.$t('rules.require'), trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              debugger
+              if(value.indexOf('lamp_base_') > 0 || value.indexOf('lamp_extend_') > 0) {
+                callback()
+              } else {
+                callback('数据库必须包含 lamp_base 或者 lamp_extend ')
+              }
+            }, trigger: 'blur'
+          }
         ],
         driverClassName: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' }

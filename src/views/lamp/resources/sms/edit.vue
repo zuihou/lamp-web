@@ -376,7 +376,6 @@ export default {
       vm.disabled = true
       smsTaskApi.save(vm.smsTask)
         .then((response) => {
-          vm.disabled = false
           const res = response.data
           if (res.isSuccess) {
             vm.$message({
@@ -386,14 +385,14 @@ export default {
             vm.reset()
             vm.$router.push('/resources/sms')
           }
-        })
+        }).finally(()=>{
+          vm.disabled = false})
     },
     update () {
       const vm = this
       vm.disabled = true
       smsTaskApi.update(vm.smsTask)
         .then((response) => {
-          vm.disabled = false
           const res = response.data
           if (res.isSuccess) {
             vm.$message({
@@ -403,7 +402,7 @@ export default {
             vm.reset()
             vm.$router.push('/resources/sms')
           }
-        })
+        }).finally(()=>vm.disabled = false)
     },
     handleClose (tag) {
       this.receiverList.splice(this.receiverList.indexOf(tag), 1)
