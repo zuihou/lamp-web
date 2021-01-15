@@ -5,7 +5,7 @@
         <el-input :disabled="type==='edit'" @keyup.enter.native="submitForm" v-model="resource.code" />
         <p class="note">参考shiro的权限配置方式，使用:</p>
         <p class="note"><b>;</b>  作为权限编码分隔符， <b>:</b> 作为功能层级分隔符，<b>,</b> 作为多个功能点的分隔符，<b>*</b> 作为任意通配符</p>
-        <p class="note">建议以view、add、update、delete、export、import、download、upload等关键词结尾</p>
+        <p class="note">建议以view、add、edit、delete、export、import、download、upload等关键词结尾</p>
         <p class="note">如：authority:menu:add 只有菜单新增权限</p>
         <p class="note">如：tenant:tenant:initConnect;tenant:datasourceConfig:view 租户初始化和数据源查询权限</p>
         <p class="note">如：authority:resource:* 资源模块任意权限</p>
