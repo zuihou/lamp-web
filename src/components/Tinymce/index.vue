@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     language () {
-      return this.languageTypeList[this.$store.getters.language]
+      return this.languageTypeList[this.$store.state.setting.language]
     },
     containerWidth () {
       const width = this.width
