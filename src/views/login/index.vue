@@ -677,6 +677,8 @@ $light_gray: #eee;
       display: inline-block;
       vertical-align: top;
       cursor: pointer;
+      height: 42px;
+      width: 115px;
     }
 
     .login-type {
