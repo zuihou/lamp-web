@@ -36,6 +36,7 @@ axios.interceptors.response.use(
 )
 
 function handleError(error, reject, opts) {
+  debugger
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
   isAlert = isAlert === undefined ? true : isAlert;
   if (isAlert) {
@@ -44,7 +45,16 @@ function handleError(error, reject, opts) {
         message: '请求超时'
       })
     } else if (error.response && error.response.data) {
-      if (error.response.status === 500) {
+      const resData = error.response.data;
+      if (error.response.status === 403 || error.response.status === 401) {
+        MessageBox.alert(resData.msg || '登录已失效，请重新登录', '提醒', {
+          confirmButtonText: '确定',
+          callback: () => {
+            db.clear();
+            window.location.hash = '/login'
+          }
+        })
+      } else if (error.response.status === 500) {
         Message({
           message: error.response.data
         })
@@ -85,6 +95,7 @@ function handleSuccess(res, resolve, opts) {
   let isAlert = opts.custom ? opts.custom['isAlert'] : true;
   isAlert = isAlert === undefined ? true : isAlert;
   const resData = res.data;
+  debugger
   if (resData.isSuccess === false) {
     // 未登录
     if (resData.code === 40000 || resData.code === 40001
