@@ -48,18 +48,18 @@ module.exports = {
         target: targetUrl,
         changeOrigin: true,
         pathRewrite: {
+          // lamp-boot 项目 请使用以下的配置
+          //['^/api/tenant/']: '/',
+          //['^/api/oauth/']: '/',
+          //['^/api/authority/']: '/',
+          //['^/api/msg/']: '/',
+          //['^/api/file/']: '/',
+          //['^/api/gateway/']: '/gateway',
+          //['^/api/gate/']: '/',
+          //['^/api/activiti/']: '/',
+
           // lamp-cloud  项目使用这段配置
           ['^' + proxyUrl]: proxyUrl,
-
-          // lamp-boot 项目 请使用以下的配置
-          // ['^/api/tenant']: '/',
-          // ['^/api/oauth']: '/',
-          // ['^/api/authority']: '/',
-          // ['^/api/msg']: '/',
-          // ['^/api/file']: '/',
-          // ['^/api/gateway']: '/gateway',
-          // ['^/api/gate']: '/',
-          // ['^/api/activiti']: '/',
         }
       }
     }
