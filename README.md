@@ -19,28 +19,30 @@
 `灯灯`(简称灯， 英文名：lamp)，他是一个项目的统称，包含以下几个子项目
 
 ## lamp 项目组成
-### 工具集
+注意： 请先下载lamp-util 代码并编译（mvn install） 到本地仓库，然后在编译（mvn install）lamp-cloud或lamp-boot项目， 最后编译（mvn install）lamp-job项目！！！
+
+### 工具集 （lamp-util 项目必备，其他2个可选）
+
+| 项目 | gitee | github | 备注 | 
+| --- | --- | --- | --- |
+| 工具集 | [lamp-util](https://gitee.com/zuihou111/lamp-util) | [lamp-util](https://github.com/zuihou/lamp-util) | 业务无关的工具集，cloud 和 boot 项目都依赖它 |
+| 代码生成器 | [lamp-generator](https://gitee.com/zuihou111/lamp-generator) | [lamp-generator](https://github.com/zuihou/lamp-generator) | 给开发人员使用 |
+| 定时调度器 | [lamp-job](https://gitee.com/zuihou111/lamp-job) | [lamp-job](https://github.com/zuihou/lamp-job) | 尚未开发 |
+
+### 后端 （下面2个项目功能一致，任选其一即可）
 
 | 项目 | gitee | github | 备注 |
 | --- | --- | --- | --- |
-| 工具集 | https://gitee.com/zuihou111/lamp-util | https://github.com/zuihou/lamp-util | 业务无关的工具集，cloud 和 boot 项目都依赖它 |
-| 代码生成器 | https://gitee.com/zuihou111/lamp-generator | https://github.com/zuihou/lamp-generator | 给开发人员使用 |
-| 定时调度器 | https://gitee.com/zuihou111/lamp-job | https://github.com/zuihou/lamp-job | 尚未开发 |
+| 微服务版(后端) | [lamp-cloud](https://gitee.com/zuihou111/lamp-cloud) | [lamp-cloud](https://github.com/zuihou/lamp-cloud) | SpringCloud 版 |
+| 单体版(后端) | [lamp-boot](https://gitee.com/zuihou111/lamp-boot) | [lamp-boot](https://github.com/zuihou/lamp-boot) | SpringBoot 版(和 lamp-cloud 功能基本一致) |
 
-### 后端
-
-| 项目 | gitee | github | 备注 |
-| --- | --- | --- | --- |
-| 微服务版(后端) | https://gitee.com/zuihou111/lamp-cloud | https://github.com/zuihou/lamp-cloud | SpringCloud 版 |
-| 单体版(后端) | https://gitee.com/zuihou111/lamp-boot | https://github.com/zuihou/lamp-boot | SpringBoot 版(和 lamp-cloud 功能基本一致) |
-
-### 前端
+### 前端 （下面3个项目功能一致，任选其一即可）
 
 | 项目 | gitee | github | 备注 | 演示地址 |
 | --- | --- | --- | --- | --- |
-| 中后台管理系统 | https://gitee.com/zuihou111/lamp-web | https://github.com/zuihou/lamp-web | 基于 vue-admin-element | http://tangyh.top:10000 |
-| 中后台管理系统 | https://gitee.com/zuihou111/lamp-web-beautiful | https://github.com/zuihou/lamp-web-beautiful | 基于 vue-admin-beautiful | http://tangyh.top:180 |
-| 中后台管理系统 (强烈推荐！👏👏👏) | https://gitee.com/zuihou111/lamp-web-plus | https://github.com/zuihou/lamp-web-plus | 基于 vue-vben-admin （vue 3 + vite 2） | http://tangyh.top:3100 |
+| 中后台管理系统 | [lamp-web](https://gitee.com/zuihou111/lamp-web) | [lamp-web](https://github.com/zuihou/lamp-web) | （全部功能已完成）基于 vue-admin-element | http://tangyh.top:10000 |
+| 中后台管理系统 | [lamp-web-beautiful](https://gitee.com/zuihou111/lamp-web-beautiful) | [lamp-web-beautiful](https://github.com/zuihou/lamp-web-beautiful) | （正在开发...）基于 vue-admin-beautiful | http://tangyh.top:180 |
+| 中后台管理系统 (强烈推荐！👏👏👏) | [lamp-web-beautiful](https://gitee.com/zuihou111/lamp-web-plus) | [lamp-web-beautiful](https://github.com/zuihou/lamp-web-plus) | （正在开发...）基于 vue-vben-admin （vue 3 + vite 2） | http://tangyh.top:3100 |
 
 # lamp-web 简介
 `lamp-web` 的前身是`zuihou-ui` + `zuihou-admin-ui`，从3.0.0版本开始，将2个系统合并为`lamp-web`，它是`lamp`项目的其中一员。原来在zuihou-admin-ui系统的功能已经合并到内置租户【0000】，账号【lamp_pt】中。
@@ -49,7 +51,10 @@
 
 
 ## lamp 会员版项目演示地址 
-- 地址： http://tangyh.top:10000/lamp-web/
+- (已完成) 基于 [FEBS-Cloud-Web](https://gitee.com/mrbirdd/FEBS-Cloud-Web) 改造的前端项目演示地址： http://tangyh.top:10000/lamp-web/
+- (正在开发中...)基于 [vue-admin-beautiful](https://github.com/chuzhixin/vue-admin-beautiful)
+  改造的前端项目 演示地址： http://tangyh.top:180
+- (正在开发中...)基于 ant-design [vue-vben-admin](https://github.com/anncwb/vue-vben-admin) 开发的前端项目 演示地址：http://tangyh.top:3100
 - 以下内置账号仅限于内置的0000租户 
 - 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)
 - 超级管理员： lamp/lamp    
