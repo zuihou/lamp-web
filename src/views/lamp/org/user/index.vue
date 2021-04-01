@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input :placeholder="$t('table.user.account')"
                 class="filter-item search-item" clearable v-model="queryParams.model.account"/>
-      <el-select clearable :placeholder="$t('table.user.nation')" v-model="queryParams.model.nation.key"
+      <el-select clearable :placeholder="$t('table.user.nation')" v-model="queryParams.model.nation"
                  class="filter-item search-item">
         <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.NATION"/>
       </el-select>
@@ -15,7 +15,7 @@
                   :searchable="true"
                   class="filter-item search-item"
                   placeholder="组织"
-                  v-model="queryParams.model.org.key"
+                  v-model="queryParams.model.orgId"
       />
       <el-date-picker
         :range-separator="null"
@@ -142,33 +142,33 @@
         width="80px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.nation['data'] ? scope.row.nation['data'] : scope.row.nation['key'] }}</span>
+          <span>{{ scope.row.echoMap.nation ? scope.row.echoMap.nation : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column
         :filter-multiple="false"
         :filters="educationList"
-        column-key="education.key"
+        column-key="education"
         :label="$t('table.user.education')"
         :show-overflow-tooltip="true"
         align="center"
         width="80px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.education['data'] ? scope.row.education['data'] : scope.row.education['key'] }}</span>
+          <span>{{ scope.row.echoMap.education ? scope.row.echoMap.education : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column
         :filter-multiple="false"
         :filters="positionStatusList"
-        column-key="positionStatus.key"
+        column-key="positionStatus"
         :label="$t('table.user.positionStatus')"
         :show-overflow-tooltip="true"
         align="center"
         width="100px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.positionStatus['data'] ? scope.row.positionStatus['data'] : scope.row.positionStatus['key'] }}</span>
+          <span>{{ scope.row.echoMap.positionStatus ? scope.row.echoMap.positionStatus : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -179,8 +179,8 @@
       >
         <template slot-scope="scope">
           <span>{{
-            scope.row.org["data"] ? scope.row.org.data.label : scope.row.org.key
-          }}</span>
+              scope.row.echoMap.orgId ? scope.row.echoMap.orgId.label : ''
+            }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -191,10 +191,8 @@
       >
         <template slot-scope="scope">
           <span>{{
-            scope.row.station["data"]
-              ? scope.row.station.data
-              : scope.row.station.key
-          }}</span>
+              scope.row.echoMap.stationId ? scope.row.echoMap.stationId : ''
+            }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -210,7 +208,7 @@
       >
         <template slot-scope="{ row }">
           <el-tag :type="row.state | stateFilter">{{
-            row.state ? $t("common.state.valid") : $t("common.state.invalid")
+              row.state ? $t("common.state.valid") : $t("common.state.invalid")
             }}
           </el-tag>
         </template>
@@ -320,366 +318,344 @@
 </template>
 
 <script>
-  import Pagination from "@/components/Pagination";
-  import Treeselect from "@riophae/vue-treeselect";
-  import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-  import elDragDialog from '@/directive/el-drag-dialog'
-  import FileImport from "@/components/lamp/Import"
-  import UserEdit from "./edit";
-  import UpdatePassword from "./updatePassword";
-  import UserView from "./view";
-  import userApi from "@/api/User.js";
-  import orgApi from "@/api/Org.js";
-  import { convertEnum, convertDict } from '@/utils/utils'
-  import { downloadFile, initDicts, initEnums, initQueryParams } from '@/utils/commons'
+import Pagination from "@/components/Pagination";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import elDragDialog from '@/directive/el-drag-dialog'
+import FileImport from "@/components/lamp/Import"
+import UserEdit from "./edit";
+import UpdatePassword from "./updatePassword";
+import UserView from "./view";
+import userApi from "@/api/User.js";
+import orgApi from "@/api/Org.js";
+import {convertDict, convertEnum} from '@/utils/utils'
+import {downloadFile, initDicts, initEnums, initQueryParams} from '@/utils/commons'
 
-  export default {
-    name: "UserManage",
-    directives: { elDragDialog },
-    components: { Pagination, UserEdit, UserView, Treeselect, FileImport, UpdatePassword },
-    filters: {
-      userAvatarFilter(name) {
-        return name.charAt(0);
-      },
-      sexFilter(state) {
-        const map = {
-          W: "success",
-          M: "danger",
-          N: "info"
-        };
-        return map[state] || "info";
-      },
-      stateFilter(state) {
-        const map = {
-          false: "danger",
-          true: "success"
-        };
-        return map[state] || "success";
-      }
+export default {
+  name: "UserManage",
+  directives: {elDragDialog},
+  components: {Pagination, UserEdit, UserView, Treeselect, FileImport, UpdatePassword},
+  filters: {
+    userAvatarFilter(name) {
+      return name.charAt(0);
     },
-    data() {
-      return {
-        orgList: [],
-        dialog: {
-          isVisible: false,
-          type: "add"
-        },
-        updatePasswordDialog: {
-          isVisible: false,
-          type: "add"
-        },
-        preview: {
-          isVisible: false,
-          context: ''
-        },
-        fileImport: {
-          isVisible: false,
-          type: "import",
-          action: `${process.env.VUE_APP_BASE_API}/authority/user/import`,
-          exportErrorUrl: `/authority/user/exportError`
-        },
-        userViewVisible: false,
-        tableKey: 0,
-        queryParams: initQueryParams({
-          model: {
-            nation: {
-              key: ''
-            },
-            education: {
-              key: ''
-            },
-            positionStatus: {
-              key: ''
-            },
-            org: {
-              key: null
-            },
-            station: {
-              key: null
-            },
-            sex: {
-              code: ''
-            }
-          }
-        }),
-        selection: [],
-        loading: false,
-        tableData: {
-          total: 0
-        },
-        enums: {
-          Sex: {}
-        },
-        dicts: {
-          NATION: [],
-          POSITION_STATUS: [],
-          EDUCATION: [],
-        }
+    sexFilter(state) {
+      const map = {
+        W: "success",
+        M: "danger",
+        N: "info"
       };
+      return map[state] || "info";
     },
-    computed: {
-      currentUser() {
-        return this.$store.state.account.user;
+    stateFilter(state) {
+      const map = {
+        false: "danger",
+        true: "success"
+      };
+      return map[state] || "success";
+    }
+  },
+  data() {
+    return {
+      orgList: [],
+      dialog: {
+        isVisible: false,
+        type: "add"
       },
-      sexList() {
-        return convertEnum(this.enums.Sex)
+      updatePasswordDialog: {
+        isVisible: false,
+        type: "add"
       },
-      nationList() {
-        return convertDict(this.dicts.NATION)
+      preview: {
+        isVisible: false,
+        context: ''
       },
-      educationList() {
-        return convertDict(this.dicts.EDUCATION)
+      fileImport: {
+        isVisible: false,
+        type: "import",
+        action: `${process.env.VUE_APP_BASE_API}/authority/user/import`,
+        exportErrorUrl: `/authority/user/exportError`
       },
-      positionStatusList() {
-        return convertDict(this.dicts.POSITION_STATUS)
+      userViewVisible: false,
+      tableKey: 0,
+      queryParams: initQueryParams({
+        model: {
+          nation: '',
+          education: '',
+          positionStatus: '',
+          orgId: null,
+          station: '',
+          sex: {
+            code: ''
+          }
+        }
+      }),
+      selection: [],
+      loading: false,
+      tableData: {
+        total: 0
+      },
+      enums: {
+        Sex: {}
+      },
+      dicts: {
+        NATION: [],
+        POSITION_STATUS: [],
+        EDUCATION: [],
       }
+    };
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.account.user;
     },
-    watch: {
-      $route() {
-        if (this.$route.path === "/user/user") {
-          this.initOrg();
-        }
-      }
+    sexList() {
+      return convertEnum(this.enums.Sex)
     },
-    mounted() {
-      initEnums('Sex', this.enums);
-      initDicts(['NATION', 'POSITION_STATUS', 'EDUCATION'], this.dicts);
-      this.fetch();
-      this.initOrg();
+    nationList() {
+      return convertDict(this.dicts.NATION)
     },
-    methods: {
-      initOrg() {
-        orgApi.allTree({state: true}).then(response => {
-          const res = response.data;
-          this.orgList = res.data;
-        });
-      },
-      myAvatar(avatar) {
-        if (!avatar) {
-          return require(`@/assets/avatar/default.jpg`);
-        } else {
-          if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
-            return avatar;
-          } else {
-            return require(`@/assets/avatar/${avatar}`);
-          }
-        }
-      },
-      viewClose() {
-        this.userViewVisible = false;
-      },
-      editClose() {
-        this.dialog.isVisible = false;
-      },
-      editSuccess() {
-        this.search();
-      },
-      updatePasswordSuccess() {
-        this.search();
-      },
-      updatePasswordClose() {
-        this.updatePasswordDialog.isVisible = false;
-      },
-      onSelectChange(selection) {
-        this.selection = selection;
-      },
-      loadListOptions({callback}) {
-        callback();
-      },
-      search() {
-        this.fetch({
-          ...this.queryParams,
-        });
-      },
-      reset() {
-        this.queryParams = initQueryParams({
-          model: {
-            nation: {
-              key: ''
-            },
-            education: {
-              key: ''
-            },
-            positionStatus: {
-              key: ''
-            },
-            org: {
-              key: null
-            },
-            station: {
-              key: null
-            },
-            sex: {
-              code: ''
-            }
-          }
-        });
-        this.$refs.table.clearSort();
-        this.$refs.table.clearFilter();
-        this.search();
-      },
-      exportExcelPreview() {
-        if (this.queryParams.timeRange) {
-          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
-        }
-        this.queryParams.extra.fileName = '导出用户数据';
-        userApi.preview(this.queryParams).then(response => {
-          const res = response.data;
-          this.preview.isVisible = true;
-          this.preview.context = res.data;
-        });
-      },
-      exportExcel() {
-        if (this.queryParams.timeRange) {
-          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
-        }
-        this.queryParams.extra.fileName = '导出用户数据';
-        userApi.export(this.queryParams).then(response => {
-          downloadFile(response);
-        });
-      },
-      importExcel() {
-        this.fileImport.type = "upload";
-        this.fileImport.isVisible = true;
-        this.$refs.import.setModel(false);
-      },
-      importSuccess() {
-        this.search();
-      },
-      importClose() {
-        this.fileImport.isVisible = false;
-      },
-      singleDelete(row) {
-        this.$refs.table.clearSelection()
-        this.$refs.table.toggleRowSelection(row, true);
-        this.batchDelete();
-      },
-      batchDelete() {
-        if (!this.selection.length) {
-          this.$message({
-            message: this.$t("tips.noDataSelected"),
-            type: "warning"
-          });
-          return;
-        }
-        let contain = false;
-        this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
-          confirmButtonText: this.$t("common.confirm"),
-          cancelButtonText: this.$t("common.cancel"),
-          type: "warning"
-        })
-          .then(() => {
-            const ids = [];
-            this.selection.forEach(u => {
-              if (u.id === this.currentUser.id) {
-                contain = true;
-                return;
-              }
-              ids.push(u.id);
-            });
-            if (contain) {
-              this.$message({
-                message: this.$t("tips.containCurrentUser"),
-                type: "warning"
-              });
-              this.clearSelections();
-            } else {
-              this.delete(ids);
-            }
-          })
-          .catch(() => {
-            this.clearSelections();
-          });
-      },
-      clearSelections() {
-        this.$refs.table.clearSelection();
-      },
-      delete(ids) {
-        userApi.delete({ids: ids}).then(response => {
-          const res = response.data;
-          if (res.isSuccess) {
-            this.$message({
-              message: this.$t("tips.deleteSuccess"),
-              type: "success"
-            });
-          }
-          this.search();
-        });
-      },
-      add() {
-        this.dialog.type = "add";
-        this.dialog.isVisible = true;
-        this.$refs.edit.setUser(false, this.orgList, this.dicts, this.enums);
-      },
-      view(row) {
-        this.$refs.view.setUser(row, this.orgList, this.dicts, this.enums);
-        this.userViewVisible = true;
-      },
-      edit(row) {
-        this.$refs.edit.setUser(row, this.orgList, this.dicts, this.enums);
-        this.dialog.type = "edit";
-        this.dialog.isVisible = true;
-      },
-      updatePassword(row) {
-        this.$refs.editPassword.setUser(row);
-        this.updatePasswordDialog.type = "edit";
-        this.updatePasswordDialog.isVisible = true;
-      },
-      fetch(params = {}) {
-        this.loading = true;
-        if (this.queryParams.timeRange) {
-          this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
-          this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
-        }
-
-        this.queryParams.current = params.current ? params.current : this.queryParams.current;
-        this.queryParams.size = params.size ? params.size : this.queryParams.size;
-
-        userApi.page(this.queryParams).then(response => {
-          const res = response.data;
-          if (res.isSuccess) {
-            this.tableData = res.data;
-          }
-        }).finally(() => this.loading = false);
-      },
-      sortChange(val) {
-        this.queryParams.sort = val.prop;
-        this.queryParams.order = val.order;
-        if (this.queryParams.sort) {
-          this.search();
-        }
-      },
-      filterChange(filters) {
-        for (const key in filters) {
-          if (key.includes('.')) {
-            const val = {};
-            val[key.split('.')[1]] = filters[key][0];
-            this.queryParams.model[key.split('.')[0]] = val;
-          } else {
-            this.queryParams.model[key] = filters[key][0]
-          }
-        }
-        this.search()
-      },
-      cellClick (row, column) {
-        if (column['columnKey'] !== "selectionId") {
-          return;
-        }
-        let flag = false;
-        this.selection.forEach((item)=>{
-          if(item.id === row.id) {
-            flag = true;
-            this.$refs.table.toggleRowSelection(row);
-          }
-        })
-        if(!flag){
-          this.$refs.table.toggleRowSelection(row, true);
-        }
+    educationList() {
+      return convertDict(this.dicts.EDUCATION)
+    },
+    positionStatusList() {
+      return convertDict(this.dicts.POSITION_STATUS)
+    }
+  },
+  watch: {
+    $route() {
+      if (this.$route.path === "/user/user") {
+        this.initOrg();
       }
     }
-  };
+  },
+  mounted() {
+    initEnums('Sex', this.enums);
+    initDicts(['NATION', 'POSITION_STATUS', 'EDUCATION'], this.dicts);
+    this.fetch();
+    this.initOrg();
+  },
+  methods: {
+    initOrg() {
+      orgApi.allTree({state: true}).then(response => {
+        const res = response.data;
+        this.orgList = res.data;
+      });
+    },
+    myAvatar(avatar) {
+      if (!avatar) {
+        return require(`@/assets/avatar/default.jpg`);
+      } else {
+        if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
+          return avatar;
+        } else {
+          return require(`@/assets/avatar/${avatar}`);
+        }
+      }
+    },
+    viewClose() {
+      this.userViewVisible = false;
+    },
+    editClose() {
+      this.dialog.isVisible = false;
+    },
+    editSuccess() {
+      this.search();
+    },
+    updatePasswordSuccess() {
+      this.search();
+    },
+    updatePasswordClose() {
+      this.updatePasswordDialog.isVisible = false;
+    },
+    onSelectChange(selection) {
+      this.selection = selection;
+    },
+    loadListOptions({callback}) {
+      callback();
+    },
+    search() {
+      this.fetch({
+        ...this.queryParams,
+      });
+    },
+    reset() {
+      this.queryParams = initQueryParams({
+        nation: '',
+        education: '',
+        positionStatus: '',
+        orgId: null,
+        station: '',
+        sex: {
+          code: ''
+        }
+      });
+      this.$refs.table.clearSort();
+      this.$refs.table.clearFilter();
+      this.search();
+    },
+    exportExcelPreview() {
+      if (this.queryParams.timeRange) {
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
+      }
+      this.queryParams.extra.fileName = '导出用户数据';
+      userApi.preview(this.queryParams).then(response => {
+        const res = response.data;
+        this.preview.isVisible = true;
+        this.preview.context = res.data;
+      });
+    },
+    exportExcel() {
+      if (this.queryParams.timeRange) {
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
+      }
+      this.queryParams.extra.fileName = '导出用户数据';
+      userApi.export(this.queryParams).then(response => {
+        downloadFile(response);
+      });
+    },
+    importExcel() {
+      this.fileImport.type = "upload";
+      this.fileImport.isVisible = true;
+      this.$refs.import.setModel(false);
+    },
+    importSuccess() {
+      this.search();
+    },
+    importClose() {
+      this.fileImport.isVisible = false;
+    },
+    singleDelete(row) {
+      this.$refs.table.clearSelection()
+      this.$refs.table.toggleRowSelection(row, true);
+      this.batchDelete();
+    },
+    batchDelete() {
+      if (!this.selection.length) {
+        this.$message({
+          message: this.$t("tips.noDataSelected"),
+          type: "warning"
+        });
+        return;
+      }
+      let contain = false;
+      this.$confirm(this.$t("tips.confirmDelete"), this.$t("common.tips"), {
+        confirmButtonText: this.$t("common.confirm"),
+        cancelButtonText: this.$t("common.cancel"),
+        type: "warning"
+      })
+        .then(() => {
+          const ids = [];
+          this.selection.forEach(u => {
+            if (u.id === this.currentUser.id) {
+              contain = true;
+              return;
+            }
+            ids.push(u.id);
+          });
+          if (contain) {
+            this.$message({
+              message: this.$t("tips.containCurrentUser"),
+              type: "warning"
+            });
+            this.clearSelections();
+          } else {
+            this.delete(ids);
+          }
+        })
+        .catch(() => {
+          this.clearSelections();
+        });
+    },
+    clearSelections() {
+      this.$refs.table.clearSelection();
+    },
+    delete(ids) {
+      userApi.delete({ids: ids}).then(response => {
+        const res = response.data;
+        if (res.isSuccess) {
+          this.$message({
+            message: this.$t("tips.deleteSuccess"),
+            type: "success"
+          });
+        }
+        this.search();
+      });
+    },
+    add() {
+      this.dialog.type = "add";
+      this.dialog.isVisible = true;
+      this.$refs.edit.setUser(false, this.orgList, this.dicts, this.enums);
+    },
+    view(row) {
+      this.$refs.view.setUser(row, this.orgList, this.dicts, this.enums);
+      this.userViewVisible = true;
+    },
+    edit(row) {
+      this.$refs.edit.setUser(row, this.orgList, this.dicts, this.enums);
+      this.dialog.type = "edit";
+      this.dialog.isVisible = true;
+    },
+    updatePassword(row) {
+      this.$refs.editPassword.setUser(row);
+      this.updatePasswordDialog.type = "edit";
+      this.updatePasswordDialog.isVisible = true;
+    },
+    fetch(params = {}) {
+      this.loading = true;
+      if (this.queryParams.timeRange) {
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
+      }
+
+      this.queryParams.current = params.current ? params.current : this.queryParams.current;
+      this.queryParams.size = params.size ? params.size : this.queryParams.size;
+
+      userApi.page(this.queryParams).then(response => {
+        const res = response.data;
+        if (res.isSuccess) {
+          this.tableData = res.data;
+        }
+      }).finally(() => this.loading = false);
+    },
+    sortChange(val) {
+      this.queryParams.sort = val.prop;
+      this.queryParams.order = val.order;
+      if (this.queryParams.sort) {
+        this.search();
+      }
+    },
+    filterChange(filters) {
+      for (const key in filters) {
+        if (key.includes('.')) {
+          const val = {};
+          val[key.split('.')[1]] = filters[key][0];
+          this.queryParams.model[key.split('.')[0]] = val;
+        } else {
+          this.queryParams.model[key] = filters[key][0]
+        }
+      }
+      this.search()
+    },
+    cellClick(row, column) {
+      if (column['columnKey'] !== "selectionId") {
+        return;
+      }
+      let flag = false;
+      this.selection.forEach((item) => {
+        if (item.id === row.id) {
+          flag = true;
+          this.$refs.table.toggleRowSelection(row);
+        }
+      })
+      if (!flag) {
+        this.$refs.table.toggleRowSelection(row, true);
+      }
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 

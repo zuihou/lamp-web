@@ -11,7 +11,7 @@
         :placeholder="$t('table.station.orgId')"
         :searchable="true"
         class="filter-item search-item"
-        v-model="queryParams.model.org.key"
+        v-model="queryParams.model.orgId"
       />
       <el-date-picker
         :range-separator="null"
@@ -92,7 +92,7 @@
       >
         <template slot-scope="scope">
           <span>
-            {{ scope.row.org.data ? scope.row.org.data.label : scope.row.org.key }}
+            {{ scope.row.echoMap.orgId ? scope.row.echoMap.orgId.label : '' }}
           </span>
         </template>
       </el-table-column>
@@ -235,9 +235,7 @@
         orgList: [],
         queryParams: initQueryParams({
           model: {
-            org: {
-              key: null
-            },
+            orgId: null
           }
         }),
         selection: [],
@@ -294,7 +292,7 @@
       reset() {
         this.queryParams = initQueryParams({
           model: {
-            org: {key: null}
+            orgId: null
           }
         });
         this.$refs.table.clearSort();

@@ -54,7 +54,7 @@
                 <el-input v-model="org.abbreviation"/>
               </el-form-item>
               <el-form-item :label="$t('table.org.type')" prop="type">
-                <el-radio-group v-model="org.type.key">
+                <el-radio-group v-model="org.type">
                   <el-radio-button :key="index" :label="item.code" :value="item.code" v-for="(item, key, index) in dicts.ORG_TYPE">{{item.name}}</el-radio-button>
                 </el-radio-group>
               </el-form-item>
@@ -141,7 +141,7 @@
             {required: true, message: this.$t('rules.require'), trigger: 'change'},
             {
               validator: (rule, value, callback) => {
-                if (value.key === null || value.key.trim().length <= 0) {
+                if (value === null || value.trim().length <= 0) {
                   callback(this.$t('rules.require'))
                 } else {
                   callback()
@@ -165,9 +165,7 @@
           id: '',
           abbreviation: '',
           label: '',
-          type: {
-            key: ''
-          },
+          type: '',
           parentId: 0,
           state: true,
           describe: '',

@@ -62,14 +62,14 @@
           :searchable="true"
           placeholder=" "
           style="width:100%"
-          v-model="user.org.key"
+          v-model="user.orgId"
         />
       </el-form-item>
       <el-form-item :label="$t('table.user.stationId')" prop="stationId">
         <el-select
           filterable
           placeholder="请输入关键词"
-          v-model="user.station.key"
+          v-model="user.stationId"
         >
           <el-option
             :key="item.id"
@@ -92,17 +92,17 @@
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.nation')" prop="nation">
-        <el-select style="width:100%" :placeholder="$t('table.user.nation')" v-model="user.nation.key" value>
+        <el-select style="width:100%" :placeholder="$t('table.user.nation')" v-model="user.nation" value>
           <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.NATION"/>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.education')" prop="education">
-        <el-select style="width:100%" :placeholder="$t('table.user.education')" v-model="user.education.key" value>
+        <el-select style="width:100%" :placeholder="$t('table.user.education')" v-model="user.education" value>
           <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.EDUCATION"/>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.positionStatus')" prop="positionStatus">
-        <el-select style="width:100%" :placeholder="$t('table.user.positionStatus')" v-model="user.positionStatus.key"
+        <el-select style="width:100%" :placeholder="$t('table.user.positionStatus')" v-model="user.positionStatus"
                    value>
           <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.POSITION_STATUS"/>
         </el-select>
@@ -192,7 +192,6 @@ export default {
           {
             validator: (rule, value, callback) => {
               if (!this.user.id) {
-
                 callback();
               } else {
                 callback();
@@ -270,24 +269,16 @@ export default {
         id: "",
         account: "",
         name: "",
-        org: {
-          key: null
-        },
-        station: {key: null},
+        orgId: null,
+        stationId: '',
         email: "",
         mobile: "",
         sex: {
-          code: "N"
+          code: ""
         },
-        nation: {
-          key: ""
-        },
-        education: {
-          key: ""
-        },
-        positionStatus: {
-          key: ""
-        },
+        nation: '',
+        education: '',
+        positionStatus: '',
         state: true,
         avatar: "",
         workDescribe: "",

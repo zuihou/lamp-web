@@ -46,14 +46,14 @@
         <div class="view-item">
           <i class="el-icon-trophy" />
           <span>{{ $t('table.user.orgId') +'：' }}</span>
-          {{ user.org && user.org.data ? user.org.data.label : '' }}
+          {{ user.echoMap.orgId ? user.echoMap.orgId.label : '' }}
         </div>
       </el-col>
       <el-col :sm="12" :xs="24">
         <div class="view-item">
           <i class="el-icon-phone-outline" />
           <span>{{ $t('table.user.stationId') +'：' }}</span>
-          {{ user.station ? user.station.data: '' }}
+          {{ user.echoMap.stationId ? user.echoMap.stationId : '' }}
         </div>
       </el-col>
     </el-row>

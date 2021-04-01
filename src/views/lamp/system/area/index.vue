@@ -120,7 +120,7 @@
                 <el-radio-group
                   border="true"
                   size="small"
-                  v-model="area.level.key"
+                  v-model="area.level"
                 >
                   <el-radio-button :key="index" :label="item.code" :value="item.code" v-for="(item, key, index) in dicts.AREA_LEVEL">
                     {{ item.name }}
@@ -226,9 +226,7 @@
           longitude: "",
           latitude: "",
           source: "",
-          level: {
-            key: "PROVINCE"
-          },
+          level: "PROVINCE",
           sortValue: 0
         };
       },

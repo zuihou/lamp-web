@@ -88,7 +88,6 @@ export default {
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
-              debugger
               if(value.indexOf('lamp_base_') > 0 || value.indexOf('lamp_extend_') > 0) {
                 callback()
               } else {

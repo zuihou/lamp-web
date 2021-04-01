@@ -27,7 +27,7 @@
           :searchable="true"
           placeholder=" "
           style="width:100%"
-          v-model="station.org.key"
+          v-model="station.orgId"
         />
       </el-form-item>
       <el-form-item :label="$t('table.station.state')" prop="state">
