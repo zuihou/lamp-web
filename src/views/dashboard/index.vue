@@ -394,13 +394,18 @@ export default {
       return `${time}, ${this.user.name}, ${welcomeArr[index]}`;
     },
     initIndexData: function() {
-      dashboardApi.getVisitList({}).then(response => {
+      dashboardApi.getItem({}).then(response => {
         const res = response.data;
-
         const data = res.data;
-        this.todayIp = Number(data.todayIp);
-        this.totalVisit = Number(data.totalVisitCount);
-        this.todayVisit = Number(data.todayVisitCount);
+
+        this.todayIp = Number(data.todayLoginIv);
+        this.totalVisit = Number(data.totalLoginPv);
+        this.todayVisit = Number(data.todayLoginPv);
+      });
+
+      dashboardApi.getChart({}).then(response => {
+        const res = response.data;
+        const data = res.data;
 
         this.tenDaysData(data);
         this.browserCount(data.browserCount);

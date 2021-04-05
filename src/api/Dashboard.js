@@ -1,15 +1,23 @@
 import axiosApi from './AxiosApi.js'
 
 const apiList = {
-  getVisitList: `/authority/dashboard/visit`
+  getChart: `/authority/dashboard/chart`,
+  getItem: `/authority/dashboard/item`
 }
 
 export default {
-  getVisitList (data) {
+  getChart (data) {
     return axiosApi({
       method: 'GET',
-      url: apiList.getVisitList,
+      url: apiList.getChart,
       data
     })
-  }
+  },
+  getItem (data) {
+    return axiosApi({
+      method: 'GET',
+      url: apiList.getItem,
+      data
+    })
+  },
 }
