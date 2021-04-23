@@ -34,7 +34,7 @@ const apiList = {
     url: `/authority/dictionary/type`
   },
   codes: {
-    method: 'GET',
+    method: 'POST',
     url: `/oauth/dictionary/codes`
   },
 }

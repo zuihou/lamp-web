@@ -365,7 +365,7 @@
         this.$refs.table.clearSelection();
       },
       delete(ids) {
-        stationApi.delete({ids: ids}).then(response => {
+        stationApi.delete(ids).then(response => {
           const res = response.data;
           if (res.isSuccess) {
             this.$message({

@@ -244,7 +244,7 @@
         this.$refs.table.clearSelection()
       },
       delete(logIds) {
-        applicationApi.delete({ids: logIds})
+        applicationApi.delete(logIds)
           .then((response) => {
             const res = response.data
             if (res.isSuccess) {

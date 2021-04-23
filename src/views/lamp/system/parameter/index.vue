@@ -303,7 +303,7 @@
         this.$refs.table.clearSelection();
       },
       delete(ids) {
-        parameterApi.delete({ids: ids}).then(response => {
+        parameterApi.delete(ids).then(response => {
           const res = response.data;
           if (res.isSuccess) {
             this.$message({

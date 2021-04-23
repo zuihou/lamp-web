@@ -141,9 +141,10 @@ const httpServer = (opts) => {
     httpDefaultOpts.headers = opts['meta']
   }
 
-  const dataRequest = ['PUT', 'POST', 'PATCH']
+  const dataRequest = ['PUT', 'POST', 'DELETE', 'PATCH']
   if (dataRequest.includes(method)) {
     httpDefaultOpts.data = opts.data || {}
+    httpDefaultOpts.params = publicParams
   } else {
     httpDefaultOpts.params = {
       ...publicParams,

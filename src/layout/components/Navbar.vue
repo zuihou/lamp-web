@@ -207,7 +207,7 @@ export default {
       });
     },
     mark(ids, callback) {
-      msgApi.mark({msgCenterIds: ids}).then(response => {
+      msgApi.mark( ids).then(response => {
         const res = response.data;
         if (typeof callback === "function") {
           callback(ids);

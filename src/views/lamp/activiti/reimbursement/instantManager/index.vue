@@ -311,7 +311,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.delete({ids: [row.id]});
+          this.delete([row.id]);
         })
         .catch(() => {
           this.reset();

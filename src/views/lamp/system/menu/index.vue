@@ -431,7 +431,7 @@
             cancelButtonText: this.$t('common.cancel'),
             type: 'warning'
           }).then(() => {
-            menuApi.delete({ids: checked})
+            menuApi.delete(checked)
               .then((response) => {
                 const res = response.data
                 if (res.isSuccess) {
@@ -486,7 +486,7 @@
           type: 'warning'
         }).then(() => {
           const ids = this.resourceSelection.map((item) => item.id)
-          resourceApi.delete({ids: ids}).then((response) => {
+          resourceApi.delete(ids).then((response) => {
             const res = response.data
             if (res.isSuccess) {
               this.$message({

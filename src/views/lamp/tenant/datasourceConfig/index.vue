@@ -320,7 +320,7 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      datasourceConfigApi.delete({ ids: ids }).then(response => {
+      datasourceConfigApi.delete(ids).then(response => {
         const res = response.data
         if (res.isSuccess) {
           this.$message({

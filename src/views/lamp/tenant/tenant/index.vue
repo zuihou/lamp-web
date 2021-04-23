@@ -452,7 +452,7 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      tenantApi.remove({ ids: ids }).then(response => {
+      tenantApi.remove(ids).then(response => {
         const res = response.data
         if (res.isSuccess) {
           this.$message({

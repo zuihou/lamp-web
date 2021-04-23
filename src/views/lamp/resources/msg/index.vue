@@ -395,7 +395,7 @@
       },
 
       delete(ids) {
-        msgApi.delete({ids: ids}).then(response => {
+        msgApi.delete(ids).then(response => {
           const res = response.data;
           if (res.isSuccess) {
             this.$message({
@@ -433,7 +433,7 @@
           });
       },
       mark(ids, callback) {
-        msgApi.mark({msgCenterIds: ids}).then(response => {
+        msgApi.mark(ids).then(response => {
           const res = response.data;
           if (typeof callback === "function") {
             callback(ids);

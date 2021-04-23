@@ -293,7 +293,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.delete({deploymentIds: [row.deploymentId]});
+          this.delete( [row.deploymentId]);
         })
         .catch(() => {
           this.reset();

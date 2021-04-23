@@ -303,7 +303,7 @@
         this.$refs.table.clearSelection()
       },
       delete(ids) {
-        smsTaskApi.delete({'ids': ids})
+        smsTaskApi.delete( ids)
           .then((response) => {
             const res = response.data
             if (res.isSuccess) {

@@ -370,7 +370,7 @@
         this.$refs.table.clearSelection()
       },
       delete(logIds) {
-        optLogApi.delete({ids: logIds})
+        optLogApi.delete(logIds)
           .then((response) => {
             const res = response.data
             if (res.isSuccess) {

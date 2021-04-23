@@ -287,7 +287,7 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      smsTemplateApi.delete({ ids: ids })
+      smsTemplateApi.delete(ids)
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {

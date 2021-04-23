@@ -192,7 +192,7 @@
         this.$refs.table.clearSelection()
       },
       delete(ids) {
-        dictionaryApi.delete({'ids': ids})
+        dictionaryApi.delete(ids)
           .then((response) => {
             const res = response.data
             if (res.isSuccess) {

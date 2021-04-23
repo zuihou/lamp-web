@@ -271,9 +271,7 @@ export default {
     // 服务器删除附件
     async deleteAttachment() {
       const vm = this;
-      const res = await commonApi.deleteAttachment({
-        ids: vm.removeFileAry
-      });
+      const res = await commonApi.deleteAttachment(vm.removeFileAry);
       if (res.status === 200) {
         if (res.data.code !== 0) {
           vm.$message(res.data.msg);
@@ -305,9 +303,7 @@ export default {
     // 服务器删除附件
     async deleteAttachmentByIds(ids) {
       const vm = this;
-      const res = await commonApi.deleteAttachment({
-        ids: ids
-      });
+      const res = await commonApi.deleteAttachment(ids);
       if (res.status === 200) {
         if (res.data.code !== 0) {
           vm.$message(res.data.msg);

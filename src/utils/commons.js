@@ -7,7 +7,7 @@ export const loadEnums = (codes, enums = {}) => {
   }
 
   if (codes && codes.length > 0) {
-    commonApi.enums({codes: codes}).then(response => {
+    commonApi.enums(codes).then(response => {
       const res = response.data
       for (const code of codes) {
         enums[code] = res.data[code]
@@ -52,7 +52,7 @@ export const initDicts = (codes, dicts = {}) => {
   }
 
   if (codes && codes.length > 0) {
-    dictionaryApi.codes({codes: codes}).then(response => {
+    dictionaryApi.codes(codes).then(response => {
       const res = response.data
       for (const code of codes) {
         dicts[code] = res.data[code]

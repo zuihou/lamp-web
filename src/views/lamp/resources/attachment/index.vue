@@ -315,13 +315,13 @@ export default {
       this.$refs.table.clearSelection();
     },
     download(ids) {
-      attachmentApi.download({ ids: ids }).then(response => {
+      attachmentApi.download(ids).then(response => {
         downloadFile(response);
         this.clearSelections();
       });
     },
     delete(ids) {
-      attachmentApi.delete({ ids: ids }).then(response => {
+      attachmentApi.delete(ids).then(response => {
         const res = response.data;
         if (res.isSuccess) {
           this.$message({

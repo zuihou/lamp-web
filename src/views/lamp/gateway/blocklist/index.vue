@@ -274,7 +274,7 @@ export default {
       this.$refs.table.clearSelection();
     },
     delete(ids) {
-      blockListApi.delete({ ids: ids }).then(response => {
+      blockListApi.delete(ids).then(response => {
         const res = response.data;
         if (res.isSuccess) {
           this.$message({

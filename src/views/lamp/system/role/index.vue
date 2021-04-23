@@ -422,7 +422,7 @@
         this.$refs.table.clearSelection();
       },
       delete(ids) {
-        roleApi.delete({ids: ids}).then(response => {
+        roleApi.delete(ids).then(response => {
           const res = response.data;
           if (res.isSuccess) {
             this.$message({

@@ -153,6 +153,9 @@ export default {
       screenWidth: 0,
       width: this.initWidth(),
       user: {
+        echoMap: {
+          orgId: {}
+        },
         sex: {
           desc: ''
         }

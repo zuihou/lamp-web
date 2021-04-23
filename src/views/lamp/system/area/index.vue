@@ -293,7 +293,7 @@
             }
           )
             .then(() => {
-              areaApi.delete({ids: checked}).then(response => {
+              areaApi.delete(checked).then(response => {
                 const res = response.data;
                 if (res.isSuccess) {
                   this.$message({

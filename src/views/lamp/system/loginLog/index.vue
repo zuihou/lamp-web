@@ -356,7 +356,7 @@
         this.$refs.table.clearSelection();
       },
       delete(logIds) {
-        loginLogApi.delete({ids: logIds}).then(response => {
+        loginLogApi.delete(logIds).then(response => {
           const res = response.data;
           if (res.isSuccess) {
             this.$message({
