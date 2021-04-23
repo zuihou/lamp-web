@@ -135,7 +135,6 @@
         :label="$t('table.readonly')"
         align="center"
         prop="readonly"
-        sortable
         width="120px"
       >
         <template slot-scope="scope">
@@ -452,7 +451,7 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete (ids) {
-      tenantApi.remove(ids).then(response => {
+      tenantApi.remove({ ids: ids }).then(response => {
         const res = response.data
         if (res.isSuccess) {
           this.$message({
