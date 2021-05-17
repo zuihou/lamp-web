@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input :placeholder="$t('table.user.account')"
                 class="filter-item search-item" clearable v-model="queryParams.model.account"/>
-      <el-select clearable :placeholder="$t('table.user.nation')" v-model="queryParams.model.nation"
+      <el-select clearable multiple :placeholder="$t('table.user.nation')" v-model="queryParams.model.nation"
                  class="filter-item search-item">
         <el-option :key="index" :label="item.name" :value="item.code" v-for="(item, key, index) in dicts.NATION"/>
       </el-select>
@@ -114,7 +114,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :filter-multiple="false"
+        :filter-multiple="true"
         :filters="sexList"
         column-key="sex.code"
         :label="$t('table.user.sex')"
@@ -146,7 +146,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :filter-multiple="false"
+        :filter-multiple="true"
         :filters="educationList"
         column-key="education"
         :label="$t('table.user.education')"
@@ -159,7 +159,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :filter-multiple="false"
+        :filter-multiple="true"
         :filters="positionStatusList"
         column-key="positionStatus"
         :label="$t('table.user.positionStatus')"
@@ -380,14 +380,12 @@ export default {
       tableKey: 0,
       queryParams: initQueryParams({
         model: {
-          nation: '',
-          education: '',
-          positionStatus: '',
+          nation: [],
+          education: [],
+          positionStatus: [],
           orgId: null,
           station: '',
-          sex: {
-            code: ''
-          }
+          sex: [],
         }
       }),
       selection: [],
@@ -481,14 +479,12 @@ export default {
     },
     reset() {
       this.queryParams = initQueryParams({
-        nation: '',
-        education: '',
-        positionStatus: '',
+        nation: [],
+        education: [],
+        positionStatus: [],
         orgId: null,
         station: '',
-        sex: {
-          code: ''
-        }
+        sex: []
       });
       this.$refs.table.clearSort();
       this.$refs.table.clearFilter();
@@ -628,15 +624,18 @@ export default {
       }
     },
     filterChange(filters) {
+      debugger;
       for (const key in filters) {
         if (key.includes('.')) {
-          const val = {};
-          val[key.split('.')[1]] = filters[key][0];
-          this.queryParams.model[key.split('.')[0]] = val;
+          this.queryParams.model[key.split('.')[0]] = filters[key];
         } else {
-          this.queryParams.model[key] = filters[key][0]
+          this.queryParams.model[key] = filters[key]
+        }
+        if (key === 'state'){
+          this.queryParams.model[key] = filters[key][0];
         }
       }
+
       this.search()
     },
     cellClick(row, column) {
