@@ -18,14 +18,14 @@ import * as filters from './filters' // global filters
 import {hasAnyPermission, hasNoPermission, hasPermission, hasAnyRole, hasNoRole, hasRole} from './utils/permissionDirect'
 import uploader from 'vue-simple-uploader'
 
-import "e-icon-picker/dist/symbol.js"; //基本彩色图标库
-import 'e-icon-picker/dist/index.css'; // 基本样式，包含基本图标
+import "e-icon-picker/lib/symbol.js"; //基本彩色图标库
+import 'e-icon-picker/lib/index.css'; // 基本样式，包含基本图标
 import 'font-awesome/css/font-awesome.min.css'; //font-awesome 图标库
 import 'element-ui/lib/theme-chalk/icon.css'; //element-ui 图标库
 import iconfont from "./styles/iconfont.json"; //自己的图标信息
 import "./styles/iconfont.css"; //自己的图标样式
 import eIconPicker, {analyzingIconForIconfont, iconList} from 'e-icon-picker';
-import svgIcons from 'e-icon-picker/dist/getSvg';
+import svgIcons from 'e-icon-picker/lib/getSvg';
 
 let forIconfont = analyzingIconForIconfont(iconfont);
 //全局删除增加图标
