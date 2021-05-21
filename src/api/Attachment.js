@@ -10,7 +10,7 @@ const apiList = {
     url: `/file/attachment/upload`
   },
   download: {
-    method: 'GET',
+    method: 'POST',
     url: `/file/attachment/download`
   },
   downloadBiz: {
