@@ -2,7 +2,7 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   allTree: {
-    method: 'GET',
+    method: 'POST',
     url: `/authority/menu/tree`
   },
   save: {
