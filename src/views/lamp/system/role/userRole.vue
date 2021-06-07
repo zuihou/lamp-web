@@ -11,9 +11,9 @@
           }"
           :render-content="renderFunc"
           :right-default-checked="userRole.userIdList"
-          :titles="['全部用户', '已选用户']"
           filter-placeholder="用户名"
           filterable
+          :titles="['全部用户', '已选用户']"
           style="text-align: left; display: inline-block"
           v-model="userRole.userIdList"
         />

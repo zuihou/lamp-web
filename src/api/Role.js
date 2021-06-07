@@ -18,7 +18,7 @@ const apiList = {
     method: 'DELETE'
   },
   saveUserRole: {
-    url: `/authority/role/user`,
+    url: `/authority/role/saveUserRole`,
     method: 'POST'
   },
   saveRoleAuthority: {
