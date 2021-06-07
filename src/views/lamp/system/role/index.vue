@@ -89,7 +89,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :filter-multiple="false"
+        :filter-multiple="true"
         :filters="dsTypeList"
         column-key="dsType.code"
         :label="$t('table.role.dsType')"
@@ -101,7 +101,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :filter-multiple="false"
+        :filter-multiple="true"
         column-key="readonly"
         :filters="[
           { text: $t('common.yes'), value: true },
@@ -116,7 +116,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :filter-multiple="false"
+        :filter-multiple="true"
         column-key="state"
         :filters="[
           { text: $t('common.state.valid'), value: true },
@@ -292,9 +292,7 @@
         tableKey: 0,
         queryParams: initQueryParams({
           model: {
-            dsType: {
-              code: null
-            }
+            dsType: []
           }
         }),
         selection: [],
@@ -347,9 +345,7 @@
       reset() {
         this.queryParams = initQueryParams({
           model: {
-            dsType: {
-              code: null
-            }
+            dsType: []
           }
         });
         this.$refs.table.clearSort();
@@ -469,12 +465,17 @@
       },
       filterChange(filters) {
         for (const key in filters) {
+          // if (key.includes('.')) {
+          //   const val = {};
+          //   val[key.split('.')[1]] = filters[key][0];
+          //   this.queryParams.model[key.split('.')[0]] = val;
+          // } else {
+          //   this.queryParams.model[key] = filters[key][0]
+          // }
           if (key.includes('.')) {
-            const val = {};
-            val[key.split('.')[1]] = filters[key][0];
-            this.queryParams.model[key.split('.')[0]] = val;
+            this.queryParams.model[key.split('.')[0]] = filters[key];
           } else {
-            this.queryParams.model[key] = filters[key][0]
+            this.queryParams.model[key] = filters[key]
           }
         }
         this.search()

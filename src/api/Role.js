@@ -22,7 +22,7 @@ const apiList = {
     method: 'POST'
   },
   saveRoleAuthority: {
-    url: `/authority/role/authority`,
+    url: `/authority/role/saveResource`,
     method: 'POST'
   },
   preview: {
@@ -73,14 +73,16 @@ export default {
   },
   getDetails (id) {
     return axiosApi({
-      url: `/authority/role/details/${id}`,
-      method: 'GET'
+      url: `/authority/role/details`,
+      method: 'GET',
+      data: { id }
     })
   },
   check (code) {
     return axiosApi({
-      url: `/authority/role/check/${code}`,
-      method: 'GET'
+      url: `/authority/role/check`,
+      method: 'GET',
+      data: { code }
     })
   },
   saveUserRole (data) {
@@ -91,14 +93,16 @@ export default {
   },
   findUserIdByRoleId (roleId) {
     return axiosApi({
-      url: `/authority/role/user/${roleId}`,
-      method: 'GET'
+      url: `/authority/role/userList`,
+      method: 'GET',
+      data: { roleId }
     })
   },
   findAuthorityIdByRoleId (roleId) {
     return axiosApi({
-      url: `/authority/role/authority/${roleId}`,
-      method: 'GET'
+      url: `/authority/role/resourceList`,
+      method: 'GET',
+      data: { roleId }
     })
   },
   saveRoleAuthority (data) {
