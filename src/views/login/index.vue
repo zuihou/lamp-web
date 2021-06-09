@@ -197,10 +197,15 @@
       </el-dropdown>
     </el-form>
     <span class="login-footer">
-      © 2019 - 2020
+      © 2019 - 2021
       <a href="https://github.com/zuihou" target="_blank">zuihou</a> -
       lamp-cloud
     </span>
+    <div class="copyright">
+      <a target="_blank" href="https://beian.miit.gov.cn"
+      ><img src="@/assets/gongan.png" /><span>黔ICP备2021004749号</span></a
+      >
+    </div>
   </div>
 </template>
 
@@ -706,7 +711,7 @@ $light_gray: #eee;
 
   .login-footer {
     position: fixed;
-    bottom: 1rem;
+    bottom: 2.5rem;
     width: 100%;
     text-align: center;
     color: white;
@@ -774,5 +779,39 @@ $light_gray: #eee;
       display: none;
     }
   }
+
+  .copyright {
+    position: fixed;
+    bottom: 1rem;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 0.85rem;
+    line-height: 1rem;
+    height: 1rem;
+
+    a {
+      img {
+        float: left;
+        margin-right: 5px;
+      }
+
+      display: inline-block;
+      margin-right: 10px;
+      margin-left: 10px;
+      color: #939393;
+      vertical-align: bottom;
+    }
+
+    span {
+      color: #939393;
+      vertical-align: bottom;
+    }
+
+    i {
+      margin: 0 4px;
+    }
+  }
 }
+
 </style>
