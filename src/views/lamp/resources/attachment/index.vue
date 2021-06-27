@@ -190,6 +190,7 @@ import attachmentApi from "@/api/Attachment.js";
 import { renderSize } from "@/utils/utils";
 import { onlinePreview } from "@/settings";
 import { downloadFile, initQueryParams } from '@/utils/commons'
+import { Base64 } from 'js-base64';
 
 export default {
   name: "AttachmentManage",
@@ -334,7 +335,7 @@ export default {
     },
     onView(row) {
       if (row.url) {
-        window.open(onlinePreview + encodeURIComponent(row.url));
+        window.open(onlinePreview + encodeURIComponent(Base64.encode(row.url)));
       }
     },
     upload() {

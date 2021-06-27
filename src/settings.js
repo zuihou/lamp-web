@@ -1,6 +1,6 @@
 module.exports = {
   title: 'lamp-web',
-  onlinePreview: 'http://tangyh.top:8012/onlinePreview?url=',
+  onlinePreview: 'http://106.53.26.9:8012/onlinePreview?url=',
   druid: {
     authority: {
       "development": 'http://127.0.0.1:8764/druid',

@@ -169,7 +169,7 @@
         this.$refs.table.clearSelection()
       },
       delete(types) {
-        dictionaryApi.deleteType({'types': types})
+        dictionaryApi.deleteType(types)
           .then((response) => {
             const res = response.data
             if (res.isSuccess) {
