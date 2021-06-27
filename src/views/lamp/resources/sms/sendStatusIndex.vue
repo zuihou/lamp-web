@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input :placeholder="$t('table.smsSendStatus.receiver')" class="filter-item search-item"
-                v-model="queryParams.model.receiver"/>
+      <el-input :placeholder="$t('table.smsSendStatus.telNum')" class="filter-item search-item"
+                v-model="queryParams.model.telNum"/>
       <el-input :placeholder="$t('table.smsSendStatus.bizId')" class="filter-item search-item"
                 v-model="queryParams.model.bizId"/>
       <el-input :placeholder="$t('table.smsSendStatus.ext')" class="filter-item search-item" v-model="queryParams.model.ext"/>
@@ -23,10 +23,10 @@
       v-loading="loading"
     >
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
-      <el-table-column :label="$t('table.smsSendStatus.receiver')" :show-overflow-tooltip="true" align="center"
-                       prop="receiver" width="120px">
+      <el-table-column :label="$t('table.smsSendStatus.telNum')" :show-overflow-tooltip="true" align="center"
+                       prop="telNum" width="120px">
         <template slot-scope="scope">
-          <span>{{ scope.row.receiver }}</span>
+          <span>{{ scope.row.telNum }}</span>
         </template>
       </el-table-column>
       <el-table-column

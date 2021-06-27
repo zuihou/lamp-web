@@ -15,9 +15,6 @@
       <el-form-item :label="$t('table.smsTemplate.url')" prop="url">
         <el-input v-model="smsTemplate.url" />
       </el-form-item>
-      <el-form-item :label="$t('table.smsTemplate.customCode')" prop="customCode">
-        <el-input :disabled="type === 'edit'" v-model="smsTemplate.customCode" />
-      </el-form-item>
       <el-form-item :label="$t('table.smsTemplate.name')" prop="name">
         <el-input v-model="smsTemplate.name" />
       </el-form-item>
@@ -77,26 +74,6 @@ export default {
         { min: 1, max: 255, message: this.$t('rules.range4to10'), trigger: 'blur' }],
         appSecret: [{ required: true, message: this.$t('rules.require'), trigger: 'blur' },
         { min: 1, max: 255, message: this.$t('rules.range4to10'), trigger: 'blur' }],
-        customCode: [
-          { min: 0, max: 20, message: this.$t('rules.range4to10'), trigger: 'blur' },
-          {
-            validator: (rule, value, callback) => {
-              if (this.type === 'add' && value.trim() !== '') {
-                smsTemplateApi.check(value)
-                  .then((response) => {
-                    const res = response.data
-                    if (res.data) {
-                      callback('自定义编码重复')
-                    } else {
-                      callback()
-                    }
-                  })
-              } else {
-                callback()
-              }
-            }, trigger: 'blur'
-          }
-        ],
         content: { required: true, message: this.$t('rules.require'), trigger: 'blur' },
         templateCode: { required: true, message: this.$t('rules.require'), trigger: 'blur' }
       }
@@ -134,7 +111,6 @@ export default {
         appId: '',
         appSecret: '',
         url: '',
-        customCode: '',
         name: '',
         content: '',
         templateParams: '',

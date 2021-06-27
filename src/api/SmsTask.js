@@ -58,7 +58,7 @@ export default {
   },
   get (id) {
     return axiosApi({
-      url: `/msg/smsTask/${id}`,
+      url: `/msg/smsTask/detail/${id}`,
       method: 'GET'
     })
   },

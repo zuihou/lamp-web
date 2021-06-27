@@ -4,7 +4,7 @@
       <el-input
         :placeholder="$t('table.attachment.submittedFileName')"
         class="filter-item search-item"
-        v-model="queryParams.model.submittedFileName"
+        v-model="queryParams.model.originalFileName"
       />
       <el-date-picker
         :range-separator="null"
@@ -66,12 +66,12 @@
         :label="$t('table.attachment.submittedFileName')"
         :show-overflow-tooltip="true"
         align="left"
-        prop="submittedFileName"
+        prop="originalFileName"
       >
         <template slot-scope="scope">
           <div @click="onView(scope.row)" class="hover-effect">
             <i :class="scope.row.icon" class="button-list" />
-            <span>{{ scope.row.submittedFileName }}</span>
+            <span>{{ scope.row.originalFileName }}</span>
           </div>
         </template>
       </el-table-column>
@@ -79,11 +79,11 @@
         :label="$t('table.attachment.dataType')"
         :show-overflow-tooltip="true"
         align="center"
-        prop="dataType"
+        prop="fileType"
         width="100px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.dataType.desc }}</span>
+          <span>{{ scope.row.fileType && scope.row.fileType.desc }}</span>
         </template>
       </el-table-column>
       <el-table-column

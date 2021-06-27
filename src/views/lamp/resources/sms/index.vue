@@ -65,12 +65,6 @@
           <span>{{ scope.row.templateId }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.smsTask.receiver')" :show-overflow-tooltip="true" align="center"
-                       prop="receiver">
-        <template slot-scope="scope">
-          <span>{{ scope.row.receiver }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="$t('table.smsTask.topic')" :show-overflow-tooltip="true" align="center" width="100px">
         <template slot-scope="scope">
           <span>{{ scope.row.topic }}</span>

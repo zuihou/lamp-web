@@ -223,7 +223,7 @@ export default {
       templateId: '短信模板',
       status: '执行状态',
       sourceType: '来源类型',
-      receiver: '接收者',
+      telNum: '接收者',
       topic: '主题',
       templateParams: '模板参数',
       sendTime: '发送时间',
@@ -233,7 +233,7 @@ export default {
     smsSendStatus: {
       taskId: '任务',
       sendStatus: '发送状态',
-      receiver: '接收者手机号',
+      telNum: '接收者手机号',
       bizId: '发送回执',
       ext: '发送返回',
       code: '状态码',

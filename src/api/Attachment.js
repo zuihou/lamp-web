@@ -11,15 +11,15 @@ const apiList = {
   },
   download: {
     method: 'POST',
-    url: `/file/attachment/download`
+    url: `/file/attachment/downloadByIds`
   },
   downloadBiz: {
     method: 'GET',
-    url: `/file/attachment/download/biz`
+    url: `/file/attachment/downloadByBiz`
   },
   downloadUrl: {
     method: 'GET',
-    url: `/file/attachment/download/url`
+    url: `/file/attachment/downloadByUrl`
   },
   delete: {
     method: 'DELETE',
@@ -50,12 +50,14 @@ export default {
   downloadBiz (data) {
     return axiosApi({
       ...apiList.downloadBiz,
+      responseType: "blob",
       data
     })
   },
   downloadUrl (data) {
     return axiosApi({
       ...apiList.downloadUrl,
+      responseType: "blob",
       data
     })
   },

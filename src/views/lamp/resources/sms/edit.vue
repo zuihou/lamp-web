@@ -5,7 +5,7 @@
         <el-col :sm="12" :xs="24" style="margin-top: 10px;">
           <el-form-item :label="$t('table.smsTask.templateId')" prop="templateId">
             <el-select :disabled="type==='view'" :multiple="false" @change="changeTemplate" filterable placeholder="请输入关键词" style="width:300px;" v-model="smsTask.templateId">
-              <el-option :key="item.id" :label="item.name + '('+item.customCode+')'" :value="item.id" v-for="item in smsTemplateList" />
+              <el-option :key="item.id" :label="item.name + '('+item.templateCode+')'" :value="item.id" v-for="item in smsTemplateList" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -15,9 +15,9 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item :label="$t('table.smsTask.receiver')" prop="receiver">
-        <el-tag :closable="type!=='view'" :disable-transitions="false" :key="tag" @close="handleClose(tag)" v-for="tag in receiverList">{{ tag }}</el-tag>
-        <el-input :disabled="type==='view'" @blur="handleInputConfirm" @keyup.enter.native="handleInputConfirm" class="input-new-tag" ref="saveTagInput" v-if="receiverVisible" v-model="receiver" />
+      <el-form-item :label="$t('table.smsTask.telNum')" prop="telNum">
+        <el-tag :closable="type!=='view'" :disable-transitions="false" :key="tag" @close="handleClose(tag)" v-for="tag in telNumList">{{ tag }}</el-tag>
+        <el-input :disabled="type==='view'" @blur="handleInputConfirm" @keyup.enter.native="handleInputConfirm" class="input-new-tag" ref="saveTagInput" v-if="telNumVisible" v-model="telNum" />
         <el-button :disabled="type==='view'" @click="showInput" class="button-new-tag" v-else>添加</el-button>
       </el-form-item>
       <el-form-item :label="$t('table.smsTask.topic')" prop="topic">
@@ -112,9 +112,9 @@ export default {
       type: 'add',
       smsTask: this.initSmsTask(),
       smsTemplateList: [],
-      receiverList: [],
-      receiverVisible: false,
-      receiver: '',
+      telNumList: [],
+      telNumVisible: false,
+      telNum: '',
       timing: false,
       disabled: false,
       smsTemplate: '',
@@ -213,7 +213,8 @@ export default {
               this.smsTask.id = ''
             }
             this.changeTemplate(this.smsTask.templateId)
-            this.receiverList = this.smsTask.receiver.split(",")
+            // this.telNumList = this.smsTask.telNum.split(",")
+            this.telNumList = this.smsTask.telNumList;
 
             if (this.smsTask.templateParams) {
               this.smsTask.templateParam = JSON.parse(this.smsTask.templateParams)
@@ -305,7 +306,6 @@ export default {
     initSmsTask () {
       return {
         templateId: '',
-        receiver: '',
         topic: '',
         templateParam: {},
         sendTime: null,
@@ -322,7 +322,7 @@ export default {
       this.$refs.form.clearValidate()
       this.$refs.form.resetFields()
       this.smsTask = this.initSmsTask()
-      this.receiverList = []
+      this.telNumList = []
     },
     submitForm (draft) {
       const vm = this
@@ -361,7 +361,7 @@ export default {
     editSubmit (draft) {
       const vm = this
       vm.smsTask.draft = draft
-      vm.smsTask.receiver = vm.receiverList.join(',')
+      vm.smsTask.telNum = vm.telNumList;
       if (!vm.timing) {
         vm.smsTask.sendTime = null
       }
@@ -405,10 +405,10 @@ export default {
         }).finally(()=>vm.disabled = false)
     },
     handleClose (tag) {
-      this.receiverList.splice(this.receiverList.indexOf(tag), 1)
+      this.telNumList.splice(this.telNumList.indexOf(tag), 1)
     },
     showInput () {
-      this.receiverVisible = true
+      this.telNumVisible = true
       this.$nextTick(() => {
         this.$refs.saveTagInput.$refs.input.focus()
       });
@@ -416,7 +416,7 @@ export default {
     handleInputConfirm () {
       const vm = this
       // 正则校验
-      let inputValue = vm.receiver
+      let inputValue = vm.telNum
       if (inputValue) {
         if (!validMobile(inputValue)) {
           this.$message({
@@ -427,10 +427,10 @@ export default {
           return
         }
 
-        if (this.receiverList.indexOf(inputValue) === -1) {
-          vm.receiverList.push(inputValue)
-          vm.receiverVisible = false
-          vm.receiver = ''
+        if (this.telNumList.indexOf(inputValue) === -1) {
+          vm.telNumList.push(inputValue)
+          vm.telNumVisible = false
+          vm.telNum = ''
         } else {
           this.$message({
             message: '该账号已经存在',
@@ -439,7 +439,7 @@ export default {
           vm.$refs.saveTagInput.focus()
         }
       } else {
-        this.receiverVisible = false
+        this.telNumVisible = false
       }
     }
   }

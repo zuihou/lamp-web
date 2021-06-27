@@ -81,11 +81,6 @@
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.smsTemplate.customCode')" :show-overflow-tooltip="true" align="center" prop="customCode">
-        <template slot-scope="scope">
-          <span>{{ scope.row.customCode }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="$t('table.smsTemplate.templateCode')" align="center" width="150px">
         <template slot-scope="scope">
           <span>{{ scope.row.templateCode }}</span>

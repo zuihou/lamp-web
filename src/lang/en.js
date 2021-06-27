@@ -222,7 +222,7 @@ export default {
       templateId: 'templateId',
       status: 'status',
       sourceType: 'sourceType',
-      receiver: 'receiver',
+      telNum: 'telNum',
       topic: 'topic',
       templateParams: 'templateParams',
       sendTime: 'sendTime',
@@ -232,7 +232,7 @@ export default {
     smsSendStatus: {
       taskId: 'task',
       sendStatus: 'sendStatus',
-      receiver: 'receiver',
+      telNum: 'telNum',
       bizId: 'bizId',
       ext: 'ext',
       code: 'code',
