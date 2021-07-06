@@ -7,13 +7,15 @@ const apiList = {
     url: `/activiti/model/pageModel`
   },
   //删除模型
-  addModel: {
-    method: 'get',
-    url: `/activiti/model/create`
+  save: {
+    method: 'post',
+    url: `/activiti/model/save`,
+    formData: true,
   },
   deleteModel: {
-    method: 'get',
-    url: `/activiti/model/delete`
+    method: 'delete',
+    url: `/activiti/model/delete`,
+    formData: true,
   },
   //发布流程
   publishModel: {
@@ -31,7 +33,7 @@ const apiList = {
     url: `/activiti/definition/delete`
   },
   updateSuspendState: {
-    method: 'get',
+    method: 'put',
     url: `/activiti/definition/updateSuspendState`
   },
   defUpload: {
@@ -39,7 +41,7 @@ const apiList = {
     url: `/activiti/definition/upload`
   },
   saveModelByPro: {
-    method: 'get',
+    method: 'POST',
     url: `/activiti/definition/saveModelByPro`
   },
 
@@ -152,7 +154,7 @@ export default {
   },
   addModel (data) {
     return axiosApi({
-      ...apiList.addModel,
+      ...apiList.save,
       data
     })
   },
@@ -183,6 +185,7 @@ export default {
   updateSuspendState (data) {
     return axiosApi({
       ...apiList.updateSuspendState,
+      formData: true,
       data
     })
   },
@@ -195,6 +198,7 @@ export default {
   saveModelByPro(data) {
     return axiosApi({
       ...apiList.saveModelByPro,
+      formData: true,
       data
     })
   },
