@@ -624,7 +624,6 @@ export default {
       }
     },
     filterChange(filters) {
-      debugger;
       for (const key in filters) {
         if (key.includes('.')) {
           this.queryParams.model[key.split('.')[0]] = filters[key];
