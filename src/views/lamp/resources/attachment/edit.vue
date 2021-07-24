@@ -1,11 +1,7 @@
 <template>
   <el-dialog :close-on-click-modal="false" :title="title" :type="type" :visible.sync="isVisible" :width="width" @dragDialog="handleDrag" top="50px" v-el-drag-dialog>
     <el-form :model="attachment" :rules="rules" label-position="right" label-width="100px" ref="form">
-      <el-form-item :label="$t('table.attachment.bizId')" prop="bizId">
-        <el-input v-model="attachment.bizId" />
-      </el-form-item>
-
-      <el-form-item :label="$t('table.attachment.bizType')" prop="bizType">
+      <el-form-item :label="$t('table.attachment.bizType')" prop="bizType" :hidden="true">
         <el-input v-model="attachment.bizType" />
       </el-form-item>
       <el-form-item label="文件" prop="fileLength">
@@ -95,11 +91,8 @@ export default {
   methods: {
     initAttachment () {
       return {
-        id: '',
-        bizId: '',
-        bizType: '',
+        bizType: 'BASE_FILE',
         file: null,
-        isSingle: false
       }
     },
     handleDrag () {

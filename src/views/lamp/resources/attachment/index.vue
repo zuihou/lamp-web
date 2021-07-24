@@ -97,13 +97,30 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.attachment.bizId')"
+        label="原始文件类型"
         :show-overflow-tooltip="true"
         align="center"
-        width="180px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.bizId }}</span>
+          <span>{{ scope.row.contentType }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="bucket"
+        :show-overflow-tooltip="true"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.bucket }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="存储类型"
+        :show-overflow-tooltip="true"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.storageType && scope.row.storageType.desc }}</span>
         </template>
       </el-table-column>
       <el-table-column

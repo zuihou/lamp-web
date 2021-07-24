@@ -3,27 +3,23 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   page: {
     method: 'POST',
-    url: `/file/attachment/page`
+    url: `/file/file/page`
   },
   upload: {
     method: 'POST',
-    url: `/file/attachment/upload`
+    url: `/file/file/anyone/upload`
+  },
+  findUrlById: {
+    method: 'POST',
+    url: `/file/file/anyone/findUrlById`
   },
   download: {
     method: 'POST',
-    url: `/file/attachment/downloadByIds`
-  },
-  downloadBiz: {
-    method: 'GET',
-    url: `/file/attachment/downloadByBiz`
-  },
-  downloadUrl: {
-    method: 'GET',
-    url: `/file/attachment/downloadByUrl`
+    url: `/file/file/download`
   },
   delete: {
     method: 'DELETE',
-    url: `/file/attachment`
+    url: `/file/file`
   }
 }
 
@@ -40,23 +36,15 @@ export default {
       data
     })
   },
+  findUrlById (data) {
+    return axiosApi({
+      ...apiList.findUrlById,
+      data
+    })
+  },
   download (data) {
     return axiosApi({
       ...apiList.download,
-      responseType: "blob",
-      data
-    })
-  },
-  downloadBiz (data) {
-    return axiosApi({
-      ...apiList.downloadBiz,
-      responseType: "blob",
-      data
-    })
-  },
-  downloadUrl (data) {
-    return axiosApi({
-      ...apiList.downloadUrl,
       responseType: "blob",
       data
     })

@@ -96,7 +96,7 @@ export default {
       // 是否上传失败
       isUploadError: false,
       fileLength: 0,
-      action: `${process.env.VUE_APP_BASE_API}/file/attachment/upload`
+      action: `${process.env.VUE_APP_BASE_API}/file/file/anyone/upload`
     };
   },
   computed: {

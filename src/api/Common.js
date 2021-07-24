@@ -9,7 +9,7 @@ const apiList = {
 }
 
 export default {
-  uploadFile: `${process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX}${process.env.VUE_APP_BASE_API}/file/attachment/upload`,
+  uploadFile: `${process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX}${process.env.VUE_APP_BASE_API}/file/file/anyone/upload`,
   enums(data) {
     return axiosApi({
       method: 'POST',

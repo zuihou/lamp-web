@@ -110,7 +110,7 @@ export default {
       rules: {
         code: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
-          { min: 4, max: 10, message: this.$t('rules.range4to10'), trigger: 'blur' },
+          { min: 3, max: 10, message: this.$t('rules.range4to10'), trigger: 'blur' },
           {
             validator: (rule, value, callback) => {
               if (this.type === 'add') {
@@ -290,7 +290,6 @@ export default {
       this.tenant = this.initTenant()
     },
     passwordErrorLockTimeUnitChange (unit) {
-      console.log(unit)
       if (unit === '0') {
         this.tenant.passwordErrorLockTime = 0
         this.passwordErrorLockTimeHidden = true
@@ -310,11 +309,11 @@ export default {
       this.$message.error(res.msg)
     },
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 10
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传头像图片只能是 JPG / png 格式!')
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 10MB!')

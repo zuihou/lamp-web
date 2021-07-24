@@ -313,13 +313,13 @@ export default {
       vm.successNum += 1;
       vm.imgFileData.bizId = bizId;
       vm.user.avatar = url;
-      vm.user.id = bizId;
 
       if (vm.successNum === vm.imgFileTotal) {
         vm.$store.state.hasLoading = false;
       }
     },
     setUser(val, orgs, dicts, enums) {
+      debugger;
       const vm = this;
       if (val) {
         vm.user = {...vm.user,...val};
