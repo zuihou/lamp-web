@@ -6,7 +6,7 @@ const apiList = {
     method: 'POST'
   },
   mark: {
-    url: `/msg/anyone/myMsg`,
+    url: `/msg/anyone/myMsg/mark`,
     method: 'POST'
   },
   save: {
