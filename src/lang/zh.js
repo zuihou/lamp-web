@@ -488,7 +488,7 @@ export default {
   common: {
     system: '快速开发平台',
     desc: {
-      a: '基于SpringBoot 2.5.3 & SpringCloud 2020.0.3  & SpringCloudAlibaba 2021.1',
+      a: '基于最新版：SpringBoot & SpringCloud & SpringCloudAlibaba ',
       b: '使用Jwt自定义统一认证',
       c: '企业级设计和配置，拒绝demo项目',
       d: '前后端分离架构，提高软件开发效率',
