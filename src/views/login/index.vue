@@ -9,6 +9,10 @@
       <div class="desc">4. {{ $t("common.desc.d") }}</div>
       <div class="desc">5. {{ $t("common.desc.e") }}</div>
       <div class="desc">6. {{ $t("common.desc.f") }}</div>
+      <div class="desc">演示账号： 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)</div>
+      <div class="desc">演示账号： 超级管理员： lamp/lamp</div>
+      <div class="desc">演示账号： 普通管理员： general/lamp</div>
+      <div class="desc">演示账号： 普通账号： normal/lamp</div>
       <div class="desc">
         8. 源码：
         <a href="https://github.com/zuihou" target="_blank"
