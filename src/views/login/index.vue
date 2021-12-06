@@ -338,42 +338,44 @@ export default {
   },
   methods: {
     getCodeImage() {
-      loginApi
-        .getCaptcha(this.loginForm.key)
-        .then(response => {
-          const res = response.data;
-          if (res.byteLength <= 100) {
-            this.$message({
-              message: this.$t("tips.systemError"),
-              type: "error"
-            });
-          }
-          return (
-            "data:image/png;base64," +
-            btoa(
-              new Uint8Array(res).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
+      if (this.isCaptcha) {
+        loginApi
+          .getCaptcha(this.loginForm.key)
+          .then(response => {
+            const res = response.data;
+            if (res.byteLength <= 100) {
+              this.$message({
+                message: this.$t("tips.systemError"),
+                type: "error"
+              });
+            }
+            return (
+              "data:image/png;base64," +
+              btoa(
+                new Uint8Array(res).reduce(
+                  (data, byte) => data + String.fromCharCode(byte),
+                  ""
+                )
               )
-            )
-          );
-        })
-        .then(res => {
-          this.imageCode = res;
-        })
-        .catch(e => {
-          if (e.toString().indexOf("429") !== -1) {
-            this.$message({
-              message: this.$t("tips.tooManyRequest"),
-              type: "error"
-            });
-          } else {
-            this.$message({
-              message: this.$t("tips.getCodeImageFailed"),
-              type: "error"
-            });
-          }
-        });
+            );
+          })
+          .then(res => {
+            this.imageCode = res;
+          })
+          .catch(e => {
+            if (e.toString().indexOf("429") !== -1) {
+              this.$message({
+                message: this.$t("tips.tooManyRequest"),
+                type: "error"
+              });
+            } else {
+              this.$message({
+                message: this.$t("tips.getCodeImageFailed"),
+                type: "error"
+              });
+            }
+          });
+      }
     },
     handleTabClick(tab) {
       this.tabActiveName = tab.name;
