@@ -105,7 +105,7 @@
       >
 
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.inst.data && scope.row.inst.data.id"
+          <el-tag v-if="scope.row.inst && scope.row.inst.data && scope.row.inst.data.id"
                   :type=" scope.row.inst.data.suspendState === suspendStateType.start ? 'success' : 'warning'">
             {{ scope.row.inst.data.suspendState === suspendStateType.start ? '已激活' : '已挂起'}}
           </el-tag>

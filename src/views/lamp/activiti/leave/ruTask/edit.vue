@@ -238,11 +238,16 @@ export default {
     open(row) {
       this.editVisible = true
       this.row = row
-      this.subForm.bizId = this.row.biz.data.id
       this.subForm.taskId = this.row.id
-      this.subForm.instId = this.row.inst.data.id
       this.subForm.tenantCode = this.row.tenantCode
       this.subForm.itemName = this.row.name
+      if (this.row.inst && this.row.inst.data) {
+        this.subForm.instId = this.row.inst.data.id
+      }
+      if (this.row.biz && this.row.biz.data){
+        this.subForm.bizId = this.row.biz.data.id
+      }
+
 
       if (this.row.taskDefKey === 'QJ1') {
         this.isSubmit = true
@@ -266,14 +271,16 @@ export default {
       if (!vm.row.id) {
         return
       }
-      vm.loading = true
-      activitiApi.getItemList({ instId: vm.row.inst.data.id}).then(response => {
-        const res = response.data;
-        if (res.code === 0 && res.data) {
-          vm.tableData = res.data
-          vm.getReadyTaskByInst(vm.row.inst.data.id)
-        }
-      }).finally();
+      if (vm.row.inst && vm.row.inst.data && vm.row.inst.data.id){
+        vm.loading = true
+        activitiApi.getItemList({ instId: vm.row.inst.data.id}).then(response => {
+          const res = response.data;
+          if (res.code === 0 && res.data) {
+            vm.tableData = res.data
+            vm.getReadyTaskByInst(vm.row.inst.data.id)
+          }
+        }).finally();
+      }
     },
 
     getDetail() {
@@ -297,12 +304,14 @@ export default {
       if (!vm.row.id) {
         return
       }
-      activitiApi.getDetailInst({ id: vm.row.biz.data.id}).then(response => {
-        const res = response.data;
-        if (res.code === 0) {
-          vm.subFormInst = res.data
-        }
-      }).finally();
+      if (vm.row.biz && vm.row.biz.data && vm.row.biz.data.id){
+        activitiApi.getDetailInst({ id: vm.row.biz.data.id}).then(response => {
+          const res = response.data;
+          if (res.code === 0) {
+            vm.subFormInst = res.data
+          }
+        }).finally();
+      }
     },
     getReadyTaskByInst(instId) {
       const vm = this

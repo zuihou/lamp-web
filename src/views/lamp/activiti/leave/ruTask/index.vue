@@ -100,7 +100,7 @@
         width="170px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.inst.data.startUser.data }}</span>
+          <span>{{ scope.row.inst && scope.row.inst.data && scope.row.inst.data.startUser && scope.row.inst.data.startUser.data }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -110,7 +110,7 @@
         width="170px"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.inst.data.startTime }}</span>
+          <span>{{ scope.row.inst && scope.row.inst.data && scope.row.inst.data.startTime }}</span>
         </template>
       </el-table-column>
       <el-table-column
