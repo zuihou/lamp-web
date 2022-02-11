@@ -48,6 +48,7 @@
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
     "screenfull": "4.2.0",
+    "semver": "^5.7.1",
     "showdown": "1.9.1",
     "sortablejs": "1.8.4",
     "spark-md5": "^3.0.1",
