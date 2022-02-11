@@ -110,7 +110,7 @@ const constRouter = [
   },
 ]
 
-const router = new Router({
+export const router = new Router({
   scrollBehavior: () => ({y: 0}),
   routes: constRouter
 })

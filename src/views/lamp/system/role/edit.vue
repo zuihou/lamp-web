@@ -5,6 +5,12 @@
       <el-form-item :label="$t('table.role.code')" prop="code">
         <el-input :disabled="type==='edit'" v-model="role.code"/>
       </el-form-item>
+      <el-form-item label="角色类别" prop="category">
+        <el-radio-group v-model="role.category">
+          <el-radio-button label="10">功能角色</el-radio-button>
+          <el-radio-button label="30">数据角色</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item :label="$t('table.role.name')" prop="name">
         <el-input v-model="role.name"/>
       </el-form-item>
@@ -17,26 +23,6 @@
       <el-form-item :label="$t('table.role.describe')" prop="describe">
         <el-input v-model="role.describe"/>
       </el-form-item>
-      <el-form-item :label="$t('table.role.dsType')" prop="dsType">
-        <el-radio-group @change="dsTypeChange" v-model="role.dsType.code">
-          <el-radio-button :key="index" :label="key" :value="key" v-for="(item, key, index) in enums.DataScopeType">
-            {{ item }}
-          </el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item :hidden="orgHidden" :label="$t('table.role.orgList')" prop="orgList">
-        <el-tree
-          :check-strictly="true"
-          :data="orgList"
-          :default-checked-keys="role.orgList"
-          :default-expanded-keys="role.orgList"
-          :expand-on-click-node="false"
-          highlight-current
-          node-key="id"
-          ref="orgTree"
-          show-checkbox
-        />
-      </el-form-item>
     </el-form>
     <div class="dialog-footer" slot="footer">
       <el-button @click="isVisible = false" plain type="warning">{{ $t('common.cancel') }}</el-button>
@@ -46,7 +32,6 @@
 </template>
 <script>
   import roleApi from '@/api/Role.js'
-  import orgApi from '@/api/Org.js'
 
   export default {
     name: 'RoleEdit',
@@ -66,10 +51,7 @@
         role: this.initRole(),
         screenWidth: 0,
         width: this.initWidth(),
-        orgList: [],
-        orgHidden: true,
         enums: {
-          DataScopeType: {}
         },
         rules: {
           name: [
@@ -95,19 +77,6 @@
             }
           ],
           state: {required: true, message: this.$t('rules.require'), trigger: 'blur'},
-          orgList: {
-            validator: (rule, value, callback) => {
-              if (this.role.dsType.code === 'CUSTOMIZE') {
-                if (this.$refs.orgTree.getCheckedKeys().length > 0) {
-                  callback()
-                } else {
-                  callback('请至少选择一个单位或部门')
-                }
-              } else {
-                callback()
-              }
-            }
-          }
         }
       }
     },
@@ -127,7 +96,6 @@
     },
     watch: {},
     mounted() {
-      this.initOrg()
       window.onresize = () => {
         return (() => {
           this.width = this.initWidth()
@@ -140,13 +108,9 @@
           id: '',
           code: '',
           name: '',
-          orgList: [],
           state: true,
           describe: '',
-          dsType: {
-            code: 'SELF',
-            desc: ''
-          }
+          category: '10',
         }
       },
       initWidth() {
@@ -158,14 +122,6 @@
         } else {
           return '800px'
         }
-      },
-      initOrg() {
-        orgApi.allTree({state: true})
-          .then((response) => {
-            const res = response.data
-
-            this.orgList = res.data
-          })
       },
       loadListOptions({callback}) {
         callback()
@@ -179,19 +135,6 @@
 
         if (val['row']) {
           vm.role = {...val['row']}
-
-          this.orgHidden = vm.role.dsType.code !== 'CUSTOMIZE'
-          if (!this.orgHidden) {
-            roleApi.getDetails(vm.role.id)
-              .then((response) => {
-                const res = response.data
-                if (res.isSuccess) {
-                  this.role.orgList = res.data.orgList
-                  this.$refs.orgTree.setCheckedKeys(res.data.orgList)
-                }
-              })
-          }
-
         }
       },
       close() {
@@ -202,8 +145,6 @@
         this.$refs.form.clearValidate()
         this.$refs.form.resetFields()
         this.role = this.initRole()
-        this.orgHidden = true
-        this.$refs.orgTree.setCheckedKeys([])
       },
       submitForm() {
         const vm = this
@@ -217,11 +158,6 @@
       },
       editSubmit() {
         const vm = this
-        if (this.orgHidden && this.role.orgList) {
-          this.role.orgList.length = 0
-        } else {
-          this.role.orgList = this.$refs.orgTree.getCheckedKeys()
-        }
 
         if (vm.type === 'add') {
           vm.save()
@@ -258,9 +194,6 @@
             }
           })
       },
-      dsTypeChange(value) {
-        this.orgHidden = value !== 'CUSTOMIZE'
-      }
     }
   }
 </script>

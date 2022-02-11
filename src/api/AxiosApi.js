@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {Message, MessageBox} from 'element-ui'
 import db from '@/utils/localstorage'
+import router from '@/router/index'
 import {Base64} from 'js-base64';
 
 // 请求添加条件，如token
@@ -18,6 +19,15 @@ axios.interceptors.request.use(config => {
     const clientId = process.env.VUE_APP_CLIENT_ID;
     const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
     config.headers['Authorization'] = `Basic ${Base64.encode(`${clientId}:${clientSecret}`)}`;
+
+    // 当前请求地址#号后的路径，需要用户后台判断该页面的数据权限
+
+    config.headers['Path'] = (router && router.history && router.history.current) ? router.history.current.fullPath : '';
+
+    // 灰度参数，后台服务集群启动时，可以通过该参数固定请求某个节点！
+    config.headers['gray_version'] = 'zuihou';
+
+
     return config
   },
   error => {

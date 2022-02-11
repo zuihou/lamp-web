@@ -69,6 +69,16 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="类别"
+        :show-overflow-tooltip="true"
+        align="center"
+        prop="category"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.echoMap.category }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         :label="$t('table.role.name')"
         :show-overflow-tooltip="true"
         align="center"
@@ -86,18 +96,6 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.describe }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :filter-multiple="true"
-        :filters="dsTypeList"
-        column-key="dsType.code"
-        :label="$t('table.role.dsType')"
-        align="center"
-        width="100px"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.dsType ? scope.row.dsType.desc : '' }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -292,7 +290,6 @@
         tableKey: 0,
         queryParams: initQueryParams({
           model: {
-            dsType: []
           }
         }),
         selection: [],
@@ -307,9 +304,6 @@
       };
     },
     computed: {
-      dsTypeList() {
-        return convertEnum(this.enums.DataScopeType)
-      }
     },
     mounted() {
       initEnums('DataScopeType', this.enums);
@@ -345,7 +339,6 @@
       reset() {
         this.queryParams = initQueryParams({
           model: {
-            dsType: []
           }
         });
         this.$refs.table.clearSort();
