@@ -8,37 +8,20 @@
       <el-form-item label="连接类型" prop="connectType">
         <el-tooltip class="item" content="本地表示使用默认物理数据库，远程表示自己指定其他物理数据库" effect="dark" placement="right-start">
           <el-radio-group v-model="tenant.connectType" @change="connectTypeChange">
-            <el-radio label="LOCAL">本地</el-radio>
-            <el-radio label="REMOTE" :disabled="connectTypeDisabled">远程</el-radio>
+            <el-radio label="SYSTEM">本地</el-radio>
+            <el-radio label="CUSTOM" :disabled="connectTypeDisabled">远程</el-radio>
           </el-radio-group>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="认证服务数据源" prop="oauthDatasource">
+      <el-form-item label="基础库" prop="baseDatasourceId">
         <el-tooltip class="item" content="建议认证、权限、文件服务共用一个数据源，消息、网关共用一个数据源" effect="dark" placement="right-start">
           <el-select
-            v-model="tenant.oauthDatasource"
-            placeholder="认证服务数据源"
+            ref="baseDatasourceId"
+            v-model="tenant.baseDatasourceId"
+            placeholder="基础库"
             style="width:100%"
             filterable
-            :disabled="tenant.connectType==='LOCAL'"
-          >
-            <el-option v-for="(item, key, index) in datasourceConfigList" :key="index" :label="item.name"
-                       :value="item.id" :title="item.url">
-              <span style="float: left">{{ item.name }}({{ item.driverClassName }})</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.username }}</span>
-            </el-option>
-          </el-select>
-        </el-tooltip>
-      </el-form-item>
-      <el-form-item label="权限服务数据源" prop="authorityDatasource">
-        <el-tooltip class="item" content="建议认证、权限、文件服务共用一个数据源，消息、网关共用一个数据源" effect="dark" placement="right-start">
-          <el-select
-            ref="authorityDatasource"
-            v-model="tenant.authorityDatasource"
-            placeholder="权限服务数据源"
-            style="width:100%"
-            filterable
-            :disabled="tenant.connectType==='LOCAL'"
+            :disabled="tenant.connectType==='SYSTEM'"
           >
             <el-option v-for="(item, key, index) in datasourceConfigList" :key="index" :label="item.name"
                        :value="item.id">
@@ -48,14 +31,14 @@
           </el-select>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="文件服务数据源" prop="fileDatasource">
+      <el-form-item label="扩展库" prop="extendDatasourceId">
         <el-tooltip class="item" content="建议认证、权限、文件服务共用一个数据源，消息、网关共用一个数据源" effect="dark" placement="right-start">
           <el-select
-            v-model="tenant.fileDatasource"
-            placeholder="文件服务数据源"
+            v-model="tenant.extendDatasourceId"
+            placeholder="扩展库"
             style="width:100%"
             filterable
-            :disabled="tenant.connectType==='LOCAL'"
+            :disabled="tenant.connectType==='SYSTEM'"
           >
             <el-option v-for="(item, key, index) in datasourceConfigList" :key="index" :label="item.name"
                        :value="item.id">
@@ -65,40 +48,7 @@
           </el-select>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="消息服务数据源" prop="msgDatasource">
-        <el-tooltip class="item" content="建议认证、权限、文件服务共用一个数据源，消息、网关共用一个数据源" effect="dark" placement="right-start">
-          <el-select
-            v-model="tenant.msgDatasource"
-            placeholder="消息服务数据源"
-            style="width:100%"
-            filterable
-            :disabled="tenant.connectType==='LOCAL'"
-          >
-            <el-option v-for="(item, key, index) in datasourceConfigList" :key="index" :label="item.name"
-                       :value="item.id">
-              <span style="float: left">{{ item.name }}({{ item.driverClassName }})</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.username }}</span>
-            </el-option>
-          </el-select>
-        </el-tooltip>
-      </el-form-item>
-      <el-form-item label="网关服务数据源" prop="gateDatasource">
-        <el-tooltip class="item" content="建议认证、权限、文件服务共用一个数据源，消息、网关共用一个数据源" effect="dark" placement="right-start">
-          <el-select
-            v-model="tenant.gateDatasource"
-            placeholder="网关服务数据源"
-            style="width:100%"
-            filterable
-            :disabled="tenant.connectType==='LOCAL'"
-          >
-            <el-option v-for="(item, key, index) in datasourceConfigList" :key="index" :label="item.name"
-                       :value="item.id">
-              <span style="float: left">{{ item.name }}({{ item.driverClassName }})</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.username }}</span>
-            </el-option>
-          </el-select>
-        </el-tooltip>
-      </el-form-item>
+
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button plain type="warning" @click="isVisible = false">{{ $t('common.cancel') }}</el-button>
@@ -139,51 +89,24 @@ export default {
         connectType: [
           {required: true, message: this.$t('rules.require'), trigger: 'blur'}
         ],
-        authorityDatasource: {
+        baseDatasourceId: {
           validator: (rule, value, callback) => {
-            if (this.tenant.connectType === 'REMOTE' && !value) {
-              callback('请选择权限服务数据源')
+            if (this.tenant.connectType === 'CUSTOM' && !value) {
+              callback('请选择基础库数据源')
             } else {
               callback()
             }
           }, trigger: 'blur'
         },
-        fileDatasource: {
+        extendDatasourceId: {
           validator: (rule, value, callback) => {
-            if (this.tenant.connectType === 'REMOTE' && !value) {
-              callback('请选择文件服务数据源')
+            if (this.tenant.connectType === 'CUSTOM' && !value) {
+              callback('请选择扩展库数据源')
             } else {
               callback()
             }
           }, trigger: 'blur'
         },
-        msgDatasource: {
-          validator: (rule, value, callback) => {
-            if (this.tenant.connectType === 'REMOTE' && !value) {
-              callback('请选择消息服务数据源')
-            } else {
-              callback()
-            }
-          }, trigger: 'blur'
-        },
-        oauthDatasource: {
-          validator: (rule, value, callback) => {
-            if (this.tenant.connectType === 'REMOTE' && !value) {
-              callback('请选择认证服务数据源')
-            } else {
-              callback()
-            }
-          }, trigger: 'blur'
-        },
-        gateDatasource: {
-          validator: (rule, value, callback) => {
-            if (this.tenant.connectType === 'REMOTE' && !value) {
-              callback('请选择网关服务数据源')
-            } else {
-              callback()
-            }
-          }, trigger: 'blur'
-        }
       }
     }
   },
@@ -220,13 +143,10 @@ export default {
     initTenant() {
       return {
         id: '',
-        connectType: 'LOCAL',
+        connectType: 'SYSTEM',
         tenant: '',
-        authorityDatasource: null,
-        fileDatasource: null,
-        msgDatasource: null,
-        oauthDatasource: null,
-        gateDatasource: null
+        baseDatasourceId: null,
+        extendDatasourceId: null,
       }
     },
     initWidth() {
@@ -287,12 +207,9 @@ export default {
       this.tenant = this.initTenant()
     },
     connectTypeChange(val) {
-      if (val === 'LOCAL') {
-        this.tenant.authorityDatasource = null
-        this.tenant.msgDatasource = null
-        this.tenant.oauthDatasource = null
-        this.tenant.gateDatasource = null
-        this.tenant.fileDatasource = null
+      if (val === 'SYSTEM') {
+        this.tenant.baseDatasourceId = null
+        this.tenant.extendDatasourceId = null
       }
     }
   }
