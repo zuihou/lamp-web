@@ -61,6 +61,7 @@ export default {
   remove (data) {
     return axiosApi({
       ...apiList.remove,
+      formData: true,
       data: data || {}
     })
   },

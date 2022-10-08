@@ -306,7 +306,7 @@ export default {
       this.$refs.table.clearSelection()
     },
     delete(tenantCode, ids) {
-      globalUserApi.remove({tenantCode: tenantCode, ids: ids})
+      globalUserApi.remove({tenantCode: tenantCode, 'ids[]': ids})
         .then((response) => {
           const res = response.data
           if (res.isSuccess) {
