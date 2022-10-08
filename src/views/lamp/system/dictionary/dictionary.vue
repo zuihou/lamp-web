@@ -196,6 +196,8 @@
 
         this.queryParams.current = params.current ? params.current : this.queryParams.current;
         this.queryParams.size = params.size ? params.size : this.queryParams.size;
+        this.queryParams.sort = '';
+        this.queryParams.order = '';
 
         dictionaryApi.pageType(this.queryParams).then(response => {
           const res = response.data;
