@@ -44,7 +44,7 @@ pipeline {
                 script {
                     echo "是否执行npm install:  ${IS_INSTALL}"
                     if("${IS_INSTALL}" == "true") {
-                        sh "npm install"
+                        sh "npm install --registry=https://registry.npmmirror.com"
                     }
                 }
                 sh "npm run build:${PROFILES}"

@@ -421,7 +421,7 @@ export default {
 }
 
 .el-badge {
-  /deep/ .el-badge__content.is-fixed {
+  ::v-deep .el-badge__content.is-fixed {
     top: 10px
   }
 }

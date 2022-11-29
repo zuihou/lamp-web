@@ -62,7 +62,7 @@ export default {
   height: 600px;
   position: absolute;
 }
-/deep/ .el-dialog__body {
+::v-deep .el-dialog__body {
     padding: 30px 0;
     color: #606266;
     font-size: 14px;

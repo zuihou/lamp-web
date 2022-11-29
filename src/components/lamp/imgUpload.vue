@@ -320,19 +320,19 @@ export default {
   width: 100%;
   height: 100%;
 }
-/deep/.el-form-item__content {
+::v-deep.el-form-item__content {
   line-height: 0;
 }
-/deep/.el-upload-list--picture-card .el-upload-list__item {
+::v-deep.el-upload-list--picture-card .el-upload-list__item {
   margin: 0 8px 0 0;
 }
-/deep/.el-upload--picture-card,
-/deep/.el-upload-list--picture-card .el-upload-list__item {
+::v-deep.el-upload--picture-card,
+::v-deep.el-upload-list--picture-card .el-upload-list__item {
   width: 128px;
   height: 128px;
 }
 .limit {
-  /deep/.el-upload--picture-card {
+  ::v-deep.el-upload--picture-card {
     display: none;
   }
 }
