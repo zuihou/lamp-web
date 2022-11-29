@@ -76,13 +76,13 @@
           </el-dropdown-item>
           <a
             target="_blank"
-            href="https://github.com/zuihou/lamp-cloud"
+            href="https://github.com/dromara/lamp-cloud"
           >
             <el-dropdown-item>{{ $t("navbar.github") }}</el-dropdown-item>
           </a>
           <a
             target="_blank"
-            href="https://www.kancloud.cn/zuihou/lamp-cloud/"
+            href="https://www.kancloud.cn/dromara/lamp-cloud/"
           >
             <el-dropdown-item>{{ $t("navbar.docs") }}</el-dropdown-item>
           </a>

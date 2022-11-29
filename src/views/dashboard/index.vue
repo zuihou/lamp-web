@@ -106,7 +106,7 @@
                     <el-divider direction="vertical" />
                     <span style="color:red"
                       >立即去<a
-                        href="https://github.com/zuihou/lamp-cloud"
+                        href="https://github.com/dromara/lamp-cloud"
                         target="_blank"
                         >点个star</a
                       >吧~</span
@@ -148,7 +148,7 @@
                     <span class="tag-group">
                       <el-tag
                         style="cursor: pointer"
-                        onclick="window.open('https://www.kancloud.cn/zuihou/lamp-cloud')"
+                        onclick="window.open('https://www.kancloud.cn/dromara/lamp-cloud')"
                         >立即试读</el-tag
                       >
                       <el-divider direction="vertical" />
@@ -197,7 +197,7 @@
                         type="danger"
                         effect="dark"
                         style="cursor: pointer"
-                        onclick="window.open('https://www.kancloud.cn/zuihou/lamp-cloud')"
+                        onclick="window.open('https://www.kancloud.cn/dromara/lamp-cloud')"
                         >增强商业版</el-tag
                       >
                     </span>
@@ -207,7 +207,7 @@
             </el-tab-pane>
             <el-tab-pane label="技术栈" name="second">
               <!--              <div class="project-header">-->
-              <!--                <el-link href="https://www.kancloud.cn/zuihou/lamp-cloud" style="float: right;" target="_blank" type="primary">{{ $t('common.docDetails') }}</el-link>-->
+              <!--                <el-link href="https://www.kancloud.cn/dromara/lamp-cloud" style="float: right;" target="_blank" type="primary">{{ $t('common.docDetails') }}</el-link>-->
               <!--              </div>-->
               <table>
                 <template v-for="(project, index) in projects">

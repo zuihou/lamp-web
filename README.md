@@ -1,11 +1,11 @@
 # lamp 快速开发平台
 
-[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
+[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/dromara/lamp-cloud/blob/master/LICENSE)
 [![](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
-[![](https://img.shields.io/badge/版本-3.5.0-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
-[![GitHub stars](https://img.shields.io/github/stars/zuihou/lamp-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/lamp-cloud/stargazers)
+[![](https://img.shields.io/badge/版本-3.8.2-brightgreen.svg)](https://github.com/dromara/lamp-cloud)
+[![GitHub stars](https://img.shields.io/github/stars/dromara/lamp-cloud.svg?style=social&label=Stars)](https://github.com/dromara/lamp-cloud/stargazers)
 [![star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/zuihou/lamp-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/lamp-cloud/network/members)
+[![GitHub forks](https://img.shields.io/github/forks/dromara/lamp-cloud.svg?style=social&label=Fork)](https://github.com/dromara/lamp-cloud/network/members)
 [![fork](https://gitee.com/zuihou111/lamp-cloud/badge/fork.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/members)
 
 # lamp 项目名字由来
@@ -32,7 +32,7 @@
 
 | 项目 | gitee | github | 备注 |
 | --- | --- | --- | --- |
-| lamp-cloud | [lamp-cloud](https://gitee.com/zuihou111/lamp-cloud) |  [lamp-cloud](https://github.com/zuihou/lamp-cloud) | SpringCloud(微服务)版 |
+| lamp-cloud | [lamp-cloud](https://gitee.com/zuihou111/lamp-cloud) |  [lamp-cloud](https://github.com/dromara/lamp-cloud) | SpringCloud(微服务)版 |
 | lamp-boot | [lamp-boot](https://gitee.com/zuihou111/lamp-boot) |  [lamp-boot](https://github.com/zuihou/lamp-boot) | SpringBoot(单体)版 |
 | 微服务版示例 | [lamp-samples](https://github.com/zuihou/lamp-samples) | [lamp-samples](https://github.com/zuihou/lamp-samples) | 常用示例 |
 
@@ -48,19 +48,12 @@
 # lamp-web 简介
 `lamp-web` 的前身是`zuihou-ui` + `zuihou-admin-ui`，从3.0.0版本开始，将2个系统合并为`lamp-web`，它是`lamp`项目的其中一员。原来在zuihou-admin-ui系统的功能已经合并到内置租户【0000】，账号【lamp_pt】中。
 
-`lamp-web` 是 [lamp-cloud](https://github.com/zuihou/lamp-cloud) 和 [lamp-boot](https://github.com/zuihou/lamp-boot) 2个后台项目共用的管理后台，仅需在启动时调整`vue.config.js`文件中的代理。它基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
+`lamp-web` 是 [lamp-cloud](https://github.com/dromara/lamp-cloud) 和 [lamp-boot](https://github.com/zuihou/lamp-boot) 2个后台项目共用的管理后台，仅需在启动时调整`vue.config.js`文件中的代理。它基于[vue element admin](https://panjiachen.github.io/vue-element-admin-site/zh/)构建。
 
 
-## lamp 会员版项目演示地址 
-- (已完成) 基于 [FEBS-Cloud-Web](https://gitee.com/mrbirdd/FEBS-Cloud-Web) 改造的前端项目演示地址： http://tangyh.top:10000/lamp-web/
-- (正在开发中...)基于 [vue-admin-beautiful](https://github.com/chuzhixin/vue-admin-beautiful)
-  改造的前端项目 演示地址： http://tangyh.top:180
-- (正在开发中...)基于 ant-design [vue-vben-admin](https://github.com/anncwb/vue-vben-admin) 开发的前端项目 演示地址：http://tangyh.top:3100
-- 以下内置账号仅限于内置的0000租户 
-- 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)
-- 超级管理员： lamp/lamp    
-- 普通管理员： general/lamp
-- 普通账号： normal/lamp
+## lamp 会员版项目演示地址
+
+- 地址： https://tangyh.top
 
 > ps: 演示环境中内置租户没有写入权限，若要在演示环境测试增删改，请使用lamp_pt账号查询租户管理员账号后,登录新租户测试
 
@@ -110,7 +103,7 @@
         打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
 
 # 遇到问题请先查看历史issue，未找到解决方案，在提交issue(问题描述详细一些，报错截图大一些，复现步骤全一些)
-    https://github.com/zuihou/lamp-cloud/issues    
+    https://github.com/dromara/lamp-cloud/issues    
 
 # 会员版
 本项目分为开源版和会员版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 会员版源码在私有gitlab托管，购买后开通账号。
@@ -124,7 +117,7 @@
 [![JetBrains](image/jetbrains.png)](https://www.jetbrains.com/?from=lamp-cloud)
     
 # 友情链接 & 特别鸣谢
-* 微服务快速开发平台：[https://github.com/zuihou/lamp-cloud](https://github.com/zuihou/lamp-cloud)
+* 微服务快速开发平台：[https://github.com/dromara/lamp-cloud](https://github.com/dromara/lamp-cloud)
 * 单体快速开发平台：[https://github.com/zuihou/lamp-boot](https://github.com/zuihou/lamp-boot)
 * MyBatis-Plus：[https://mybatis.plus/](https://mybatis.plus/)
 * knife4j：[http://doc.xiaominfo.com/](http://doc.xiaominfo.com/)
