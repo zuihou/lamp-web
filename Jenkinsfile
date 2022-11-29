@@ -53,6 +53,8 @@ pipeline {
 
         stage('压缩') {
             steps {
+                sh "mkdir -p ./${JAR_NAME}"
+                sh "mv dist ${JAR_NAME}"
                 sh "tar -zcvf ${JAR_NAME}.tgz ${JAR_NAME}"
             }
         }
@@ -60,6 +62,7 @@ pipeline {
         stage('推送jar&执行动作') {
             steps {
                 sshPublisher(publishers: [sshPublisherDesc(configName: "${SERVER_SSH_HOST}", transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "${EXEC_COMMAND}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: "${remoteDirectory}", remoteDirectorySDF: false, removePrefix: "", sourceFiles: "${sourceFiles}")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sh "rm -rf ./${JAR_NAME}"
             }
         }
     }
