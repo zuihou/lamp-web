@@ -9,12 +9,9 @@ import { defHttp } from '/@/utils/http/axios';
 import { RequestEnum } from '/@/enums/httpEnum';
 import { ServicePrefixEnum } from '/@/enums/commonEnum';
 import type { AxiosRequestConfig } from 'axios';
-import { useGlobSetting } from '/@/hooks/setting';
 
 const MODULAR = 'extendInterfaceLog';
 const ServicePrefix = ServicePrefixEnum.BASE;
-const globSetting = useGlobSetting();
-const { tenantIdKey } = globSetting;
 
 export const Api = {
   Page: {
@@ -74,13 +71,10 @@ export const save = (params: ExtendInterfaceLogSaveVO) =>
 export const update = (params: ExtendInterfaceLogUpdateVO) =>
   defHttp.request<ExtendInterfaceLogResultVO>({ ...Api.Update, params });
 
-export const remove = (tenantId: string, params: string[]) =>
+export const remove = (params: string[]) =>
   defHttp.request<boolean>(
     {
       ...Api.Delete,
-      headers: {
-        [tenantIdKey]: tenantId,
-      },
       params,
     },
     { withTenant: false },

@@ -73,7 +73,6 @@ export interface DefUserInfoResultVO {
   avatarId?: string;
   workDescribe: string;
   employeeId: string;
-  tenantId: string;
   baseEmployee: BaseEmployeeResultVO;
   defApplication: DefApplicationResultVO;
   homePath?: string;

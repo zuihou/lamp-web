@@ -134,7 +134,6 @@
   import { LoginStateEnum, useFormRules, useFormValid, useLoginState } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { randomNum } from '/@/utils';
-  import { MultiTenantTypeEnum } from '/@/enums/biz/tenant';
 
   import { loadCaptcha } from '/@/api/lamp/common/oauth';
 
@@ -172,7 +171,6 @@
   const formState = reactive({
     loading: false,
     captchaSrc: '',
-    isMultiTenant: globSetting.multiTenantType !== MultiTenantTypeEnum.NONE,
     showCaptcha: globSetting.showCaptcha === 'true',
   });
 

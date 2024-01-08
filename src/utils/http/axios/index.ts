@@ -11,7 +11,7 @@ import { useGlobSetting } from '/@/hooks/setting';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { RequestEnum, ResultEnum, ContentTypeEnum } from '/@/enums/httpEnum';
 import { isString } from '/@/utils/is';
-import { getApplicationId, getTenantId, getToken } from '/@/utils/auth';
+import { getApplicationId, getToken } from '/@/utils/auth';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
 import { useI18n } from '/@/hooks/web/useI18n';
@@ -20,7 +20,6 @@ import { useUserStoreWithOut } from '/@/store/modules/user';
 import { Base64 } from 'js-base64';
 import { router } from '/@/router';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
-import { MultiTenantTypeEnum } from '/@/enums/biz/tenant';
 import axios from 'axios';
 
 const globSetting = useGlobSetting();
@@ -151,29 +150,13 @@ const transform: AxiosTransform = {
    * @description: 请求拦截器处理
    */
   requestInterceptors: (config, options) => {
-    const {
-      multiTenantType,
-      clientId,
-      clientSecret,
-      tokenKey,
-      tenantIdKey,
-      applicationIdKey,
-      authorizationKey,
-    } = globSetting;
+    const { clientId, clientSecret, tokenKey, applicationIdKey, authorizationKey } = globSetting;
 
     const token = getToken();
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       (config as Recordable).headers[tokenKey] = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
-    }
-
-    // 增加租户编码
-    if (
-      (config as Recordable)?.requestOptions?.withTenant !== false &&
-      multiTenantType !== MultiTenantTypeEnum.NONE
-    ) {
-      (config as Recordable).headers[tenantIdKey] = getTenantId();
     }
 
     (config as Recordable).headers[applicationIdKey] = getApplicationId();

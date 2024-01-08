@@ -41,7 +41,7 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent } from 'vue';
   import { useRouter } from 'vue-router';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -64,21 +64,17 @@
     setup() {
       const { t } = useI18n();
       const { replace } = useRouter();
-      const tenantIdRef = ref<string>('');
       const { createMessage, createConfirm } = useMessage();
 
       // 表格
-      const [registerTable, { reload, getSelectRowKeys, getForm }] = useTable({
+      const [registerTable, { reload, getSelectRowKeys }] = useTable({
         title: t('basic.msg.extendInterfaceLog.table.title'),
         api: page,
         columns: columns(),
         formConfig: {
           name: 'DefInterfaceLogSearch',
           labelWidth: 120,
-          schemas: searchFormSchema((tenantId) => {
-            tenantIdRef.value = tenantId;
-            reload({ searchInfo: { tenantId } });
-          }),
+          schemas: searchFormSchema(),
           autoSubmitOnEnter: true,
           resetButtonOptions: {
             preIcon: 'ant-design:rest-outlined',
@@ -112,12 +108,11 @@
         replace({
           name: RouteEnum.BASIC_MSG_INTERFACE_LOGGING,
           params: { id: record.id },
-          query: { tenantId: tenantIdRef.value },
         });
       }
 
       async function batchDelete(ids: string[]) {
-        await remove(getForm()?.getFieldsValue()?.tenantId, ids);
+        await remove(ids);
         createMessage.success(t('common.tips.deleteSuccess'));
         handleSuccess();
       }

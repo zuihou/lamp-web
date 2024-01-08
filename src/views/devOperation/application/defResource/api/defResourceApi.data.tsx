@@ -1,6 +1,6 @@
 // 资源接口 表格
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import { findOnlineService } from '/@/api/devOperation/tenant/tenant';
+import { findOnlineService } from '/@/api/devOperation/application/gateway';
 import { enumComponentProps } from '/@/utils/lamp/common';
 import { EnumEnum } from '/@/enums/commonEnum';
 import { useI18n } from '/@/hooks/web/useI18n';

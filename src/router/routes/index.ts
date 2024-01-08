@@ -89,47 +89,7 @@ export const BeforeRoutes: AppRouteRecordRaw[] = [
   },
 ];
 
-/**
- * 拼接在后端路由之后的前端路由
- */
-export const AfterMyTenantRoutes: AppRouteModule[] = [
-  {
-    path: '/myTenant',
-    name: 'myTenant',
-    component: LAYOUT,
-    redirect: '/myTenant/info',
-    meta: {
-      title: '我的企业',
-      hideChildrenInMenu: true,
-      icon: 'ant-design:group-outlined',
-    },
-    children: [
-      {
-        path: 'info',
-        name: 'myTenantInfo',
-        component: () => import('/@/views/basic/myTenant/index.vue'),
-        meta: {
-          title: '我的企业',
-          hideMenu: true,
-          icon: 'ant-design:group-outlined',
-        },
-      },
-    ],
-  },
-];
-export const AfterVbenRoutes: AppRouteModule[] = [
-  {
-    path: '/vben',
-    name: '静态示例',
-    component: LAYOUT,
-    meta: {
-      icon: 'ant-design:table-outlined',
-      title: '静态示例',
-    },
-    redirect: '/about/index',
-    children: routeModuleList,
-  },
-];
+export const AfterVbenRoutes: AppRouteModule[] = [];
 // 后台动态路由之后的路由
 export const AfterRoutes: AppRouteModule[] = [];
 

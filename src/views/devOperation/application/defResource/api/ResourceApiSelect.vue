@@ -313,7 +313,7 @@
 </script>
 <style lang="less" scoped>
   .cardDesc {
-    background: rgba(97, 175, 254, 0.1);
+    background: rgb(97 175 254 / 10%);
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;

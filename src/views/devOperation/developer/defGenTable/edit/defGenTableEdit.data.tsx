@@ -7,7 +7,7 @@ import { enumComponentProps, yesNoComponentProps } from '/@/utils/lamp/common';
 import { EntitySuperClassEnum, GenTypeEnum, PopupTypeEnum, TplEnum } from '/@/enums/biz/tenant';
 import { FormSchemaExt } from '/@/api/lamp/common/formValidateService';
 import { query } from '/@/api/devOperation/tenant/datasourceConfig';
-import { findOnlineService } from '/@/api/devOperation/tenant/tenant';
+import { findOnlineService } from '/@/api/devOperation/application/gateway';
 import { query as queryApplication } from '/@/api/devOperation/application/defApplication';
 import { tree as queryMenu } from '/@/api/devOperation/application/defResource';
 import { query as queryTable } from '/@/api/devOperation/developer/defGenTable';

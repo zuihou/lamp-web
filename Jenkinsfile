@@ -24,7 +24,7 @@ pipeline {
 
         // 根据项目或部署服务器 可能需要更改一次的变量
         // jar名
-        JAR_NAME = "lamp-web-pro-${MODE}"
+        JAR_NAME = "lamp-web-pro"
 
         // 以下变量基本不变
         // 推送到服务器端的文件夹路径
@@ -65,7 +65,7 @@ pipeline {
                     }
                 }
                 sh "pnpm run fix-memory-limit"
-                sh "pnpm build:${PROFILES}:${MODE}"
+                sh "pnpm build:${PROFILES}"
             }
         }
 

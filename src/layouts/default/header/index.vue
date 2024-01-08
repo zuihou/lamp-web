@@ -43,11 +43,7 @@
           </p>
         </div>
       </div>
-      <TenantCompanyList
-        v-if="globSetting.multiTenantType !== MultiTenantTypeEnum.NONE"
-        :class="`${prefixCls}-action__item ${prefixCls}-action__tenant-item`"
-      />
-      <CompanyList v-else :class="`${prefixCls}-action__item ${prefixCls}-action__tenant-item`" />
+      <CompanyList :class="`${prefixCls}-action__item ${prefixCls}-action__tenant-item`" />
 
       <AppSearch v-if="getShowSearch" :class="`${prefixCls}-action__item `" />
 
@@ -98,7 +94,6 @@
     FullScreen,
     LayoutBreadcrumb,
     Notify,
-    TenantCompanyList,
     UserDropDown,
   } from './components';
   import { useAppInject } from '/@/hooks/web/useAppInject';
@@ -121,7 +116,6 @@
       Notify,
       AppSearch,
       ErrorAction,
-      TenantCompanyList,
       CompanyList,
       SettingDrawer: createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
         loading: true,

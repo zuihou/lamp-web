@@ -10,7 +10,6 @@ import {
   EXPIRE_TIME_KEY,
   REFRESH_TOKEN_KEY,
   ROLES_KEY,
-  TENANT_ID_KEY,
   TOKEN_KEY,
   USER_INFO_KEY,
 } from '/@/enums/cacheEnum';
@@ -36,7 +35,6 @@ interface UserState {
   lastUpdateTime: number;
   refreshToken?: string;
   expireTime?: string;
-  tenantId?: string;
   applicationId: string;
   applicationName: string;
 }
@@ -56,8 +54,6 @@ export const useUserStore = defineStore({
     lastUpdateTime: 0,
     refreshToken: '',
     expireTime: '',
-    // 租户ID
-    tenantId: '',
     // 应用id
     applicationId: '',
     applicationName: '',
@@ -87,10 +83,6 @@ export const useUserStore = defineStore({
     getExpireTime(): string {
       return this.expireTime || getAuthCache<string>(EXPIRE_TIME_KEY);
     },
-    // 当前租户ID
-    getTenantId(): string {
-      return this.tenantId || getAuthCache<string>(TENANT_ID_KEY);
-    },
     // 当前应用ID
     getApplicationId(): string {
       return this.applicationId || getAuthCache<string>(APPLICATION_ID_KEY);
@@ -117,11 +109,6 @@ export const useUserStore = defineStore({
     setSessionTimeout(flag: boolean) {
       this.sessionTimeout = flag;
     },
-    // 4.0.0 存储的是租户id
-    setTenantId(info: string) {
-      this.tenantId = info;
-      setAuthCache(TENANT_ID_KEY, info);
-    },
     setApplicationId(info: string) {
       this.applicationId = info;
       setAuthCache(APPLICATION_ID_KEY, info);
@@ -143,21 +130,19 @@ export const useUserStore = defineStore({
       this.token = '';
       this.roleList = [];
       this.sessionTimeout = false;
-      this.tenantId = '';
       this.expireTime = '';
       this.refreshToken = '';
       this.applicationId = '';
     },
 
-    async switchTenantAndOrg(companyId: string, deptId: string, switchTenantId?: string) {
+    async switchTenantAndOrg(companyId: string, deptId: string) {
       try {
-        const data = await switchTenantAndOrg(companyId, deptId, switchTenantId);
-        const { token, tenantId, refreshToken, expiration } = data;
+        const data = await switchTenantAndOrg(companyId, deptId);
+        const { token, refreshToken, expiration } = data;
         // save token
         this.setToken(token);
         this.setRefreshToken(refreshToken);
         this.setExpireTime(expiration);
-        this.setTenantId(tenantId);
 
         this.setSessionTimeout(false);
         const permissionStore = usePermissionStore();
@@ -185,13 +170,12 @@ export const useUserStore = defineStore({
       try {
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
-        const { token, tenantId, refreshToken, expiration } = data;
+        const { token,  refreshToken, expiration } = data;
 
         // save token
         this.setToken(token);
         this.setRefreshToken(refreshToken);
         this.setExpireTime(expiration);
-        this.setTenantId(tenantId);
 
         return this.afterLoginAction(mode, true, goHome);
       } catch (error) {

@@ -1,4 +1,4 @@
-import { VxeGridPropTypes } from '/@/components/VxeTable'
+import { VxeGridPropTypes } from '/@/components/VxeTable';
 
 export const paramTableColumns = (emit: any, tableRef: any): VxeGridPropTypes.Columns => {
   return [
@@ -8,7 +8,7 @@ export const paramTableColumns = (emit: any, tableRef: any): VxeGridPropTypes.Co
       type: 'seq',
       fixed: 'left',
       width: '50',
-      align: 'center'
+      align: 'center',
     },
     {
       title: '参数名称',
@@ -20,12 +20,12 @@ export const paramTableColumns = (emit: any, tableRef: any): VxeGridPropTypes.Co
         placeholder: '请点击输入',
         events: {
           change: () => {
-            const recordset = tableRef.value?.getRecordset()
-            emit('change', recordset.insertRecords)
-            emit('update:value', recordset.insertRecords)
-          }
-        }
-      }
+            const recordset = tableRef.value?.getRecordset();
+            emit('change', recordset.insertRecords);
+            emit('update:value', recordset.insertRecords);
+          },
+        },
+      },
     },
     {
       title: '值',
@@ -37,22 +37,22 @@ export const paramTableColumns = (emit: any, tableRef: any): VxeGridPropTypes.Co
         placeholder: '请点击输入',
         events: {
           change: () => {
-            const recordset = tableRef.value?.getRecordset()
-            emit('change', recordset.insertRecords)
-            emit('update:value', recordset.insertRecords)
-          }
-        }
-      }
+            const recordset = tableRef.value?.getRecordset();
+            emit('change', recordset.insertRecords);
+            emit('update:value', recordset.insertRecords);
+          },
+        },
+      },
     },
     {
       width: 160,
       title: '操作',
       align: 'center',
       slots: { default: 'action' },
-      fixed: 'right'
-    }
-  ]
-}
+      fixed: 'right',
+    },
+  ];
+};
 
 export const recipientTableColumns = (emit: any, tableRef: any): VxeGridPropTypes.Columns => {
   return [
@@ -62,7 +62,7 @@ export const recipientTableColumns = (emit: any, tableRef: any): VxeGridPropType
       type: 'seq',
       fixed: 'left',
       width: '50',
-      align: 'center'
+      align: 'center',
     },
     {
       title: '接收人',
@@ -74,12 +74,12 @@ export const recipientTableColumns = (emit: any, tableRef: any): VxeGridPropType
         placeholder: '请点击输入',
         events: {
           change: () => {
-            const recordset = tableRef.value?.getRecordset()
-            emit('change', recordset.insertRecords)
-            emit('update:value', recordset.insertRecords)
-          }
-        }
-      }
+            const recordset = tableRef.value?.getRecordset();
+            emit('change', recordset.insertRecords);
+            emit('update:value', recordset.insertRecords);
+          },
+        },
+      },
     },
     {
       title: '扩展信息',
@@ -91,19 +91,19 @@ export const recipientTableColumns = (emit: any, tableRef: any): VxeGridPropType
         placeholder: '请点击输入',
         events: {
           change: () => {
-            const recordset = tableRef.value?.getRecordset()
-            emit('change', recordset.insertRecords)
-            emit('update:value', recordset.insertRecords)
-          }
-        }
-      }
+            const recordset = tableRef.value?.getRecordset();
+            emit('change', recordset.insertRecords);
+            emit('update:value', recordset.insertRecords);
+          },
+        },
+      },
     },
     {
       width: 160,
       title: '操作',
       align: 'center',
       slots: { default: 'action' },
-      fixed: 'right'
-    }
-  ]
-}
+      fixed: 'right',
+    },
+  ];
+};

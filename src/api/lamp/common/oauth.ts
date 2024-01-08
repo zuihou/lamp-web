@@ -64,10 +64,6 @@ export const Api = {
   SwitchTenantAndOrg: {
     url: `${ServicePrefixEnum.OAUTH}/anyone/switchTenantAndOrg`,
   },
-  // 设置默认企业
-  UpdateDefaultTenant: {
-    url: `${ServicePrefixEnum.BASE}/anyone/updateDefaultTenant`,
-  },
   // 查询单位和部门
   FindCompanyDept: {
     url: `${ServicePrefixEnum.OAUTH}/anyone/findCompanyDept`,
@@ -192,20 +188,10 @@ export function logout(params: LogoutParams) {
   });
 }
 
-export function switchTenantAndOrg(companyId: string, deptId: string, tenantId?: string) {
+export function switchTenantAndOrg(companyId: string, deptId: string) {
   return defHttp.put<LoginResultVO>({
     ...Api.SwitchTenantAndOrg,
-    params: { tenantId, companyId, deptId },
-    headers: {
-      'Content-Type': ContentTypeEnum.FORM_URLENCODED,
-    },
-  });
-}
-
-export function updateDefaultTenant(tenantId: string) {
-  return defHttp.put<boolean>({
-    ...Api.UpdateDefaultTenant,
-    params: { tenantId },
+    params: { companyId, deptId },
     headers: {
       'Content-Type': ContentTypeEnum.FORM_URLENCODED,
     },

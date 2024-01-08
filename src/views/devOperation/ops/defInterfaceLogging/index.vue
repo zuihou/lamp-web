@@ -69,7 +69,6 @@
       const { createMessage, createConfirm } = useMessage();
       const [registerModal, { openModal }] = useModal();
       const logId = ref<string>('');
-      const tenantId = ref<string>('');
       const { currentRoute } = useRouter();
 
       // 表格
@@ -93,7 +92,6 @@
         immediate: false,
         searchInfo: {
           logId,
-          tenantId,
         },
         useSearchForm: true,
         showTableSetting: true,
@@ -112,9 +110,7 @@
 
       onMounted(async () => {
         const routeParams = currentRoute.value?.params;
-        const routeQuery = currentRoute.value?.query;
         logId.value = routeParams.id as string;
-        tenantId.value = routeQuery.tenantId as string;
         await reload();
       });
 
@@ -133,7 +129,7 @@
       }
 
       async function batchDelete(ids: string[]) {
-        await remove(tenantId.value, ids);
+        await remove(ids);
         createMessage.success(t('common.tips.deleteSuccess'));
         handleSuccess();
       }

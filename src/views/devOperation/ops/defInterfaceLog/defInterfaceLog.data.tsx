@@ -1,6 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
-import { query } from '/@/api/devOperation/tenant/tenant';
 import { TenantStatusEnum } from '/@/enums/biz/tenant';
 import { MultiTenantTypeEnum } from '/@/enums/biz/tenant';
 import { useGlobSetting } from '/@/hooks/setting';
@@ -37,24 +36,8 @@ export const columns = (): BasicColumn[] => {
   ];
 };
 
-export const searchFormSchema = (tenantChange): FormSchema[] => {
+export const searchFormSchema = (): FormSchema[] => {
   return [
-    {
-      field: 'tenantId',
-      label: '所属租户',
-      component: 'ApiSelect',
-      colProps: { span: 8 },
-      componentProps: {
-        api: query,
-        params: { status: TenantStatusEnum.NORMAL },
-        labelField: 'name',
-        valueField: 'id',
-        allowClear: false,
-        onChange: tenantChange,
-      },
-      ifShow: globSetting.multiTenantType !== MultiTenantTypeEnum.NONE,
-      defaultValue: '1',
-    },
     {
       label: t('basic.msg.extendInterfaceLog.name'),
       field: 'name',
