@@ -1,0 +1,54 @@
+name: deploy
+
+# 触发条件：在 push 到 master 分支后
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  push-to-gh-pages:
+    if: "contains(github.event.head_commit.message, '[deploy datasource]')"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      # 拉取代码
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: build
+        run: |
+          yarn --frozen-lockfile
+          yarn install
+          yarn run build:prod:datasource
+
+      - name: deployments
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          # 这里是 rsync 的参数 switches: -avzh --delete --exclude="" --include="" --filter=""
+          switches: -avzh
+          path: dist/
+          remote_path: /data_prod/webapp/lamp-web-pro-datasource/dist/
+          remote_host: ${{ secrets.MY_CENTOS_HOST }}
+          remote_port: ${{ secrets.MY_CENTOS_PORT }}
+          remote_user: ${{ secrets.MY_CENTOS_USERNAME }}
+          remote_key: ${{ secrets.MY_CENTOS_RSA_PRIVATE_KEY }}

@@ -1,0 +1,16 @@
+export default {
+  table: { title: '地区表列表' },
+  id: '主键',
+  code: '编码',
+  fullName: '全名',
+  longitude: '经度',
+  latitude: '维度',
+  level: '行政级别',
+  source: '数据来源',
+  state: '状态',
+  treeGrade: '树层级',
+  treePath: '路径',
+  name: '名称',
+  parentId: '父节点',
+  sortValue: '排序',
+};

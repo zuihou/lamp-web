@@ -1,0 +1,17 @@
+export default {
+  table: { title: '文件上传记录' },
+  id: '主键',
+  bizType: '业务类型',
+  fileType: '文件类型',
+  storageType: '存储类型',
+  bucket: '桶',
+  path: '文件相对地址',
+  url: '文件访问地址',
+  uniqueFileName: '唯一文件名',
+  fileMd5: '文件md5',
+  originalFileName: '原始文件名',
+  contentType: '文件类型',
+  suffix: '后缀',
+  size: '大小',
+  createdOrgId: '创建人组织',
+};

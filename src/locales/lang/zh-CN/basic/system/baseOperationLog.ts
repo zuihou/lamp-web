@@ -1,0 +1,17 @@
+export default {
+  table: { title: '操作日志列表' },
+  id: '主键',
+  requestIp: '操作IP',
+  type: '日志类型',
+  userName: '操作人',
+  description: '操作描述',
+  classPath: '类路径',
+  actionMethod: '请求方法',
+  requestUri: '请求地址',
+  httpMethod: '请求类型',
+  startTime: '开始时间',
+  finishTime: '完成时间',
+  consumingTime: '消耗时间',
+  ua: '浏览器',
+  createdOrgId: '创建人组织',
+};

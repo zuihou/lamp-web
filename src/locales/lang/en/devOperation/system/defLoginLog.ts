@@ -1,0 +1,18 @@
+export default {
+  table: { title: 'DefLoginLog list' },
+  id: 'ID',
+  tenantId: 'tenantId',
+  employeeId: 'employeeId',
+  userId: 'userId',
+  requestIp: 'requestIp',
+  nickName: 'nickName',
+  username: 'username',
+  status: 'status',
+  description: 'description',
+  loginDate: 'loginDate',
+  ua: 'ua',
+  browser: 'browser',
+  browserVersion: 'browserVersion',
+  operatingSystem: 'operatingSystem',
+  location: 'location',
+};

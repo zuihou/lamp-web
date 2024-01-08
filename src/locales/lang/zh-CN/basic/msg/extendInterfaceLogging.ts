@@ -1,0 +1,15 @@
+export default {
+  table: { title: '接口执行日志记录列表' },
+  id: '',
+  logId: '接口日志ID',
+  execTime: '执行时间',
+  status: '执行状态',
+  params: '请求参数',
+  result: '接口返回',
+  bizId: '业务ID',
+  errorMsg: '异常信息',
+  createdTime: '创建时间',
+  createdBy: '创建人',
+  updatedTime: '修改时间',
+  updatedBy: '修改人',
+};
