@@ -99,11 +99,11 @@ const setting: ProjectConfig = {
     // Menu mode
     mode: MenuModeEnum.INLINE,
     // Menu type
-    type: MenuTypeEnum.MIX_SIDEBAR,
+    type: MenuTypeEnum.MIX,
     // Menu theme
     theme: ThemeEnum.DARK,
     // Split menu
-    split: false,
+    split: true,
     // Top menu layout
     topMenuAlign: 'center',
     // Fold trigger position

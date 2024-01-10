@@ -5,7 +5,7 @@ import { store } from '/@/store';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useUserStore } from './user';
 import { useAppStoreWithOut } from './app';
-import { toRaw } from 'vue';
+import { computed, toRaw, unref } from 'vue';
 import { flatMultiLevelRoutes, transformObjToRoute } from '/@/router/helper/routeHelper';
 import { transformRouteToMenu } from '/@/router/helper/menuHelper';
 
@@ -18,13 +18,14 @@ import { ERROR_LOG_ROUTE, PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 
 import { filter } from '/@/utils/helper/treeHelper';
 
-import { findMenuList, findResourceList } from '/@/api/lamp/common/oauth';
+import { findMenuList, findAllMenuList, findResourceList } from '/@/api/lamp/common/oauth';
 import { VisibleResourceVO } from '/@/api/lamp/common/model/menuModel';
 
 import { useMessage } from '/@/hooks/web/useMessage';
 import { PageEnum } from '/@/enums/pageEnum';
 
 import { BeforeRoutes } from '/@/router/routes/index';
+import { MenuModeEnum, MenuTypeEnum } from '/@/enums/menuEnum';
 
 const globSetting = useGlobSetting();
 const DEV_OPER_APP_ID = globSetting.devOperationApplicationId;
@@ -110,9 +111,7 @@ export const usePermissionStore = defineStore({
     },
     // 加载资源
     async changePermissionCode() {
-      const userStore = useUserStore();
-      const applicationId = userStore.getApplicationId;
-      const visibleResource = await findResourceList(applicationId);
+      const visibleResource = await findResourceList();
       this.setVisibleResource(visibleResource);
     },
 
@@ -120,6 +119,7 @@ export const usePermissionStore = defineStore({
     async buildRoutesAction(): Promise<AppRouteRecordRaw[]> {
       const { t } = useI18n();
       const userStore = useUserStore();
+
       const appStore = useAppStoreWithOut();
 
       let routes: AppRouteRecordRaw[] = [];
@@ -232,7 +232,24 @@ export const usePermissionStore = defineStore({
           let routeList: AppRouteRecordRaw[] = [];
           try {
             await this.changePermissionCode();
-            routeList = (await findMenuList({ applicationId })) as AppRouteRecordRaw[];
+
+            const getMenuMode = computed(() => appStore.getMenuSetting.mode);
+            const getMenuType = computed(() => appStore.getMenuSetting.type);
+            const getSplit = computed(() => appStore.getMenuSetting.split);
+
+            const isMixModeAndSplit = computed(() => {
+              return (
+                unref(getMenuMode) === MenuModeEnum.INLINE &&
+                unref(getMenuType) === MenuTypeEnum.MIX &&
+                unref(getSplit)
+              );
+            });
+
+            if (unref(isMixModeAndSplit)) {
+              routeList = (await findAllMenuList()) as AppRouteRecordRaw[];
+            } else {
+              routeList = (await findMenuList({ applicationId })) as AppRouteRecordRaw[];
+            }
           } catch (error) {
             console.error(error);
           }

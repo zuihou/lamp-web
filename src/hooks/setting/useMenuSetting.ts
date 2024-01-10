@@ -70,6 +70,14 @@ export function useMenuSetting() {
     return unref(getMenuMode) === MenuModeEnum.INLINE && unref(getMenuType) === MenuTypeEnum.MIX;
   });
 
+  const getIsMixModeAndSplit = computed(() => {
+    return (
+      unref(getMenuMode) === MenuModeEnum.INLINE &&
+      unref(getMenuType) === MenuTypeEnum.MIX &&
+      unref(getSplit)
+    );
+  });
+
   const getCollapsedShowTitle = computed(() => appStore.getMenuSetting.collapsedShowTitle);
 
   const getShowTopMenu = computed(() => {
@@ -164,6 +172,7 @@ export function useMenuSetting() {
     getMenuBgColor,
     getShowSidebar,
     getIsMixMode,
+    getIsMixModeAndSplit,
     getIsMixSidebar,
     getCloseMixSidebarOnChange,
     getMixSideTrigger,

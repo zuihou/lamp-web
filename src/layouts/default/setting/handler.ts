@@ -17,6 +17,17 @@ export function baseHandler(event: HandlerEnum, value: any) {
     updateHeaderBgColor();
     updateSidebarBgColor();
   }
+
+  reload(event, value);
+}
+
+function reload(event: HandlerEnum, value: any) {
+  switch (event) {
+    case HandlerEnum.CHANGE_LAYOUT:
+    case HandlerEnum.MENU_SPLIT:
+      location.reload();
+      return;
+  }
 }
 
 export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConfig> {

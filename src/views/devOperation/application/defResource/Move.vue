@@ -24,7 +24,7 @@
     >
       <template #titleBefore="item">
         <template v-if="item.echoMap?.resourceType">
-          <Tag :color="getResourceTagColor(item?.resourceType)">
+          <Tag :color="getResourceTagColor(item?.resourceType, item.isHidden)">
             {{ item.echoMap?.resourceType }}
           </Tag>
         </template>

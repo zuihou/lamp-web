@@ -155,14 +155,13 @@ function subtractLight(color: string, amount: number) {
 /**
  * 计算资源类型标签的颜色
  * @param resourceType 资源类型
+ * @param hidden 是否隐藏菜单
  * @return Tag颜色
  */
-export function getResourceTagColor(resourceType: string) {
+export function getResourceTagColor(resourceType: string, hidden: boolean) {
   switch (resourceType) {
     case ResourceTypeEnum.MENU:
-      return 'success';
-    case ResourceTypeEnum.VIEW:
-      return 'processing';
+      return hidden ? 'default' : 'success';
     case ResourceTypeEnum.FUNCTION:
       return 'cyan';
     case ResourceTypeEnum.FIELD:

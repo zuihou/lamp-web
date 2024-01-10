@@ -48,7 +48,10 @@
     >
       <template #titleBefore="item">
         <template v-if="item.echoMap?.resourceType">
-          <Tag :color="getResourceTagColor(item?.resourceType)" :title="item.treePath">
+          <Tag
+            :color="getResourceTagColor(item?.resourceType, item.isHidden)"
+            :title="item.treePath"
+          >
             {{ item.echoMap?.resourceType }}
           </Tag>
         </template>
@@ -200,11 +203,7 @@
           auth: [RoleEnum.RESOURCE_ADD, RoleEnum.APPLICATION_RESOURCE_ADD],
           authMode: PermModeEnum.HasAny,
           show: (node) => {
-            return [
-              ResourceTypeEnum.VIEW,
-              ResourceTypeEnum.MENU,
-              ResourceTypeEnum.FUNCTION,
-            ].includes(node.resourceType);
+            return [ResourceTypeEnum.MENU, ResourceTypeEnum.FUNCTION].includes(node.resourceType);
           },
           render: (node) => {
             return h(PlusSquareOutlined, {

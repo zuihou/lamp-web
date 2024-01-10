@@ -46,6 +46,12 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       show: false,
     },
     {
+      label: t('devOperation.application.defResource.parentId'),
+      field: 'parentIsHidden',
+      component: 'Input',
+      show: false,
+    },
+    {
       field: 'divider-selects1',
       component: 'Divider',
       label: '基础信息',
@@ -62,11 +68,10 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
         ...dictComponentProps(DictEnum.RESOURCE_TYPE),
       },
       helpMessage: [
-        '菜单：即左侧显示的菜单(肉眼可见的菜单)(包括N级菜单)',
-        '视图：即需要配置在路由中，但需要隐藏的菜单, 如 资源维护',
-        '功能：即页面上的非视图的按钮',
-        '字段：即列表页或编辑页的字段',
-        '数据：即页面或视图请求后台接口时，返回不同的数据，参考 消息管理',
+        '菜单：左侧显示的菜单(肉眼可见的菜单)(包括N级菜单)（包括需要配置在路由中，但需要隐藏的菜单, 如 资源维护）',
+        '按钮：页面上的按钮',
+        '字段：列表页或编辑页的字段',
+        '数据：页面请求后台接口时，通过数据权限，控制接口返回不同的数据，参考“消息管理”',
       ],
       colProps: {
         span: 12,
@@ -81,21 +86,24 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
               }
               if (model?.parentId === '0' || !model?.parentId) {
                 if (value === ResourceTypeEnum.DATA) {
-                  return Promise.reject('根节点下不能添加数据');
+                  return Promise.reject('数据权限必须挂载在菜单下');
                 }
               }
 
-              if (model?.parentResourceType === ResourceTypeEnum.VIEW) {
-                if (value === ResourceTypeEnum.MENU) {
-                  return Promise.reject('视图下不能添加菜单');
+              if (value === ResourceTypeEnum.MENU) {
+                if (ResourceTypeEnum.MENU !== model?.parentResourceType) {
+                  return Promise.reject('菜单只能挂载在菜单下级');
                 }
-              } else if (model?.parentResourceType === ResourceTypeEnum.FUNCTION) {
+                if (model?.parentIsHidden) {
+                  return Promise.reject('菜单不能挂载在隐藏菜单下级');
+                }
+              }
+
+              if (model?.parentResourceType === ResourceTypeEnum.FUNCTION) {
                 if (value === ResourceTypeEnum.MENU) {
-                  return Promise.reject('功能下不能添加菜单');
-                } else if (value === ResourceTypeEnum.VIEW) {
-                  return Promise.reject('功能下不能添加视图');
+                  return Promise.reject('按钮下不能添加菜单');
                 } else if (value === ResourceTypeEnum.DATA) {
-                  return Promise.reject('功能下不能添加数据');
+                  return Promise.reject('按钮下不能添加数据');
                 }
               } else if (model?.parentResourceType === ResourceTypeEnum.FIELD) {
                 return Promise.reject('字段下不能添加子资源');
@@ -150,7 +158,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
                 return Promise.resolve();
               }
               if (value) {
-                if ([ResourceTypeEnum.VIEW, ResourceTypeEnum.MENU].includes(model.resourceType)) {
+                if ([ResourceTypeEnum.MENU].includes(model.resourceType)) {
                   if (await checkName(value, model.applicationId, model?.id)) {
                     return Promise.reject(
                       t('devOperation.application.defResource.name') + '已经存在',
@@ -225,12 +233,9 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       },
       helpMessage: ['每种类型拥有不同的字段'],
       ifShow: ({ values }) => {
-        return [
-          ResourceTypeEnum.MENU,
-          ResourceTypeEnum.VIEW,
-          ResourceTypeEnum.FIELD,
-          ResourceTypeEnum.DATA,
-        ].includes(values.resourceType);
+        return [ResourceTypeEnum.MENU, ResourceTypeEnum.FIELD, ResourceTypeEnum.DATA].includes(
+          values.resourceType,
+        );
       },
     },
     {
@@ -239,10 +244,10 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       component: 'ApiRadioGroup',
       defaultValue: ResourceOpenWithEnum.INNER_COMPONENT,
       ifShow: ({ values }) => {
-        return [ResourceTypeEnum.MENU, ResourceTypeEnum.VIEW].includes(values.resourceType);
+        return [ResourceTypeEnum.MENU].includes(values.resourceType);
       },
       colProps: {
-        span: 24,
+        span: 12,
       },
       helpMessage: [
         '组件：在框架内打开组件页面',
@@ -271,6 +276,25 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
         };
       },
     },
+
+    {
+      label: '是否隐藏菜单',
+      field: 'isHidden',
+      component: 'Switch',
+      defaultValue: false,
+      componentProps: {
+        ...yesNoComponentProps(),
+        'checked-children': t('lamp.common.yes'),
+        'un-checked-children': t('lamp.common.no'),
+      },
+      helpMessage: '隐藏菜单就是原来的”视图“',
+      colProps: {
+        span: 12,
+      },
+      ifShow: ({ values }) => {
+        return [ResourceTypeEnum.MENU].includes(values.resourceType);
+      },
+    },
     {
       label: t('devOperation.application.defResource.path'),
       field: 'path',
@@ -283,7 +307,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
         span: 12,
       },
       ifShow: ({ values }) => {
-        return [ResourceTypeEnum.MENU, ResourceTypeEnum.VIEW].includes(values.resourceType);
+        return [ResourceTypeEnum.MENU].includes(values.resourceType);
       },
       componentProps: ({ formActionType }) => {
         return {
@@ -398,7 +422,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
         );
       },
       ifShow: ({ values }) => {
-        return [ResourceTypeEnum.MENU, ResourceTypeEnum.VIEW].includes(values.resourceType);
+        return [ResourceTypeEnum.MENU].includes(values.resourceType);
       },
       dynamicRules: ({ model }) => {
         return [
@@ -450,7 +474,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
         span: 12,
       },
       ifShow: ({ values }) => {
-        return [ResourceTypeEnum.MENU, ResourceTypeEnum.VIEW].includes(values.resourceType);
+        return [ResourceTypeEnum.MENU].includes(values.resourceType);
       },
     },
     {
@@ -462,7 +486,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
         span: 12,
       },
       ifShow: ({ values }) => {
-        return [ResourceTypeEnum.MENU, ResourceTypeEnum.VIEW].includes(values.resourceType);
+        return [ResourceTypeEnum.MENU].includes(values.resourceType);
       },
     },
 
@@ -498,9 +522,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       ifShow: ({ values }) => {
         return values.resourceType === ResourceTypeEnum.DATA;
       },
-      helpMessage: [
-        '若某个菜单或视图决定后台接口启用了数据权限，请至少为该菜单或视图配置一个默认数据权限',
-      ],
+      helpMessage: ['若某个菜单决定后台接口启用了数据权限，请至少为该菜单配置一个默认数据权限'],
       colProps: {
         span: 12,
       },
@@ -584,9 +606,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       slot: 'resourceApiList',
       defaultValue: [],
       ifShow: ({ values }) => {
-        return [ResourceTypeEnum.MENU, ResourceTypeEnum.VIEW, ResourceTypeEnum.FUNCTION].includes(
-          values.resourceType,
-        );
+        return [ResourceTypeEnum.MENU, ResourceTypeEnum.FUNCTION].includes(values.resourceType);
       },
     },
     {

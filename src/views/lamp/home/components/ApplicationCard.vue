@@ -57,7 +57,7 @@
   </Card>
 </template>
 <script lang="ts">
-  import { defineComponent, onMounted, ref } from 'vue';
+  import { defineComponent, onMounted, ref, unref } from 'vue';
   import { Card, CardGrid, Empty, Tag } from 'ant-design-vue';
   import { useLoading } from '/@/components/Loading';
   import { usePermission } from '/@/hooks/web/usePermission';
@@ -65,6 +65,7 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useUserStore } from '/@/store/modules/user';
+  import { useMenuSetting } from '/@/hooks/setting/useMenuSetting';
   import ThumbUrl from '/@/components/Upload/src/ThumbUrl.vue';
   import { DefApplicationResultVO } from '/@/api/devOperation/application/model/defApplicationModel';
   import { ExpireStateEnum } from '/@/enums/biz/tenant';
@@ -113,8 +114,13 @@
       const defApplicationId = ref<string>('');
       const loading = ref<boolean>(true);
       const userStore = useUserStore();
+      const menuSetting = useMenuSetting();
 
       async function handlerTurnToApplication(item: DefApplicationResultVO) {
+        if (unref(menuSetting.getIsMixModeAndSplit)) {
+          return;
+        }
+
         if (userStore.getApplicationId === item?.id) {
           createMessage.warn(`您当前正处于[${item.name}]，无需切换`);
           return;
@@ -218,7 +224,7 @@
     color: rgb(0 0 0 / 75%);
     background-color: #f5f5f5;
     cursor: not-allowed;
-    opacity: 100%;
+    opacity: 1;
   }
 
   [data-theme='dark'] .appDisabled {

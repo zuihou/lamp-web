@@ -118,6 +118,7 @@
         record['parentName'] = parent?.name;
         record['parentId'] = parent?.id;
         record['parentResourceType'] = parent?.resourceType;
+        record['parentIsHidden'] = parent?.isHidden;
         if (unref(type) !== ActionEnum.EDIT) {
           record.id = undefined;
         }
@@ -132,10 +133,6 @@
             customFormSchemaRules(type, getFieldsValue),
           );
           rules && rules.length > 0 && (await updateSchema(rules));
-          // getValidateRules(validateApi, customFormSchemaRules(type)).then(async (rules) => {
-          //   console.log(rules);
-          //   rules && rules.length > 0 && (await updateSchema(rules));
-          // });
         }
       }
 

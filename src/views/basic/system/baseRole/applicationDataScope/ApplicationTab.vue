@@ -32,7 +32,7 @@
           <Tooltip :title="'优先级：' + item.sortValue" placement="right">
             <TreeIcon :icon="item.icon" v-if="item.icon" />
             <template v-if="item.echoMap?.resourceType">
-              <Tag :color="getResourceTagColor(item?.resourceType)"
+              <Tag :color="getResourceTagColor(item?.resourceType, item.isHidden)"
                 >{{ item.echoMap?.resourceType }}
               </Tag>
             </template>
@@ -42,7 +42,7 @@
         <template v-else>
           <TreeIcon :icon="item.icon" v-if="item.icon" />
           <template v-if="item.echoMap?.resourceType">
-            <Tag :color="getResourceTagColor(item?.resourceType)"
+            <Tag :color="getResourceTagColor(item?.resourceType, item.isHidden)"
               >{{ item.echoMap?.resourceType }}
             </Tag>
           </template>

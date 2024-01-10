@@ -56,6 +56,9 @@ export const Api = {
   FindMenuList: {
     url: '/oauth/anyone/visible/router',
   },
+  FindAllMenuList: {
+    url: '/oauth/anyone/visible/allRouter',
+  },
   // 获取资源
   FindResourceList: {
     url: '/oauth/anyone/visible/resource',
@@ -220,11 +223,15 @@ export const findMenuList = (params?: MenuParams) => {
   return defHttp.get<MenuListResultModel>({ ...Api.FindMenuList, params });
 };
 
+export const findAllMenuList = () => {
+  return defHttp.get<MenuListResultModel>({ ...Api.FindAllMenuList });
+};
+
 /**
  * 查询指定应用资源
- * @param params
+ * @param applicationId 应用id
  */
-export function findResourceList(applicationId: string) {
+export function findResourceList(applicationId?: string) {
   return defHttp.get<VisibleResourceVO>({
     ...Api.FindResourceList,
     params: { applicationId },

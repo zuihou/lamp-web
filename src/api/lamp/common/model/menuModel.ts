@@ -14,7 +14,7 @@ export interface RouteItem {
  * @description: Get menu interface
  */
 export interface MenuParams {
-  userId?: number | string;
+  employeeId?: number | string;
   group?: string;
   applicationId: string;
 }
