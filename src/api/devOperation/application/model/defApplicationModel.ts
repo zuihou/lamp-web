@@ -12,6 +12,7 @@ export interface DefApplicationPageQuery {
   type?: string;
   introduce?: string;
   remark?: string;
+  redirect?: string;
   url?: string;
   isVisible?: boolean;
   sortValue?: number;
@@ -25,6 +26,7 @@ export interface DefApplicationSaveVO {
   version: string;
   type: string;
   introduce: string;
+  redirect: string;
   remark: string;
   url: string;
   isVisible: boolean;
@@ -40,6 +42,7 @@ export interface DefApplicationUpdateVO {
   type: string;
   introduce: string;
   remark: string;
+  redirect: string;
   url: string;
   isVisible: boolean;
   sortValue: number;
@@ -61,6 +64,7 @@ export interface DefApplicationResultVO {
   createdTime?: string;
   updatedBy?: string;
   updatedTime?: string;
+  redirect?: string;
   echoMap?: any;
   // 扩展字段
   expirationTime: string;

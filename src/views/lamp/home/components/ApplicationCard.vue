@@ -118,6 +118,9 @@
 
       async function handlerTurnToApplication(item: DefApplicationResultVO) {
         if (unref(menuSetting.getIsMixModeAndSplit)) {
+          if (item.redirect) {
+            replace(item.redirect);
+          }
           return;
         }
 

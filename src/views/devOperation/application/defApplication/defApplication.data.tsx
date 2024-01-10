@@ -136,6 +136,11 @@ export const editFormSchema = (_): FormSchema[] => {
       component: 'Input',
     },
     {
+      label: '默认地址',
+      field: 'redirect',
+      component: 'Input',
+    },
+    {
       label: t('devOperation.application.defApplication.type'),
       field: 'type',
       component: 'ApiSelect',
