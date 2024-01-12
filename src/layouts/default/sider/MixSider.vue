@@ -202,6 +202,7 @@
         [() => permissionStore.getLastBuildMenuTime, () => permissionStore.getBackMenuList],
         async () => {
           menuModules.value = await getShallowMenus();
+          childrenMenus.value = [];
         },
         {
           immediate: true,

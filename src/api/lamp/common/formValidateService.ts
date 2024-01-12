@@ -403,7 +403,7 @@ export const getValidateRuleObj = async (
     try {
       if (!formValidateApi.url) {
         createMessage.error('ServicePrefixEnum枚举类未正确配置！');
-        return resolve([]);
+        return resolve({});
       }
 
       const key = formValidateApi.url + formValidateApi.method;
