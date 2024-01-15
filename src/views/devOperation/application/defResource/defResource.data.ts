@@ -48,7 +48,10 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       label: t('devOperation.application.defResource.parentId'),
       field: 'parentIsHidden',
-      component: 'Input',
+      component: 'RadioGroup',
+      componentProps: {
+        ...yesNoComponentProps(),
+      },
       show: false,
     },
     {
@@ -88,14 +91,14 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
                 if (value === ResourceTypeEnum.DATA) {
                   return Promise.reject('数据权限必须挂载在菜单下');
                 }
-              }
-
-              if (value === ResourceTypeEnum.MENU) {
-                if (ResourceTypeEnum.MENU !== model?.parentResourceType) {
-                  return Promise.reject('菜单只能挂载在菜单下级');
-                }
-                if (model?.parentIsHidden) {
-                  return Promise.reject('菜单不能挂载在隐藏菜单下级');
+              } else {
+                if (value === ResourceTypeEnum.MENU) {
+                  if (ResourceTypeEnum.MENU !== model?.parentResourceType) {
+                    return Promise.reject('菜单只能挂载在菜单下级');
+                  }
+                  if (model?.parentIsHidden) {
+                    return Promise.reject('菜单不能挂载在隐藏菜单下级');
+                  }
                 }
               }
 
