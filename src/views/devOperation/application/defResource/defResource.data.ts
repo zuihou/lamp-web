@@ -664,7 +664,7 @@ export const customFormSchemaRules = (
               if (!CODE_REG.test(value)) {
                 return Promise.reject('编码只能包括: [英文大小写][数字][_][;][,][:][*]');
               }
-              if (await check(value, getFieldsValue().id)) {
+              if (await check(value, await getFieldsValue().id)) {
                 return Promise.reject('编码已经存在');
               }
             }

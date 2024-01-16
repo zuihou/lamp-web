@@ -85,7 +85,7 @@
           createMessage.warning(t('common.tips.pleaseSelectTheData'));
           return;
         }
-        const dsId = getForm().getFieldsValue().dsId;
+        const dsId = await getForm().getFieldsValue().dsId;
         if (!dsId) {
           createMessage.warning('请先选择数据源');
           return;

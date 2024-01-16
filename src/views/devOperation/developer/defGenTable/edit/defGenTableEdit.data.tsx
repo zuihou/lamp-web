@@ -14,12 +14,13 @@ import { query as queryTable } from '/@/api/devOperation/developer/defGenTable';
 
 const { createMessage } = useMessage();
 
-const getAuthCode = (formActionType: FormActionType, value: string, type: string) => {
+const getAuthCode = async (formActionType: FormActionType, value: string, type: string) => {
   const { getFieldsValue, setFieldsValue } = formActionType;
   if (!value) {
-    const plusApplicationName = getFieldsValue().plusApplicationName;
-    const plusModuleName = getFieldsValue().plusModuleName;
-    const entityName = lowerFirst(getFieldsValue().entityName);
+    const model = await getFieldsValue();
+    const plusApplicationName = model.plusApplicationName;
+    const plusModuleName = model.plusModuleName;
+    const entityName = lowerFirst(model.entityName);
     if (!plusApplicationName) {
       createMessage.warn('请先填写【前端应用名】');
       return;
@@ -178,10 +179,11 @@ export const baseEditFormSchema = (): FormSchema[] => {
           },
           api: findOnlineService,
           labelField: 'value',
-          onChange: (value: string) => {
+          onChange: async (value: string) => {
             if (value) {
               const { setFieldsValue, getFieldsValue } = formActionType;
-              if (!getFieldsValue().moduleName) {
+              const model = await getFieldsValue();
+              if (!model.moduleName) {
                 setFieldsValue({
                   moduleName: value,
                 });
@@ -255,7 +257,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       componentProps: ({ formActionType }) => {
         return {
           ...enumComponentProps(EnumEnum.EntitySuperClassEnum),
-          onChange: (value: string) => {
+          onChange: async (value: string) => {
             const { setFieldsValue, getFieldsValue, updateSchema } = formActionType;
 
             createMessage.info('生成模板已级联更改');
@@ -266,8 +268,8 @@ export const baseEditFormSchema = (): FormSchema[] => {
                 rules: [{ required: true }, { min: 0, max: 255, message: '长度不能超过255' }],
               });
             } else {
-              getFieldsValue().tplType === TplEnum.TREE &&
-                setFieldsValue({ tplType: TplEnum.SIMPLE });
+              const model = await getFieldsValue();
+              model.tplType === TplEnum.TREE && setFieldsValue({ tplType: TplEnum.SIMPLE });
               updateSchema({
                 field: 'treeName',
                 rules: [{ required: false }, { min: 0, max: 255, message: '长度不能超过255' }],

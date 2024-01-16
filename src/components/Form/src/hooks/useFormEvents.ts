@@ -174,13 +174,13 @@ export function useFormEvents({
     if (!prefixField || index === -1 || first) {
       first ? schemaList.unshift(..._schemaList) : schemaList.push(..._schemaList);
       schemaRef.value = schemaList;
-      _setDefaultValue(schema);
+      await _setDefaultValue(schema);
       return;
     }
     if (index !== -1) {
       schemaList.splice(index + 1, 0, ..._schemaList);
     }
-    _setDefaultValue(schema);
+    await _setDefaultValue(schema);
 
     schemaRef.value = schemaList;
   }
@@ -264,7 +264,7 @@ export function useFormEvents({
     schemaRef.value = uniqBy(schema, 'field');
   }
 
-  function _setDefaultValue(data: FormSchema | FormSchema[]) {
+  async function _setDefaultValue(data: FormSchema | FormSchema[]) {
     let schemas: FormSchema[] = [];
     if (isObject(data)) {
       schemas.push(data as FormSchema);
@@ -274,7 +274,7 @@ export function useFormEvents({
     }
 
     const obj: Recordable = {};
-    const currentFieldsValue = getFieldsValue();
+    const currentFieldsValue = await getFieldsValue();
     schemas.forEach((item) => {
       if (
         !simpleComponents.includes(item.component) &&

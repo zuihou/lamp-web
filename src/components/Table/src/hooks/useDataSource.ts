@@ -288,7 +288,7 @@ export function useDataSource(
 
       let params: Recordable = merge(
         pageParams,
-        useSearchForm ? getFieldsValue() : {},
+        useSearchForm ? await getFieldsValue() : {},
         searchInfo,
         opt?.searchInfo ?? {},
         defSort,

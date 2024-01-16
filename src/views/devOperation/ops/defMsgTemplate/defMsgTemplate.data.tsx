@@ -267,7 +267,8 @@ export const customFormSchemaRules = (
         {
           trigger: ['change', 'blur'],
           async validator(_, value) {
-            if (value && (await check(value, getFieldsValue()?.id))) {
+            const model = await getFieldsValue();
+            if (value && (await check(value, model?.id))) {
               return Promise.reject(t('devOperation.ops.defMsgTemplate.code') + '已经存在');
             }
             return Promise.resolve();

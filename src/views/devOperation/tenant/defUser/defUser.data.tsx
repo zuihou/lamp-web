@@ -385,11 +385,12 @@ export const restPasswordFormSchemaRules = (
         {
           trigger: ['change', 'blur'],
           required: true,
-          validator: (_, value) => {
+          validator: async (_, value) => {
             if (!value) {
               return Promise.reject('确认密码不能为空');
             }
-            if (value !== getFieldsValue().password) {
+            const model = await getFieldsValue();
+            if (value !== model.password) {
               return Promise.reject('两次输入的密码不一致!');
             }
             return Promise.resolve();
