@@ -129,7 +129,8 @@
       }
 
       // 弹出编辑页面
-      function handleEdit(record: Recordable) {
+      function handleEdit(record: Recordable, e: Event) {
+        e?.stopPropagation();
         openModal(true, {
           record,
           type: ActionEnum.EDIT,
@@ -141,7 +142,8 @@
       });
       const isTestConnect = ref(false);
 
-      function handleConnection(record: Recordable) {
+      function handleConnection(record: Recordable, e: Event) {
+        e?.stopPropagation();
         if (unref(isTestConnect)) {
           createMessage.warn('正在测试连接，请稍后!');
           return;
