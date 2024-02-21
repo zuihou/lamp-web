@@ -174,7 +174,8 @@
       }
 
       async function delSelectedDataByCard(obj) {
-        const uris = await getFieldsValue()?.uri;
+        const model = await getFieldsValue();
+        const uris = model?.uri;
         if (uris) {
           const index = uris.findIndex((uri) => {
             const selected = split(uri, '#');

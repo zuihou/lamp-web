@@ -286,9 +286,11 @@ export function useDataSource(
 
       const { sortInfo = {}, filterInfo } = searchState;
 
+      const model = await getFieldsValue();
+
       let params: Recordable = merge(
         pageParams,
-        useSearchForm ? await getFieldsValue() : {},
+        useSearchForm ? model : {},
         searchInfo,
         opt?.searchInfo ?? {},
         defSort,
