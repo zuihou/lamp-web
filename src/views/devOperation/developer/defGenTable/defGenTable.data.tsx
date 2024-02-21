@@ -109,6 +109,7 @@ export const importSearchFormSchema = (dsChange: Fn, setFieldsValue): FormSchema
           return option.label.toUpperCase().indexOf(input.toUpperCase()) >= 0;
         },
       },
+      defaultValue: '2',
       colProps: { span: 6 },
     },
     // {
