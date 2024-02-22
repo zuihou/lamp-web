@@ -45,14 +45,13 @@
       const listData = ref<TabItem[]>([]);
       const userStore = useUserStore();
       const employeeId = userStore.getUserInfo.employeeId;
-      const tenantId = userStore.getTenantId;
       console.log('ws1');
       const host = window.location.host;
       const protocol = window.location.protocol;
       const state = reactive({
         server: `${
           protocol.includes('https') ? 'wss' : 'ws'
-        }://${host}/api/wsMsg/anno/myMsg/${tenantId}/${employeeId}`,
+        }://${host}/api/wsMsg/anno/myMsg/${employeeId}`,
         sendValue: '',
         recordList: [] as { id: number; time: number; res: string }[],
       });
