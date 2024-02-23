@@ -111,7 +111,26 @@ export const usePermissionStore = defineStore({
     },
     // 加载资源
     async changePermissionCode() {
-      const visibleResource = await findResourceList();
+      const userStore = useUserStore();
+      const appStore = useAppStoreWithOut();
+      const applicationId = userStore.getApplicationId;
+      const getMenuMode = computed(() => appStore.getMenuSetting.mode);
+      const getMenuType = computed(() => appStore.getMenuSetting.type);
+      const getSplit = computed(() => appStore.getMenuSetting.split);
+
+      const isMixModeAndSplit = computed(() => {
+        return (
+          unref(getMenuMode) === MenuModeEnum.INLINE &&
+          unref(getMenuType) === MenuTypeEnum.MIX &&
+          unref(getSplit)
+        );
+      });
+      let visibleResource = {} as VisibleResourceVO;
+      if (unref(isMixModeAndSplit)) {
+        visibleResource = await findResourceList();
+      } else {
+        visibleResource = await findResourceList(applicationId);
+      }
       this.setVisibleResource(visibleResource);
     },
 
