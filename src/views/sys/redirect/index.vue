@@ -7,7 +7,8 @@
 
   const { currentRoute, replace } = useRouter();
 
-  const { params, query } = unref(currentRoute);
+  const { query } = unref(currentRoute.value);
+  const params = history.state.params;
   const { path, _redirect_type = 'path' } = params;
 
   Reflect.deleteProperty(params, '_redirect_type');
