@@ -1,4 +1,5 @@
 import type { RouteMeta } from 'vue-router';
+import type { AppRouteRecordRaw } from "/@/router/types";
 export interface RouteItem {
   path: string;
   component: any;
@@ -36,4 +37,5 @@ export interface VisibleResourceVO {
   resourceList: string[];
   // 用用的角色编码
   roleList: string[];
+  routerList: AppRouteRecordRaw[];
 }

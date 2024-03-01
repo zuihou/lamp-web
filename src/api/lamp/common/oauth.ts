@@ -67,6 +67,10 @@ export const Api = {
   SwitchTenantAndOrg: {
     url: `${ServicePrefixEnum.OAUTH}/anyone/switchTenantAndOrg`,
   },
+  // 设置默认企业
+  UpdateDefaultTenant: {
+    url: `${ServicePrefixEnum.BASE}/anyone/updateDefaultTenant`,
+  },
   // 查询单位和部门
   FindCompanyDept: {
     url: `${ServicePrefixEnum.OAUTH}/anyone/findCompanyDept`,
@@ -234,7 +238,7 @@ export const findAllMenuList = () => {
 export function findResourceList(applicationId?: string) {
   return defHttp.get<VisibleResourceVO>({
     ...Api.FindResourceList,
-    params: { applicationId },
+    params: { type: 'LAMP_WEB', applicationId },
   });
 }
 

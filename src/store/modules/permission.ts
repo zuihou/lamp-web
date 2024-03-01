@@ -18,13 +18,13 @@ import { ERROR_LOG_ROUTE, PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 
 import { filter } from '/@/utils/helper/treeHelper';
 
-import { findMenuList, findAllMenuList, findResourceList } from '/@/api/lamp/common/oauth';
+import { findResourceList } from '/@/api/lamp/common/oauth';
 import { VisibleResourceVO } from '/@/api/lamp/common/model/menuModel';
 
 import { useMessage } from '/@/hooks/web/useMessage';
 import { PageEnum } from '/@/enums/pageEnum';
 
-import { BeforeRoutes } from '/@/router/routes/index';
+import { BeforeRoutes } from '/@/router/routes';
 import { MenuModeEnum, MenuTypeEnum } from '/@/enums/menuEnum';
 
 const globSetting = useGlobSetting();
@@ -110,7 +110,7 @@ export const usePermissionStore = defineStore({
       this.visibleResource = {} as VisibleResourceVO;
     },
     // 加载资源
-    async changePermissionCode() {
+    async changePermissionCode(): Promise<AppRouteRecordRaw[]> {
       const userStore = useUserStore();
       const appStore = useAppStoreWithOut();
       const applicationId = userStore.getApplicationId;
@@ -131,7 +131,9 @@ export const usePermissionStore = defineStore({
       } else {
         visibleResource = await findResourceList(applicationId);
       }
+
       this.setVisibleResource(visibleResource);
+      return visibleResource.routerList;
     },
 
     // 构建路由
@@ -250,47 +252,31 @@ export const usePermissionStore = defineStore({
           // 这个功能可能只需要执行一次，实际项目可以自己放在合适的时间
           let routeList: AppRouteRecordRaw[] = [];
           try {
-            await this.changePermissionCode();
-
-            const getMenuMode = computed(() => appStore.getMenuSetting.mode);
-            const getMenuType = computed(() => appStore.getMenuSetting.type);
-            const getSplit = computed(() => appStore.getMenuSetting.split);
-
-            const isMixModeAndSplit = computed(() => {
-              return (
-                unref(getMenuMode) === MenuModeEnum.INLINE &&
-                unref(getMenuType) === MenuTypeEnum.MIX &&
-                unref(getSplit)
-              );
-            });
-
-            if (unref(isMixModeAndSplit)) {
-              routeList = (await findAllMenuList()) as AppRouteRecordRaw[];
-            } else {
-              routeList = (await findMenuList({ applicationId })) as AppRouteRecordRaw[];
-            }
+            routeList = await this.changePermissionCode();
           } catch (error) {
             console.error(error);
           }
 
-          // 动态引入组件
+          // 1. 动态引入组件
           routeList = transformObjToRoute(routeList);
 
           const isDevOper = applicationId === DEV_OPER_APP_ID; // 开发运营系统才显示 vben官方的静态示例
           // 后台路由(routeList) + 前端写死的路由(BeforeRoutes、AfterRoutes、AfterMyTenantRoutes)
           const afterRouteList = [...AfterRoutes, ...(isDevOper ? AfterVbenRoutes : [])];
 
+          // 2. 添加前端静态路由
           routeList = [...BeforeRoutes, ...routeList, ...afterRouteList];
 
-          //  后台路由转菜单结构
+          // 3. 后台路由转菜单结构
           const backMenuList = transformRouteToMenu(routeList);
           this.setBackMenuList(backMenuList);
 
           // remove meta.ignoreRoute item
-          // 删除 meta.ignoreRoute 项
+          // 4. 删除 meta.ignoreRoute 项
           routeList = filter(routeList, routeRemoveIgnoreFilter);
           routeList = routeList.filter(routeRemoveIgnoreFilter);
 
+          // 5. 将多级路由转换为 2 级路由
           routeList = flatMultiLevelRoutes(routeList);
           routes = [PAGE_NOT_FOUND_ROUTE, ...routeList];
           break;
