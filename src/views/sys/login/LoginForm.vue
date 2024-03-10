@@ -6,7 +6,7 @@
     :model="formData"
     :rules="getFormRules"
     class="p-4 enter-x"
-    @keypress.enter="handleLogin"
+    @keyup.enter="handleLogin"
   >
     <FormItem name="grantType">
       <Input v-model:value="formData.grantType" :hidden="true" size="large" />
