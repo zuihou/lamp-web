@@ -51,6 +51,8 @@ export const BeforeRoutes: AppRouteRecordRaw[] = [
     meta: {
       icon: 'bx:bx-home',
       hideMenu: true,
+      // 用于跳转到源码
+      component: 'lamp/home/index',
       title: t('routes.dashboard.welcome'),
     },
     children: [
@@ -74,6 +76,7 @@ export const BeforeRoutes: AppRouteRecordRaw[] = [
     meta: {
       title: '个人中心',
       hideMenu: true,
+      component: 'lamp/profile/index',
     },
     children: [
       {

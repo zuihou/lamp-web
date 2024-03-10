@@ -8,6 +8,7 @@
         <LayoutMultipleHeader />
         <LayoutContent />
         <LayoutFooter />
+        <SourceLink />
       </Layout>
     </Layout>
   </Layout>
@@ -19,6 +20,7 @@
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
   import LayoutHeader from './header/index.vue';
+  import SourceLink from './source-link/index.vue';
   import LayoutContent from './content/index.vue';
   import LayoutSideBar from './sider/index.vue';
   import LayoutMultipleHeader from './header/MultipleHeader.vue';
@@ -36,6 +38,7 @@
       LayoutFeatures: createAsyncComponent(() => import('/@/layouts/default/feature/index.vue')),
       LayoutFooter: createAsyncComponent(() => import('/@/layouts/default/footer/index.vue')),
       LayoutHeader,
+      SourceLink,
       LayoutContent,
       LayoutSideBar,
       LayoutMultipleHeader,
