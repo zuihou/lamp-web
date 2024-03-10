@@ -1,7 +1,11 @@
 <template>
   <div v-if="showSourceLink" class="fs-source-link-group">
-    <div class="fs-source-link" @click="goSource('https://gitee.top')">本页源码（Gitee）</div>
-    <div class="fs-source-link" @click="goSource('https://github.top')">本页源码（Github）</div>
+    <div class="fs-source-link" @click="goSource('https://gitee.com/zuihou111')">
+      本页源码（Gitee）
+    </div>
+    <div class="fs-source-link" @click="goSource('https://github.com/zuihou')">
+      本页源码（Github
+    </div>
   </div>
 </template>
 
@@ -22,7 +26,7 @@
         },
         { immediate: true },
       );
-      const middle = '/zuihou/lamp-web-pro/blob/master/src/views';
+      const middle = '/lamp-web/blob/4.x_java17/src/views';
       function goSource(prefix: any) {
         let component = router.currentRoute.value.meta?.component as string;
 
