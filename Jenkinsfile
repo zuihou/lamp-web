@@ -24,7 +24,7 @@ pipeline {
 
         // 根据项目或部署服务器 可能需要更改一次的变量
         // jar名
-        JAR_NAME = "lamp-web-pro"
+        JAR_NAME = "lamp-web-pro-${MODE}"
 
         // 以下变量基本不变
         // 推送到服务器端的文件夹路径
