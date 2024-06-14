@@ -445,6 +445,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
                   field: 'frontOutputDir',
                   rules: [{ required: true }, { min: 0, max: 255, message: '长度不能超过255' }],
                 },
+                {
+                  field: 'frontSoyOutputDir',
+                  rules: [{ required: true }, { min: 0, max: 255, message: '长度不能超过255' }],
+                },
               ]);
             } else {
               updateSchema([
@@ -454,6 +458,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
                 },
                 {
                   field: 'frontOutputDir',
+                  rules: [{ required: false }, { min: 0, max: 255, message: '长度不能超过255' }],
+                },
+                {
+                  field: 'frontSoyOutputDir',
                   rules: [{ required: false }, { min: 0, max: 255, message: '长度不能超过255' }],
                 },
               ]);
@@ -480,8 +488,17 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '前端生成路径',
+      label: '前端（Vben）生成路径',
       field: 'frontOutputDir',
+      component: 'Input',
+      helpMessage: ['非dev环境启动，此参数无效'],
+      ifShow: ({ values }) => {
+        return values.genType === GenTypeEnum.GEN;
+      },
+    },
+    {
+      label: '前端（Soybean）生成路径',
+      field: 'frontSoyOutputDir',
       component: 'Input',
       helpMessage: ['非dev环境启动，此参数无效'],
       ifShow: ({ values }) => {

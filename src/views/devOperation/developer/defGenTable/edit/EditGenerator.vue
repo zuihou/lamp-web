@@ -4,6 +4,9 @@
       <a-button :loading="loading" class="mr-2" type="default" @click="downloadFront">
         下载前端
       </a-button>
+      <a-button :loading="loading" class="mr-2" type="default" @click="downloadFrontSoybean">
+        下载前端(Soybean)
+      </a-button>
       <a-button :loading="loading" class="mr-2" type="default" @click="downloadBackend">
         下载后端
       </a-button>
@@ -11,6 +14,9 @@
     <template #submitBefore>
       <a-button :loading="loading" class="mr-2" type="primary" @click="generatorFront">
         生成前端
+      </a-button>
+      <a-button :loading="loading" class="mr-2" type="primary" @click="generatorFrontSoybean">
+        生成前端(Soybean)
       </a-button>
     </template>
   </BasicForm>
@@ -128,9 +134,15 @@
       async function generatorFront() {
         await generator(TemplateEnum.WEB_PLUS);
       }
+      async function generatorFrontSoybean() {
+        await generator(TemplateEnum.WEB_SOYBEAN);
+      }
 
       async function downloadFront() {
         await download(TemplateEnum.WEB_PLUS);
+      }
+      async function downloadFrontSoybean() {
+        await download(TemplateEnum.WEB_SOYBEAN);
       }
 
       return {
@@ -139,7 +151,9 @@
         loadDetail,
         validate,
         downloadFront,
+        downloadFrontSoybean,
         generatorFront,
+        generatorFrontSoybean,
         downloadBackend,
         loading,
       };

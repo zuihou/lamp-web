@@ -7,7 +7,8 @@
         @change="changeTabs(tableKey, $event)"
       >
         <RadioButton :value="TemplateEnum.BACKEND">后端</RadioButton>
-        <RadioButton :value="TemplateEnum.WEB_PLUS">前端</RadioButton>
+        <RadioButton :value="TemplateEnum.WEB_PLUS">前端(Vben)</RadioButton>
+        <RadioButton :value="TemplateEnum.WEB_SOYBEAN">前端(Soybean)</RadioButton>
       </RadioGroup>
       <a-button preIcon="ant-design:reload-outlined" type="link" @click="reload(tableKey)">
         刷新

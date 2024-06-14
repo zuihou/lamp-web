@@ -149,4 +149,5 @@ export enum TplEnum {
 export enum TemplateEnum {
   BACKEND = 'BACKEND',
   WEB_PLUS = 'WEB_PLUS',
+  WEB_SOYBEAN = 'WEB_SOYBEAN',
 }
