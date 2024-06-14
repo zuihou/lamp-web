@@ -557,12 +557,11 @@ export const baseEditFormSchema = (): FormSchema[] => {
       componentProps: ({ formActionType }) => {
         return {
           ...enumComponentProps(EnumEnum.TplEnum),
-          onChange: async (e: ChangeEvent) => {
-            console.log(e.target.value);
+          onChange: async (value: string) => {
             const { updateSchema, setFieldsValue } = formActionType;
 
             createMessage.info('实体父类已级联更改');
-            if (e.target.value === TplEnum.TREE) {
+            if (value === TplEnum.TREE) {
               await updateSchema({
                 field: 'treeName',
                 rules: [{ required: true }, { min: 0, max: 255, message: '长度不能超过255' }],
