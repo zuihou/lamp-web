@@ -22,16 +22,22 @@
             icon="ant-design:user-outlined"
           />
           <MenuItem
+            key="soybeandemo"
+            text="体验地址-soybean版"
+            icon="ant-design:global-outlined"
+          />
+          <MenuDivider v-if="getShowDoc" />
+          <MenuItem
             v-if="getShowDoc"
             key="doc"
-            :text="t('layout.header.dropdownItemDoc')"
+            text="《灯灯》文档"
             icon="ion:document-text-outline"
           />
           <MenuItem
             v-if="getShowDoc"
             key="vbenDoc"
             icon="ion:document-text-outline"
-            text="前端文档"
+            text="《vben》文档"
           />
           <MenuDivider v-if="getShowDoc" />
           <MenuItem
@@ -74,7 +80,7 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock' | 'profile' | 'vbenDoc';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'soybeandemo' | 'profile' | 'vbenDoc';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -146,6 +152,9 @@
             break;
           case 'doc':
             openDoc(true);
+            break;
+          case 'soybeandemo':
+            openWindow('https://soy-datasource.tangyh.top');
             break;
           case 'vbenDoc':
             openDoc(false);
