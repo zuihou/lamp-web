@@ -2,7 +2,7 @@
   <div class="bg-white m-4 ml-2 overflow-hidden">
     <a-card :title="t(`common.title.${type}`)" :bordered="false">
       <BasicForm @register="register" />
-      <div class="flex justify-center">
+      <div class="flex justify-center" v-if="type !== ActionEnum.VIEW">
         <a-button @click="resetFields">{{ t('common.resetText') }}</a-button>
         <a-button class="!ml-4" type="primary" @click="handleSubmit" :loading="confirmLoading">{{
           t('common.saveText')
@@ -30,7 +30,7 @@
     setup(_, { emit }) {
       const { t } = useI18n();
       const { createMessage } = useMessage();
-      const type = ref(ActionEnum.ADD);
+      const type = ref(ActionEnum.VIEW);
       const confirmLoading = ref(false);
 
       const [register, { setFieldsValue, resetFields, updateSchema, validate }] = useForm({
@@ -80,7 +80,7 @@
         }
       }
 
-      return { register, resetFields, handleSubmit, setData, t, type, confirmLoading };
+      return { register, resetFields, handleSubmit, setData, t, type, confirmLoading, ActionEnum };
     },
   });
 </script>

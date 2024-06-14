@@ -30,20 +30,22 @@
       const { t } = useI18n();
       const type = ref<ActionEnum>(ActionEnum.ADD);
       const { createMessage } = useMessage();
-      const [registerForm, { setFieldsValue, resetFields, updateSchema, validate, resetSchema }] =
-        useForm({
-          labelWidth: 100,
-          schemas: editFormSchema(type),
-          showActionButtonGroup: false,
-          actionColOptions: {
-            span: 23,
-          },
-          baseColProps: { span: 24 },
-        });
+      const [
+        registerForm,
+        { getFieldsValue, setFieldsValue, resetFields, updateSchema, validate },
+      ] = useForm({
+        labelWidth: 100,
+        schemas: editFormSchema(type),
+        showActionButtonGroup: false,
+        actionColOptions: {
+          span: 23,
+        },
+
+        baseColProps: { span: 24 },
+      });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
         setDrawerProps({ confirmLoading: false });
-        await resetSchema(editFormSchema(type));
         await resetFields();
         type.value = data?.type || ActionEnum.ADD;
 
@@ -55,9 +57,11 @@
 
         if (unref(type) !== ActionEnum.VIEW) {
           let validateApi = Api[VALIDATE_API[unref(type)]];
-          await getValidateRules(validateApi, customFormSchemaRules(type)).then(async (rules) => {
-            rules && rules.length > 0 && (await updateSchema(rules));
-          });
+          await getValidateRules(validateApi, customFormSchemaRules(type, getFieldsValue)).then(
+            async (rules) => {
+              rules && rules.length > 0 && (await updateSchema(rules));
+            },
+          );
         }
       });
 

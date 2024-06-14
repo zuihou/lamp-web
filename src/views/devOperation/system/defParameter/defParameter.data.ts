@@ -131,7 +131,10 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
 };
 
 // 前端自定义表单验证规则
-export const customFormSchemaRules = (type: Ref<ActionEnum>): Partial<FormSchemaExt>[] => {
+export const customFormSchemaRules = (
+  type: Ref<ActionEnum>,
+  getFieldsValue: any,
+): Partial<FormSchemaExt>[] => {
   return [
     {
       field: 'key',
@@ -140,11 +143,14 @@ export const customFormSchemaRules = (type: Ref<ActionEnum>): Partial<FormSchema
         {
           trigger: ['change', 'blur'],
           async validator(_, value) {
-            if ([ActionEnum.EDIT, ActionEnum.VIEW].includes(unref(type))) {
+            if ([ActionEnum.VIEW].includes(unref(type))) {
               return Promise.resolve();
             }
-            if (await check(value)) {
-              return Promise.reject(t('devOperation.system.defParameter.key') + '已经存在');
+            if (value) {
+              const model = await getFieldsValue();
+              if (await check(value, model.id)) {
+                return Promise.reject(t('devOperation.system.defParameter.key') + '已经存在');
+              }
             }
             return Promise.resolve();
           },
