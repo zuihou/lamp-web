@@ -139,11 +139,11 @@
         if (record.autoRead) {
           await mark([record.id]);
 
-          replace({
-            name: RouteEnum.BASIC_MY_MSG_VIEW,
-            params: { type: ActionEnum.VIEW, id: record.id },
-          });
         }
+        replace({
+          name: RouteEnum.BASIC_MY_MSG_VIEW,
+          params: { type: ActionEnum.VIEW, id: record.id },
+        });
       }
 
       // 新增或编辑成功回调
