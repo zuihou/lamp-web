@@ -37,6 +37,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
               manager: value,
               service: value,
               controller: value,
+              echo: value,
             });
           },
         };
