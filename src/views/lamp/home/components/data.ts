@@ -62,10 +62,22 @@ export const navItems: NavItem[] = [
 
 export const dynamicInfoItems: DynamicInfoItem[] = [
   {
-    percent: 40,
-    name: '4.18.0-java17/4.18.0',
-    date: '正在开发',
-    desc: `<a target="_blank" href="https://tangyh.top">全新后台UI，即将来袭...</a>`,
+    percent: 100,
+    name: '4.19.1',
+    date: '2024年06月04日',
+    desc: `<a target="_blank" href="https://soy-column.tangyh.top">4.19.1发布，基于 soybean-admin、fast-crud 封装的全新前端正式发布</a>`,
+  },
+  {
+    percent: 100,
+    name: '4.19.0-java17-beta.1',
+    date: '2024年06月05日00:35:45',
+    desc: `<a target="_blank" href="https://soy-column.tangyh.top">4.19.0-java17-beta.1发布，基于 soybean-admin、fast-crud 封装的全新前端，完成度90%</a>`,
+  },
+  {
+    percent: 100,
+    name: '4.18.0',
+    date: '2024年03月01日21:47:53',
+    desc: `<a target="_blank" href="https://soy-column.tangyh.top">全新后台UI，即将来袭...(账号密码与本系统相同)</a>`,
   },
   {
     percent: 100,
