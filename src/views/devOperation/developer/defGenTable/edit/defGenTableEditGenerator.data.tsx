@@ -22,9 +22,8 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
         return {
           ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
           isBtn: true,
-          onChange: (e: ChangeEvent) => {
+          onChange: (value) => {
             const { setFieldsValue } = formActionType;
-            const value = e?.target?.value;
             setFieldsValue({
               enum: value,
               saveVo: value,
