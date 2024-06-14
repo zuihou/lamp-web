@@ -1,10 +1,12 @@
 <template>
   <div v-if="showSourceLink" class="fs-source-link-group">
-    <div class="fs-source-link" @click="goSource('https://gitee.com/zuihou111')">
-      本页源码（Gitee）
+    <div class="fs-source-link">
+      <Icon icon="ant-design:close" @click="close" />
+      <div @click="goSource('https://gitee.com/zuihou111')">本页源码（Gitee）</div>
     </div>
-    <div class="fs-source-link" @click="goSource('https://github.com/zuihou')">
-      本页源码（Github
+    <div class="fs-source-link">
+      <Icon icon="ant-design:close" @click="close" />
+      <div @click="goSource('https://github.com/zuihou')">本页源码（Github）</div>
     </div>
   </div>
 </template>
@@ -12,8 +14,10 @@
 <script lang="ts">
   import { defineComponent, ref, watch } from 'vue';
   import { useRouter } from 'vue-router';
+  import { Icon } from '/@/components/Icon';
   export default defineComponent({
     name: 'FsSourceLink',
+    components: { Icon },
     setup() {
       const router = useRouter();
       const showSourceLink = ref(false);
@@ -42,8 +46,14 @@
           window.open(prefix + middle);
         }
       }
+
+      function close() {
+        showSourceLink.value = false;
+      }
+
       return {
         goSource,
+        close,
         showSourceLink,
       };
     },
@@ -55,16 +65,21 @@
     position: fixed;
     right: 3px;
     bottom: 20px;
-    z-index: 9999;
+    z-index: 200;
     .fs-source-link {
-      text-align: left;
-      cursor: pointer;
       font-size: 12px;
       border-radius: 5px 0 0 5px;
       padding: 5px;
       background: #666;
       color: #fff;
       margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      span,
+      svg {
+        cursor: pointer;
+      }
     }
   }
 </style>
