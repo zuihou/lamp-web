@@ -24,7 +24,6 @@ export const formItems = (): any[] => {
     {
       span: 24,
       align: 'center',
-      collapseNode: true,
       itemRender: {
         name: '$buttons',
         children: [
