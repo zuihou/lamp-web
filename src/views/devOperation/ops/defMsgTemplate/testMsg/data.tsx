@@ -5,7 +5,7 @@ import { FormSchemaExt } from '/@/api/lamp/common/formValidateService';
 export const editFormSchema = (): FormSchema[] => {
   return [
     {
-      field: 'templateCode',
+      field: 'code',
       label: '模板标识',
       component: 'Input',
       show: false,
