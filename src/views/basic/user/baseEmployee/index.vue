@@ -26,14 +26,6 @@
         >
           {{ t('common.title.add') }}
         </a-button>
-        <a-button
-          v-hasAnyPermission="[RoleEnum.INVITATION_USER]"
-          preIcon="ant-design:plus-outlined"
-          type="primary"
-          @click="handleInvitation"
-        >
-          邀请
-        </a-button>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'orgNameList'">
