@@ -9,9 +9,6 @@
           @click="handleBatchDelete"
           >{{ t('common.title.delete') }}
         </a-button>
-        <a-button type="primary" v-hasAnyPermission="[RoleEnum.TENANT_USER_ADD]" @click="handleAdd"
-          >{{ t('common.title.add') }}
-        </a-button>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'action'">
