@@ -20,7 +20,7 @@ VITE_GLOB_API_URL = /api
 
 # File upload address， optional
 # It can be forwarded by nginx or write the actual address directly
-VITE_GLOB_UPLOAD_URL = /base/file/anyone/upload
+VITE_GLOB_UPLOAD_URL = /base/anyone/file/upload
 
 # Interface prefix
 VITE_GLOB_API_URL_PREFIX=

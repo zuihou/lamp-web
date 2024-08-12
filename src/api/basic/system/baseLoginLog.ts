@@ -13,7 +13,7 @@ export const Api = {
     method: RequestEnum.POST,
   } as AxiosRequestConfig,
   AnyonePage: {
-    url: `${ServicePrefixEnum.BASE}/${MODULAR}/anyone/page`,
+    url: `${ServicePrefixEnum.BASE}/anyone/${MODULAR}/anyOnePage`,
     method: RequestEnum.POST,
   } as AxiosRequestConfig,
   Delete: {

@@ -65,7 +65,12 @@ const transform: AxiosTransform = {
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
     let timeoutMsg = '';
     switch (code) {
-      case ResultEnum.TIMEOUT:
+      case ResultEnum.UNAUTHORIZED:
+      case ResultEnum.INVALID_TOKEN:
+      case ResultEnum.TOKEN_TIMEOUT:
+      case ResultEnum.BE_REPLACED:
+      case ResultEnum.KICK_OUT:
+      case ResultEnum.NOT_VALUE_EXPIRE:
         timeoutMsg = t('sys.api.timeoutMessage');
         const userStore = useUserStoreWithOut();
         userStore.setToken(undefined);
@@ -238,8 +243,8 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
       {
         // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes
         // authentication schemes，e.g: Bearer
-        // authenticationScheme: 'Bearer',
-        authenticationScheme: '',
+        authenticationScheme: 'Bearer',
+        // authenticationScheme: '',
         timeout: globSetting.axiosTimeout,
         // 基础接口地址
         // baseURL: globSetting.apiUrl,

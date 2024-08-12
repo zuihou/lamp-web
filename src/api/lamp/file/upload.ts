@@ -19,7 +19,7 @@ export function uploadFile(
 ) {
   return defHttp.uploadFile<FileResultVO>(
     {
-      url: `${ServicePrefixEnum.FILE}/file/anyone/upload`,
+      url: `${ServicePrefixEnum.FILE}/anyone/file/upload`,
       onUploadProgress,
       // 60 s
       timeout: 60 * 1000,
@@ -31,7 +31,7 @@ export function uploadFile(
 export const downloadFile = (ids: string[] | number[]) =>
   defHttp.request<any>(
     {
-      url: ServicePrefixEnum.FILE + '/file/anyone/download',
+      url: ServicePrefixEnum.FILE + '/anyone/file/download',
       method: RequestEnum.GET,
       responseType: 'blob',
       params: qs.stringify({ ids }, { arrayFormat: 'repeat' }),

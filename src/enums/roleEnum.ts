@@ -109,6 +109,9 @@ export enum RoleEnum {
   TENANT_SYSTEM_FILE_DEBUG_UPLOAD = 'tenant:system:file:debug:upload',
   TENANT_SYSTEM_FILE_DOWNLOAD = 'tenant:system:file:download',
   TENANT_SYSTEM_FILE_DELETE = 'tenant:system:file:delete',
+  // 在线用户
+  TENANT_SYSTEM_ONLINE_KICKOUT = 'tenant:system:online:kickout',
+  TENANT_SYSTEM_ONLINE_LOGOUT = 'tenant:system:online:logout',
 
   // 基础平台
   // 消息中心-消息管理

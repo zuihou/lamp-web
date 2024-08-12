@@ -63,6 +63,18 @@ export const navItems: NavItem[] = [
 export const dynamicInfoItems: DynamicInfoItem[] = [
   {
     percent: 100,
+    name: '4.21.0发布，集成sa-token',
+    date: '2024年08月12日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/306539/lamp-cloud-4-21-0-released">4.21.0发布，集成sa-token、新增在线用户管理</a>`,
+  },
+  {
+    percent: 100,
+    name: '4.20.0发布，依赖升级，excel导入导出集成',
+    date: '2024年06月27日',
+    desc: `<a target="_blank" href="https://soy-column.tangyh.top">4.20.0发布，依赖升级，excel导入导出集成</a>`,
+  },
+  {
+    percent: 100,
     name: '4.19.1',
     date: '2024年06月04日',
     desc: `<a target="_blank" href="https://soy-column.tangyh.top">4.19.1发布，基于 soybean-admin、fast-crud 封装的全新前端正式发布</a>`,

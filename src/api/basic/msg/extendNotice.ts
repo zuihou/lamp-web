@@ -11,49 +11,49 @@ import { RequestEnum } from '/@/enums/httpEnum';
 import { ServicePrefixEnum } from '/@/enums/commonEnum';
 import type { AxiosRequestConfig } from 'axios';
 
-const MODULAR = 'extendNotice';
+const MODULAR = 'anyone/extendNotice';
 const ServicePrefix = ServicePrefixEnum.BASE;
 
 export const Api = {
   Page: {
-    url: `${ServicePrefix}/${MODULAR}/anyone/page`,
+    url: `${ServicePrefix}/${MODULAR}/page`,
     method: RequestEnum.POST,
   } as AxiosRequestConfig,
   Detail: {
-    url: `${ServicePrefix}/${MODULAR}/anyone/detail`,
+    url: `${ServicePrefix}/${MODULAR}/detail`,
     method: RequestEnum.GET,
   } as AxiosRequestConfig,
   Copy: {
-    url: `${ServicePrefix}/${MODULAR}/anyone/copy`,
+    url: `${ServicePrefix}/${MODULAR}/copy`,
     method: RequestEnum.POST,
   } as AxiosRequestConfig,
   Save: {
-    url: `${ServicePrefix}/${MODULAR}/anyone`,
+    url: `${ServicePrefix}/${MODULAR}`,
     method: RequestEnum.POST,
   } as AxiosRequestConfig,
   Update: {
-    url: `${ServicePrefix}/${MODULAR}/anyone`,
+    url: `${ServicePrefix}/${MODULAR}`,
     method: RequestEnum.PUT,
   },
   Delete: {
-    url: `${ServicePrefix}/${MODULAR}/anyone`,
+    url: `${ServicePrefix}/${MODULAR}`,
     method: RequestEnum.DELETE,
   } as AxiosRequestConfig,
   Query: {
-    url: `${ServicePrefix}/${MODULAR}/anyone/query`,
+    url: `${ServicePrefix}/${MODULAR}/query`,
     method: RequestEnum.POST,
   } as AxiosRequestConfig,
   Mark: {
-    url: `${ServicePrefix}/${MODULAR}/anyone/mark`,
+    url: `${ServicePrefix}/${MODULAR}/mark`,
     method: RequestEnum.POST,
   } as AxiosRequestConfig,
   MyNotice: {
-    url: `${ServicePrefix}/${MODULAR}/anyone/myNotice`,
+    url: `${ServicePrefix}/${MODULAR}/myNotice`,
     method: RequestEnum.POST,
   } as AxiosRequestConfig,
   Get: (id) => {
     return {
-      url: `${ServicePrefix}/${MODULAR}/anyone/${id}`,
+      url: `${ServicePrefix}/${MODULAR}/${id}`,
       method: RequestEnum.GET,
     } as AxiosRequestConfig;
   },

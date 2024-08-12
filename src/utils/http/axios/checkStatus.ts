@@ -35,6 +35,11 @@ export function checkStatus(err: any, errorMessageMode: ErrorMessageMode = 'mess
     // Jump to the login page if not logged in, and carry the path of the current page
     // Return to the current page after successful login. This step needs to be operated on the login page.
     case ResultEnum.UNAUTHORIZED:
+    case ResultEnum.INVALID_TOKEN:
+    case ResultEnum.TOKEN_TIMEOUT:
+    case ResultEnum.BE_REPLACED:
+    case ResultEnum.KICK_OUT:
+    case ResultEnum.NOT_VALUE_EXPIRE:
       userStore.setToken('');
       errMessage = msg || t('sys.api.errMsg401');
       if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {
