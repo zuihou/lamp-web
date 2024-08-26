@@ -47,7 +47,7 @@ export const downloadFile = (ids: string[] | number[]) =>
  */
 export const findUrlById = (params: string[] | number[]) => {
   return defHttp.request<string[]>({
-    url: `${ServicePrefixEnum.BASE}/file/anyone/findUrlById`,
+    url: `${ServicePrefixEnum.BASE}/anyone/file/findUrlById`,
     method: RequestEnum.POST,
     params,
   });
