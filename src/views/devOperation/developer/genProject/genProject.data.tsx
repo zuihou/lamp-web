@@ -170,6 +170,14 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
+      label: '是否支持seata',
+      field: 'seata',
+      component: 'Switch',
+      itemProps: {
+        extra: '开启后，必须启动seata-server',
+      },
+    },
+    {
       field: 'divider-selects2',
       label: 'lamp-util 配置',
       component: 'BasicTitle',
