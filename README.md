@@ -8,7 +8,7 @@
 [![Star](https://gitee.com/dromara/lamp-cloud/badge/star.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/stargazers) 
 [![Fork](https://gitee.com/dromara/lamp-cloud/badge/fork.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/members)
 
-## lamp-cloud/lamp-boot + lamp-web-pro 功能介绍：
+## lamp-cloud/lamp-boot + lamp-web 功能介绍：
 
 1. 租户管理：运营人员管理所有的租户创建
 2. 工作台：普通用户常用功能
@@ -21,10 +21,10 @@
 
 ## 技术栈
 
-- Vue 3.x
-- vuex 4.x
-- typescript 4.x
-- ant-design-vue 3.x
+- Vue 3
+- vuex 4
+- typescript 4
+- ant-design-vue 3
 - axios
 - echarts
 - vite
@@ -70,33 +70,29 @@ pnpm dev
 ```bash
 
 pnpm build # 打包
-
-pnpm build:no-cache # 打包，执行之前会先删除缓存
-
-pnpm report # 生成构建包报表预览
 ```
 
-### 格式化
 
-```bash
-pnpm lint:stylelint # 样式格式化
+## 工具集
 
-pnpm lint:prettier # js/ts代码格式化
-```
+| 项目             | gitee                                                        | github                     | gitcode                                | 备注       |
+|----------------|--------------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|----------|
+| lamp-util      | [lamp-util](https://gitee.com/zuihou111/lamp-util)           | [lamp-util](https://github.com/zuihou/lamp-util)   | [lamp-util](https://gitcode.com/zuihou/lamp-util)           | 核心工具集    |
+| lamp-job       | [lamp-job](https://gitee.com/zuihou111/lamp-job)             | [lamp-job](https://github.com/zuihou/lamp-job)    | [lamp-job](https://gitcode.com/zuihou/lamp-job)             | 分布式定时调度器 |
 
-### 其他
+## 后端
 
-```bash
-pnpm reinstall # 删除依赖重新装，兼容window
+| 项目         | gitee                                                  | github           | gitcode                                             | 备注                |
+|------------|--------------------------------------------------------|--------------------------------------------------------|-----------------------------------------------------|-------------------|
+| lamp-cloud | [lamp-cloud](https://gitee.com/dromara/lamp-cloud)     | [lamp-cloud](https://github.com/dromara/lamp-cloud)  | [lamp-cloud](https://gitcode.com/zuihou/lamp-cloud) | SpringCloud(微服务)版 |
+| lamp-boot  | [lamp-boot](https://gitee.com/zuihou111/lamp-boot)     | [lamp-boot](https://github.com/zuihou/lamp-boot)    | [lamp-boot](https://gitcode.com/zuihou/lamp-boot)    | SpringBoot(单体)版   |
 
-pnpm preview # 本地进行打包预览
+## 前端
 
-pnpm log # 生成CHANGELOG
+| 项目                         | gitee                                                      | github                                                 | gitcode                                                   | 备注            | 演示地址                     |
+|----------------------------|------------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|---------------|--------------------------|
+| lamp-web                   | [lamp-web](https://gitee.com/zuihou111/lamp-web)           | [lamp-web](https://github.com/zuihou/lamp-web)    | [lamp-web](https://gitcode.com/zuihou/lamp-web)           | 基于 vben-admin | https://none.tangyh.top  |
 
-pnpm clean:cache # 删除缓存
-
-pnpm clean:lib # 删除node_modules，兼容window系统
-```
 
 # 友情链接 & 特别鸣谢
 
