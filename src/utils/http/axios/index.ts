@@ -66,6 +66,7 @@ const transform: AxiosTransform = {
     let timeoutMsg = '';
     switch (code) {
       case ResultEnum.UNAUTHORIZED:
+      case ResultEnum.NOT_TOKEN:
       case ResultEnum.INVALID_TOKEN:
       case ResultEnum.TOKEN_TIMEOUT:
       case ResultEnum.BE_REPLACED:

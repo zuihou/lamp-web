@@ -4,7 +4,7 @@ import type { CreateAxiosOptions } from './axiosTransform';
 import axios from 'axios';
 import qs from 'qs';
 import { AxiosCanceler } from './axiosCancel';
-import { isFunction, isString } from '/@/utils/is';
+import { isFunction } from '/@/utils/is';
 import { cloneDeep } from 'lodash-es';
 import { ContentTypeEnum } from '/@/enums/httpEnum';
 import { RequestEnum } from '/@/enums/httpEnum';
@@ -156,21 +156,23 @@ export class VAxios {
     // });
 
     // 全局api前缀
-    const { apiUrl } = opt;
+    // const { apiUrl } = opt;
 
-    if (apiUrl && isString(apiUrl)) {
-      config.url = `${apiUrl}${config.url}`;
-    }
-
-    return this.axiosInstance.request<T>({
-      ...config,
-      method: 'POST',
-      data: formData,
-      headers: {
-        'Content-type': ContentTypeEnum.FORM_DATA,
-        // ignoreCancelToken: true,
+    // if (apiUrl && isString(apiUrl)) {
+    //   config.url = `${apiUrl}${config.url}`;
+    // }
+    return this.request<T>(
+      {
+        ...config,
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Content-type': ContentTypeEnum.FORM_DATA,
+          // ignoreCancelToken: true,
+        },
       },
-    });
+      opt,
+    );
   }
 
   // support form-data

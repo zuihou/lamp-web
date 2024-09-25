@@ -113,9 +113,11 @@ export const useUserStore = defineStore({
       this.applicationId = info;
       setAuthCache(APPLICATION_ID_KEY, info);
     },
-    setApplicationName(info: string) {
-      this.applicationName = info;
-      setAuthCache(APPLICATION_NAME_KEY, info);
+    setApplicationName(info: string | undefined) {
+      if (info) {
+        this.applicationName = info;
+        setAuthCache(APPLICATION_NAME_KEY, info);
+      }
     },
     setExpireTime(info: string) {
       this.expireTime = info;

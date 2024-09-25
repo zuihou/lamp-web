@@ -25,6 +25,7 @@ export function uploadFile(
       timeout: 60 * 1000,
     },
     params,
+    { isReturnNativeResponse: true },
   );
 }
 
