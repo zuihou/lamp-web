@@ -42,10 +42,10 @@
         });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
+        type.value = data?.type || ActionEnum.ADD;
         setDrawerProps({ confirmLoading: false });
         await resetSchema(editFormSchema(type));
         await resetFields();
-        type.value = data?.type || ActionEnum.ADD;
 
         if (unref(type) !== ActionEnum.ADD) {
           // 赋值

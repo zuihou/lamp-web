@@ -63,6 +63,24 @@ export const navItems: NavItem[] = [
 export const dynamicInfoItems: DynamicInfoItem[] = [
   {
     percent: 100,
+    name: '4.22.0发布,',
+    date: '2024年09月27日',
+    desc: `<a target="_blank" href="https://tangyh.top/upgrade/4.x%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97.html">单体版和微服务版融合</a>`,
+  },
+  {
+    percent: 100,
+    name: '4.21.2发布，依赖升级',
+    date: '2024年09月03日',
+    desc: `<a target="_blank" href="https://tangyh.top/upgrade/4.x%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97.html">依赖升级</a>`,
+  },
+  {
+    percent: 100,
+    name: '4.21.1发布，bug修复',
+    date: '2024年08月22日',
+    desc: `<a target="_blank" href="https://tangyh.top/upgrade/4.x%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97.html">bug修复</a>`,
+  },
+  {
+    percent: 100,
     name: '4.21.0发布，集成sa-token',
     date: '2024年08月12日',
     desc: `<a target="_blank" href="https://www.oschina.net/news/306539/lamp-cloud-4-21-0-released">4.21.0发布，集成sa-token、新增在线用户管理</a>`,

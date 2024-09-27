@@ -94,9 +94,9 @@
 
       // 设置回显数据
       async function setData(data: Recordable) {
+        type.value = data?.type;
         await resetSchema(editFormSchema(type));
         await resetFields();
-        type.value = data?.type;
 
         const { parent } = data;
         let resourceVO = {};

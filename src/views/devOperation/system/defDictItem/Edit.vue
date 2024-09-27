@@ -45,10 +45,10 @@
       });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
+        type.value = data?.type;
         await resetSchema(editFormSchema(type));
         await resetFields();
         setDrawerProps({ confirmLoading: false });
-        type.value = data?.type;
 
         // 赋值
         const record = { ...data?.record };

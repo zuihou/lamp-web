@@ -136,7 +136,7 @@
       const currentOrg = ref<Recordable>({});
       const { createMessage, createConfirm } = useMessage();
       // 编辑页弹窗
-      const [registerDrawer, { openDrawer, setDrawerProps }] = useDrawer();
+      const [registerDrawer, { openDrawer }] = useDrawer();
       // 绑定角色
       const [registerModal, { openModal }] = useModal();
       const [registerRestPwdModal, { openModal: openRestPwdModal }] = useModal();

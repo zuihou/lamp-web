@@ -54,9 +54,9 @@
       });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
+        type.value = data?.type || ActionEnum.ADD;
         setDrawerProps({ confirmLoading: false });
         await resetFields();
-        type.value = data?.type || ActionEnum.ADD;
 
         const result = await detail(data?.record?.id);
 

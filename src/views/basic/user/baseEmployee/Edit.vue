@@ -17,18 +17,18 @@
   </BasicDrawer>
 </template>
 <script lang="ts">
-import {defineComponent, ref, unref} from 'vue';
-import {BasicDrawer, useDrawerInner} from '/@/components/Drawer';
-import {BasicForm, useForm} from '/@/components/Form/index';
-import {useI18n} from '/@/hooks/web/useI18n';
-import {useMessage} from '/@/hooks/web/useMessage';
-import {CollapseContainer} from '/@/components/Container/index';
-import {ActionEnum, DictEnum, VALIDATE_API} from '/@/enums/commonEnum';
-import {Api, get, save, update} from '/@/api/basic/user/baseEmployee';
-import {getValidateRules} from '/@/api/lamp/common/formValidateService';
-import {customFormSchemaRules, editFormSchema, userEditFormSchema} from './baseEmployee.data';
+  import { defineComponent, ref, unref } from 'vue';
+  import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
+  import { BasicForm, useForm } from '/@/components/Form/index';
+  import { useI18n } from '/@/hooks/web/useI18n';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { CollapseContainer } from '/@/components/Container/index';
+  import { ActionEnum, VALIDATE_API } from '/@/enums/commonEnum';
+  import { Api, save, update, get } from '/@/api/basic/user/baseEmployee';
+  import { getValidateRules } from '/@/api/lamp/common/formValidateService';
+  import { customFormSchemaRules, editFormSchema, userEditFormSchema } from './baseEmployee.data';
 
-export default defineComponent({
+  export default defineComponent({
     name: 'BaseEmployeeEdit',
     components: { BasicDrawer, BasicForm, CollapseContainer },
     emits: ['success', 'register'],
@@ -62,13 +62,14 @@ export default defineComponent({
       });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
+        type.value = data?.type || ActionEnum.ADD;
+
         setDrawerProps({ confirmLoading: false });
         await resetSchema(editFormSchema(type));
         await resetFields();
         if (unref(type) === ActionEnum.VIEW) {
           await resetFieldsByUser();
         }
-        type.value = data?.type || ActionEnum.ADD;
 
         if (unref(type) !== ActionEnum.ADD) {
           if (unref(type) === ActionEnum.VIEW) {
@@ -84,6 +85,7 @@ export default defineComponent({
         if (unref(type) !== ActionEnum.VIEW) {
           let validateApi = Api[VALIDATE_API[unref(type)]];
           await getValidateRules(validateApi, customFormSchemaRules(type)).then(async (rules) => {
+            console.log(rules);
             rules && rules.length > 0 && (await updateSchema(rules));
           });
         }
@@ -111,7 +113,7 @@ export default defineComponent({
         }
       }
 
-      return { type, t, DictEnum, ActionEnum, registerDrawer, registerForm, handleSubmit, registerUserForm };
+      return { type, t, ActionEnum, registerDrawer, registerForm, handleSubmit, registerUserForm };
     },
   });
 </script>

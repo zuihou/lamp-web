@@ -61,6 +61,11 @@
     </ARow>
 
     <ARow class="enter-x">
+      <ACol :span="24" style="color: red;">
+        账号/密码：lamp/lamp，登录不上请 <a href="https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html" target="_blank">联系作者</a>
+      </ACol>
+    </ARow>
+    <ARow class="enter-x">
       <ACol :span="12">
         <FormItem>
           <!-- No logic, you need to deal with it yourself -->

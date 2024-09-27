@@ -62,8 +62,8 @@
 
       // 设置回显数据
       async function setData(data: Recordable) {
-        await resetFields();
         type.value = data?.type;
+        await resetFields();
 
         const { record = {}, parent = {} } = data;
         record['parentName'] = parent?.name;

@@ -44,8 +44,8 @@
       });
 
       const load = async (data: Recordable) => {
-        await resetFields();
         type.value = data?.type;
+        await resetFields();
 
         if (![ActionEnum.ADD].includes(unref(type))) {
           const record = await get(data?.id);

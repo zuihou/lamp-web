@@ -654,17 +654,19 @@ export const customFormSchemaRules = (
       type: RuleType.append,
       rules: [
         {
-          trigger: ['change', 'blur'],
+          trigger: 'blur',
           async validator(_, value) {
-            if (type.value === ActionEnum.EDIT) {
+            if (![ActionEnum.EDIT, ActionEnum.ADD].includes(type.value)) {
               return Promise.resolve();
             }
+
+            const model = await getFieldsValue();
 
             if (value) {
               if (!CODE_REG.test(value)) {
                 return Promise.reject('编码只能包括: [英文大小写][数字][_][;][,][:][*]');
               }
-              if (await check(value, await getFieldsValue().id)) {
+              if (await check(value, model.id)) {
                 return Promise.reject('编码已经存在');
               }
             }

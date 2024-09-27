@@ -17,12 +17,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import {
-    ActionEnum,
-    ServicePrefixEnum,
-    FileBizTypeEnum,
-    VALIDATE_API,
-  } from '/@/enums/commonEnum';
+  import { ActionEnum, FileBizTypeEnum, VALIDATE_API } from '/@/enums/commonEnum';
   import { Api, save, update } from '/@/api/devOperation/application/defApplication';
   import { getValidateRules } from '/@/api/lamp/common/formValidateService';
   import { listByBizId } from '/@/api/lamp/file/upload';
@@ -48,10 +43,10 @@
         });
 
       const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
+        type.value = data?.type;
         await resetSchema(editFormSchema(type));
         await resetFields();
         setDrawerProps({ confirmLoading: false });
-        type.value = data?.type;
 
         if (unref(type) !== ActionEnum.ADD) {
           // 赋值

@@ -101,7 +101,7 @@
             emit('success');
           }
         } catch (e) {
-          if (e?.response?.data?.msg.indexOf('是否覆盖导入') > -1) {
+          if (e?.response?.data?.msg.indexOf('是否继续导入') > -1) {
             const msg = e?.response?.data?.msg ?? '是否确认导入此表？';
             createConfirm({
               iconType: 'warning',

@@ -41,10 +41,10 @@
         });
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+        type.value = data?.type;
         await resetSchema(editFormSchema);
         await resetFields();
         setModalProps({ confirmLoading: false });
-        type.value = data?.type;
 
         if (unref(type) !== ActionEnum.ADD) {
           // 赋值

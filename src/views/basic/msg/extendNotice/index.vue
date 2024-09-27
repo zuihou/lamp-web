@@ -138,7 +138,6 @@
         e?.stopPropagation();
         if (record.autoRead) {
           await mark([record.id]);
-
         }
         replace({
           name: RouteEnum.BASIC_MY_MSG_VIEW,

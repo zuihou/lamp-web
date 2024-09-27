@@ -314,7 +314,7 @@
 </script>
 <style lang="less" scoped>
   .cardDesc {
-    background: rgb(97 175 254 / 10%);
+    background: rgba(97, 175, 254, 0.1);
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;

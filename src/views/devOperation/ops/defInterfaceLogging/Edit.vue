@@ -56,10 +56,10 @@
 
       const [registerModel, { setModalProps: setProps, closeModal: close }] = useModalInner(
         async (data) => {
+          type.value = data?.type || ActionEnum.ADD;
           setProps({ confirmLoading: false });
           await resetSchema(editFormSchema(type));
           await resetFields();
-          type.value = data?.type || ActionEnum.ADD;
 
           // 赋值
           const record = { ...data?.record };
