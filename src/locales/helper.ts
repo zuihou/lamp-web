@@ -1,6 +1,6 @@
 import type { LocaleType } from '/#/config';
 
-import { set } from 'lodash-es';
+import { set, assign } from 'lodash-es';
 
 export const loadLocalePool: LocaleType[] = [];
 
@@ -23,6 +23,11 @@ export function genMessage(langs: Record<string, Record<string, any>>, prefix = 
     const keyList = fileName.split('/');
     const moduleName = keyList.shift();
     const objKey = keyList.join('.');
+
+    if (moduleName === 'menu') {
+      assign(obj, langFileModule);
+      return;
+    }
 
     if (moduleName) {
       if (objKey) {
