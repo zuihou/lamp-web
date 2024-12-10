@@ -63,6 +63,30 @@ export const navItems: NavItem[] = [
 export const dynamicInfoItems: DynamicInfoItem[] = [
   {
     percent: 100,
+    name: '5.0.3发布, 菜单数据支持国际化',
+    date: '2024年12月10日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/324163/lamp-cloud-5-0-3-released">菜单数据支持国际化</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.0.2发布,bug修复',
+    date: '2024年11月12日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/324163/lamp-cloud-5-0-2-released">代码生成器适配5.0版本</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.0.1发布,',
+    date: '2024年10月16日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/324163/lamp-cloud-5-0-1-released">代码生成器适配5.0版本</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.0.0发布,单体版和微服务版合并',
+    date: '2024年10月09日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/315448/lamp-cloud-5-0-0-released">单体版和微服务版融合</a>`,
+  },
+  {
+    percent: 100,
     name: '4.22.0发布,',
     date: '2024年09月27日',
     desc: `<a target="_blank" href="https://tangyh.top/upgrade/4.x%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97.html">单体版和微服务版融合</a>`,
@@ -83,25 +107,25 @@ export const dynamicInfoItems: DynamicInfoItem[] = [
     percent: 100,
     name: '4.21.0发布，集成sa-token',
     date: '2024年08月12日',
-    desc: `<a target="_blank" href="https://www.oschina.net/news/306539/lamp-cloud-4-21-0-released">4.21.0发布，集成sa-token、新增在线用户管理</a>`,
+    desc: `<a target="_blank" href="https://tangyh.top/upgrade/4.x%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97.html">集成sa-token</a>`,
   },
   {
     percent: 100,
     name: '4.20.0发布，依赖升级，excel导入导出集成',
     date: '2024年06月27日',
-    desc: `<a target="_blank" href="https://soy-column.tangyh.top">4.20.0发布，依赖升级，excel导入导出集成</a>`,
+    desc: `<a target="_blank" href="https://soy-column.tangyh.top">依赖升级，excel导入导出集成</a>`,
   },
   {
     percent: 100,
     name: '4.19.1',
     date: '2024年06月04日',
-    desc: `<a target="_blank" href="https://soy-column.tangyh.top">4.19.1发布，基于 soybean-admin、fast-crud 封装的全新前端正式发布</a>`,
+    desc: `<a target="_blank" href="https://soy-column.tangyh.top">基于 soybean-admin、fast-crud 封装的全新前端正式发布</a>`,
   },
   {
     percent: 100,
     name: '4.19.0-java17-beta.1',
     date: '2024年06月05日00:35:45',
-    desc: `<a target="_blank" href="https://soy-column.tangyh.top">4.19.0-java17-beta.1发布，基于 soybean-admin、fast-crud 封装的全新前端，完成度90%</a>`,
+    desc: `<a target="_blank" href="https://soy-column.tangyh.top">发布，基于 soybean-admin、fast-crud 封装的全新前端，完成度90%</a>`,
   },
   {
     percent: 100,
@@ -123,13 +147,13 @@ export const dynamicInfoItems: DynamicInfoItem[] = [
   },
   {
     percent: 100,
-    name: '4.15.0：',
-    date: '2023-12-28',
-    desc: ` <a target="_blank" href="https://www.oschina.net/news/273069/lamp-cloud-4-15-0-java17-released">适配jdk17</a>`,
+    name: '4.15.0-java17',
+    date: '2023年12月28日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/273069/lamp-cloud-4-15-0-java17-released">适配jdk17</a>`,
   },
   {
     percent: 100,
-    name: '4.14完结',
+    name: '4.14.x 视频适配版已完结',
     date: '2023年11月17日',
     desc: `讲解视频第一版已完成，欢迎大家观看后提出意见，后续根据意见补录，<a target="_blank" href="https://gitee.com/dromara/lamp-cloud/issues/I6NT95">点我看视频</a>`,
   },
