@@ -99,7 +99,7 @@
       // 增加token
       const token = getToken();
       if (token) {
-        headers[tokenKey] = `Bearer ${token}`;
+        headers[tokenKey] = `${token}`;
       }
       // 增加租户编码
       if (multiTenantType !== MultiTenantTypeEnum.NONE) {
