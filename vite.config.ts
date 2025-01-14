@@ -8,7 +8,7 @@ import { createProxy } from './build/vite/proxy';
 import { wrapperEnv } from './build/utils';
 import { createVitePlugins } from './build/vite/plugin';
 import { OUTPUT_DIR } from './build/constant';
-import { include, exclude } from './build/vite/optimize'
+import { include, exclude } from './build/vite/optimize';
 function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir);
 }
@@ -27,7 +27,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
   // The boolean type read by loadEnv is a string. This function can be converted to boolean type
   const viteEnv = wrapperEnv(env);
 
-  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE } = viteEnv;
+  const {
+    VITE_GLOB_MODE = 'cloud',
+    VITE_PORT,
+    VITE_PUBLIC_PATH,
+    VITE_PROXY,
+    VITE_DROP_CONSOLE,
+  } = viteEnv;
   console.log('mode=%s, root=%s, env=%s', mode, root, env);
   const isBuild = command === 'build';
 
@@ -41,7 +47,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       host: true,
       port: VITE_PORT,
       // Load proxy configuration from .env
-      proxy: createProxy(VITE_PROXY),
+      proxy: createProxy(VITE_PROXY ? VITE_PROXY[VITE_GLOB_MODE] : []),
     },
     resolve: {
       alias: [

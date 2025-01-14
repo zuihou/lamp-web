@@ -72,6 +72,8 @@ declare global {
     VITE_USE_IMAGEMIN: boolean;
     VITE_GENERATE_UI: string;
     VITE_GLOB_TIPS: string;
+    // 后端模式： 单体还是微服务
+    VITE_GLOB_MODE: string;
   }
 
   declare function parseInt(s: string | number, radix?: number): number;
