@@ -22,8 +22,18 @@
             icon="ant-design:user-outlined"
           />
           <MenuItem
+            key="vben5demo"
+            text="体验网址-vben5版"
+            icon="ant-design:global-outlined"
+          />
+          <MenuItem
+            key="vben2demo"
+            text="体验网址-vben2版"
+            icon="ant-design:global-outlined"
+          />
+          <MenuItem
             key="soybeandemo"
-            text="体验地址-soybean版"
+            text="体验网址-soybean版"
             icon="ant-design:global-outlined"
           />
           <MenuDivider v-if="getShowDoc" />
@@ -80,7 +90,7 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock' | 'soybeandemo' | 'profile' | 'vbenDoc';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'soybeandemo' | 'vben2demo' | 'vben5demo' | 'profile' | 'vbenDoc' | 'registerTenant';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -155,6 +165,12 @@
             break;
           case 'soybeandemo':
             openWindow('https://soy-datasource.tangyh.top');
+            break;
+          case 'vben2demo':
+            openWindow('https://none.tangyh.top');
+            break;
+          case 'vben5demo':
+            openWindow('https://max-datasource.tangyh.top');
             break;
           case 'vbenDoc':
             openDoc(false);
