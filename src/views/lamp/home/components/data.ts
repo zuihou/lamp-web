@@ -47,10 +47,10 @@ export const navItems: NavItem[] = [
     href: 'https://tangyh.top',
   },
   {
-    title: '4.x文档',
+    title: '5.x文档',
     icon: 'ion:key-outline',
     color: '#4daf1bc9',
-    href: 'http://doc.tangyh.top',
+    href: 'https://tangyh.top/doc/%E7%AE%80%E4%BB%8B.html',
   },
   {
     title: 'vben文档',
