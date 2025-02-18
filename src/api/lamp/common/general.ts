@@ -12,12 +12,12 @@ export const Api = {
       method: RequestEnum.GET,
     };
   },
-  FindEnumListByType: {
-    url: `${ServicePrefixEnum.OAUTH}/anyTenant/enums/findEnumListByType`,
+  FindEnumMapByType: {
+    url: `${ServicePrefixEnum.OAUTH}/anyTenant/enums/findEnumMapByType`,
     method: RequestEnum.POST,
   },
   FindCodeListByType: {
-    url: `${ServicePrefixEnum.OAUTH}/anyUser/dict/findDictMapItemListByKey`,
+    url: `${ServicePrefixEnum.OAUTH}/anyUser/dict/findDictMapByType`,
     method: RequestEnum.POST,
   },
   Params: {
@@ -33,8 +33,8 @@ export const findSystemApi = (serviceProfix: string) => {
 /**
  * @description: Get 蜜桔
  */
-export const findEnumListByType = (params: CodeQueryVO[] = []) => {
-  return defHttp.request<any>({ ...Api.FindEnumListByType, params });
+export const findEnumMapByType = (params: CodeQueryVO[] = []) => {
+  return defHttp.request<OptionsGetResultModel>({ ...Api.FindEnumMapByType, params });
 };
 
 /**
@@ -99,7 +99,7 @@ const enumTimeDelayReq = new TimeDelayReq({
   },
   // 实现批量请求
   async api(paramList, cacheKey) {
-    const data = await findEnumListByType(paramList);
+    const data = await findEnumMapByType(paramList);
     const resultMap: Map<string, DelayResult> = new Map<string, DelayResult>();
     paramList.forEach((param) => {
       const key = cacheKey(param);
