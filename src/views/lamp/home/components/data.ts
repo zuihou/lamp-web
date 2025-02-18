@@ -63,6 +63,24 @@ export const navItems: NavItem[] = [
 export const dynamicInfoItems: DynamicInfoItem[] = [
   {
     percent: 100,
+    name: '5.0.6发布, ',
+    date: '2025年2月18日',
+    desc: `<a target="_blank" href="https://tangyh.top/upgrade/5.x%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97.html">vben5 支持单表CRUD、支持fast-crud、新增10多个组件</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.0.5发布, ',
+    date: '2025年1月14日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/329605/lamp-cloud-5-0-5-released">vben5体验版发布</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.0.4发布, ',
+    date: '2024年12月30日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/327157">vben5体验版发布</a>`,
+  },
+  {
+    percent: 100,
     name: '5.0.3发布, 菜单数据支持国际化',
     date: '2024年12月10日',
     desc: `<a target="_blank" href="https://www.oschina.net/news/324163/lamp-cloud-5-0-3-released">菜单数据支持国际化</a>`,
