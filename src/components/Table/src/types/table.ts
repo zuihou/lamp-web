@@ -7,6 +7,7 @@ import type { ColumnProps } from 'ant-design-vue/lib/table';
 import { ComponentType } from './componentType';
 import { VueNode } from '/@/utils/propTypes';
 import { PermModeEnum, RoleEnum } from '/@/enums/roleEnum';
+import { DataIndex } from 'ant-design-vue/es/vc-table/interface';
 
 export declare type SortOrder = 'ascend' | 'descend';
 
@@ -115,7 +116,7 @@ export interface TableActionType {
   updateTableData: (index: number, key: string, value: any) => Recordable;
   setShowPagination: (show: boolean) => Promise<void>;
   getShowPagination: () => boolean;
-  setCacheColumnsByField?: (dataIndex: string | undefined, value: BasicColumn) => void;
+  setCacheColumnsByField?: (dataIndex: DataIndex, value: BasicColumn) => void;
 }
 
 export interface FetchSetting {
@@ -470,7 +471,7 @@ export interface BasicColumn extends ColumnProps<Recordable> {
 }
 
 export type ColumnChangeParam = {
-  dataIndex: string;
+  dataIndex: DataIndex;
   fixed: boolean | 'left' | 'right' | undefined;
   visible: boolean;
 };

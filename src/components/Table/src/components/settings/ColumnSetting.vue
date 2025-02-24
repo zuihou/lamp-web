@@ -233,7 +233,13 @@
           // ) as BasicColumn[];
 
           unref(plainOptions).forEach((item: BasicColumn) => {
-            const findItem = columns.find((col: BasicColumn) => col.dataIndex === item.dataIndex);
+            const findItem = columns.find((col: BasicColumn) => {
+              if (isArray(item.dataIndex)) {
+                return join(col.dataIndex as string[]) === join(item.dataIndex as string[]);
+              } else {
+                return col.dataIndex === item.dataIndex;
+              }
+            });
             if (findItem) {
               item.fixed = findItem.fixed;
             }
@@ -268,8 +274,12 @@
         state.checkAll = checkedList.length === len;
         const sortList = unref(plainSortOptions).map((item) => item.value);
         checkedList.sort((prev, next) => {
-          const prevIndex = isArray(prev) ? sortList.findIndex((item) => isArray(item) && join(item, '.') === join(prev, '.')) : sortList.indexOf(prev)
-          const nextIndex = isArray(next) ? sortList.findIndex((item) => isArray(item) && join(item, '.') === join(next, '.')) : sortList.indexOf(next)
+          const prevIndex = isArray(prev)
+            ? sortList.findIndex((item) => isArray(item) && join(item, '.') === join(prev, '.'))
+            : sortList.indexOf(prev);
+          const nextIndex = isArray(next)
+            ? sortList.findIndex((item) => isArray(item) && join(item, '.') === join(next, '.'))
+            : sortList.indexOf(next);
           return prevIndex - nextIndex;
         });
         setColumns(checkedList);
@@ -319,12 +329,12 @@
 
               plainSortOptions.value = columns;
 
-              const newList = []
+              const newList: string[] = [];
               for (const o of state.checkedList) {
                 if (isString(o)) {
-                  newList.push(o)
+                  newList.push(o);
                 } else {
-                  newList.push(join(o, '.'))
+                  newList.push(join(o, '.'));
                 }
               }
 
@@ -333,10 +343,10 @@
                   .map((col: Options) => col.value)
                   .filter((value: string) => {
                     if (isString(value)) {
-                      return state.checkedList.includes(value)
+                      return state.checkedList.includes(value);
                     } else {
-                      const vStr = join(value, '.')
-                      return newList.includes(vStr)
+                      const vStr = join(value, '.');
+                      return newList.includes(vStr);
                     }
                   }),
               );
@@ -367,7 +377,15 @@
 
         const columns = getColumns() as BasicColumn[];
         const isFixed = item.fixed === fixed ? false : fixed;
-        const index = columns.findIndex((col) => col.dataIndex === item.dataIndex);
+        // const index = columns.findIndex((col) => col.dataIndex === item.dataIndex);
+        const index = columns.findIndex((col) => {
+          if (isArray(item.dataIndex)) {
+            return join(col.dataIndex as string[]) === join(item.dataIndex as string[]);
+          } else {
+            return col.dataIndex === item.dataIndex;
+          }
+        });
+
         if (index !== -1) {
           columns[index].fixed = isFixed;
         }

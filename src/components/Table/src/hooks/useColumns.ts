@@ -6,7 +6,7 @@ import { renderEditCell } from '../components/editable';
 import { usePermission } from '/@/hooks/web/usePermission';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { isArray, isBoolean, isFunction, isMap, isString } from '/@/utils/is';
-import { cloneDeep, isEqual } from 'lodash-es';
+import { cloneDeep, isEqual, join } from 'lodash-es';
 import { formatToDate } from '/@/utils/dateUtil';
 import { ACTION_COLUMN_FLAG, DEFAULT_ALIGN, INDEX_COLUMN_FLAG, PAGE_SIZE } from '../const';
 
@@ -15,7 +15,7 @@ function handleItem(item: BasicColumn, ellipsis: boolean) {
   item.align = item.align || DEFAULT_ALIGN;
   if (ellipsis) {
     if (!key) {
-      item.key = dataIndex;
+      item.key = dataIndex as string;
     }
     if (!isBoolean(item.ellipsis)) {
       Object.assign(item, {
@@ -200,7 +200,14 @@ export function useColumns(
       return;
     }
     cacheColumns.forEach((item) => {
-      if (item.dataIndex === dataIndex) {
+      let flag = false;
+      if (isArray(dataIndex)) {
+        flag = join(dataIndex) === join(item.dataIndex as string[]);
+      } else {
+        flag = item.dataIndex === dataIndex;
+      }
+
+      if (flag) {
         Object.assign(item, value);
         return;
       }
