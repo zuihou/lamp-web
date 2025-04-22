@@ -1,6 +1,6 @@
 import { ProjectGeneratorVO } from './model/defGenProjectModel';
 import { defHttp } from '/@/utils/http/axios';
-import { RequestEnum } from '/@/enums/httpEnum';
+import { ContentTypeEnum, RequestEnum } from '/@/enums/httpEnum';
 import { ServicePrefixEnum } from '/@/enums/commonEnum';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -14,6 +14,7 @@ export const Api = {
   Generator: {
     url: `${ServicePrefixEnum.GENERATOR}/${MODULAR}/generator`,
     method: RequestEnum.POST,
+    headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
   } as AxiosRequestConfig,
   Download: {
     url: `${ServicePrefixEnum.GENERATOR}/${MODULAR}/download`,
