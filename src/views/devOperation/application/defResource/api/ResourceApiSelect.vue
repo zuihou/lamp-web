@@ -71,6 +71,8 @@
       const serviceControllerListMap = ref<Recordable>({}); // 服务 对应的控制器类
       const apiMap = ref<Recordable>({}); //后端返回集合
       const selectedData = ref<Recordable[]>([]);
+      const { VITE_GLOB_MODE } = import.meta.env;
+
       // 选择服务
       async function handleServiceChange(value: string) {
         currentService.value = value;
@@ -115,10 +117,13 @@
             const map = unref(apiMap);
             const uriList = map[controller];
             for (const uri of uriList) {
+              const uriStr =
+                VITE_GLOB_MODE === 'boot' ? `/${currentService.value}${uri.uri}` : `/${uri.uri}`;
+
               uriOptions.push({
-                value: `${uri.springApplicationName}#${uri.controller}#${uri.uri}#${uri.requestMethod}#${uri.name}`,
-                key: uri.springApplicationName + uri.uri + uri.requestMethod,
-                label: `${uri.uri}【${uri.requestMethod}】(${uri.name})`,
+                value: `${uri.springApplicationName}#${uri.controller}#${uriStr}#${uri.requestMethod}#${uri.name}`,
+                key: uri.springApplicationName + uriStr + uri.requestMethod,
+                label: `${uriStr}【${uri.requestMethod}】(${uri.name})`,
               });
             }
           }
