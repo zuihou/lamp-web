@@ -47,11 +47,11 @@ export const tokenListColumns = (): BasicColumn[] => {
   return [
     {
       title: 'Token',
-      dataIndex: 'value',
+      dataIndex: 'tokenValue',
     },
     {
       title: '设备类型',
-      dataIndex: 'device',
+      dataIndex: 'deviceType',
       width: 80,
     },
     {

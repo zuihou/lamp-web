@@ -41,6 +41,7 @@ export function checkStatus(err: any, errorMessageMode: ErrorMessageMode = 'mess
     case ResultEnum.BE_REPLACED:
     case ResultEnum.KICK_OUT:
     case ResultEnum.NOT_VALUE_EXPIRE:
+    case ResultEnum.CODE_11074:
       userStore.setToken('');
       errMessage = msg || t('sys.api.errMsg401');
       if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {

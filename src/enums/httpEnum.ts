@@ -21,6 +21,10 @@ export enum ResultEnum {
   KICK_OUT = 11015,
   // 已被冻结
   NOT_VALUE_EXPIRE = 11016,
+  // 获取 Token-Session 时提供的 token 为空
+  CODE_11073 = 11_073,
+  // 获取 Token-Session 时提供的 token 为无效 token
+  CODE_11074 = 11_074,
   TYPE = 'success',
 }
 

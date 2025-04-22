@@ -14,7 +14,7 @@
         </template>
         <template v-if="column.dataIndex === 'count'">
           <Tag color="processing" @click="handleShowToken(record)">
-            {{ record.tokenSignList?.length }}个
+            {{ record.terminalList?.length }}个
           </Tag>
         </template>
         <template v-if="column.dataIndex === 'action'">
