@@ -76,7 +76,7 @@
 
   export default defineComponent({
     // 若需要开启页面缓存，请将此参数跟菜单名保持一致
-    name: '客户端维护',
+    name: '客户端管理',
     components: { BasicTable, PageWrapper, EditModal, TableAction, Tag },
     setup() {
       const { t } = useI18n();

@@ -94,3 +94,8 @@ export enum TaskStatusEnum {
   //执行失败
   FAIL = 'FAIL',
 }
+
+export enum KeyFormatEnum {
+  PKCS8 = 1,
+  PKCS1 = 2,
+}

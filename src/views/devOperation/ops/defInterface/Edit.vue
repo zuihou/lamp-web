@@ -37,7 +37,7 @@
   import { oneDark } from '@codemirror/theme-one-dark';
 
   export default defineComponent({
-    name: '编辑消息模板维护',
+    name: '编辑消息模板管理',
     components: { BasicModal, BasicForm, Codemirror },
     emits: ['success', 'register'],
     setup(_, { emit }) {

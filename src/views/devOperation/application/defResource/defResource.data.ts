@@ -71,7 +71,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
         ...dictComponentProps(DictEnum.RESOURCE_TYPE),
       },
       helpMessage: [
-        '菜单：左侧显示的菜单(肉眼可见的菜单)(包括N级菜单)（包括需要配置在路由中，但需要隐藏的菜单, 如 资源维护）',
+        '菜单：左侧显示的菜单(肉眼可见的菜单)(包括N级菜单)（包括需要配置在路由中，但需要隐藏的菜单, 如 资源管理）',
         '按钮：页面上的按钮',
         '字段：列表页或编辑页的字段',
         '数据：页面请求后台接口时，通过数据权限，控制接口返回不同的数据，参考“消息管理”',

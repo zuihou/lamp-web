@@ -82,7 +82,7 @@
       });
 
       // 表格
-      const [registerTable, { getSelectRowKeys }] = useTable({
+      const [registerTable, { getSelectRowKeys, clearSelectedRowKeys }] = useTable({
         title: '角色列表',
         api: pageMyRole,
         columns: employeeRoleColumns(),
@@ -126,6 +126,7 @@
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
         setModalProps({ confirmLoading: false });
+        clearSelectedRowKeys();
 
         // 赋值
         formData.employeeId = data?.id;

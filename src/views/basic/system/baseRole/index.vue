@@ -28,7 +28,7 @@
   import { RoleCategoryEnum } from '/@/enums/biz/base';
   export default defineComponent({
     // 若需要开启页面缓存，请将此参数跟菜单名保持一致
-    name: '角色权限维护',
+    name: '角色管理',
     components: { PageWrapper, RoleList, ApplicationResourceTabs, ApplicationDataScopeTabs },
     setup() {
       const { t } = useI18n();

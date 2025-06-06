@@ -13,7 +13,7 @@
 
   export default defineComponent({
     // 若需要开启页面缓存，请将此参数跟菜单名保持一致
-    name: '字典维护',
+    name: '字典管理',
     components: { PageWrapper, TypeTable, ItemTable },
     setup() {
       const { t } = useI18n();

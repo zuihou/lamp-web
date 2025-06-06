@@ -23,7 +23,7 @@
   import { customFormSchemaRules, editFormSchema } from './defGenTestSimple.data';
 
   export default defineComponent({
-    name: '编辑测试单表维护',
+    name: '编辑测试单表管理',
     components: { BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {

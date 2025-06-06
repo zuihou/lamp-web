@@ -1,5 +1,7 @@
 import { useI18n } from '/@/hooks/web/useI18n';
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { dictComponentProps } from "/@/utils/lamp/common";
+import { DictEnum } from "/@/enums/commonEnum";
 
 const { t } = useI18n();
 
@@ -99,31 +101,10 @@ export const editFormSchema: FormSchema[] = [
   {
     field: 'driverClassName',
     label: t('devOperation.tenant.defDatasourceConfig.driverClassName'),
-    component: 'Select',
+    component: 'ApiSelect',
     defaultValue: 'com.mysql.cj.jdbc.Driver',
     componentProps: {
-      options: [
-        {
-          label: 'mysql6',
-          value: 'com.mysql.cj.jdbc.Driver',
-          key: 'mysql6',
-        },
-        {
-          label: 'mysql5',
-          value: 'com.mysql.jdbc.Driver',
-          key: 'mysql5',
-        },
-        {
-          label: 'oracle',
-          value: 'oracle.jdbc.driver.OracleDriver',
-          key: 'oracle',
-        },
-        {
-          label: 'sqlserver',
-          value: 'com.microsoft.sqlserver.jdbc.SQLServerDriver',
-          key: 'sqlserver',
-        },
-      ],
+      ...dictComponentProps(DictEnum.DATASOURCE_CONFIG_DRIVER),
     },
   },
 ];

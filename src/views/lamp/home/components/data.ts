@@ -63,6 +63,42 @@ export const navItems: NavItem[] = [
 export const dynamicInfoItems: DynamicInfoItem[] = [
   {
     percent: 100,
+    name: '5.3.0 已发布',
+    date: '2025年06月4日',
+    desc: `<a target="_blank" href="https://tangyh.top/upgrade/5.x%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97.html">《灯灯》使用maven-checkstyle-plugin优化代码</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.2.1 已发布',
+    date: '2025年05月27日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/352097/lamp-cloud-5-2-1-released">《灯灯》开放平台功能完善，新增接口网关、sdk、多个前端页面支持等。</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.2.0 已发布',
+    date: '2025年05月17日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/350550">《灯灯》集成开放平台，共享开放能力。</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.1.0 已发布',
+    date: '2025年04月22日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/345890/lamp-cloud-5-1-0-released">vben5版前端 全部开发完成</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.0.8 已发布',
+    date: '2025年03月26日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/340986/lamp-cloud-5-0-8-released">基于 vben-admin5.x 版本的全新前端正式 已发布</a>`,
+  },
+  {
+    percent: 100,
+    name: '5.0.7 已发布',
+    date: '2025年03月12日',
+    desc: `<a target="_blank" href="https://www.oschina.net/news/338348/lamp-cloud-5-0-7-released">适配 vue-vben5</a>`,
+  },
+  {
+    percent: 100,
     name: '5.0.6发布, ',
     date: '2025年2月18日',
     desc: `<a target="_blank" href="https://tangyh.top/upgrade/5.x%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97.html">vben5 支持单表CRUD、支持fast-crud、新增10多个组件</a>`,

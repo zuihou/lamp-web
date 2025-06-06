@@ -399,7 +399,6 @@
           ) : (
             title
           );
-
           // item?.slots?.title 不能改为 slots?.title 会导致ApplicationTab.vue bug
           item[titleField] = (
             <span

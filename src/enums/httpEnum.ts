@@ -9,6 +9,7 @@ export enum ResultEnum {
   UNAUTHORIZED = 401,
   // 访问资源 被禁止。 资源不可用，服务器理解客户的请求，但拒绝处理它。通常由于服务器上文件或目录的权限设置导致，可以简单的理解为没有权限访问此站。
   FORBIDDEN = 403,
+
   // 未能读取到有效Token
   NOT_TOKEN = 11011,
   // token 无效

@@ -25,3 +25,17 @@ export interface SystemApiVO {
   requestMethod: string;
   uri: string;
 }
+
+export interface AudioVO {
+  id: string;
+  auditStatus: number;
+  reviewComments?: string;
+}
+export interface IdVO {
+  id: string;
+}
+
+export interface StatusUpdateVO {
+  id: string;
+  status: number;
+}

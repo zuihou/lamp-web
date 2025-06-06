@@ -3,7 +3,7 @@ export const GITHUB_URL = 'https://github.com/zuihou/lamp-web-plus';
 
 // doc
 export const DOC_URL = 'https://www.kancloud.cn/zuihou/zuihou-admin-cloud';
-export const VBEN_DOC_URL = 'https://vben.vvbin.cn/';
+export const VBEN_DOC_URL = 'https://doc.vvbin.cn/';
 
 // site url
 export const SITE_URL = 'https://tangyh.top/';

@@ -109,6 +109,7 @@
       type: Boolean,
       default: true,
     },
+
     uploadParams: {
       type: Object as PropType<any>,
       default: {},

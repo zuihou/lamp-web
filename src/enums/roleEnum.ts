@@ -6,14 +6,14 @@ export enum RoleEnum {
   TEST = 'test',
 
   // 运营系统
-  // 数据源维护
+  // 数据源管理
   TENANT_DATASOURCE_CONFIG_ADD = 'tenant:tenant:datasourceConfig:add',
   TENANT_DATASOURCE_CONFIG_EDIT = 'tenant:tenant:datasourceConfig:edit',
   TENANT_DATASOURCE_CONFIG_DELETE = 'tenant:tenant:datasourceConfig:delete',
   TENANT_DATASOURCE_CONFIG_VIEW = 'tenant:tenant:datasourceConfig:view',
   TENANT_DATASOURCE_CONFIG_DEBUG = 'tenant:tenant:datasourceConfig:test',
 
-  // 租户维护
+  // 租户管理
   TENANT_TENANT_ADD = 'tenant:tenant:tenant:add',
   TENANT_TENANT_EDIT = 'tenant:tenant:tenant:edit',
   TENANT_TENANT_DELETE = 'tenant:tenant:tenant:delete',
@@ -24,7 +24,7 @@ export enum RoleEnum {
   TENANT_TENANT_TO_EXAMINE = 'tenant:tenant:tenant:toExamine',
   TENANT_TENANT_VIEW_UNBIND = 'tenant:tenant:tenant:view:unBind',
 
-  // 用户维护
+  // 用户管理
   TENANT_USER_ADD = 'tenant:tenant:user:add',
   TENANT_USER_EDIT = 'tenant:tenant:user:edit',
   TENANT_USER_DELETE = 'tenant:tenant:user:delete',
@@ -60,21 +60,21 @@ export enum RoleEnum {
   SYSTEM_DICT_ADD_ITEM = 'tenant:system:dict:addItem',
   SYSTEM_DICT_EDIT_ITEM = 'tenant:system:dict:editItem',
   SYSTEM_DICT_DELETE_ITEM = 'tenant:system:dict:deleteItem',
-  // 参数维护
+  // 参数管理
   SYSTEM_PARAM_ADD = 'tenant:system:param:add',
   SYSTEM_PARAM_EDIT = 'tenant:system:param:edit',
   SYSTEM_PARAM_DELETE = 'tenant:system:param:delete',
   SYSTEM_PARAM_VIEW = 'tenant:system:param:view',
-  // 地区维护
+  // 地区管理
   SYSTEM_AREA_ADD = 'tenant:system:area:add',
   SYSTEM_AREA_EDIT = 'tenant:system:area:edit',
   SYSTEM_AREA_DELETE = 'tenant:system:area:delete',
-  // 客户端维护
+  // 客户端管理
   SYSTEM_CLIENT_ADD = 'tenant:system:client:add',
   SYSTEM_CLIENT_EDIT = 'tenant:system:client:edit',
   SYSTEM_CLIENT_DELETE = 'tenant:system:client:delete',
   SYSTEM_CLIENT_VIEW = 'tenant:system:client:view',
-  // 客户端维护
+  // 客户端管理
   SYSTEM_LOGIN_LOG_DELETE = 'tenant:system:loginLog:delete',
   SYSTEM_LOGIN_LOG_VIEW = 'tenant:system:loginLog:view',
 
@@ -109,6 +109,7 @@ export enum RoleEnum {
   TENANT_SYSTEM_FILE_DEBUG_UPLOAD = 'tenant:system:file:debug:upload',
   TENANT_SYSTEM_FILE_DOWNLOAD = 'tenant:system:file:download',
   TENANT_SYSTEM_FILE_DELETE = 'tenant:system:file:delete',
+
   // 在线用户
   TENANT_SYSTEM_ONLINE_KICKOUT = 'tenant:system:online:kickout',
   TENANT_SYSTEM_ONLINE_LOGOUT = 'tenant:system:online:logout',
@@ -130,7 +131,7 @@ export enum RoleEnum {
   BASIC_MSG_NOTICE_DELETE = 'basic:msg:myMsg:delete',
   BASIC_MSG_NOTICE_VIEW = 'basic:msg:myMsg:edit',
 
-  // 员工维护
+  // 员工管理
   EMPLOYEE_ADD = 'basic:user:employee:add',
   EMPLOYEE_REST_PWD = 'basic:user:employee:rest:pwd',
   EMPLOYEE_EDIT = 'basic:user:employee:edit',
@@ -139,14 +140,14 @@ export enum RoleEnum {
   EMPLOYEE_BIND_ROLE = 'basic:user:employee:bindRole',
   INVITATION_USER = 'basic:user:employee:invitation',
 
-  // 机构维护
+  // 机构管理
   ORG_ADD = 'basic:user:org:add',
   ORG_EDIT = 'basic:user:org:edit',
   ORG_DELETE = 'basic:user:org:delete',
   ORG_SWITCH = 'basic:user:org:switch',
   ORG_BIND_ROLE = 'basic:user:org:bind',
 
-  // 岗位维护
+  // 岗位管理
   POSITION_ADD = 'basic:user:position:add',
   POSITION_EDIT = 'basic:user:position:edit',
   POSITION_DELETE = 'basic:user:position:delete',
@@ -167,7 +168,7 @@ export enum RoleEnum {
   PARAMETER_DELETE = 'basic:base:parameter:delete',
   PARAMETER_VIEW = 'basic:base:parameter:view',
 
-  // 角色权限维护
+  // 角色权限管理
   ROLE_ADD = 'basic:system:role:add',
   ROLE_EDIT = 'basic:system:role:edit',
   ROLE_DELETE = 'basic:system:role:delete',

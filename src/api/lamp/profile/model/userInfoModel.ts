@@ -1,6 +1,6 @@
 export interface DefUserAvatarUpdateVO {
   id: string;
-  appendixAvatar: any;
+  appendixAvatar: string;
 }
 
 export interface DefUserPasswordUpdateVO {

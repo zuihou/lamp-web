@@ -76,7 +76,7 @@
     "vxe-table-plugin-antd": "3.0.6",
     "vxe-table-plugin-export-xlsx": "3.0.4",
     "sass": "^1.57.1",
-    "xe-utils": "^3.5.6",
+    "xe-utils": "3.5.6",
     "js-base64": "^3.7.2",
     "driver.js": "^0.9.8",
     "@vue/shared": "^3.2.33",

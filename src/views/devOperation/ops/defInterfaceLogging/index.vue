@@ -69,6 +69,7 @@
       const { createMessage, createConfirm } = useMessage();
       const [registerModal, { openModal }] = useModal();
       const logId = ref<string>('');
+      const tenantId = ref<string>('');
       const { currentRoute } = useRouter();
 
       // 表格

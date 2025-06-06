@@ -118,7 +118,7 @@
             const uriList = map[controller];
             for (const uri of uriList) {
               const uriStr =
-                VITE_GLOB_MODE === 'boot' ? `/${currentService.value}${uri.uri}` : `/${uri.uri}`;
+                VITE_GLOB_MODE === 'boot' ? `/${currentService.value}${uri.uri}` : `${uri.uri}`;
 
               uriOptions.push({
                 value: `${uri.springApplicationName}#${uri.controller}#${uriStr}#${uri.requestMethod}#${uri.name}`,

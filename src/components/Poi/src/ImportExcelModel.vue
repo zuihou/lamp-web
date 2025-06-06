@@ -8,6 +8,7 @@
     @register="registerModal"
   >
     <BasicForm :labelWidth="100" :showActionButtonGroup="false" @register="registerForm" />
+    <slot></slot>
   </BasicModal>
 </template>
 <script lang="ts">

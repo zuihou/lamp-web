@@ -2,7 +2,7 @@
   import type { PropType, Ref } from 'vue';
   import { computed, defineComponent, toRefs, unref } from 'vue';
   import type { FormActionType, FormProps, FormSchema, Rule } from '../types/form';
-  import { ValidationRule } from 'ant-design-vue/lib/form/Form';
+  import type { ValidationRule } from 'ant-design-vue/lib/form/Form';
   import type { TableActionType } from '/@/components/Table';
   import { BasicHelp, BasicTitle } from '/@/components/Basic';
   import { Col, Divider, Form } from 'ant-design-vue';
@@ -430,6 +430,7 @@
         const realColProps = { ...baseColProps, ...colProps };
         const { isIfShow, isShow } = getShow();
         const values = unref(getValues);
+
         const getContent = () => {
           return colSlot
             ? getSlot(slots, colSlot, values)

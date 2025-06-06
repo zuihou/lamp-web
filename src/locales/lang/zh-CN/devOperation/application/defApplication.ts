@@ -1,5 +1,5 @@
 export default {
-  table: { title: '应用列表', resource: '应用资源维护' },
+  table: { title: '应用列表', resource: '应用资源管理' },
   id: '主键',
   appKey: '应用标识',
   appSecret: '应用秘钥',

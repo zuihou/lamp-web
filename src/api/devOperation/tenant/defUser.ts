@@ -66,6 +66,14 @@ export const Api = {
     url: `${ServicePrefixEnum.TENANT}/${MODULAR}/updateState`,
     method: RequestEnum.PUT,
   },
+  ImportFile: {
+    url: `${ServicePrefixEnum.TENANT}/${MODULAR}/import`,
+    method: RequestEnum.POST,
+  },
+  ExportFile: {
+    url: `${ServicePrefixEnum.TENANT}/${MODULAR}/export`,
+    method: RequestEnum.POST,
+  },
 };
 
 export const page = (params: PageParams<DefUserPageQuery>) =>
@@ -109,3 +117,14 @@ export const pageUser = (params: PageParams<DefUserPageQuery>) =>
 
 export const queryUser = (params: DefUserPageQuery) =>
   defHttp.request<DefUserResultVO[]>({ ...Api.QueryUser, params });
+
+export const importFile = (params: UploadFileParams) =>
+  defHttp.uploadFile<boolean>({ ...Api.ImportFile }, params, {
+    errorMessageMode: 'modal',
+  });
+
+export const exportFile = (params: any) =>
+  defHttp.request<any>(
+    { ...Api.ExportFile, responseType: 'blob', params },
+    { isReturnNativeResponse: true },
+  );

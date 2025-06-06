@@ -51,13 +51,13 @@ export enum ApplicationGrantTypeEnum {
 
 /**
  * 路由名称
- * 【运营平台】-【应用管理】-【资源维护】 中的“名称” 字段保持一致
+ * 【运营平台】-【应用管理】-【资源管理】 中的“名称” 字段保持一致
  *
- * 注意：【运营平台】-【应用管理】-【资源维护】中配置的资源名称，在某个应用下需要全局唯一！
+ * 注意：【运营平台】-【应用管理】-【资源管理】中配置的资源名称，在某个应用下需要全局唯一！
  */
 export enum RouteEnum {
-  DICT_ITEM = '字典项维护',
-  APPLICATION_RESOURCE = '应用资源维护',
+  DICT_ITEM = '字典项管理',
+  APPLICATION_RESOURCE = '应用资源管理',
   APPLICATION_GRANT_MANAGE = '应用资源授权',
   APPLICATION_GRANT = '应用授权',
 
@@ -150,4 +150,5 @@ export enum TemplateEnum {
   BACKEND = 'BACKEND',
   WEB_PLUS = 'WEB_PLUS',
   WEB_SOYBEAN = 'WEB_SOYBEAN',
+  WEB_VBEN5 = 'WEB_VBEN5',
 }

@@ -71,7 +71,7 @@
   import { RouteEnum } from '/@/enums/biz/tenant';
 
   export default defineComponent({
-    name: '应用维护',
+    name: '应用管理',
     components: { BasicTable, PageWrapper, EditModal, TableAction },
     setup() {
       const { t } = useI18n();

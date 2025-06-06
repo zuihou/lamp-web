@@ -33,7 +33,7 @@
   import { oneDark } from '@codemirror/theme-one-dark';
 
   export default defineComponent({
-    name: '编辑接口执行日志记录维护',
+    name: '编辑接口执行日志记录',
     components: { BasicModal, BasicForm, Codemirror },
     emits: ['success', 'register'],
     setup() {

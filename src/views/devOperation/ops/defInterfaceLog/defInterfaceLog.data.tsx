@@ -7,6 +7,7 @@ import { useGlobSetting } from '/@/hooks/setting';
 const globSetting = useGlobSetting();
 const { t } = useI18n();
 // 列表页字段
+
 export const columns = (): BasicColumn[] => {
   return [
     {

@@ -60,7 +60,6 @@
   import { useAutoFocus } from './hooks/useAutoFocus';
   import { useModalContext } from '/@/components/Modal';
   import { useDebounceFn } from '@vueuse/core';
-  import { cloneDeep } from 'lodash-es';
 
   import { basicProps } from './props';
   import { useDesign } from '/@/hooks/web/useDesign';

@@ -118,7 +118,7 @@
 
   export default defineComponent({
     // 若需要开启页面缓存，请将此参数跟菜单名保持一致
-    name: '员工维护',
+    name: '员工管理',
     components: {
       BasicTable,
       PageWrapper,

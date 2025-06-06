@@ -49,7 +49,7 @@
   import { customFormSchemaRules, editFormSchema } from './defMsgTemplate.data';
 
   export default defineComponent({
-    name: '编辑消息模板维护',
+    name: '编辑消息模板',
     components: { BasicModal, BasicForm, Codemirror },
     emits: ['success', 'register'],
     setup(_, { emit }) {

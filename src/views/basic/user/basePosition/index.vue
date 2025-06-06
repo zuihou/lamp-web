@@ -82,7 +82,7 @@
 
   export default defineComponent({
     // 若需要开启页面缓存，请将此参数跟菜单名保持一致
-    name: '岗位维护',
+    name: '岗位管理',
     components: { BasicTable, PageWrapper, EditModal, TableAction, BaseOrgTree },
     setup() {
       const { t } = useI18n();

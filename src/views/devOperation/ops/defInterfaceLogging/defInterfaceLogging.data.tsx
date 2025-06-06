@@ -10,6 +10,7 @@ import { JsonPreview } from '/@/components/CodeEditor';
 import { MsgInterfaceLoggingStatusEnum } from '/@/enums/biz/base';
 
 const { t } = useI18n();
+
 // 列表页字段
 export const columns = (): BasicColumn[] => {
   return [

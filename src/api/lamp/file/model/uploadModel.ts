@@ -1,18 +1,11 @@
 export interface AppendixSaveVO {
-  id: string;
+  id?: string;
   bizId: string;
   bizType: string;
-  fileType: string;
-  bucket: string;
-  path: string;
-  originalFileName: string;
-  contentType: string;
-  suffix: string;
-  size: string;
 }
 
 export interface FileResultVO extends AppendixSaveVO {
-  id: string;
+  id?: string;
   bizType: string;
   fileType: string;
   bucket: string;
@@ -31,13 +24,6 @@ export interface AppendixResultVO {
   id: string;
   bizId: string;
   bizType: string;
-  fileType: string;
-  bucket: string;
-  path: string;
-  originalFileName: string;
-  contentType: string;
-  size: string;
-  createdTime: string;
 }
 
 export interface AppendixQuery {
