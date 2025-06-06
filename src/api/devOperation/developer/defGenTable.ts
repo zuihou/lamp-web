@@ -11,6 +11,7 @@ import { ContentTypeEnum, RequestEnum } from '/@/enums/httpEnum';
 import { ServicePrefixEnum } from '/@/enums/commonEnum';
 import type { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
+import { TemplateEnum } from '/@/enums/biz/tenant';
 
 const MODULAR = 'defGenTable';
 
@@ -66,10 +67,12 @@ export const Api = {
     url: `${ServicePrefixEnum.GENERATOR}/${MODULAR}/detail`,
     method: RequestEnum.GET,
   } as AxiosRequestConfig,
-  GetFieldTemplate: {
-    url: `${ServicePrefixEnum.GENERATOR}/${MODULAR}/getFieldTemplate`,
-    method: RequestEnum.GET,
-  } as AxiosRequestConfig,
+  GetFieldTemplate: (template: TemplateEnum) => {
+    return {
+      url: `${ServicePrefixEnum.GENERATOR}/${MODULAR}/getFieldTemplate?template=${template}`,
+      method: RequestEnum.GET,
+    } as AxiosRequestConfig;
+  },
   GetDefFileOverrideStrategy: {
     url: `${ServicePrefixEnum.GENERATOR}/${MODULAR}/getDefFileOverrideStrategy`,
     method: RequestEnum.GET,
@@ -155,4 +158,5 @@ export const detail = (id: string) =>
 export const getDefFileOverrideStrategy = () =>
   defHttp.request<Recordable>({ ...Api.GetDefFileOverrideStrategy });
 
-export const getFieldTemplate = () => defHttp.request<Recordable>({ ...Api.GetFieldTemplate });
+export const getFieldTemplate = (template: TemplateEnum) =>
+  defHttp.request<Recordable>({ ...Api.GetFieldTemplate(template) });

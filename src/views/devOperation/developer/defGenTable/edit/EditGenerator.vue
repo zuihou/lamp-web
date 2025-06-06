@@ -7,6 +7,9 @@
       <a-button :loading="loading" class="mr-2" type="default" @click="downloadFrontSoybean">
         下载前端(Soybean)
       </a-button>
+      <a-button :loading="loading" class="mr-2" type="default" @click="downloadFrontVben5">
+        下载前端(Vben5)
+      </a-button>
       <a-button :loading="loading" class="mr-2" type="default" @click="downloadBackend">
         下载后端
       </a-button>
@@ -17,6 +20,9 @@
       </a-button>
       <a-button :loading="loading" class="mr-2" type="primary" @click="generatorFrontSoybean">
         生成前端(Soybean)
+      </a-button>
+      <a-button :loading="loading" class="mr-2" type="primary" @click="generatorFrontVben5">
+        生成前端(Vben5)
       </a-button>
     </template>
   </BasicForm>
@@ -76,7 +82,7 @@
         }
         tableIdListRef.value = tableIdList;
 
-        const ft = await getFieldTemplate();
+        const ft = await getFieldTemplate(TemplateEnum.WEB_PLUS);
         fieldTemplate.value = ft;
         const defFileOverrideStrategy = await getDefFileOverrideStrategy();
         setFieldsValue(defFileOverrideStrategy);
@@ -138,11 +144,19 @@
         await generator(TemplateEnum.WEB_SOYBEAN);
       }
 
+      async function generatorFrontVben5() {
+        await generator(TemplateEnum.WEB_VBEN5);
+      }
+
       async function downloadFront() {
         await download(TemplateEnum.WEB_PLUS);
       }
       async function downloadFrontSoybean() {
         await download(TemplateEnum.WEB_SOYBEAN);
+      }
+
+      async function downloadFrontVben5() {
+        await download(TemplateEnum.WEB_VBEN5);
       }
 
       return {
@@ -152,8 +166,10 @@
         validate,
         downloadFront,
         downloadFrontSoybean,
+        downloadFrontVben5,
         generatorFront,
         generatorFrontSoybean,
+        generatorFrontVben5,
         downloadBackend,
         loading,
       };
