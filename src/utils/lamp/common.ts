@@ -267,6 +267,25 @@ export const stateComponentProps = (all?: boolean) => {
   }
 };
 
+export const stateNumberComponentProps = (all?: boolean) => {
+  if (all) {
+    return {
+      options: [
+        { label: '所有', value: null },
+        { label: t('lamp.common.enable'), value: 1 },
+        { label: t('lamp.common.disable'), value: 0 },
+      ],
+    };
+  } else {
+    return {
+      options: [
+        { label: t('lamp.common.enable'), value: 1 },
+        { label: t('lamp.common.disable'), value: 0 },
+      ],
+    };
+  }
+};
+
 export const yesNoComponentProps = (all = false) => {
   if (all) {
     return {
@@ -281,6 +300,25 @@ export const yesNoComponentProps = (all = false) => {
       options: [
         { label: t('lamp.common.yes'), value: true },
         { label: t('lamp.common.no'), value: false },
+      ],
+    };
+  }
+};
+
+export const yesNoNumberComponentProps = (all = false) => {
+  if (all) {
+    return {
+      options: [
+        { label: '所有', value: null },
+        { label: t('lamp.common.yes'), value: 1 },
+        { label: t('lamp.common.no'), value: 0 },
+      ],
+    };
+  } else {
+    return {
+      options: [
+        { label: t('lamp.common.yes'), value: 1 },
+        { label: t('lamp.common.no'), value: 0 },
       ],
     };
   }
