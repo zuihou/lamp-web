@@ -53,6 +53,7 @@
         default: false,
       },
       numberToString: propTypes.bool,
+      stringToNumber: propTypes.bool,
       resultField: propTypes.string.def(''),
       labelField: propTypes.string.def('label'),
       valueField: propTypes.string.def('value'),
@@ -71,14 +72,14 @@
 
       // Processing options value
       const getOptions = computed(() => {
-        const { labelField, valueField, numberToString } = props;
+        const { labelField, valueField, numberToString, stringToNumber } = props;
 
         return unref(options).reduce((prev, next: Recordable) => {
           if (next) {
             const value = next[valueField];
             prev.push({
               label: next[labelField],
-              value: numberToString ? `${value}` : value,
+              value: stringToNumber ? Number(value) : numberToString ? `${value}` : value,
               ...omit(next, [labelField, valueField]),
             });
           }

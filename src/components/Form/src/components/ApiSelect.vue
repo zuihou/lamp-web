@@ -31,7 +31,7 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { propTypes } from '/@/utils/propTypes';
 
-  type OptionsItem = { label: string; value: string; disabled?: boolean };
+  type OptionsItem = { label: string; value: string | number; disabled?: boolean };
 
   export default defineComponent({
     name: 'ApiSelect',
@@ -43,6 +43,7 @@
     props: {
       value: [Array, Object, String, Number],
       numberToString: propTypes.bool,
+      stringToNumber: propTypes.bool,
       api: {
         type: Function as PropType<(arg?: Recordable | string) => Promise<OptionsItem[]>>,
         default: null,
@@ -74,7 +75,7 @@
       const [state] = useRuleFormItem(props, 'value', 'change', emitData);
 
       const getOptions = computed(() => {
-        const { labelField, valueField, numberToString, allData } = props;
+        const { labelField, valueField, numberToString, stringToNumber, allData } = props;
 
         return unref(options).reduce((prev, next: Recordable) => {
           if (next) {
@@ -82,7 +83,7 @@
             prev.push({
               ...(allData && omit(next, [labelField, valueField])),
               label: next[labelField],
-              value: numberToString ? `${value}` : value,
+              value: stringToNumber ? Number(value) : numberToString ? `${value}` : value,
             });
           }
           return prev;

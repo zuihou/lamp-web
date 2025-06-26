@@ -228,6 +228,30 @@ export const dictAllComponentProps = (
   );
 };
 
+export const dictComponentProps2 = (param: {
+  type: DictEnum | string;
+  extendFirst: boolean;
+  stringToNumber?: boolean;
+  extend?: any;
+  excludes?: string | string[];
+}) => {
+  const { type, extendFirst, extend, stringToNumber } = param;
+  let excludes = param.excludes;
+  if (excludes && isString(excludes)) {
+    excludes = [excludes];
+  }
+  return {
+    api: asyncFindDictList,
+    params: { type, extend, extendFirst, excludes },
+    resultField: 'data',
+    showSearch: true,
+    stringToNumber,
+    filterOption: (input: string, option: any) => {
+      return option.label.toUpperCase().indexOf(input.toUpperCase()) >= 0;
+    },
+  };
+};
+
 export const dictComponentProps = (
   type: DictEnum | string,
   extendFirst = true,
