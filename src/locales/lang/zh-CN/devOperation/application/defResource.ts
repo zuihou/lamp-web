@@ -6,6 +6,7 @@ export default {
   resourceType: '类型',
   describe: '描述',
   path: '地址栏路径',
+  link: '网址',
   component: '页面路径',
   redirect: '重定向',
   icon: '图标',

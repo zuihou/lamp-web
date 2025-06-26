@@ -4,6 +4,7 @@ export interface DefResourcePageQuery {
   resourceType?: string;
   describe?: string;
   path?: string;
+  link?: string;
   component?: string;
   redirect?: string;
   icon?: string;
@@ -25,6 +26,7 @@ export interface DefResourceSaveVO {
   resourceType: string;
   describe?: string;
   path?: string;
+  link?: string;
   component?: string;
   redirect?: string;
   icon?: string;
@@ -47,6 +49,7 @@ export interface DefResourceUpdateVO {
   resourceType: string;
   describe?: string;
   path?: string;
+  link?: string;
   component?: string;
   redirect?: string;
   icon?: string;
@@ -67,6 +70,7 @@ export interface DefResourceResultVO {
   resourceType?: string;
   describe?: string;
   path?: string;
+  link?: string;
   component?: string;
   redirect?: string;
   icon?: string;

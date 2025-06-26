@@ -6,6 +6,7 @@ export default {
   resourceType: 'resourceType',
   describe: 'describe',
   path: 'path',
+  link: 'link',
   component: 'component',
   redirect: 'redirect',
   icon: 'icon',
