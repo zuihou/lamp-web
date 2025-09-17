@@ -14,11 +14,11 @@ export const Api = {
   Generator: {
     url: `${ServicePrefixEnum.GENERATOR}/${MODULAR}/generator`,
     method: RequestEnum.POST,
-    headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
   } as AxiosRequestConfig,
   Download: {
     url: `${ServicePrefixEnum.GENERATOR}/${MODULAR}/download`,
     method: RequestEnum.POST,
+    headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
   } as AxiosRequestConfig,
 };
 
