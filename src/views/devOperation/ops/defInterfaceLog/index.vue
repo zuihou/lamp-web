@@ -18,7 +18,7 @@
             :actions="[
               {
                 auth: RoleEnum.TENANT_OPS_INTERFACES_LOG_LOGGING,
-                tooltip: '执行记录',
+                tooltip: t('basic.msg.extendInterfaceLog.executionLog'),
                 icon: 'ant-design:search-outlined',
                 onClick: handleLogging.bind(null, record),
               },

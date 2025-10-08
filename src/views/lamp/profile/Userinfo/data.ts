@@ -56,7 +56,7 @@ export const userInfoSchemas: FormSchema[] = [
     label: '性别',
     colProps: { span: 18 },
     componentProps: {
-      ...dictComponentProps(DictEnum.SEX),
+      ...dictComponentProps(DictEnum.Sex),
     },
   },
   {

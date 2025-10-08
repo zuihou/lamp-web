@@ -14,4 +14,7 @@ export default {
   suffix: 'suffix',
   size: 'size',
   createdOrgId: 'createdOrgId',
+  debug: 'Debug and upload',
+  preview: 'Preview',
+  file: 'File',
 };

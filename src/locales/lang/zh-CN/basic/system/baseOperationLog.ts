@@ -14,4 +14,10 @@ export default {
   consumingTime: '消耗时间',
   ua: '浏览器',
   createdOrgId: '创建人组织',
+  clear: '清理日志',
+  params: '参数',
+  result: '返回结果',
+  exception: '异常日志',
+  requestParam: '请求参数',
+  responseParam: '响应参数',
 };

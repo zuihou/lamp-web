@@ -1,8 +1,7 @@
 import { useMessage } from '/@/hooks/web/useMessage';
 import componentSetting, { SORT_FIELD } from '/@/settings/componentSetting';
 import { isArray, isFunction, isString } from '/@/utils/is';
-import { DictEnum, EnumEnum } from '/@/enums/commonEnum';
-import { asyncFindDictList, asyncFindEnumList } from '/@/api/lamp/common/general';
+import { DictEnum } from '/@/enums/commonEnum';
 import { useI18n } from '/@/hooks/web/useI18n';
 
 const { t } = useI18n();
@@ -196,7 +195,7 @@ export const enumAllComponentProps = (
 };
 
 export const enumComponentProps = (
-  type: EnumEnum | string,
+  type: DictEnum | string,
   extendFirst = true,
   extend?: any,
   excludes?: string | string[],
@@ -205,7 +204,7 @@ export const enumComponentProps = (
     excludes = [excludes];
   }
   return {
-    api: asyncFindEnumList,
+    type: 'dict',
     params: { type, extendFirst, extend, excludes },
     resultField: 'data',
     showSearch: true,
@@ -228,6 +227,26 @@ export const dictAllComponentProps = (
   );
 };
 
+export const dictComponentProps = (
+  type: DictEnum | string,
+  extendFirst = true,
+  extend?: any,
+  excludes?: string | string[],
+) => {
+  if (excludes && isString(excludes)) {
+    excludes = [excludes];
+  }
+  return {
+    type: 'dict',
+    params: { type, extend, extendFirst, excludes },
+    resultField: 'data',
+    showSearch: true,
+    filterOption: (input: string, option: any) => {
+      return option.label.toUpperCase().indexOf(input.toUpperCase()) >= 0;
+    },
+  };
+};
+
 export const dictComponentProps2 = (param: {
   type: DictEnum | string;
   extendFirst: boolean;
@@ -241,31 +260,11 @@ export const dictComponentProps2 = (param: {
     excludes = [excludes];
   }
   return {
-    api: asyncFindDictList,
+    type: 'dict',
     params: { type, extend, extendFirst, excludes },
     resultField: 'data',
     showSearch: true,
     stringToNumber,
-    filterOption: (input: string, option: any) => {
-      return option.label.toUpperCase().indexOf(input.toUpperCase()) >= 0;
-    },
-  };
-};
-
-export const dictComponentProps = (
-  type: DictEnum | string,
-  extendFirst = true,
-  extend?: any,
-  excludes?: string | string[],
-) => {
-  if (excludes && isString(excludes)) {
-    excludes = [excludes];
-  }
-  return {
-    api: asyncFindDictList,
-    params: { type, extend, extendFirst, excludes },
-    resultField: 'data',
-    showSearch: true,
     filterOption: (input: string, option: any) => {
       return option.label.toUpperCase().indexOf(input.toUpperCase()) >= 0;
     },

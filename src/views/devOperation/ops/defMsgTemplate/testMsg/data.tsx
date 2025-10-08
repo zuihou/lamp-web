@@ -1,6 +1,7 @@
 import { FormSchema } from '/@/components/Table';
 import { FormSchemaExt } from '/@/api/lamp/common/formValidateService';
-
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 // 编辑页字段
 export const editFormSchema = (): FormSchema[] => {
   return [
@@ -56,7 +57,7 @@ export const editFormSchema = (): FormSchema[] => {
       defaultValue: [],
     },
     {
-      label: '接收人',
+      label: t('lamp.common.receiveBy'),
       field: 'recipientList',
       component: 'Input',
       slot: 'recipientList',

@@ -28,7 +28,6 @@ export const columns = (): BasicColumn[] => {
     {
       title: t('devOperation.application.defApplication.type'),
       dataIndex: ['echoMap', 'type'],
-      width: 100,
       customRender: ({ record }) => {
         return (
           <Tag color={record.type === '10' ? 'success' : 'processing'}>{record.echoMap?.type}</Tag>
@@ -51,7 +50,6 @@ export const columns = (): BasicColumn[] => {
     {
       title: t('devOperation.application.defApplication.isGeneral'),
       dataIndex: 'isGeneral',
-      width: 80,
       customRender: ({ record }) => {
         return (
           <Tag color={record.isGeneral ? 'success' : 'error'}>
@@ -63,7 +61,6 @@ export const columns = (): BasicColumn[] => {
     {
       title: t('devOperation.application.defApplication.sortValue'),
       dataIndex: 'sortValue',
-      width: 50,
     },
     {
       title: t('lamp.common.createdTime'),
@@ -135,7 +132,7 @@ export const editFormSchema = (_): FormSchema[] => {
       component: 'Input',
     },
     {
-      label: '默认地址',
+      label: t('devOperation.application.defApplication.redirect'),
       field: 'redirect',
       component: 'Input',
     },

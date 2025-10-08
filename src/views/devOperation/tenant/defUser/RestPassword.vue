@@ -2,7 +2,7 @@
   <BasicModal
     v-bind="$attrs"
     @register="registerModal"
-    title="重置密码"
+    :title="t('sys.login.forgetFormTitle')"
     :maskClosable="false"
     @ok="handleSubmit"
     :keyboard="true"

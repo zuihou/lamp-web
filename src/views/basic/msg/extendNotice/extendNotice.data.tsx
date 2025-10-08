@@ -1,5 +1,5 @@
-import { h, Ref } from 'vue';
-import { ActionEnum, DictEnum, FileBizTypeEnum, FileBucketEnum } from '/@/enums/commonEnum';
+import { h } from 'vue';
+import { DictEnum, FileBizTypeEnum, FileBucketEnum } from '/@/enums/commonEnum';
 import {
   dictAllComponentProps,
   dictComponentProps,
@@ -65,7 +65,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'remindMode',
       component: 'ApiSelect',
       componentProps: {
-        ...dictAllComponentProps(DictEnum.EchoDictType_Base_NOTICE_REMIND_MODE),
+        ...dictAllComponentProps(DictEnum.NoticeRemindModeEnum),
       },
       colProps: { span: 8 },
     },
@@ -88,7 +88,7 @@ export const searchFormSchema = (): FormSchema[] => {
 };
 
 // 编辑页字段
-export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
+export const editFormSchema = (): FormSchema[] => {
   return [
     {
       field: 'id',
@@ -127,7 +127,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'remindMode',
       component: 'ApiSelect',
       componentProps: {
-        ...dictComponentProps(DictEnum.EchoDictType_Base_NOTICE_REMIND_MODE),
+        ...dictComponentProps(DictEnum.NoticeRemindModeEnum),
       },
       colProps: { span: 12 },
     },

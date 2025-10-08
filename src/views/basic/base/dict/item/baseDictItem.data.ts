@@ -5,6 +5,7 @@ import { ActionEnum, DictEnum } from '/@/enums/commonEnum';
 import { stateFilters, stateComponentProps, dictComponentProps } from '/@/utils/lamp/common';
 import { FormSchemaExt, RuleType } from '/@/api/lamp/common/formValidateService';
 import { check } from '/@/api/basic/base/baseDictItem';
+import { isEmpty, isNullOrUnDef } from '/@/utils/is';
 
 const { t } = useI18n();
 // 列表页字段
@@ -52,7 +53,7 @@ export const searchFormSchema = (): FormSchema[] => {
       component: 'ApiSelect',
       colProps: { span: 12 },
       componentProps: {
-        ...dictComponentProps(DictEnum.DICT_CLASSIFY),
+        ...dictComponentProps(DictEnum.DictClassifyEnum),
         mode: 'multiple',
       },
     },
@@ -145,6 +146,12 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       field: 'cssClass',
       component: 'Input',
     },
+    {
+      label: t('devOperation.system.defDictItem.i18nJson'),
+      field: 'i18nJson',
+      slot: 'i18nJson',
+      component: 'Input',
+    },
   ];
 };
 
@@ -169,6 +176,44 @@ export const customFormSchemaRules = (
               return Promise.reject(t('basic.base.baseDict.key') + '已经存在');
             }
             return Promise.resolve();
+          },
+        },
+      ],
+    },
+    {
+      field: 'i18nJson',
+      type: RuleType.append,
+      rules: [
+        {
+          trigger: ['change', 'blur'],
+          async validator(_, value) {
+            if (type.value === ActionEnum.VIEW) {
+              return Promise.resolve();
+            }
+            // const model = await getFieldsValue();
+            // if (value && (await check(value, model?.parentId))) {
+            //   return Promise.reject(t('devOperation.system.defDict.key') + '已经存在');
+            // }
+            // return Promise.resolve();
+
+            if (isNullOrUnDef(value) || isEmpty(value)) {
+              return Promise.reject('请填写国际化配置');
+            }
+            try {
+              const obj = JSON.parse(value);
+
+              const list: number[] = [];
+              for (const key in obj) {
+                if (isNullOrUnDef(obj[key]) || isEmpty(obj[key])) {
+                  list.push(1);
+                }
+              }
+              if (list.length > 0) {
+                return Promise.reject(`请填写国际化配置`);
+              }
+              return Promise.resolve();
+            } catch {}
+            return Promise.reject('国际化配置格式不正确');
           },
         },
       ],

@@ -14,11 +14,12 @@
   import { PageWrapper } from '/@/components/Page';
   import { columns, cpuSchema, jvmSchema, memSchema, sysSchema } from './server.data';
   import { get } from '/@/api/devOperation/developer/defServer';
-
+  import { useI18n } from '/@/hooks/web/useI18n';
   export default defineComponent({
     name: '服务器监控',
     components: { PageWrapper, Description, BasicTable },
     setup() {
+      const { t } = useI18n();
       const loadingRef = ref(false);
 
       const [registerCpu, { setDescProps: setCpu }] = useDescription({
@@ -26,19 +27,19 @@
         schema: cpuSchema,
       });
       const [registerMem, { setDescProps: setMem }] = useDescription({
-        title: '内存',
+        title: t('devOperation.developer.srever.memory.title'),
         schema: memSchema,
       });
       const [registerServer, { setDescProps: setSys }] = useDescription({
-        title: '服务器',
+        title: t('devOperation.developer.srever.server.title'),
         schema: sysSchema,
       });
       const [registerJvm, { setDescProps: setJvm }] = useDescription({
-        title: '虚拟机',
+        title: t('devOperation.developer.srever.jvm.title'),
         schema: jvmSchema,
       });
       const [registerTable, { setTableData }] = useTable({
-        title: '磁盘',
+        title: t('devOperation.developer.srever.disk.title'),
         columns,
         rowKey: 'dirName',
         pagination: false,
@@ -60,6 +61,7 @@
         }
       });
       return {
+        t,
         registerCpu,
         registerMem,
         registerServer,

@@ -2,16 +2,6 @@
   <div class="m-4 ml-2 overflow-hidden bg-white appResTabs">
     <Card :title="title">
       <template #extra>
-        <BasicHelp
-          class="mr-2"
-          :text="[
-            '同一个菜单或视图下的数据权限，只建议授权一个',
-            '若同时给角色授权多个同级别的数据权限，会取sortValue最小的',
-            '若员工没有某页面的任何数据权限，则使用默认数据权限',
-          ]"
-          showIndex
-          placement="left"
-        />
         <a-button
           class="!ml-4"
           type="primary"
@@ -69,7 +59,7 @@
 
       const state = reactive({
         applicationResourceList: [] as any[],
-        title: '请选择角色',
+        title: t('common.rules.role'),
         confirmLoading: false,
         appResMap: {},
       });
@@ -102,13 +92,13 @@
       async function fetch(role: Recordable) {
         if (role && role.id) {
           if (formData.roleId !== (role?.id as string)) {
-            state.title = `【${role.name}】拥有的数据权限`;
+            state.title = t('basic.system.baseRole.ownedResources', { name: role.name });
             formData.roleId = role.id;
 
             state.appResMap = await findResourceDataScopeIdByRoleId(role.id);
           }
         } else {
-          state.title = '请选择角色';
+          state.title = t('common.rules.role');
           formData.roleId = '';
           const appResourceMap = {};
           for (const item of state.applicationResourceList) {

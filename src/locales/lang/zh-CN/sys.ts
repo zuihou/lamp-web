@@ -63,6 +63,8 @@ export default {
     backSignIn: '返回',
     signInFormTitle: '登录',
     mobileSignInFormTitle: '手机登录',
+    mobileSignUpFormTitle: '手机注册',
+    emailSignUpFormTitle: '邮箱注册',
     qrSignInFormTitle: '二维码登录',
     signUpFormTitle: '注册',
     forgetFormTitle: '重置密码',

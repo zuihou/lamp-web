@@ -14,19 +14,19 @@ export const formItems = (): any[] => {
       field: 'key',
       title: t('devOperation.system.defDictItem.key'),
       span: 6,
-      itemRender: { name: '$input', props: { placeholder: '请输入' } },
+      itemRender: { name: '$input', props: { placeholder: t('common.inputText') } },
     },
     {
       field: 'name',
       title: t('devOperation.system.defDictItem.name'),
       span: 6,
-      itemRender: { name: '$input', props: { placeholder: '请输入' } },
+      itemRender: { name: '$input', props: { placeholder: t('common.inputText') } },
     },
 
     {
       span: 24,
       align: 'center',
-      collapseNode: true,
+      collapseNode: false,
       itemRender: {
         name: '$buttons',
         children: [
@@ -51,12 +51,12 @@ export const columns = (): VxeGridPropTypes.Columns => {
     {
       field: 'key',
       title: t('devOperation.system.defDictItem.key'),
-      editRender: { name: '$input', attrs: { placeholder: '请输入' } },
+      editRender: { name: '$input', attrs: { placeholder: t('common.inputText') } },
     },
     {
       field: 'name',
       title: t('devOperation.system.defDictItem.name'),
-      editRender: { name: '$input', attrs: { placeholder: '请输入' } },
+      editRender: { name: '$input', attrs: { placeholder: t('common.inputText') } },
     },
     {
       field: 'state',
@@ -68,7 +68,7 @@ export const columns = (): VxeGridPropTypes.Columns => {
       field: 'sortValue',
       title: t('devOperation.developer.defGenTableColumn.sortValue'),
       sortable: true,
-      editRender: { name: '$input', attrs: { type: 'number', placeholder: '请输入' } },
+      editRender: { name: '$input', attrs: { type: 'number', placeholder: t('common.inputText') } },
     },
     {
       field: 'createdTime',

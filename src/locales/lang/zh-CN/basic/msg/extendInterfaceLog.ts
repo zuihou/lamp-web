@@ -10,4 +10,5 @@ export default {
   createdBy: '创建人',
   updatedTime: '修改时间',
   updatedBy: '修改人',
+  executionLog: '执行记录',
 };

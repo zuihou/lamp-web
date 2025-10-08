@@ -28,4 +28,12 @@ export default {
   dataScope: '数据范围',
   isDef: '是否默认',
   customClass: '实现类',
+  resources: '应用-资源',
+  basicInfo: '基础信息',
+  featuresInfo: '特性信息',
+  expansionInfo: '扩展信息',
+  isHidden: '是否隐藏菜单',
+  association: '资源关联的接口',
+  meta: '路由的 Meta 配置',
+  notSelected: '未选中任何资源',
 };

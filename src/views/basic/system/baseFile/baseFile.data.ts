@@ -1,15 +1,15 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
 
-import { enumComponentProps, formatFileSize } from '/@/utils/lamp/common';
-import { EnumEnum } from '/@/enums/commonEnum';
+import { dictComponentProps, formatFileSize } from '/@/utils/lamp/common';
+import { DictEnum } from '/@/enums/commonEnum';
 
 const { t } = useI18n();
 // 列表页字段
 export const columns = (): BasicColumn[] => {
   return [
     {
-      title: '文件预览',
+      title: t('basic.system.baseFile.preview'),
       dataIndex: 'path',
       // width: 120,
     },
@@ -78,7 +78,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'storageType',
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileStorageType),
+        ...dictComponentProps(DictEnum.FileStorageType),
       },
       colProps: { span: 6 },
     },
@@ -87,7 +87,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'fileType',
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileType),
+        ...dictComponentProps(DictEnum.FileType),
       },
       colProps: { span: 6 },
     },
@@ -114,7 +114,7 @@ export const editFormSchema = (param): FormSchema[] => {
       field: 'storageType',
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileStorageType),
+        ...dictComponentProps(DictEnum.FileStorageType),
         onChange: (value: string) => {
           param.storageType = value;
         },
@@ -157,7 +157,7 @@ export const editFormSchema = (param): FormSchema[] => {
       required: true,
     },
     {
-      label: '文件',
+      label: t('basic.system.baseFile.file'),
       field: 'file',
       component: 'Upload',
       helpMessage:

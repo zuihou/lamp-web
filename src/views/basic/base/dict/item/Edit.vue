@@ -8,7 +8,11 @@
     :title="t(`common.title.${type}`)"
     @ok="handleSubmit"
   >
-    <BasicForm @register="registerForm" />
+    <BasicForm @register="registerForm">
+      <template #i18nJson="{ model, field }">
+        <I18nJson v-model:value="model[field]" :type="type" />
+      </template>
+    </BasicForm>
   </BasicDrawer>
 </template>
 <script lang="ts">
@@ -21,10 +25,10 @@
   import { Api, save, update } from '/@/api/basic/base/baseDictItem';
   import { getValidateRules } from '/@/api/lamp/common/formValidateService';
   import { customFormSchemaRules, editFormSchema } from './baseDictItem.data';
-
+  import I18nJson from './I18nJson.vue';
   export default defineComponent({
     name: 'BaseDictItemEdit',
-    components: { BasicDrawer, BasicForm },
+    components: { I18nJson, BasicDrawer, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const { t } = useI18n();
@@ -48,7 +52,6 @@
         await resetSchema(editFormSchema(type));
         await resetFields();
         setDrawerProps({ confirmLoading: false });
-
         // 赋值
         const record = { ...data?.record };
         const parent = { ...data?.parent };

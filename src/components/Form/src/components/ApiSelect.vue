@@ -18,25 +18,34 @@
         {{ t('component.form.apiSelectNotFound') }}
       </span>
     </template>
+    <template #option="{ icon, label }">
+      <span>
+        <SvgIcon :name="icon" v-if="icon" />
+        {{ label }}
+      </span>
+    </template>
   </Select>
 </template>
 <script lang="ts">
   import { computed, defineComponent, PropType, ref, unref, watch, watchEffect } from 'vue';
   import { Select } from 'ant-design-vue';
-  import { isFunction } from '/@/utils/is';
+  import { isEmpty, isFunction, isNullOrUnDef, isString } from '/@/utils/is';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
   import { useAttrs } from '/@/hooks/core/useAttrs';
   import { get, omit } from 'lodash-es';
   import { LoadingOutlined } from '@ant-design/icons-vue';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { propTypes } from '/@/utils/propTypes';
+  import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
+  import { useDictStore } from '/@/store/modules/dict';
 
-  type OptionsItem = { label: string; value: string | number; disabled?: boolean };
+  type OptionsItem = { label: string; value: string; disabled?: boolean; icon?: any };
 
   export default defineComponent({
     name: 'ApiSelect',
     components: {
       Select,
+      SvgIcon,
       LoadingOutlined,
     },
     inheritAttrs: false,
@@ -53,7 +62,11 @@
         default: null,
       },
       // api params
-      params: propTypes.any.def({}),
+      params: {
+        type: [Object, String] as PropType<Recordable | string>,
+        default: () => ({}),
+      },
+      type: propTypes.string.def(''),
       // support xxx.xxx.xx
       resultField: propTypes.string.def(''),
       labelField: propTypes.string.def('label'),
@@ -61,6 +74,7 @@
       immediate: propTypes.bool.def(true),
       alwaysLoad: propTypes.bool.def(false),
       allData: propTypes.bool.def(true),
+      withIconMap: propTypes.object,
     },
     emits: ['options-change', 'change', 'update:value'],
     setup(props, { emit }) {
@@ -70,20 +84,22 @@
       const emitData = ref<any[]>([]);
       const attrs = useAttrs();
       const { t } = useI18n();
+      const dictStore = useDictStore();
 
       // Embedded in the form, just use the hook binding to perform form verification
       const [state] = useRuleFormItem(props, 'value', 'change', emitData);
 
       const getOptions = computed(() => {
-        const { labelField, valueField, numberToString, stringToNumber, allData } = props;
-
+        const { labelField, valueField, numberToString, allData, stringToNumber, withIconMap } =
+          props;
         return unref(options).reduce((prev, next: Recordable) => {
           if (next) {
             const value = next[valueField];
             prev.push({
               ...(allData && omit(next, [labelField, valueField])),
+              ...(withIconMap && { icon: withIconMap[value] }),
               label: next[labelField],
-              value: stringToNumber ? Number(value) : numberToString ? `${value}` : value,
+              value: numberToString ? `${value}` : stringToNumber ? Number(value) : value,
             });
           }
           return prev;
@@ -112,6 +128,20 @@
       async function fetch() {
         const api = props.api;
         const afterFetch = props.afterFetch;
+
+        if (props.type === 'dict' && props.params) {
+          let dictType = '';
+          if (isString(props.params)) {
+            dictType = props.params;
+          } else if (props.params?.type) {
+            dictType = props.params.type;
+          }
+          if (!isNullOrUnDef(dictType) && !isEmpty(dictType)) {
+            options.value = dictStore.getDictItemOptionList(dictType) as unknown as OptionsItem[];
+            return;
+          }
+        }
+
         if (!api || !isFunction(api)) return;
         options.value = [];
         try {
@@ -159,7 +189,7 @@
         // emit('change', value, ...args);
       }
 
-      return { state, attrs, getOptions, loading, t, handleFetch, handleChange };
+      return { state, attrs, getOptions, loading, t, handleFetch, handleChange, SvgIcon };
     },
   });
 </script>

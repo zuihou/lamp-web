@@ -12,4 +12,5 @@ export default {
   icon: 'icon',
   cssStyle: 'cssStyle',
   cssClass: 'cssClass',
+  i18nJson: 'i18nJson',
 };

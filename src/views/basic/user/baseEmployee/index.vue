@@ -26,6 +26,14 @@
         >
           {{ t('common.title.add') }}
         </a-button>
+        <a-button
+          v-hasAnyPermission="[RoleEnum.INVITATION_USER]"
+          preIcon="ant-design:plus-outlined"
+          type="primary"
+          @click="handleInvitation"
+        >
+          {{ t('basic.user.baseEmployee.invitation') }}
+        </a-button>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'orgNameList'">
@@ -50,7 +58,7 @@
                 auth: RoleEnum.EMPLOYEE_VIEW,
               },
               {
-                label: '绑定角色',
+                label: t('basic.user.baseEmployee.bindRole'),
                 icon: 'ant-design:search-outlined',
                 onClick: handleBindRole.bind(null, record),
                 auth: RoleEnum.EMPLOYEE_BIND_ROLE,
@@ -58,7 +66,7 @@
             ]"
             :dropDownActions="[
               {
-                label: '重置密码',
+                label: t('sys.login.forgetFormTitle'),
                 icon: 'ant-design:rest-filled',
                 onClick: handleResetPwd.bind(null, record),
                 auth: RoleEnum.EMPLOYEE_REST_PWD,

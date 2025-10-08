@@ -4,7 +4,7 @@ import { dateUtil } from '/@/utils/dateUtil';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { enumComponentProps } from '/@/utils/lamp/common';
-import { EnumEnum } from '/@/enums/commonEnum';
+import { DictEnum } from '/@/enums/commonEnum';
 import { DropMenu } from '/@/components/Dropdown/src/typing';
 import { LogTypeEnum } from '/@/enums/biz/base';
 import { JsonPreview } from '/@/components/CodeEditor';
@@ -123,7 +123,7 @@ export const searchFormSchema = (): FormSchema[] => {
       label: t('basic.system.baseOperationLog.type'),
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.LogType),
+        ...enumComponentProps(DictEnum.LogType),
       },
       colProps: { span: 8 },
     },
@@ -185,7 +185,7 @@ export const editFormSchema = (_): FormSchema[] => {
       field: 'type',
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.LogType),
+        ...enumComponentProps(DictEnum.LogType),
       },
     },
     {
@@ -208,7 +208,7 @@ export const editFormSchema = (_): FormSchema[] => {
       field: 'httpMethod',
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.HttpMethod),
+        ...enumComponentProps(DictEnum.HttpMethod),
       },
     },
     {
@@ -222,7 +222,7 @@ export const editFormSchema = (_): FormSchema[] => {
       component: 'Input',
     },
     {
-      label: '参数',
+      label: t('basic.system.baseOperationLog.params'),
       field: 'params',
       component: 'InputTextArea',
       render: ({ model, field }) => {
@@ -239,7 +239,7 @@ export const editFormSchema = (_): FormSchema[] => {
       },
     },
     {
-      label: '返回结果',
+      label: t('basic.system.baseOperationLog.result'),
       field: 'result',
       component: 'InputTextArea',
       render: ({ model, field }) => {
@@ -256,7 +256,7 @@ export const editFormSchema = (_): FormSchema[] => {
       },
     },
     {
-      label: '异常日志',
+      label: t('basic.system.baseOperationLog.exception'),
       field: 'exDetail',
       component: 'InputTextArea',
       slot: 'exDetail',

@@ -21,4 +21,18 @@ export default {
   password: '密码',
   salt: '密码盐',
   lastLoginTime: '最后登录时间',
+  export: {
+    template: '【导入】用户',
+    step1: '第1步：下载模板',
+    step2: '第2步：填写上述模板',
+    step3: '第3步：将填写后的模板上传',
+  },
+  loginInfo: '登录信息',
+  basicInfo: '基本信息',
+  extraInfo: '额外信息',
+  builtPassword: '使用系统内置密码',
+  expireTime: '过期时间',
+  count: '数量',
+  kickOff: '踢下线',
+  logout: '强制注销',
 };

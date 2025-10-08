@@ -39,11 +39,11 @@
         <Dropdown
           :dropMenuList="[
             {
-              text: '前端',
+              text: t('devOperation.developer.defGenTable.fronted'),
               event: TemplateEnum.WEB_PLUS,
             },
             {
-              text: '后端',
+              text: t('devOperation.developer.defGenTable.backed'),
               event: TemplateEnum.BACKEND,
             },
           ]"
@@ -65,11 +65,11 @@
         <Dropdown
           :dropMenuList="[
             {
-              text: '前端',
+              text: t('devOperation.developer.defGenTable.fronted'),
               event: TemplateEnum.WEB_PLUS,
             },
             {
-              text: '后端',
+              text: t('devOperation.developer.defGenTable.backed'),
               event: TemplateEnum.BACKEND,
             },
           ]"
@@ -84,7 +84,7 @@
             preIcon="ant-design:cloud-upload-outlined"
             type="primary"
           >
-            生成
+            {{ t('devOperation.developer.defGenTable.generation') }}
           </a-button>
         </Dropdown>
       </template>
@@ -109,36 +109,36 @@
                 },
               },
               {
-                tooltip: '同步',
+                tooltip: t('devOperation.developer.defGenTable.synchronization'),
                 icon: 'ant-design:cloud-sync-outlined',
                 auth: RoleEnum.TENANT_DEVELOPER_TOOLS_GENERATOR_SYNC,
                 popConfirm: {
-                  title: '确定同步该表的字段吗？',
+                  title: t('devOperation.developer.defGenTable.synchronizationTips'),
                   confirm: handleSync.bind(null, record),
                 },
               },
             ]"
             :dropDownActions="[
               {
-                label: '预览后端',
+                label: t('devOperation.developer.defGenTable.previewBackend'),
                 icon: 'ant-design:search-outlined',
                 auth: RoleEnum.TENANT_DEVELOPER_TOOLS_GENERATOR_PREVIEW,
                 onClick: handlePreview.bind(null, record, TemplateEnum.BACKEND),
               },
               {
-                label: '预览前端',
+                label: t('devOperation.developer.defGenTable.previewFrontend'),
                 icon: 'ant-design:search-outlined',
                 auth: RoleEnum.TENANT_DEVELOPER_TOOLS_GENERATOR_PREVIEW,
                 onClick: handlePreview.bind(null, record, TemplateEnum.WEB_PLUS),
               },
               {
-                label: '覆盖生成后端',
+                label: t('devOperation.developer.defGenTable.coverGenerationBackend'),
                 icon: 'ant-design:download-outlined',
                 auth: RoleEnum.TENANT_DEVELOPER_TOOLS_GENERATOR_PREVIEW,
                 onClick: handleDownload.bind(null, record, TemplateEnum.BACKEND),
               },
               {
-                label: '覆盖生成前端',
+                label: t('devOperation.developer.defGenTable.coverGenerationFrontend'),
                 icon: 'ant-design:download-outlined',
                 auth: RoleEnum.TENANT_DEVELOPER_TOOLS_GENERATOR_PREVIEW,
                 onClick: handleDownload.bind(null, record, TemplateEnum.WEB_PLUS),
@@ -228,7 +228,7 @@
       async function handleSync(record: Recordable, e: Event) {
         e?.stopPropagation();
         await syncField(record.id);
-        createMessage.success('同步成功');
+        createMessage.success(t('devOperation.developer.defGenTable.synchronizationSuccess'));
         reload();
       }
 
@@ -236,7 +236,7 @@
         e?.stopPropagation();
         const ids = getSelectRowKeys();
         if (!ids || ids.length <= 0) {
-          createMessage.warning('请至少选择一条数据');
+          createMessage.warning(t('devOperation.developer.defGenTable.selectData'));
           return;
         }
 
@@ -247,7 +247,7 @@
             downloadFile(response);
             createMessage.success(t('common.tips.downloadSuccess'));
           } else {
-            createMessage.error('下载失败，请认真检查【生成信息】是否填写完整并保存成功！');
+            createMessage.error(t('devOperation.developer.defGenTable.downloadFailed'));
           }
         } catch (e: any) {
           const obj = (await blobToObj(e?.response?.data)) as any;
@@ -261,7 +261,7 @@
         e?.stopPropagation();
         const ids = getSelectRowKeys();
         if (!ids || ids.length <= 0) {
-          createMessage.warning('请至少选择一条数据');
+          createMessage.warning(t('devOperation.developer.defGenTable.selectData'));
           return;
         }
 
@@ -271,7 +271,7 @@
           const defGenVo = { ids: ids, template };
           await generatorCode(defGenVo);
 
-          createMessage.success('代码生成成功，请在[生成路径]查看');
+          createMessage.success(t('devOperation.developer.defGenTable.codeView'));
         } finally {
           setLoading(false);
         }
@@ -289,9 +289,17 @@
           const defGenVo = { ids, template };
           await generatorCode(defGenVo);
           if (template === TemplateEnum.BACKEND) {
-            createMessage.success('后端代码生成成功，请在' + record.outputDir + '查看');
+            createMessage.success(
+              t('devOperation.developer.defGenTable.backedView') +
+                record.outputDir +
+                t('common.title.view'),
+            );
           } else {
-            createMessage.success('前端代码生成成功，请在' + record.frontOutputDir + '查看');
+            createMessage.success(
+              t('devOperation.developer.defGenTable.frontedView') +
+                record.frontOutputDir +
+                t('common.title.view'),
+            );
           }
         }
       }
@@ -312,7 +320,7 @@
         e?.stopPropagation();
         const ids = getSelectRowKeys();
         if (!ids || ids.length <= 0) {
-          createMessage.warning('请至少选择一条数据');
+          createMessage.warning(t('devOperation.developer.defGenTable.selectData'));
           return;
         }
         openPreviewModal(true, { tableIdList: ids, template: TemplateEnum.BACKEND });
@@ -325,8 +333,15 @@
           name: RouteEnum.CODE_GENERATOR_EDIT,
           params: { id: record.id },
           query: {
-            title: `表名：${record.name}`,
-            content: `实体类：${record.entityName}  作者：${record.author}`,
+            title: t('devOperation.developer.defGenTable.tableName') + '：' + `${record.name}`,
+            content:
+              t('devOperation.developer.defGenTable.className') +
+              '：' +
+              `${record.entityName}` +
+              '  ' +
+              t('devOperation.developer.defGenTable.author') +
+              '：' +
+              `${record.author}`,
           },
         });
       }
@@ -373,7 +388,7 @@
         e?.stopPropagation();
         const rows = getSelectRows();
         if (!rows || rows.length <= 0) {
-          createMessage.warning('请至少选择一条数据');
+          createMessage.warning(t('devOperation.developer.defGenTable.selectData'));
           return;
         }
         if (rows.length == 1) {

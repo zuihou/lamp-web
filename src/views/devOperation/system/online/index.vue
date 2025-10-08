@@ -21,12 +21,12 @@
           <TableAction
             :actions="[
               {
-                label: '踢下线',
+                label: t('devOperation.tenant.defUser.kickOff'),
                 onClick: handleKickout.bind(null, record),
                 auth: RoleEnum.TENANT_SYSTEM_ONLINE_KICKOUT,
               },
               {
-                label: '强制注销',
+                label: t('devOperation.tenant.defUser.logout'),
                 onClick: handleLogout.bind(null, record),
                 auth: RoleEnum.TENANT_SYSTEM_ONLINE_LOGOUT,
               },
@@ -86,7 +86,7 @@
           type: 'checkbox',
         },
         actionColumn: {
-          width: 200,
+          width: 250,
           title: t('common.column.action'),
           dataIndex: 'action',
         },

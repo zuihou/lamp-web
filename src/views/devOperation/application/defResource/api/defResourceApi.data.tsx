@@ -2,7 +2,7 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { findOnlineService } from '/@/api/devOperation/application/gateway';
 import { enumComponentProps } from '/@/utils/lamp/common';
-import { EnumEnum } from '/@/enums/commonEnum';
+import { DictEnum } from '/@/enums/commonEnum';
 import { useI18n } from '/@/hooks/web/useI18n';
 
 const { t } = useI18n();
@@ -86,7 +86,7 @@ export const editResourceApiFormSchema = (): FormSchema[] => {
       componentProps: () => {
         return {
           getPopupContainer: () => document.body,
-          ...enumComponentProps(EnumEnum.HttpMethod),
+          ...enumComponentProps(DictEnum.HttpMethod),
           // options: [
           //   { value: 'ALL', label: '所有' },
           //   { value: 'GET', label: 'GET' },

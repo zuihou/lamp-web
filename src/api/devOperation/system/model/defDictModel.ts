@@ -1,3 +1,5 @@
+import { DefDictItemResultVO } from './defDictItemModel';
+
 export interface DefDictPageQuery {
   classify?: string;
   key?: string;
@@ -39,4 +41,8 @@ export interface DefDictResultVO {
   updatedBy?: string;
   updatedTime?: string;
   echoMap?: any;
+  dictGroup?: string;
+  dataType?: string;
+  exist?: boolean;
+  itemList?: DefDictItemResultVO[];
 }

@@ -10,9 +10,11 @@
   import { ActionItem, TableAction } from '/@/components/Table';
   import { recipientTableColumns } from './kvdata';
   import { BasicTableProps, VxeBasicTable, VxeGridInstance } from '/@/components/VxeTable';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   const tableRef = ref<VxeGridInstance>();
 
+  const { t } = useI18n();
   const emit = defineEmits(['change', 'update:value']);
 
   const gridOptions = reactive<BasicTableProps>({
@@ -28,7 +30,7 @@
       custom: false,
       buttons: [
         {
-          content: '添加',
+          content: t('common.title.add'),
           buttonRender: {
             name: 'AButton',
             props: {
@@ -58,10 +60,10 @@
   const createActions = (record) => {
     const actions: ActionItem[] = [
       {
-        label: '删除',
+        label: t('common.title.delete'),
         color: 'error',
         popConfirm: {
-          title: '是否确认删除',
+          title: t('common.tips.confirmDelete'),
           confirm: () => {
             tableRef.value?.remove(record);
 

@@ -1,10 +1,11 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn } from '/@/components/Table';
-
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 export const cpuSchema: DescItem[] = [
   {
     field: 'cpuNum',
-    label: 'CPU核',
+    label: t('devOperation.developer.srever.cpu.cpuNum'),
   },
   // {
   //   field: 'total',
@@ -12,133 +13,133 @@ export const cpuSchema: DescItem[] = [
   // },
   {
     field: 'sys',
-    label: '系统使用率（%）',
+    label: t('devOperation.developer.srever.cpu.sys'),
   },
   {
     field: 'used',
-    label: '用户使用率（%）',
+    label: t('devOperation.developer.srever.cpu.used'),
   },
   {
     field: 'wait',
-    label: '当前等待率（%）',
+    label: t('devOperation.developer.srever.cpu.wait'),
   },
   {
     field: 'free',
-    label: '当前空闲率（%）',
+    label: t('devOperation.developer.srever.cpu.free'),
   },
 ];
 export const memSchema: DescItem[] = [
   {
     field: 'total',
-    label: '内存总量（G）',
+    label: t('devOperation.developer.srever.memory.total'),
   },
   {
     field: 'used',
-    label: '已用内存（G）',
+    label: t('devOperation.developer.srever.memory.used'),
   },
   {
     field: 'free',
-    label: '剩余内存（G）',
+    label: t('devOperation.developer.srever.memory.free'),
   },
   {
     field: 'usage',
-    label: '使用率（%）',
+    label: t('devOperation.developer.srever.memory.usage'),
   },
 ];
 
 export const jvmSchema: DescItem[] = [
   {
     field: 'total',
-    label: '占用的内存总数(M)',
+    label: t('devOperation.developer.srever.jvm.total'),
   },
   {
     field: 'max',
-    label: '最大可用内存总数(M)',
+    label: t('devOperation.developer.srever.jvm.max'),
   },
   {
     field: 'free',
-    label: 'JVM空闲内存(M)',
+    label: t('devOperation.developer.srever.jvm.free'),
   },
   {
     field: 'usage',
-    label: '使用率（%）',
+    label: t('devOperation.developer.srever.jvm.usage'),
   },
   {
     field: 'name',
-    label: 'Jvm名称',
+    label: t('devOperation.developer.srever.jvm.name'),
   },
   {
     field: 'version',
-    label: 'JDK版本',
+    label: t('devOperation.developer.srever.jvm.version'),
   },
   {
     field: 'startTime',
-    label: '启动时间',
+    label: t('devOperation.developer.srever.jvm.startTime'),
   },
   {
     field: 'runTime',
-    label: '运行时长',
+    label: t('devOperation.developer.srever.jvm.runTime'),
   },
   {
     field: 'home',
-    label: 'JDK路径',
+    label: t('devOperation.developer.srever.jvm.home'),
   },
   {
     field: 'inputArgs',
-    label: '运行参数',
+    label: t('devOperation.developer.srever.jvm.inputArgs'),
   },
 ];
 
 export const sysSchema: DescItem[] = [
   {
     field: 'computerName',
-    label: '服务器名称',
+    label: t('devOperation.developer.srever.server.computerName'),
   },
   {
     field: 'computerIp',
-    label: '服务器Ip',
+    label: t('devOperation.developer.srever.server.computerIp'),
   },
   {
     field: 'userDir',
-    label: '项目路径',
+    label: t('devOperation.developer.srever.server.userDir'),
   },
   {
     field: 'osName',
-    label: '操作系统',
+    label: t('devOperation.developer.srever.server.osName'),
   },
   {
     field: 'osArch',
-    label: '系统架构',
+    label: t('devOperation.developer.srever.server.osArch'),
   },
 ];
 
 export const columns: BasicColumn[] = [
   {
-    title: '盘符路径',
+    title: t('devOperation.developer.srever.disk.dirName'),
     dataIndex: 'dirName',
   },
   {
-    title: '盘符类型',
+    title: t('devOperation.developer.srever.disk.sysTypeName'),
     dataIndex: 'sysTypeName',
   },
   {
-    title: '文件类型',
+    title: t('devOperation.developer.srever.disk.typeName'),
     dataIndex: 'typeName',
   },
   {
-    title: '总大小',
+    title: t('devOperation.developer.srever.disk.total'),
     dataIndex: 'total',
   },
   {
-    title: '剩余大小',
+    title: t('devOperation.developer.srever.disk.free'),
     dataIndex: 'free',
   },
   {
-    title: '已经使用量',
+    title: t('devOperation.developer.srever.disk.used'),
     dataIndex: 'used',
   },
   {
-    title: '资源的使用率',
+    title: t('devOperation.developer.srever.disk.usage'),
     dataIndex: 'usage',
   },
 ];

@@ -68,80 +68,87 @@ export enum FileBucketEnum {
   public = 'tt-public',
 }
 
-export enum EnumEnum {
-  // msg
-  TaskStatus = 'TaskStatus',
-  SendStatus = 'SendStatus',
-  SourceType = 'SourceType',
-  ProviderType = 'ProviderType',
-  MsgBizType = 'MsgBizType',
-  MsgType = 'MsgType',
-  // file
-  FileType = 'FileType',
-  FileStorageType = 'FileStorageType',
-  // tenant
-  TenantConnectTypeEnum = 'TenantConnectTypeEnum',
+export enum DictEnum {
+  APPLICATION_TYPE = 'TENANT_APPLICATION_TYPE',
+  DictClassifyEnum = 'DictClassifyEnum',
   // authority
   ApplicationAppTypeEnum = 'ApplicationAppTypeEnum',
-  TenantStatusEnum = 'TenantStatusEnum',
-  TenantTypeEnum = 'TenantTypeEnum',
-  Sex = 'Sex',
+  ApplicationGrantTypeEnum = 'ApplicationGrantTypeEnum',
+  AREA_LEVEL = 'GLOBAL_AREA_LEVEL',
+  AREA_SOURCE = 'TENANT_AREA_SOURCE',
+  AuditStatusEnum = 'AuditStatusEnum',
   AuthorizeType = 'AuthorizeType',
-  LogType = 'LogType',
-  LoginStatusEnum = 'LoginStatusEnum',
-  DataScopeType = 'DataScopeType',
-  HttpMethod = 'HttpMethod',
-
-  DateType = 'DateType',
-  PopupTypeEnum = 'PopupTypeEnum',
-  TplEnum = 'TplEnum',
-  EntitySuperClassEnum = 'EntitySuperClassEnum',
-  GenTypeEnum = 'GenTypeEnum',
-  SqlConditionEnum = 'SqlConditionEnum',
-  SuperClassEnum = 'SuperClassEnum',
+  BooleanEnum = 'BooleanEnum',
+  CLIENT_TYPE = 'TENANT_CLIENT_TYPE',
   ComponentEnum = 'ComponentEnum',
-  ProjectTypeEnum = 'ProjectTypeEnum',
-  TemplateEnum = 'TemplateEnum',
-  FileOverrideStrategyEnum = 'FileOverrideStrategyEnum',
-
-  // test
-  ProductType = 'ProductType',
+  DataScopeEnum = 'DataScopeEnum',
+  DataScopeType = 'DataScopeType',
+  DATASOURCE_CONFIG_DRIVER = 'DATASOURCE_CONFIG_DRIVER',
+  DateType = 'DateType',
   DefGenTestSimpleType2Enum = 'DefGenTestSimpleType2Enum',
   DefGenTestTreeType2Enum = 'DefGenTestTreeType2Enum',
-}
-export enum DictEnum {
-  // 全局
-  GLOBAL_SEX = 'GLOBAL_SEX',
-  AREA_LEVEL = 'GLOBAL_AREA_LEVEL',
-  NATION = 'GLOBAL_NATION',
-  SEX = 'GLOBAL_SEX',
-  EDUCATION = 'GLOBAL_EDUCATION',
+  DefTenantRegisterTypeEnum = 'DefTenantRegisterTypeEnum',
+  DefTenantStatusEnum = 'DefTenantStatusEnum',
+  DICT_GROUP = 'DICT_GROUP',
+  DictDataTypeEnum = 'DictDataTypeEnum',
+  EchoDictType_Base_NOTICE_TARGET = 'NOTICE_TARGET',
 
+  EDUCATION = 'GLOBAL_EDUCATION',
+  EntitySuperClassEnum = 'EntitySuperClassEnum',
+  FileOverrideStrategyEnum = 'FileOverrideStrategyEnum',
+  FileStorageType = 'FileStorageType',
+  // file
+  FileType = 'FileType',
+  GenTypeEnum = 'GenTypeEnum',
+  // 全局
+  HttpMethod = 'HttpMethod',
+  I18N_JSON = 'I18N_JSON',
+  InterfaceExecModeEnum = 'InterfaceExecModeEnum',
+  LoginStatusEnum = 'LoginStatusEnum',
+
+  LogType = 'LogType',
+  MsgInterfaceLoggingStatusEnum = 'MsgInterfaceLoggingStatusEnum',
+  MsgTemplateTypeEnum = 'MsgTemplateTypeEnum',
+
+  NATION = 'GLOBAL_NATION',
+  NoticeRemindModeEnum = 'NoticeRemindModeEnum',
+  OrgTypeEnum = 'OrgTypeEnum',
+  PARAMETER_TYPE = 'TENANT_PARAMETER_TYPE',
+  PopupTypeEnum = 'PopupTypeEnum',
   // base
   POSITION_STATUS = 'BASE_POSITION_STATUS',
-  ORG_TYPE = 'BASE_ORG_TYPE',
-  ROLE_CATEGORY = 'BASE_ROLE_CATEGORY',
-  EchoDictType_Base_INTERFACE_EXEC_MODE = 'INTERFACE_EXEC_MODE',
-  EchoDictType_Base_MSG_TEMPLATE_TYPE = 'MSG_TEMPLATE_TYPE',
-  EchoDictType_Base_NOTICE_TARGET = 'NOTICE_TARGET',
-  EchoDictType_Base_NOTICE_REMIND_MODE = 'NOTICE_REMIND_MODE',
-  EchoDictType_Base_MSG_INTERFACE_LOGGING_STATUS = 'MSG_INTERFACE_LOGGING_STATUS',
-  // tenant
-  RESOURCE_TYPE = 'TENANT_RESOURCE_TYPE',
-  RESOURCE_DATA_SCOPE = 'TENANT_RESOURCE_DATA_SCOPE',
-  RESOURCE_OPEN_WITH = 'TENANT_RESOURCE_OPEN_WITH',
-  RESOURCE_TRANSITION_NAME = 'TENANT_RESOURCE_TRANSITION_NAME',
-  DICT_TYPE = 'TENANT_DICT_TYPE',
-  DICT_CLASSIFY = 'TENANT_DICT_CLASSIFY',
-  PARAMETER_TYPE = 'TENANT_PARAMETER_TYPE',
-  APPLICATION_TYPE = 'TENANT_APPLICATION_TYPE',
-  CLIENT_TYPE = 'TENANT_CLIENT_TYPE',
-  AREA_SOURCE = 'TENANT_AREA_SOURCE',
-  DATASOURCE_CONFIG_DRIVER = 'DATASOURCE_CONFIG_DRIVER',
-  DictionaryType_Global_EDUCATION = 'GLOBAL_EDUCATION',
-  DictionaryType_Global_DATA_TYPE = 'DATA_TYPE',
+  // test
+  ProductType = 'ProductType',
+  ProjectTypeEnum = 'ProjectTypeEnum',
 
-  TENANT_LOGIN_STATUS = 'TENANT_LOGIN_STATUS',
+  ProviderType = 'ProviderType',
+  ResourceOpenWithEnum = 'ResourceOpenWithEnum',
+  ResourceTypeEnum = 'ResourceTypeEnum',
+  // tenant
+  RoleCategoryEnum = 'RoleCategoryEnum',
+  SendStatus = 'SendStatus',
+  Sex = 'Sex',
+  // 接口模式
+  SOP_API_INFO_API_MODE = 'SOP_API_INFO_API_MODE',
+  // 注册来源
+  SOP_API_INFO_REG_SOURCE = 'SOP_API_INFO_REG_SOURCE',
+  // 创建方式
+  SOP_ISV_CREATION_METHOD = 'SOP_ISV_CREATION_METHOD',
+  // 秘钥格式
+  SOP_ISV_KEYS_KEY_FORMAT = 'SOP_ISV_KEYS_KEY_FORMAT',
+  SourceType = 'SourceType',
+  SqlConditionEnum = 'SqlConditionEnum',
+  SuperClassEnum = 'SuperClassEnum',
+  // msg
+  TaskStatus = 'TaskStatus',
+  TemplateEnum = 'TemplateEnum',
+
+  // tenant
+  TenantConnectTypeEnum = 'TenantConnectTypeEnum',
+  TenantStatusEnum = 'TenantStatusEnum',
+  TenantTypeEnum = 'TenantTypeEnum',
+
+  TplEnum = 'TplEnum',
 }
 
 export enum MsgTemplateCodeEnum {

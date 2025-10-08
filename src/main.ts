@@ -22,6 +22,8 @@ import { setupI18n } from '/@/locales/setupI18n';
 import { registerGlobComp } from '/@/components/registerGlobComp';
 import { registerThirdComp } from '/@/settings/registerThirdComp';
 
+import { useDictStoreWithOut } from '/@/store/modules/dict';
+import { DictEnum } from '/@/enums/commonEnum';
 // if (import.meta.env.DEV) {
 //   import('ant-design-vue/dist/antd.less');
 // }
@@ -74,6 +76,10 @@ async function bootstrap() {
 
   // https://next.router.vuejs.org/api/#isready
   // await router.isReady();
+
+  const dictStore = useDictStoreWithOut();
+  dictStore.registerDictTypes([...Object.values(DictEnum)]);
+  dictStore.loadAllRegisteredDict();
 
   app.mount('#app');
 }

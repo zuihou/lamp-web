@@ -10,7 +10,7 @@
             circle
             circleIcon="ant-design:save-outlined"
             status="primary"
-            title="保存"
+            :title="t('common.saveText')"
             @click="saveRowEvent(row)"
           />
           <a-button
@@ -24,20 +24,20 @@
           <a-button
             circle
             circleIcon="ant-design:edit-outlined"
-            title="编辑"
+            :title="t('common.title.edit')"
             @click="editRowEvent(row)"
           />
         </template>
         <PopConfirmButton
           circle
           circleIcon="ant-design:delete-outlined"
-          title="确认删除吗？"
+          :title="t('common.tips.confirmDelete')"
           @confirm="removeRowEvent(row)"
         />
         <PopConfirmButton
           circle
           circleIcon="ant-design:cloud-sync-outlined"
-          title="确认同步吗？"
+          :title="t('devOperation.developer.defGenTableColumn.confirmSync')"
           @confirm="syncRowEvent(row)"
         />
       </template>
@@ -102,7 +102,14 @@
           items: formItems(),
         },
         toolbarConfig: {
-          buttons: [{ code: 'delete', name: '删除', icon: 'delete-outlined', status: 'danger' }],
+          buttons: [
+            {
+              code: 'delete',
+              name: t('common.title.delete'),
+              icon: 'delete-outlined',
+              status: 'danger',
+            },
+          ],
         },
         // 分页配置项
         pagerConfig: {
@@ -166,14 +173,14 @@
 
           reload();
         } else {
-          createMessage.warn('该表不存在');
+          createMessage.warn(t('devOperation.developer.defGenTableColumn.notExist'));
         }
       }
 
       const syncRowEvent = async (row: any) => {
         try {
           await syncField(row.tableId, row.id);
-          createMessage.success('同步成功');
+          createMessage.success(t('devOperation.developer.defGenTableColumn.syncSuccess'));
         } finally {
           reload();
         }

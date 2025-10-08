@@ -31,7 +31,7 @@
                 onClick: handleView.bind(null, record),
               },
               {
-                tooltip: '测试发送',
+                tooltip: t('devOperation.ops.defMsgTemplate.testSend'),
                 icon: 'ant-design:send-outlined',
                 onClick: handleTestMsg.bind(null, record),
               },

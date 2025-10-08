@@ -6,12 +6,17 @@
         style="margin-right: 2rem"
         @change="changeTabs(tableKey, $event)"
       >
-        <RadioButton :value="TemplateEnum.BACKEND">后端</RadioButton>
-        <RadioButton :value="TemplateEnum.WEB_PLUS">前端(Vben)</RadioButton>
+        <RadioButton :value="TemplateEnum.BACKEND">{{
+          t('devOperation.developer.defGenTable.backed')
+        }}</RadioButton>
+        <RadioButton :value="TemplateEnum.WEB_PLUS">{{
+          t('devOperation.developer.defGenTable.fronted')
+        }}</RadioButton>
         <RadioButton :value="TemplateEnum.WEB_SOYBEAN">前端(Soybean)</RadioButton>
+        <RadioButton :value="TemplateEnum.WEB_VBEN5">前端(Vben5)</RadioButton>
       </RadioGroup>
       <a-button preIcon="ant-design:reload-outlined" type="link" @click="reload(tableKey)">
-        刷新
+        {{ t('common.redo') }}
       </a-button>
 
       <Spin :spinning="spinning" size="large">
@@ -20,7 +25,7 @@
             <pre>
               <a-button
                 preIcon="ant-design:copy-outlined" style="float: left" type="link"
-                @click="handleCopy(value)">复制</a-button>
+                @click="handleCopy(value)">{{ t('common.title.copy') }}</a-button>
               <code class="hljs" v-html="highlightedCode(value, key)"></code>
             </pre>
           </TabPane>
@@ -129,7 +134,7 @@
         }
         clipboardRef.value = value;
         if (unref(copiedRef)) {
-          createMessage.success('复制成功！');
+          createMessage.success(t('common.tips.copySuccess'));
         }
       }
 

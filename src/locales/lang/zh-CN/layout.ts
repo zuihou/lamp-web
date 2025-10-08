@@ -2,9 +2,13 @@ export default {
   footer: { onlinePreview: '在线预览', onlineDocument: '在线文档' },
   header: {
     // user dropdown
+    registeredEnterprise: '注册企业',
     dropdownItemDoc: '文档',
+    dropdownItemDocFrontEnd: '前端文档',
     dropdownItemLoginOut: '退出系统',
     dropdownProfile: '个人中心',
+
+    switchingCompanies: '切换企业和机构',
 
     // tooltip
     tooltipErrorLog: '错误日志',

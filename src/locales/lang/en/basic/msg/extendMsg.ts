@@ -17,4 +17,5 @@ export default {
   createdTime: 'CreatedTime',
   updatedBy: 'UpdatedBy',
   updatedTime: 'UpdatedTime',
+  publish: 'Publish',
 };

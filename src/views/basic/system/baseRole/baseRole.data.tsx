@@ -68,7 +68,7 @@ export const searchFormSchema = (): FormSchema[] => {
       label: t('basic.system.baseRole.category'),
       component: 'ApiSelect',
       componentProps: {
-        ...dictComponentProps(DictEnum.ROLE_CATEGORY),
+        ...dictComponentProps(DictEnum.RoleCategoryEnum),
       },
       colProps: { span: 12 },
     },
@@ -122,7 +122,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       component: 'ApiRadioGroup',
       defaultValue: RoleCategoryEnum.FUNCTION,
       componentProps: {
-        ...dictComponentProps(DictEnum.ROLE_CATEGORY),
+        ...dictComponentProps(DictEnum.RoleCategoryEnum),
       },
       helpMessage: [
         '功能角色：不同的角色，拥有不同的菜单、视图、按钮、URI权限',
@@ -204,7 +204,7 @@ export const roleEmployeeSearchFormSchema = (): FormSchema[] => {
     },
     {
       field: 'orgIdList',
-      label: '所在部门',
+      label: t('basic.system.baseRole.dept'),
       component: 'ApiTreeSelect',
       componentProps: {
         api: tree,
@@ -217,7 +217,7 @@ export const roleEmployeeSearchFormSchema = (): FormSchema[] => {
     },
     {
       field: 'scope',
-      label: '范围',
+      label: t('basic.system.baseRole.scope'),
       component: 'RadioButtonGroup',
       componentProps: {
         options: [

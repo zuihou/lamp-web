@@ -2,8 +2,9 @@ import { BasicFetchResult } from '/@/api/model/baseModel';
 
 export interface OptionsItem {
   label: string;
-  text: string;
+  remark: string;
   value: string;
+  color: string;
 }
 
 /**

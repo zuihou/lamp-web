@@ -19,7 +19,7 @@
           @menu-event="handleClearEvent"
         >
           <a-button v-hasAnyPermission="[RoleEnum.BASIC_SYSTEM_LOGIN_LOG_DELETE]" type="primary">
-            清理日志
+            {{ t('basic.system.baseOperationLog.clear') }}
           </a-button>
         </Dropdown>
       </template>

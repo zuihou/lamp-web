@@ -14,4 +14,7 @@ export default {
   suffix: '后缀',
   size: '大小',
   createdOrgId: '创建人组织',
+  debug: '调试上传',
+  preview: '文件预览',
+  file: '文件',
 };

@@ -10,4 +10,5 @@ export default {
   createdBy: 'CreatedBy',
   updatedTime: 'UpdatedTime',
   updatedBy: 'UpdatedBy',
+  executionLog: 'Execution record',
 };

@@ -9,17 +9,17 @@ export const formItems = (): any[] => {
     {
       title: t('devOperation.ops.defInterfaceProperty.name'),
       field: 'name',
-      itemRender: { name: '$input', props: { placeholder: '请输入' } },
+      itemRender: { name: '$input', props: { placeholder: t('common.inputText') } },
     },
     {
       title: t('devOperation.ops.defInterfaceProperty.key'),
       field: 'key',
-      itemRender: { name: '$input', props: { placeholder: '请输入' } },
+      itemRender: { name: '$input', props: { placeholder: t('common.inputText') } },
     },
     {
       title: t('devOperation.ops.defInterfaceProperty.value'),
       field: 'value',
-      itemRender: { name: '$input', props: { placeholder: '请输入' } },
+      itemRender: { name: '$input', props: { placeholder: t('common.inputText') } },
     },
     {
       span: 24,
@@ -48,22 +48,22 @@ export const columns = (): VxeGridPropTypes.Columns => {
     {
       field: 'name',
       title: t('devOperation.ops.defInterfaceProperty.name'),
-      editRender: { name: '$input', attrs: { placeholder: '请输入' } },
+      editRender: { name: '$input', attrs: { placeholder: t('common.inputText') } },
     },
     {
       field: 'key',
       title: t('devOperation.ops.defInterfaceProperty.key'),
-      editRender: { name: '$input', attrs: { placeholder: '请输入' } },
+      editRender: { name: '$input', attrs: { placeholder: t('common.inputText') } },
     },
     {
       field: 'value',
       title: t('devOperation.ops.defInterfaceProperty.value'),
-      editRender: { name: '$input', attrs: { placeholder: '请输入' } },
+      editRender: { name: '$input', attrs: { placeholder: t('common.inputText') } },
     },
     {
       field: 'remarks',
       title: t('devOperation.ops.defInterfaceProperty.remarks'),
-      editRender: { name: '$input', attrs: { placeholder: '请输入' } },
+      editRender: { name: '$input', attrs: { placeholder: t('common.inputText') } },
     },
     {
       title: t('common.column.action'),

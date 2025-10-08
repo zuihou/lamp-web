@@ -1,6 +1,5 @@
 import { Ref } from 'vue';
 import { DictEnum } from '/@/enums/commonEnum';
-import { EnumEnum } from '/@/enums/commonEnum';
 import { dateUtil } from '/@/utils/dateUtil';
 import { dictComponentProps } from '/@/utils/lamp/common';
 import { enumComponentProps } from '/@/utils/lamp/common';
@@ -49,7 +48,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'type',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...enumComponentProps(EnumEnum.ProductType),
+        ...enumComponentProps(DictEnum.ProductType),
       },
     },
     {
@@ -57,7 +56,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'type2',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...enumComponentProps(EnumEnum.DefGenTestTreeType2Enum),
+        ...enumComponentProps(DictEnum.DefGenTestTreeType2Enum),
       },
     },
     {
@@ -65,7 +64,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'type3',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.DictionaryType_Global_EDUCATION),
+        ...dictComponentProps(DictEnum.EDUCATION),
       },
     },
     {
@@ -116,7 +115,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'test12',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.DictionaryType_Global_DATA_TYPE),
+        ...dictComponentProps(DictEnum.DataScopeType),
       },
     },
     {

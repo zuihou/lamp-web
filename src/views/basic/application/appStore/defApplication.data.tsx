@@ -19,25 +19,29 @@ export const columns = (): BasicColumn[] => {
       width: 100,
     },
     {
-      title: '有效期',
+      title: t('common.expirationDate'),
       dataIndex: 'state',
       width: 150,
       customRender: ({ record }) => {
         if (record.expirationTime) {
           if (dateUtil(record.expirationTime).isBefore(Date.now())) {
-            return <Tag color="error">已过期</Tag>;
+            return <Tag color="error">{t('common.expired')}</Tag>;
           } else if (dateUtil(record.expirationTime).isBefore(dateUtil().add(30, 'days'))) {
             const duration = dateUtil.duration(dateUtil(record.expirationTime).diff(Date.now()));
             if (duration.days() > 0) {
-              return <Tag color="warning">{duration.days() + 1}天后到期</Tag>;
+              return (
+                <Tag color="warning">{t('common.expiresInDays', { s: duration.days() + 1 })}</Tag>
+              );
             } else {
-              return <Tag color="warning">{duration.hours()}小时后到期</Tag>;
+              return (
+                <Tag color="warning">{t('common.expiresInHours', { s: duration.hours() })}</Tag>
+              );
             }
           } else {
             return <Tag color="processing">{record.expirationTime}</Tag>;
           }
         } else {
-          return <Tag color="success">永久有效</Tag>;
+          return <Tag color="success">{t('common.permanentlyValid')}</Tag>;
         }
       },
     },
@@ -75,7 +79,6 @@ export const editFormSchema = (_): FormSchema[] => {
       field: 'appendixIcon',
       component: 'CropperAvatar',
       componentProps: {
-        isDef: true,
         showBtn: false,
         uploadParams: { bizType: FileBizTypeEnum.DEF_APPLICATION_LOGO },
       },

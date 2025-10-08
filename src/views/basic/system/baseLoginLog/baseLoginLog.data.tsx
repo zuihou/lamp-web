@@ -1,7 +1,7 @@
 import { Badge } from 'ant-design-vue';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
-import { DictEnum, EnumEnum } from '/@/enums/commonEnum';
+import { DictEnum } from '/@/enums/commonEnum';
 import { DropMenu } from '/@/components/Dropdown/src/typing';
 
 import { LoginStatusEnum } from '/@/enums/biz/tenant';
@@ -91,7 +91,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'status',
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.LoginStatusEnum),
+        ...enumComponentProps(DictEnum.LoginStatusEnum),
       },
       colProps: { span: 8 },
     },
@@ -181,7 +181,7 @@ export const editFormSchema = (_): FormSchema[] => {
       field: 'status',
       component: 'ApiSelect',
       componentProps: {
-        ...dictComponentProps(DictEnum.TENANT_LOGIN_STATUS),
+        ...dictComponentProps(DictEnum.LoginStatusEnum),
       },
     },
     {

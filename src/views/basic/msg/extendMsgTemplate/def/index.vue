@@ -2,11 +2,11 @@
   <BasicModal
     :keyboard="true"
     :maskClosable="false"
-    title="导入消息模板"
+    :title="t('devOperation.ops.defMsgTemplate.importTitle')"
     v-bind="$attrs"
     width="80%"
     @ok="handleSubmit"
-    okText="导入"
+    :okText="t('common.title.import')"
     @register="registerModal"
   >
     <PageWrapper contentFullHeight dense>
@@ -78,7 +78,7 @@
             closeModal();
             emit('success');
           } else {
-            createMessage.warn('请先选择字典');
+            createMessage.warn(t('devOperation.ops.defMsgTemplate.dictTips'));
           }
         } finally {
           setModalProps({ confirmLoading: false });

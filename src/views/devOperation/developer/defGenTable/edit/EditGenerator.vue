@@ -2,7 +2,7 @@
   <BasicForm @register="registerBasicForm">
     <template #resetBefore>
       <a-button :loading="loading" class="mr-2" type="default" @click="downloadFront">
-        下载前端
+        {{ t('devOperation.developer.defGenTable.downloadFrontend') }}
       </a-button>
       <a-button :loading="loading" class="mr-2" type="default" @click="downloadFrontSoybean">
         下载前端(Soybean)
@@ -11,7 +11,7 @@
         下载前端(Vben5)
       </a-button>
       <a-button :loading="loading" class="mr-2" type="default" @click="downloadBackend">
-        下载后端
+        {{ t('devOperation.developer.defGenTable.downloadBackend') }}
       </a-button>
     </template>
     <template #submitBefore>
@@ -68,7 +68,7 @@
         },
         showResetButton: false,
         submitButtonOptions: {
-          text: '生成后端',
+          text: t('devOperation.developer.defGenTable.generatorBackend'),
         },
         submitFunc: generatorBackend,
       });

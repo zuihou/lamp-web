@@ -6,4 +6,8 @@ export default {
   name: '名称',
   state: '状态',
   remark: '备注',
+  secondDict: '第二种方式实现字典管理',
+  thirdDict: '第三种方式实现字典管理',
+  dictionary: '字典项',
+  entry: '字典条目',
 };

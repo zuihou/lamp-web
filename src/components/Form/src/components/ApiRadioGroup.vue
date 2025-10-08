@@ -21,12 +21,14 @@
 <script lang="ts">
   import { defineComponent, PropType, ref, watchEffect, computed, unref, watch } from 'vue';
   import { Radio } from 'ant-design-vue';
-  import { isFunction } from '/@/utils/is';
+  import { isEmpty, isFunction, isNullOrUnDef, isString } from '/@/utils/is';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
   import { useAttrs } from '/@/hooks/core/useAttrs';
   import { propTypes } from '/@/utils/propTypes';
   import { get, omit } from 'lodash-es';
   import { useI18n } from '/@/hooks/web/useI18n';
+  import { useDictStore } from '/@/store/modules/dict';
+  import { i18n } from '/@/locales/setupI18n';
   type OptionsItem = { label: string; value: string | number | boolean; disabled?: boolean };
 
   export default defineComponent({
@@ -52,6 +54,7 @@
         type: [Boolean] as PropType<boolean>,
         default: false,
       },
+      type: propTypes.string.def(''),
       numberToString: propTypes.bool,
       stringToNumber: propTypes.bool,
       resultField: propTypes.string.def(''),
@@ -67,6 +70,7 @@
       const emitData = ref<any[]>([]);
       const attrs = useAttrs();
       const { t } = useI18n();
+      const dictStore = useDictStore();
       // Embedded in the form, just use the hook binding to perform form verification
       const [state] = useRuleFormItem(props, 'value', 'change', emitData);
 
@@ -87,19 +91,32 @@
         }, [] as OptionsItem[]);
       });
 
-      watchEffect(async () => {
-        props.immediate && await fetch();
+      watchEffect(() => {
+        props.immediate && fetch();
       });
 
       watch(
         () => props.params,
-        async () => {
-          unref(isFirstLoad) && await fetch();
+        () => {
+          !unref(isFirstLoad) && fetch();
         },
         { deep: true },
       );
 
       async function fetch() {
+        if (props.type === 'dict' && props.params) {
+          let dictType = '';
+          if (isString(props.params)) {
+            dictType = props.params;
+          } else if (props.params?.type) {
+            dictType = props.params.type;
+          }
+          if (!isNullOrUnDef(dictType) && !isEmpty(dictType)) {
+            options.value = dictStore.getDictItemOptionList(dictType) as unknown as OptionsItem[];
+            return;
+          }
+        }
+
         const api = props.api;
         if (!api || !isFunction(api)) return;
         options.value = [];

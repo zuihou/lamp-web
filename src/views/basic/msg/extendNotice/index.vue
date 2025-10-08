@@ -12,7 +12,7 @@
           {{ t('common.title.delete') }}
         </a-button>
         <a-button preIcon="ant-design:plus-outlined" type="primary" @click="handleRead">
-          标记已读
+          {{ t('basic.msg.extendNotice.markRead') }}
         </a-button>
       </template>
       <template #bodyCell="{ column, record }">

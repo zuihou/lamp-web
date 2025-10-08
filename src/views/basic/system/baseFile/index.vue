@@ -31,7 +31,7 @@
           type="primary"
           @click="handleUpload"
         >
-          调试上传
+          {{ t('basic.system.baseFile.debug') }}
         </a-button>
 
         <BasicUpload

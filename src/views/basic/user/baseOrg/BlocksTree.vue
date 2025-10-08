@@ -8,10 +8,10 @@
           type="primary"
           @click="changeDisplay()"
         >
-          切换
+          {{ t('component.app.toNavigate') }}
         </a-button>
         <a-button v-hasAnyPermission="[RoleEnum.ORG_ADD]" class="mr-2" @click="handleAdd()">
-          新增
+          {{ t('common.title.add') }}
         </a-button>
         <a-button
           v-hasAnyPermission="[RoleEnum.ORG_EDIT]"
@@ -19,7 +19,7 @@
           class="mr-2"
           @click="handleEdit()"
         >
-          编辑
+          {{ t('common.title.edit') }}
         </a-button>
         <a-button
           v-hasAnyPermission="[RoleEnum.ORG_DELETE]"
@@ -27,14 +27,14 @@
           class="mr-2"
           @click="handleDelete()"
         >
-          删除
+          {{ t('common.title.delete') }}
         </a-button>
       </Space>
       <Space>
         <!-- 垂直展示 -->
-        <Checkbox v-model:checked="isHorizontal">垂直展示</Checkbox>
+        <Checkbox v-model:checked="isHorizontal">{{ t('basic.user.baseOrg.vertical') }}</Checkbox>
         <!-- 折叠节点 -->
-        <Checkbox v-model:checked="collapsable">折叠节点</Checkbox>
+        <Checkbox v-model:checked="collapsable">{{ t('basic.user.baseOrg.foldedNode') }}</Checkbox>
         <!-- 主题背景 -->
         <Select
           :default-value="labelClassName"

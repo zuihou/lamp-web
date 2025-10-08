@@ -42,7 +42,7 @@
     },
     props: {
       value: {
-        type: Array,
+        type: Array as PropType<any[]>,
       },
       api: {
         type: Function as PropType<(arg?: Recordable) => Promise<Option[]>>,

@@ -21,4 +21,7 @@ export default {
   createdTime: 'CreatedTime',
   updatedBy: 'UpdatedBy',
   updatedTime: 'UpdatedTime',
+  importTitle: 'Import message template',
+  dictTips: 'Select the dictionary first',
+  testSend: 'Test Send',
 };

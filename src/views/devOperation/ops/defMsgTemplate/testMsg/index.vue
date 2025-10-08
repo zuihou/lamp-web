@@ -64,6 +64,7 @@
           // 赋值
           const record = { ...row };
 
+          // record.templateCode = row.code
           await setFieldsValue(record);
 
           if (row.param) {

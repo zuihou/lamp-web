@@ -1,8 +1,12 @@
 <template>
   <div class="bg-white m-4 mr-2 overflow-hidden">
     <div v-if="query" class="m-4">
-      <a-button class="mr-2" type="primary" @click="handleReset()">重置</a-button>
-      <Checkbox v-model:checked="recursion" @change="handleQuery()">本级及子级</Checkbox>
+      <a-button class="mr-2" type="primary" @click="handleReset()">{{
+        t('common.resetText')
+      }}</a-button>
+      <Checkbox v-model:checked="recursion" @change="handleQuery()">{{
+        t('basic.user.baseEmployee.sublever')
+      }}</Checkbox>
     </div>
     <div v-else class="m-4">
       <a-button
@@ -11,7 +15,7 @@
         type="primary"
         @click="changeDisplay()"
       >
-        切换
+        {{ t('component.app.toNavigate') }}
       </a-button>
       <a-button
         v-hasAnyPermission="[RoleEnum.ORG_ADD]"
@@ -191,7 +195,7 @@
                     openModal(true, current);
                   },
                 },
-                '绑定',
+                t('common.binding'),
               );
             },
           },

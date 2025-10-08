@@ -10,4 +10,13 @@ export default {
   dsType: 'dsType',
   createdOrgId: 'createdOrgId',
   category: 'category',
+  bindEmployee: 'BindEmployee',
+  scope: 'Scope',
+  dept: 'Department of Employment',
+  batchBinding: 'Batch binding',
+  batchCancellation: 'Batch cancellation',
+  bindConfirm: 'Are you sure you want to batch bind the selected employees?',
+  unBindConfirm: 'Are you sure you want to batch unbind the selected employees?',
+  ownedResources: '【{name}】possesses application resources',
+  allResources: 'System roles have full permissions',
 };

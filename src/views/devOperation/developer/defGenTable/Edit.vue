@@ -2,17 +2,17 @@
   <PageWrapper :content="content" :title="title">
     <template #extra>
       <a-button v-if="current === 0" :loading="loading" type="primary" @click="handleSubmit">
-        保存
+        {{ t('common.saveText') }}
       </a-button>
     </template>
 
     <template #footer>
       <div class="step-form-form">
         <Steps :current="current" size="small" type="navigation" @change="changeSteps">
-          <Step :status="status" title="生成信息" />
-          <Step title="字段信息" />
-          <Step title="代码预览" />
-          <Step title="立即生成" />
+          <Step :status="status" :title="t('devOperation.developer.defGenTable.edit.step1')" />
+          <Step :title="t('devOperation.developer.defGenTable.edit.step2')" />
+          <Step :title="t('devOperation.developer.defGenTable.edit.step3')" />
+          <Step :title="t('devOperation.developer.defGenTable.edit.step4')" />
         </Steps>
       </div>
     </template>
@@ -88,7 +88,7 @@
         loading: false,
         theme: 'dark',
         background: 'rgba(111,111,111,.7)',
-        tip: '加载中...',
+        tip: t('common.loadingText'),
       });
 
       // 获取应用资源表单

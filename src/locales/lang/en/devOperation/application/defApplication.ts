@@ -5,6 +5,7 @@ export default {
   appSecret: 'appSecret',
   name: 'name',
   version: 'version',
+  redirect: 'Redirect',
   type: 'type',
   introduce: 'introduce',
   remark: 'remark',
@@ -13,4 +14,5 @@ export default {
   isGeneral: 'isGeneral',
   sortValue: 'sortValue',
   logo: 'logo',
+  renwalMsg: 'Please contact the administrator',
 };

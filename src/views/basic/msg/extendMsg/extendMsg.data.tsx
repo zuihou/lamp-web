@@ -1,16 +1,10 @@
 import { h, Ref } from 'vue';
 import { dateUtil } from '/@/utils/dateUtil';
-import { dictComponentProps, enumAllComponentProps } from '/@/utils/lamp/common';
+import { dictAllComponentProps, dictComponentProps } from '/@/utils/lamp/common';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { Tinymce } from '/@/components/Tinymce/index';
-import {
-  ActionEnum,
-  DictEnum,
-  EnumEnum,
-  FileBizTypeEnum,
-  FileBucketEnum,
-} from '/@/enums/commonEnum';
+import { ActionEnum, DictEnum, FileBizTypeEnum, FileBucketEnum } from '/@/enums/commonEnum';
 import { FormSchemaExt, RuleType } from '/@/api/lamp/common/formValidateService';
 import { MsgTemplateTypeEnum, SourceTypeEnum } from '/@/enums/biz/base';
 import { query as queryUser } from '/@/api/basic/user/baseEmployee';
@@ -79,7 +73,7 @@ export const searchFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       componentProps: {
         isBtn: true,
-        ...enumAllComponentProps(EnumEnum.TaskStatus),
+        ...dictAllComponentProps(DictEnum.TaskStatus),
       },
       colProps: { span: 16 },
     },
@@ -126,7 +120,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       field: 'remindMode',
       component: 'ApiSelect',
       componentProps: {
-        ...dictComponentProps(DictEnum.EchoDictType_Base_NOTICE_REMIND_MODE),
+        ...dictComponentProps(DictEnum.NoticeRemindModeEnum),
       },
       colProps: { span: 12 },
     },

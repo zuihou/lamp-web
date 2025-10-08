@@ -17,4 +17,5 @@ export default {
   createdTime: '创建时间',
   updatedBy: '最后修改人',
   updatedTime: '最后修改时间',
+  publish: '发布',
 };

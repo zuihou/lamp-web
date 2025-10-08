@@ -2,7 +2,7 @@
   <svg
     :class="[prefixCls, $attrs.class, spin && 'svg-icon-spin']"
     :style="getStyle"
-    aria-hidden="true"
+    :aria-hidden="true"
   >
     <use :xlink:href="symbolId" />
   </svg>

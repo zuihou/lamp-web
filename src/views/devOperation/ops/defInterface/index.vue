@@ -32,7 +32,7 @@
               },
               {
                 auth: RoleEnum.TENANT_OPS_INTERFACES_PROPERTY,
-                tooltip: '接口设置',
+                tooltip: t('devOperation.ops.defInterface.setting'),
                 icon: 'ant-design:setting-outlined',
                 onClick: handleProperty.bind(null, record),
               },

@@ -1,6 +1,5 @@
 import { Ref } from 'vue';
 import { DictEnum } from '/@/enums/commonEnum';
-import { EnumEnum } from '/@/enums/commonEnum';
 import { dateUtil } from '/@/utils/dateUtil';
 import { dictComponentProps } from '/@/utils/lamp/common';
 import { enumComponentProps } from '/@/utils/lamp/common';
@@ -129,8 +128,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'type',
       component: 'ApiRadioGroup',
       componentProps: {
-        // 生成的 EnumEnum 常量不存在时，请自行在 EnumEnum 中添加
-        ...enumComponentProps(EnumEnum.ProductType),
+        ...enumComponentProps(DictEnum.ProductType),
       },
       colProps: { span: 6 },
     },
@@ -139,8 +137,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'type2',
       component: 'ApiRadioGroup',
       componentProps: {
-        // 生成的 EnumEnum 常量不存在时，请自行在 EnumEnum 中添加
-        ...enumComponentProps(EnumEnum.DefGenTestSimpleType2Enum),
+        ...enumComponentProps(DictEnum.DefGenTestSimpleType2Enum),
       },
       colProps: { span: 6 },
     },
@@ -150,7 +147,7 @@ export const searchFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       componentProps: {
         // 生成的 DictEnum 常量不存在时，请自行在 DictEnum 中添加
-        ...dictComponentProps(DictEnum.DictionaryType_Global_EDUCATION),
+        ...dictComponentProps(DictEnum.EDUCATION),
       },
       colProps: { span: 6 },
     },
@@ -225,7 +222,7 @@ export const searchFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       componentProps: {
         // 生成的 DictEnum 常量不存在时，请自行在 DictEnum 中添加
-        ...dictComponentProps(DictEnum.DictionaryType_Global_DATA_TYPE),
+        ...dictComponentProps(DictEnum.DictDataTypeEnum),
       },
       colProps: { span: 6 },
     },
@@ -292,14 +289,14 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
     {
       label: t('devOperation.developer.defGenTestSimple.stock'),
       field: 'stock',
-      component: 'Input',
+      component: 'InputNumber',
     },
     {
       label: t('devOperation.developer.defGenTestSimple.type'),
       field: 'type',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...enumComponentProps(EnumEnum.ProductType),
+        ...enumComponentProps(DictEnum.ProductType),
       },
     },
     {
@@ -307,7 +304,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'type2',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...enumComponentProps(EnumEnum.DefGenTestSimpleType2Enum),
+        ...enumComponentProps(DictEnum.DefGenTestSimpleType2Enum),
       },
     },
     {
@@ -315,7 +312,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'type3',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.DictionaryType_Global_EDUCATION),
+        ...dictComponentProps(DictEnum.EDUCATION),
       },
     },
     {
@@ -382,7 +379,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'test12',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.DictionaryType_Global_DATA_TYPE),
+        ...dictComponentProps(DictEnum.DictDataTypeEnum),
       },
     },
     {

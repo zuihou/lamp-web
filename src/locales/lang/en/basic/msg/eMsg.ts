@@ -12,4 +12,7 @@ export default {
   isSingleHandle: 'isSingleHandle',
   createTime: 'createTime',
   updateTime: 'updateTime',
+  todos: 'todos',
+  warning: 'warning',
+  reminder: 'reminder',
 };

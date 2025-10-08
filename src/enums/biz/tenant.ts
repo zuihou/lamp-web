@@ -152,3 +152,10 @@ export enum TemplateEnum {
   WEB_SOYBEAN = 'WEB_SOYBEAN',
   WEB_VBEN5 = 'WEB_VBEN5',
 }
+
+// 数据字典数据类型
+export enum DictDataTypeEnum {
+  BOOLEAN = '3',
+  INTEGER = '2',
+  STRING = '1',
+}

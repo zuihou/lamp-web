@@ -69,7 +69,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'status',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictAllComponentProps(DictEnum.EchoDictType_Base_MSG_INTERFACE_LOGGING_STATUS),
+        ...dictAllComponentProps(DictEnum.MsgInterfaceLoggingStatusEnum),
       },
       colProps: { span: 6 },
     },
@@ -113,7 +113,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       component: 'ApiRadioGroup',
       defaultValue: '01',
       componentProps: {
-        ...dictComponentProps(DictEnum.EchoDictType_Base_MSG_INTERFACE_LOGGING_STATUS),
+        ...dictComponentProps(DictEnum.MsgInterfaceLoggingStatusEnum),
       },
     },
     {

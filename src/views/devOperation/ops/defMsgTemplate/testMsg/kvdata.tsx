@@ -1,5 +1,6 @@
 import { VxeGridPropTypes } from '/@/components/VxeTable';
-
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 export const paramTableColumns = (emit: any, tableRef: any): VxeGridPropTypes.Columns => {
   return [
     {
@@ -65,7 +66,7 @@ export const recipientTableColumns = (emit: any, tableRef: any): VxeGridPropType
       align: 'center',
     },
     {
-      title: '接收人',
+      title: t('lamp.common.receiveBy'),
       field: 'recipient',
       showOverflow: 'tooltip',
       align: 'center',

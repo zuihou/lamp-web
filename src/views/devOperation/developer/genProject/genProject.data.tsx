@@ -1,8 +1,10 @@
 import { FormSchema } from '/@/components/Table';
 import { enumComponentProps } from '/@/utils/lamp/common';
-import { EnumEnum } from '/@/enums/commonEnum';
+import { DictEnum } from '/@/enums/commonEnum';
 import { FormSchemaExt, RuleType } from '/@/api/lamp/common/formValidateService';
 import { ProjectTypeEnum } from '/@/enums/biz/base';
+import { useI18n } from '/@/hooks/web/useI18n';
+const { t } = useI18n();
 
 // 编辑页字段
 export const editFormSchema = (changeTab: Fn): FormSchema[] => {
@@ -20,22 +22,25 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '项目类型',
+      label: t('devOperation.developer.genProject.type'),
       field: 'type',
       component: 'ApiRadioGroup',
       defaultValue: ProjectTypeEnum.CLOUD,
       componentProps: {
-        ...enumComponentProps(EnumEnum.ProjectTypeEnum),
+        ...enumComponentProps(DictEnum.ProjectTypeEnum),
         onClick: () => {
           changeTab('project_type');
         },
       },
     },
     {
-      label: '输出路径',
+      label: t('devOperation.developer.genProject.outputDir'),
       field: 'outputDir',
       component: 'Input',
-      helpMessage: ['请确保lamp-generator服务在本地启动', '项目生成到指定的绝对路径'],
+      helpMessage: [
+        t('devOperation.developer.genProject.helpMessage.outputDir[0]'),
+        t('devOperation.developer.genProject.helpMessage.outputDir[1]'),
+      ],
       componentProps: {
         onFocus: (e) => {
           changeTab(e.target.id);
@@ -43,7 +48,7 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '作者',
+      label: t('devOperation.developer.genProject.author'),
       field: 'author',
       component: 'Input',
       componentProps: {
@@ -53,10 +58,10 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '中文服务名',
+      label: t('devOperation.developer.genProject.description'),
       field: 'description',
       component: 'Input',
-      helpMessage: ['服务的中文名称'],
+      helpMessage: [t('devOperation.developer.genProject.helpMessage.description')],
       componentProps: {
         onFocus: (e) => {
           changeTab(e.target.id);
@@ -64,10 +69,10 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '项目前缀',
+      label: t('devOperation.developer.genProject.projectPrefix'),
       field: 'projectPrefix',
       component: 'Input',
-      helpMessage: ['如： lamp-base、lamp-base-server 中的lamp'],
+      helpMessage: [t('devOperation.developer.genProject.helpMessage.projectPrefix')],
       componentProps: {
         onFocus: (e) => {
           changeTab(e.target.id);
@@ -75,10 +80,13 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '服务名',
+      label: t('devOperation.developer.genProject.serviceName'),
       field: 'serviceName',
       component: 'Input',
-      helpMessage: ['如： lamp-base-server 中的base', '如： lamp-system-server system'],
+      helpMessage: [
+        t('devOperation.developer.genProject.helpMessage.serviceName[0]'),
+        t('devOperation.developer.genProject.helpMessage.serviceName[1]'),
+      ],
       componentProps: ({ formActionType }) => {
         return {
           onFocus: (e) => {
@@ -96,13 +104,13 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '基础包',
+      label: t('devOperation.developer.genProject.parent'),
       field: 'parent',
       component: 'Input',
       helpMessage: [
-        'lamp-cloud或lamp-boot项目的基础包',
-        '如： top.tangyh.lamp.base.dao.common 包中的 top.tangyh.lamp',
-        '如： top.tangyh.lamp.file.dao.xxx 包中的 top.tangyh.lamp',
+        t('devOperation.developer.genProject.helpMessage.parent[0]'),
+        t('devOperation.developer.genProject.helpMessage.parent[1]'),
+        t('devOperation.developer.genProject.helpMessage.parent[2]'),
       ],
       componentProps: ({ formActionType }) => {
         return {
@@ -121,12 +129,12 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '模块名',
+      label: t('devOperation.developer.genProject.moduleName'),
       field: 'moduleName',
       component: 'Input',
       helpMessage: [
-        '如： top.tangyh.lamp.base.dao.common 包中的 base',
-        'top.tangyh.lamp.file.dao.xxx 包中的 file',
+        t('devOperation.developer.genProject.helpMessage.moduleName[0]'),
+        t('devOperation.developer.genProject.helpMessage.moduleName[1]'),
       ],
       componentProps: {
         onFocus: (e) => {
@@ -138,7 +146,7 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       label: 'groupId',
       field: 'groupId',
       component: 'Input',
-      helpMessage: ['lamp-cloud或lamp-boot项目 pom文件的groupId'],
+      helpMessage: [t('devOperation.developer.genProject.helpMessage.groupId')],
       componentProps: {
         onFocus: (e) => {
           changeTab(e.target.id);
@@ -146,10 +154,10 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '版本号',
+      label: t('devOperation.developer.genProject.version'),
       field: 'version',
       component: 'Input',
-      helpMessage: ['lamp-cloud或lamp-boot项目 pom文件中的版本号'],
+      helpMessage: [t('devOperation.developer.genProject.helpMessage.version')],
       componentProps: {
         onFocus: (e) => {
           changeTab(e.target.id);
@@ -157,11 +165,11 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '端口号',
+      label: t('devOperation.developer.genProject.serverPort'),
       field: 'serverPort',
       component: 'InputNumber',
       itemProps: {
-        extra: 'lamp-cloud项目 新建服务的端口号，lamp-boot项目请忽略该参数',
+        extra: t('devOperation.developer.genProject.helpMessage.serverPort'),
       },
       componentProps: {
         onFocus: () => {
@@ -170,17 +178,17 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: '是否支持seata',
+      label: t('devOperation.developer.genProject.seata'),
       field: 'seata',
       defaultValue: true,
       component: 'Switch',
       itemProps: {
-        extra: '开启后，必须启动seata-server',
+        extra: t('devOperation.developer.genProject.helpMessage.seata'),
       },
     },
     {
       field: 'divider-selects2',
-      label: 'lamp-util 配置',
+      label: 'lamp-util ' + t('devOperation.developer.genProject.configuration'),
       component: 'BasicTitle',
       componentProps: {
         line: true,
@@ -191,10 +199,13 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       },
     },
     {
-      label: 'util基础包',
+      label: t('devOperation.developer.genProject.utilParent'),
       field: 'utilParent',
       component: 'Input',
-      helpMessage: ['lamp-util项目的基础包', '如： top.tangyh.basic.xxx 包中的 top.tangyh.basic'],
+      helpMessage: [
+        t('devOperation.developer.genProject.helpMessage.utilParent[0]'),
+        t('devOperation.developer.genProject.helpMessage.utilParent[1]'),
+      ],
       componentProps: ({ formActionType }) => {
         return {
           onFocus: (e) => {
@@ -215,7 +226,7 @@ export const editFormSchema = (changeTab: Fn): FormSchema[] => {
       label: 'utilGroupId',
       field: 'utilGroupId',
       component: 'Input',
-      helpMessage: ['lamp-util项目 pom文件的groupId'],
+      helpMessage: [t('devOperation.developer.genProject.helpMessage.utilGroupId')],
       componentProps: {
         onFocus: (e) => {
           changeTab(e.target.id);

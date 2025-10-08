@@ -29,19 +29,6 @@
         </a-list-item-meta>
       </a-list-item>
     </template>
-    <template #loadMore>
-      <div
-        v-if="value.total > 0"
-        :style="{
-          textAlign: 'center',
-          marginTop: '12px',
-          height: '32px',
-          lineHeight: '32px',
-        }"
-      >
-        <a href="javascript:void(0);" @click="loadMore(remindMode)"> 查看全部 >> </a>
-      </div>
-    </template>
   </a-list>
 </template>
 <script lang="ts">

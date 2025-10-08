@@ -145,7 +145,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects1',
       component: 'Divider',
-      label: '登录信息',
+      label: t('devOperation.tenant.defUser.loginInfo'),
       helpMessage: ['登录信息 均可可用于登录，初始密码为：123456'],
     },
     {
@@ -219,7 +219,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects2',
       component: 'Divider',
-      label: '基础信息',
+      label: t('devOperation.tenant.defUser.basicInfo'),
     },
     {
       label: t('devOperation.tenant.defUser.nickName'),
@@ -231,7 +231,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       field: 'sex',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.GLOBAL_SEX),
+        ...dictComponentProps(DictEnum.Sex),
       },
       defaultValue: 'M',
       colProps: {
@@ -258,7 +258,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects3',
       component: 'Divider',
-      label: '额外信息',
+      label: t('devOperation.tenant.defUser.extraInfo'),
       ifShow: () => {
         return type.value === ActionEnum.VIEW;
       },
@@ -339,7 +339,7 @@ export const restPasswordFormSchema = (): FormSchema[] => {
       show: false,
     },
     {
-      label: '使用系统内置密码',
+      label: t('devOperation.tenant.defUser.builtPassword'),
       field: 'isUseSystemPassword',
       component: 'RadioButtonGroup',
       componentProps: {

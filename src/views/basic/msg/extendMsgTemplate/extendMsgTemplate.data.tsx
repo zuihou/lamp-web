@@ -63,7 +63,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'type',
       component: 'ApiSelect',
       componentProps: {
-        ...dictAllComponentProps(DictEnum.EchoDictType_Base_MSG_TEMPLATE_TYPE),
+        ...dictAllComponentProps(DictEnum.MsgTemplateTypeEnum),
       },
       colProps: { span: 8 },
     },
@@ -117,7 +117,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'type',
       component: 'ApiSelect',
       componentProps: {
-        ...dictComponentProps(DictEnum.EchoDictType_Base_MSG_TEMPLATE_TYPE),
+        ...dictComponentProps(DictEnum.MsgTemplateTypeEnum),
       },
       dynamicDisabled: true,
     },
@@ -189,7 +189,11 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       dynamicRules: ({ values }) => {
         const rules: Rule[] = [];
         if (values.type === MsgTemplateTypeEnum.SMS) {
-          rules.push({ required: true, message: '不能为空', ruleType: RuleType.append });
+          rules.push({
+            required: true,
+            message: t('common.rules.require'),
+            ruleType: RuleType.append,
+          });
         }
         return rules;
       },
@@ -204,7 +208,11 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       dynamicRules: ({ values }) => {
         const rules: Rule[] = [];
         if (values.type === MsgTemplateTypeEnum.SMS) {
-          rules.push({ required: true, message: '不能为空', ruleType: RuleType.append });
+          rules.push({
+            required: true,
+            message: t('common.rules.require'),
+            ruleType: RuleType.append,
+          });
         }
         return rules;
       },
@@ -237,7 +245,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'remindMode',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.EchoDictType_Base_NOTICE_REMIND_MODE),
+        ...dictComponentProps(DictEnum.NoticeRemindModeEnum),
       },
       ifShow: ({ values }) => {
         return values.type === MsgTemplateTypeEnum.NOTICE;

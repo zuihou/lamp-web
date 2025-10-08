@@ -50,7 +50,7 @@
       const { createMessage } = useMessage();
       const type = ref<ActionEnum>(ActionEnum.VIEW);
       const confirmLoading = ref<boolean>(false);
-      const title = ref<string>('未选中任何资源');
+      const title = ref<string>(t('devOperation.application.defResource.notSelected'));
       const [
         register,
         { setFieldsValue, getFieldsValue, resetFields, resetSchema, updateSchema, validate },
@@ -78,7 +78,7 @@
 
           type.value = ActionEnum.VIEW;
           await resetFields();
-          title.value = '未选中任何资源';
+          title.value = t('devOperation.application.defResource.notSelected');
           emit('success', params.applicationId);
         } finally {
           confirmLoading.value = false;
@@ -88,7 +88,7 @@
       async function resetForm(record: Recordable) {
         await resetFields();
         if (record?.applicationName) {
-          title.value = '未选中任何资源';
+          title.value = t('devOperation.application.defResource.notSelected');
         }
       }
 

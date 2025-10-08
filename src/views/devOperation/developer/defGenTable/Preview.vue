@@ -5,7 +5,7 @@
     :maskClosable="true"
     :showCancelBtn="false"
     showFooter
-    title="预览代码"
+    :title="t('devOperation.developer.defGenTable.previewCode')"
     v-bind="$attrs"
     @ok="handleSubmit"
     @register="registerModal"
@@ -21,11 +21,15 @@
           style="margin-right: 2rem"
           @change="changeTabs(tableKey, $event)"
         >
-          <RadioButton :value="TemplateEnum.BACKEND">后端</RadioButton>
-          <RadioButton :value="TemplateEnum.WEB_PLUS">前端</RadioButton>
+          <RadioButton :value="TemplateEnum.BACKEND">{{
+            t('devOperation.developer.defGenTable.backed')
+          }}</RadioButton>
+          <RadioButton :value="TemplateEnum.WEB_PLUS">{{
+            t('devOperation.developer.defGenTable.fronted')
+          }}</RadioButton>
         </RadioGroup>
         <a-button preIcon="ant-design:reload-outlined" type="link" @click="reload(tableKey)">
-          刷新
+          {{ t('common.redo') }}
         </a-button>
 
         <Spin :spinning="spinning" size="large">
@@ -153,7 +157,7 @@
         }
         clipboardRef.value = value;
         if (unref(copiedRef)) {
-          createMessage.success('复制成功！');
+          createMessage.success(t('common.tips.copySuccess'));
         }
       }
 

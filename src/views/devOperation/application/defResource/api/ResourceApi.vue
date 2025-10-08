@@ -85,7 +85,7 @@
       const innerVal = ref<Recordable[]>([]);
 
       const [registerTable, { setTableData }] = useTable({
-        title: '资源关联的接口',
+        title: t('devOperation.application.defResource.association'),
         dataSource: innerVal,
         scroll: { y: 250 },
         canResize: false,

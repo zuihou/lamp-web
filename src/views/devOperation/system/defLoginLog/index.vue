@@ -19,7 +19,7 @@
           @menu-event="handleClearEvent"
         >
           <a-button v-hasAnyPermission="[RoleEnum.SYSTEM_LOGIN_LOG_DELETE]" type="primary">
-            清理日志
+            {{ t('devOperation.system.defLoginLog.clear') }}
           </a-button>
         </Dropdown>
       </template>
@@ -112,7 +112,7 @@
       function handleClearEvent(menu: DropMenu) {
         createConfirm({
           iconType: 'warning',
-          content: '确认要清理数据吗？',
+          content: t('devOperation.system.defLoginLog.clearMsg'),
           onOk: async () => {
             await clear(menu.event);
             reload();

@@ -36,13 +36,13 @@ export const formItems = () => {
       field: 'name',
       title: t('devOperation.developer.defGenTableColumn.name'),
       span: 6,
-      itemRender: { name: '$input', props: { placeholder: '请输入' } },
+      itemRender: { name: '$input', props: { placeholder: t('common.inputText') } },
     },
     {
       field: 'comment',
       title: t('devOperation.developer.defGenTableColumn.comment'),
       span: 6,
-      itemRender: { name: '$input', props: { placeholder: '请输入' } },
+      itemRender: { name: '$input', props: { placeholder: t('common.inputText') } },
     },
 
     {
@@ -90,7 +90,7 @@ export const columns = (): VxeGridPropTypes.Columns => {
       field: 'swaggerComment',
       title: t('devOperation.developer.defGenTableColumn.swaggerComment'),
       // titleHelp: { message: 'comment必须填写！' },
-      editRender: { name: 'input', attrs: { placeholder: '请输入' } },
+      editRender: { name: 'input', attrs: { placeholder: t('common.inputText') } },
     },
     {
       field: 'javaType',

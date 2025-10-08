@@ -1,5 +1,6 @@
 export default {
   table: { title: 'DefGenTestSimple list' },
+  pageTitle: 'The code generator generates an example. Please use it after secondary development',
   id: 'Id',
   name: 'Name',
   stock: 'Stock',

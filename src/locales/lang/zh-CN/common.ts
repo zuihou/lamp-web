@@ -9,15 +9,29 @@ export default {
   resetText: '重置',
   searchText: '搜索',
   queryText: '查询',
-
+  renewal: '续期',
+  binding: '绑定',
+  unbinging: '取消绑定',
+  createdTime: '创建时间',
+  updatedTime: '更新时间',
+  expirationDate: '有效期',
   inputText: '请输入',
   chooseText: '请选择',
-
+  filloutText: '请填写',
+  uploadText: '请上传',
   redo: '刷新',
   back: '返回',
+  switchView: '切换视图',
+  permanentlyValid: '永久有效',
+  expired: '已过期',
+  expiresInHours: '{s}小时后到期',
+  expiresInDays: '{s}天后到期',
 
   light: '亮色主题',
   dark: '黑暗主题',
+
+  yes: '是',
+  no: '否',
 
   column: {
     action: '操作',
@@ -34,10 +48,17 @@ export default {
     import: '导入',
     preview: '预览',
     export: '导出',
+    bulkExport: '批量导出',
+    handle: '处理',
+    goResolved: '去解决',
+    resolved: '已解决',
     view: '查看',
     details: '详情',
     download: '下载',
     upload: '上传',
+    product: '所属产品',
+    device: '所属设备',
+    review: '审核',
   },
 
   tips: {
@@ -50,7 +71,9 @@ export default {
     copySuccess: '复制成功',
     deleteSuccess: '删除成功',
     importSuccess: '导入成功',
+    importFail: '导入失败',
     exportSuccess: '导出成功',
+    sendSuccess: '发送成功',
     addFail: '新增失败',
     editFail: '编辑失败',
     copyFail: '复制失败',
@@ -60,6 +83,9 @@ export default {
     confirmDelete: '是否确定删除？',
     confirmCopy: '是否确定复制？',
     pleaseSelectTheData: '请选择要操作的数据',
+    confirmEnable: '是否确定启用？',
+    confirmDeactivate: '是否确定禁用？',
+    confirmUninstall: '是否确定卸载？',
   },
   rules: {
     require: '不能为空',
@@ -81,5 +107,6 @@ export default {
     nameExist: '该名称已存在',
     invalidInteger: '请输入大于零的整数',
     invalidURL: '不是有效的URL',
+    role: '请选择角色',
   },
 };

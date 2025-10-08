@@ -1,5 +1,5 @@
 export default {
-  table: { title: '地区表列表' },
+  table: { title: '地区列表' },
   id: '主键',
   code: '编码',
   fullName: '全名',

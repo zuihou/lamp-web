@@ -25,7 +25,7 @@ export const columns = (): BasicColumn[] => {
       // width: 180,
     },
     {
-      title: '所属部门',
+      title: t('basic.user.baseEmployee.orgId'),
       dataIndex: 'orgNameList',
     },
     {
@@ -99,7 +99,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects1',
       component: 'Divider',
-      label: '基础信息',
+      label: t('basic.user.baseEmployee.base'),
     },
     {
       label: t('basic.user.baseEmployee.username'),
@@ -144,7 +144,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects2',
       component: 'Divider',
-      label: '用户信息',
+      label: t('basic.user.baseEmployee.user'),
       show: () => {
         return [ActionEnum.ADD, ActionEnum.COPY].includes(type.value);
       },
@@ -165,7 +165,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       field: 'sex',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.GLOBAL_SEX),
+        ...dictComponentProps(DictEnum.Sex),
       },
       defaultValue: 'M',
       colProps: {
@@ -206,10 +206,10 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects3',
       component: 'Divider',
-      label: '职位信息',
+      label: t('basic.user.baseEmployee.job'),
     },
     {
-      label: '所属部门',
+      label: t('basic.user.baseEmployee.orgId'),
       field: 'orgIdList',
       component: 'ApiTreeSelect',
       componentProps: {
@@ -324,7 +324,7 @@ export const userEditFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects2',
       component: 'Divider',
-      label: '基础信息',
+      label: t('basic.user.baseEmployee.base'),
     },
     {
       label: t('devOperation.tenant.defUser.nickName'),
@@ -336,7 +336,7 @@ export const userEditFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       field: 'sex',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.GLOBAL_SEX),
+        ...dictComponentProps(DictEnum.Sex),
       },
       defaultValue: 'M',
       colProps: {
@@ -386,7 +386,7 @@ export const userEditFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects3',
       component: 'Divider',
-      label: '额外信息',
+      label: t('devOperation.tenant.defUser.extraInfo'),
       ifShow: () => {
         return type.value === ActionEnum.VIEW;
       },
@@ -471,7 +471,7 @@ export const customFormSchemaRules = (type: Ref<ActionEnum>): Partial<FormSchema
               return Promise.resolve();
             }
             if (value && (await checkMobile(value))) {
-              return Promise.reject('手机号已经存在');
+              return Promise.reject(t('basic.user.baseEmployee.phoneMsg'));
             }
             return Promise.resolve();
           },
@@ -533,13 +533,13 @@ export const employeeRoleSearchFormSchema = (): FormSchema[] => {
     },
     {
       field: 'scope',
-      label: '范围',
+      label: t('basic.user.baseEmployee.scope'),
       component: 'RadioButtonGroup',
       componentProps: {
         options: [
-          { label: '全部', value: '-1' },
-          { label: '已绑定', value: '1' },
-          { label: '未绑定', value: '2' },
+          { label: t('basic.user.baseEmployee.all'), value: '-1' },
+          { label: t('basic.user.baseEmployee.bound'), value: '1' },
+          { label: t('basic.user.baseEmployee.unbound'), value: '2' },
         ],
       },
       defaultValue: '-1',
@@ -601,7 +601,7 @@ export const restPasswordFormSchema = (): FormSchema[] => {
       show: false,
     },
     {
-      label: '使用系统内置密码',
+      label: t('basic.user.baseEmployee.builtPassword'),
       field: 'isUseSystemPassword',
       component: 'RadioButtonGroup',
       componentProps: {
@@ -615,19 +615,19 @@ export const restPasswordFormSchema = (): FormSchema[] => {
       component: 'InputPassword',
       componentProps: {
         autocomplete: 'off',
-        placeholder: '当前密码',
+        placeholder: t('basic.user.baseEmployee.currentPassword'),
       },
       ifShow: ({ values }) => {
         return !values.isUseSystemPassword;
       },
     },
     {
-      label: '确认密码',
+      label: t('basic.user.baseEmployee.confirmPassword'),
       field: 'confirmPassword',
       component: 'InputPassword',
       componentProps: {
         autocomplete: 'off',
-        placeholder: '当前密码',
+        placeholder: t('basic.user.baseEmployee.currentPassword'),
       },
       ifShow: ({ values }) => {
         return !values.isUseSystemPassword;
@@ -649,11 +649,11 @@ export const restPasswordFormSchemaRules = (
           required: true,
           validator: async (_, value) => {
             if (!value) {
-              return Promise.reject('确认密码不能为空');
+              return Promise.reject(t('basic.user.baseEmployee.confirmPasswordNull'));
             }
             const model = await getFieldsValue();
             if (value !== model.password) {
-              return Promise.reject('两次输入的密码不一致!');
+              return Promise.reject(t('basic.user.baseEmployee.inconsistentPassword'));
             }
             return Promise.resolve();
           },

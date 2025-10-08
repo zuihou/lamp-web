@@ -5,7 +5,7 @@
         <PopConfirmButton
           circle
           circleIcon="ant-design:delete-outlined"
-          title="确认删除吗？"
+          :title="t('common.tips.confirmDelete')"
           @confirm="removeRowEvent(row)"
         />
       </template>
@@ -58,10 +58,10 @@
         toolbarConfig: {
           perfect: true,
           buttons: [
-            { code: 'myInsert', name: '新增' },
+            { code: 'myInsert', name: t('common.title.add') },
             {
               code: 'delete',
-              name: '删除',
+              name: t('common.title.delete'),
               status: 'danger',
             },
           ],

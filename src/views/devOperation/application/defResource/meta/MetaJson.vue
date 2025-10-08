@@ -63,7 +63,7 @@
       const innerVal = ref<Recordable>({});
 
       const [registerTable] = useTable({
-        title: '路由的 Meta 配置',
+        title: t('devOperation.application.defResource.meta'),
         dataSource: keys,
         scroll: { y: 250 },
         columns: metaJsonColumns,

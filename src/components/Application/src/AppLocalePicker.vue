@@ -20,11 +20,13 @@
 <script lang="ts" setup>
   import type { LocaleType } from '/#/config';
   import type { DropMenu } from '/@/components/Dropdown';
-  import { ref, watchEffect, unref, computed } from 'vue';
+  import { ref, watchEffect, unref, computed, onMounted, nextTick } from 'vue';
   import { Dropdown } from '/@/components/Dropdown';
   import { Icon } from '/@/components/Icon';
   import { useLocale } from '/@/locales/useLocale';
-  import { localeList } from '/@/settings/localeSetting';
+  import { DictEnum } from '/@/enums/commonEnum';
+  import { useDictStore } from '/@/store/modules/dict';
+  import { localeList as DEF_LOCALE_LIST } from '/@/settings/localeSetting';
 
   const props = defineProps({
     /**
@@ -40,14 +42,6 @@
   const selectedKeys = ref<string[]>([]);
 
   const { changeLocale, getLocale } = useLocale();
-
-  const getLocaleText = computed(() => {
-    const key = selectedKeys.value[0];
-    if (!key) {
-      return '';
-    }
-    return localeList.find((item) => item.event === key)?.text;
-  });
 
   watchEffect(() => {
     selectedKeys.value = [unref(getLocale)];
@@ -65,6 +59,34 @@
     }
     toggleLocale(menu.event as string);
   }
+
+  const localeList = ref<DropMenu[]>([]);
+
+  const getLocaleText = computed(() => {
+    const key = selectedKeys.value[0];
+    if (!key) {
+      return '';
+    }
+    return localeList.value.find((item) => item.event === key)?.text;
+  });
+
+  onMounted(async () => {
+    // 等待下一个 tick 确保 Pinia 已经初始化
+    await nextTick();
+
+    try {
+      const dictStore = useDictStore();
+      const dictData = dictStore.getDictItemOptionList(DictEnum.I18N_JSON);
+      localeList.value = dictData.map((item) => ({
+        text: item.name as string,
+        event: item.key as string,
+      }));
+    } catch (error) {
+      console.error('获取语言字典失败:', error);
+      // 提供备用的语言列表
+      localeList.value = DEF_LOCALE_LIST;
+    }
+  });
 </script>
 
 <style lang="less">

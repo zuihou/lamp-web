@@ -54,4 +54,5 @@ export interface BaseEmployeeResultVO {
   activeStatus?: string;
   orgIdList?: string[];
   defUser: DefUserResultVO;
+  createdOrgId: string;
 }

@@ -115,7 +115,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'execMode',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.EchoDictType_Base_INTERFACE_EXEC_MODE),
+        ...dictComponentProps(DictEnum.InterfaceExecModeEnum),
         isBtn: true,
       },
       defaultValue: InterfaceExecModeEnum.IMPL_CLASS,
@@ -124,13 +124,14 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       label: t('devOperation.ops.defInterface.implClass'),
       field: 'implClass',
       component: 'Input',
-      itemProps: {
-        extra: '代码中存在的由Spring管理的实现类',
-      },
       dynamicRules: ({ values }) => {
         const rules: Rule[] = [];
         if (values.execMode === InterfaceExecModeEnum.IMPL_CLASS) {
-          rules.push({ required: true, message: '不能为空', ruleType: RuleType.append });
+          rules.push({
+            required: true,
+            message: t('common.rules.require'),
+            ruleType: RuleType.append,
+          });
         }
         return rules;
       },
@@ -143,16 +144,18 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'script',
       component: 'Input',
       slot: 'script',
-      itemProps: {
-        extra: 'groovy 脚本',
-      },
+      itemProps: {},
       ifShow: ({ values }) => {
         return values.execMode === InterfaceExecModeEnum.SCRIPT;
       },
       dynamicRules: ({ values }) => {
         const rules: Rule[] = [];
         if (values.execMode === InterfaceExecModeEnum.SCRIPT) {
-          rules.push({ required: true, message: '不能为空', ruleType: RuleType.append });
+          rules.push({
+            required: true,
+            message: t('common.rules.require'),
+            ruleType: RuleType.append,
+          });
         }
         return rules;
       },

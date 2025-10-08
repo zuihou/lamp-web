@@ -12,7 +12,7 @@
         >
           {{ t('common.saveText') }}
         </a-button>
-        <span v-else>系统角色拥有全部权限</span>
+        <span v-else>{{ t('basic.system.baseRole.allResources') }}</span>
       </template>
 
       <ApplicationTab
@@ -60,7 +60,7 @@
 
       const state = reactive({
         applicationResourceList: [] as any[],
-        title: '请选择角色',
+        title: t('common.rules.role'),
         confirmLoading: false,
         appResMap: {},
         showSaveBtn: false,
@@ -95,13 +95,14 @@
         if (role && role.id) {
           state.showSaveBtn = DataTypeEnum.SYSTEM !== role.type;
           if (formData.roleId !== (role?.id as string)) {
-            state.title = `【${role.name}】拥有的应用资源`;
+            state.title = t('basic.system.baseRole.ownedResources', { name: role.name });
+
             formData.roleId = role.id;
 
             state.appResMap = await findResourceIdByRoleId(role.id);
           }
         } else {
-          state.title = '请选择角色';
+          state.title = t('common.rules.role');
           formData.roleId = '';
           state.showSaveBtn = false;
           const appResourceMap = {};
@@ -121,7 +122,7 @@
 
             createMessage.success('配置成功');
           } else {
-            createMessage.warn('请选择角色');
+            createMessage.warn(t('common.rules.role'));
           }
         } finally {
           state.confirmLoading = false;

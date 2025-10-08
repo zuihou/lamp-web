@@ -13,6 +13,8 @@
         :handleClick="handleClick"
         description="您真棒，所有应用均已开通。"
         :api="findRecommendApplication"
+        :showRecommendOnly="true"
+        :maxDisplayCount="6"
         class="enter-y !my-4"
       />
     </div>

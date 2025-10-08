@@ -1,5 +1,5 @@
 export default {
-  table: { title: '消息表列表' },
+  table: { title: '消息列表' },
   id: '主键',
   bizId: '业务ID',
   bizType: '业务类型',
@@ -12,4 +12,7 @@ export default {
   isSingleHandle: '是否单人处理',
   createTime: '创建时间',
   updateTime: '最后修改时间',
+  todos: '待办',
+  warning: '预警',
+  reminder: '提醒',
 };

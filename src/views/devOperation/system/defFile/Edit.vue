@@ -2,7 +2,7 @@
   <BasicModal
     v-bind="$attrs"
     @register="registerModal"
-    title="调试上传"
+    :title="t('basic.system.baseFile.debug')"
     :maskClosable="false"
     @ok="handleSubmit"
     :showCancelBtn="false"

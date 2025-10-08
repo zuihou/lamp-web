@@ -11,4 +11,6 @@ export default {
   createdBy: 'CreatedBy',
   updatedTime: 'UpdatedTime',
   updatedBy: 'UpdatedBy',
+  setting: 'Interface Settings',
+  submit: 'Submit',
 };

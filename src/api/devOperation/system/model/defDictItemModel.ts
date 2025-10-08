@@ -24,6 +24,7 @@ export interface DefDictItemSaveVO {
   icon: string;
   cssStyle: string;
   cssClass: string;
+  i18nJson: string;
 }
 
 export interface DefDictItemUpdateVO {
@@ -39,6 +40,7 @@ export interface DefDictItemUpdateVO {
   icon: string;
   cssStyle: string;
   cssClass: string;
+  i18nJson: string;
 }
 
 export interface DefDictItemResultVO {
@@ -54,9 +56,14 @@ export interface DefDictItemResultVO {
   cssStyle?: string;
   cssClass?: string;
   id?: string;
+  propType?: string;
+  i18nJson?: string;
+  dictGroup?: string;
+  dataType?: string;
   createdBy?: string;
   createdTime?: string;
   updatedBy?: string;
   updatedTime?: string;
   echoMap?: any;
+  exist?: boolean;
 }

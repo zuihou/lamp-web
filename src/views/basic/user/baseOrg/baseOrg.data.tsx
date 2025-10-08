@@ -48,7 +48,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       },
       defaultValue: '20',
       componentProps: {
-        ...dictComponentProps(DictEnum.ORG_TYPE),
+        ...dictComponentProps(DictEnum.OrgTypeEnum),
         isBtn: true,
       },
     },
@@ -148,7 +148,7 @@ export const orgRoleSearchFormSchema = (): FormSchema[] => {
     },
     {
       field: 'scope',
-      label: '范围',
+      label: t('basic.user.baseOrg.scope'),
       component: 'RadioButtonGroup',
       componentProps: {
         options: [

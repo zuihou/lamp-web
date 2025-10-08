@@ -1,7 +1,7 @@
 import { useI18n } from '/@/hooks/web/useI18n';
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import { dictComponentProps } from "/@/utils/lamp/common";
-import { DictEnum } from "/@/enums/commonEnum";
+import { dictComponentProps } from '/@/utils/lamp/common';
+import { DictEnum } from '/@/enums/commonEnum';
 
 const { t } = useI18n();
 

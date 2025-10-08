@@ -62,7 +62,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'type',
       component: 'ApiSelect',
       componentProps: {
-        ...dictAllComponentProps(DictEnum.EchoDictType_Base_MSG_TEMPLATE_TYPE),
+        ...dictAllComponentProps(DictEnum.MsgTemplateTypeEnum),
       },
       colProps: { span: 8 },
     },
@@ -116,7 +116,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'type',
       component: 'ApiSelect',
       componentProps: {
-        ...dictComponentProps(DictEnum.EchoDictType_Base_MSG_TEMPLATE_TYPE),
+        ...dictComponentProps(DictEnum.MsgTemplateTypeEnum),
       },
     },
     {
@@ -231,7 +231,7 @@ export const editFormSchema = (_type: Ref<ActionEnum>): FormSchema[] => {
       field: 'remindMode',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...dictComponentProps(DictEnum.EchoDictType_Base_NOTICE_REMIND_MODE),
+        ...dictComponentProps(DictEnum.NoticeRemindModeEnum),
       },
       ifShow: ({ values }) => {
         return values.type === MsgTemplateTypeEnum.NOTICE;

@@ -15,4 +15,6 @@ export default {
   browserVersion: '浏览器版本',
   operatingSystem: '操作系统',
   location: '登录地点',
+  clear: '清除日志',
+  clearMsg: '确认要清理数据吗?',
 };

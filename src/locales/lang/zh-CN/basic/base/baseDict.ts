@@ -6,4 +6,5 @@ export default {
   name: '名称',
   state: '状态',
   remark: '备注',
+  importDict: '导入系统字典',
 };

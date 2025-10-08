@@ -34,4 +34,7 @@ export default {
   createdTime: '创建时间',
   updatedBy: '更新者',
   updatedTime: '更新时间',
+  confirmSync: '确认同步吗？',
+  syncSuccess: '同步成功',
+  notExist: '该表不存在',
 };

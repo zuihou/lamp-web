@@ -28,7 +28,7 @@
 
       const [registerForm, { setFieldsValue, resetFields }] = useForm({
         labelWidth: 100,
-        schemas: editFormSchema(type),
+        schemas: editFormSchema(),
         showActionButtonGroup: false,
         baseColProps: { span: 24 },
         disabled: true,

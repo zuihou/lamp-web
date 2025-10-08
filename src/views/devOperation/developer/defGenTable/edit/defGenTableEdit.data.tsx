@@ -1,6 +1,6 @@
 import { FormSchema } from '/@/components/Table';
 import { FormActionType } from '/@/components/Form';
-import { EnumEnum } from '/@/enums/commonEnum';
+import { DictEnum } from '/@/enums/commonEnum';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { lowerFirst } from 'lodash-es';
 import { enumComponentProps, yesNoComponentProps } from '/@/utils/lamp/common';
@@ -11,7 +11,9 @@ import { findOnlineService } from '/@/api/devOperation/application/gateway';
 import { query as queryApplication } from '/@/api/devOperation/application/defApplication';
 import { tree as queryMenu } from '/@/api/devOperation/application/defResource';
 import { query as queryTable } from '/@/api/devOperation/developer/defGenTable';
+import { useI18n } from '/@/hooks/web/useI18n';
 
+const { t } = useI18n();
 const { createMessage } = useMessage();
 
 const getAuthCode = async (formActionType: FormActionType, value: string, type: string) => {
@@ -51,7 +53,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
         line: true,
         span: true,
       },
-      label: '基础信息',
+      label: t('devOperation.developer.defGenTable.edit.basicInfo'),
     },
     {
       field: 'id',
@@ -70,7 +72,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       show: false,
     },
     {
-      label: '表名',
+      label: t('devOperation.developer.defGenTable.edit.name'),
       field: 'name',
       component: 'Input',
       dynamicDisabled: true,
@@ -82,7 +84,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '数据源名',
+      label: t('devOperation.developer.defGenTable.edit.dsId'),
       field: 'dsId',
       component: 'ApiSelect',
       dynamicDisabled: true,
@@ -101,52 +103,52 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '实体名称',
+      label: t('devOperation.developer.defGenTable.edit.entityName'),
       field: 'entityName',
       component: 'Input',
       colProps: {
         span: 12,
       },
-      helpMessage: ['修改实体名称后，会影响Controller、Service、Manager、Mapper、VO的名称'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.entityName')],
       show: ({ values }) => {
         return !values.batch;
       },
     },
     {
-      label: '作者',
+      label: t('devOperation.developer.defGenTable.author'),
       field: 'author',
       component: 'Input',
       colProps: {
         span: 12,
       },
-      helpMessage: ['体现在代码注释中的 @author'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.comment') + '@author'],
     },
     {
-      label: '表注释',
+      label: t('devOperation.developer.defGenTable.edit.comment'),
       field: 'comment',
       component: 'Input',
       colProps: {
         span: 12,
       },
-      helpMessage: ['体现在代码注释中'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.comment')],
       show: ({ values }) => {
         return !values.batch;
       },
     },
     {
-      label: 'swagger注释',
+      label: t('devOperation.developer.defGenTable.edit.swaggerComment'),
       field: 'swaggerComment',
       component: 'Input',
       colProps: {
         span: 12,
       },
-      helpMessage: ['体现在swagger文档'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.swaggerComment')],
       show: ({ values }) => {
         return !values.batch;
       },
     },
     {
-      label: '备注',
+      label: t('devOperation.developer.defGenTable.edit.remark'),
       field: 'remark',
       component: 'InputTextArea',
     },
@@ -157,17 +159,17 @@ export const baseEditFormSchema = (): FormSchema[] => {
         line: true,
         span: true,
       },
-      label: '生成信息',
+      label: t('devOperation.developer.defGenTable.edit.genInfo'),
       helpMessage: [
-        '生成的后端文件位于： [{输出路径}/]{全局配置.项目前缀}-{服务名}-{全局配置.服务后缀}/src/main/java/{父包名}/{模块名}[/{全局配置.PackageInfoConfig}]/{子包名}/',
-        '[]: 表示可选项; {}: 表示占位符 ; 全局配置: 表示在后台yml或常量中配置',
-        '全局配置.项目前缀: 后端yml配置： generator.projectPrefix',
-        '全局配置.服务后缀: 后端代码常量： GenCodeConstant.XXX_SERVICE_SUFFIX',
-        '全局配置.PackageInfoConfig: 后端yml配置: generator.packageInfoConfig.xxx',
+        t('devOperation.developer.defGenTable.edit.helpMessage.BasicTitle[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.BasicTitle[1]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.BasicTitle[2]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.BasicTitle[3]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.BasicTitle[4]'),
       ],
     },
     {
-      label: '服务名',
+      label: t('devOperation.developer.defGenTable.edit.serviceName'),
       field: 'serviceName',
       component: 'ApiAutoComplete',
       componentProps: ({ formActionType }) => {
@@ -193,29 +195,29 @@ export const baseEditFormSchema = (): FormSchema[] => {
         };
       },
       helpMessage: [
-        '1. 确保前端ServicePrefixEnum中的枚举值KEY 与 后端”服务名“和lamp-gateway-server.yml中“uri”保持一致',
-        '2. 确保前端ServicePrefixEnum中的枚举值VALUE 与 后端lamp-gateway-server.yml中“predicates”配置一致',
-        '如： lamp-base、lamp-base-api、lamp-base-biz、lamp-base-controller、lamp-base-server 中的 base',
-        '如： lamp-system-server 中的 system',
+        t('devOperation.developer.defGenTable.edit.helpMessage.serviceName[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.serviceName[1]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.serviceName[2]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.serviceName[3]'),
       ],
       colProps: {
         span: 12,
       },
     },
     {
-      label: '父包名',
+      label: t('devOperation.developer.defGenTable.edit.parent'),
       field: 'parent',
       component: 'Input',
       colProps: {
         span: 12,
       },
       helpMessage: [
-        '生成业务代码的基础包包名',
-        '如："top.tangyh.lamp.base.dao.common" 中的 "top.tangyh.lamp" ',
+        t('devOperation.developer.defGenTable.edit.helpMessage.parent[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.parent[1]'),
       ],
     },
     {
-      label: '模块名',
+      label: t('devOperation.developer.defGenTable.edit.moduleName'),
       field: 'moduleName',
       component: 'ApiAutoComplete',
       componentProps: () => {
@@ -233,34 +235,36 @@ export const baseEditFormSchema = (): FormSchema[] => {
         span: 12,
       },
       helpMessage: [
-        '建议跟{服务名一致}保持一致',
-        '如："top.tangyh.lamp.base.dao.common" 中的 "base" ',
-        '如："top.tangyh.lamp.file.dao" 中的 "file" ',
+        t('devOperation.developer.defGenTable.edit.helpMessage.moduleName[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.moduleName[1]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.moduleName[2]'),
       ],
     },
     {
-      label: '子包名',
+      label: t('devOperation.developer.defGenTable.edit.childPackageName'),
       field: 'childPackageName',
       component: 'Input',
       colProps: {
         span: 12,
       },
       helpMessage: [
-        '如："top.tangyh.lamp.base.dao.common" 中的 "common" ',
-        '如："top.tangyh.lamp.base.dao.system" 中的 "system" ',
+        t('devOperation.developer.defGenTable.edit.helpMessage.childPackageName[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.childPackageName[1]'),
       ],
     },
     {
-      label: '实体父类',
+      label: t('devOperation.developer.defGenTable.edit.entitySuperClass'),
       field: 'entitySuperClass',
       component: 'ApiSelect',
       componentProps: ({ formActionType }) => {
         return {
-          ...enumComponentProps(EnumEnum.EntitySuperClassEnum),
+          ...enumComponentProps(DictEnum.EntitySuperClassEnum),
           onChange: async (value: string) => {
             const { setFieldsValue, getFieldsValue, updateSchema } = formActionType;
 
-            createMessage.info('生成模板已级联更改');
+            createMessage.info(
+              t('devOperation.developer.defGenTable.edit.helpMessage.entitySuperClass[0]'),
+            );
             if (value === EntitySuperClassEnum.TREE_ENTITY) {
               setFieldsValue({ tplType: TplEnum.TREE });
               updateSchema({
@@ -281,14 +285,14 @@ export const baseEditFormSchema = (): FormSchema[] => {
       colProps: {
         span: 12,
       },
-      helpMessage: ['实体类需要继承谁？'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.entitySuperClass[1]')],
     },
     {
-      label: '父类',
+      label: t('devOperation.developer.defGenTable.edit.superClass'),
       field: 'superClass',
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.SuperClassEnum),
+        ...enumComponentProps(DictEnum.SuperClassEnum),
       },
       colProps: {
         span: 12,
@@ -299,9 +303,9 @@ export const baseEditFormSchema = (): FormSchema[] => {
       label: '@DS',
       field: 'isDs',
       component: 'RadioGroup',
-      helpMessage: ['ServiceImpl类是否标记@DS注解，加上该注解后，sql操作会自动切换数据源'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.isDs[0]')],
       itemProps: {
-        extra: 'datasource模式才会使用该参数，column、none模式请忽略',
+        extra: t('devOperation.developer.defGenTable.edit.helpMessage.isDs[1]'),
       },
       componentProps: ({ formActionType }) => {
         return {
@@ -344,13 +348,13 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '数据源',
+      label: t('devOperation.developer.defGenTable.edit.dsId'),
       field: 'dsValue',
       colProps: {
         span: 12,
       },
       component: 'AutoComplete',
-      helpMessage: ['ServiceImpl类标记的@DS注解具体值'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.dsValue[0]')],
       componentProps: () => {
         return {
           allowClear: true,
@@ -374,9 +378,9 @@ export const baseEditFormSchema = (): FormSchema[] => {
       label: '@TenantLine',
       field: 'isTenantLine',
       component: 'RadioGroup',
-      helpMessage: ['Mapper类是否标记@TenantLine注解，加上该注解sql操作不会自动拼接租户ID'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.isTenantLine[0]')],
       itemProps: {
-        extra: 'column模式才会使用该参数，datasource、none模式请忽略',
+        extra: t('devOperation.developer.defGenTable.edit.helpMessage.isTenantLine[1]'),
       },
       componentProps: {
         ...yesNoComponentProps(),
@@ -390,7 +394,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       label: 'lombok',
       field: 'isLombok',
       component: 'RadioGroup',
-      helpMessage: ['实体类是否使用Lombok注解'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.isLombok[0]')],
       componentProps: {
         ...yesNoComponentProps(),
       },
@@ -400,10 +404,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '链式模型',
+      label: t('devOperation.developer.defGenTable.edit.isChain'),
       field: 'isChain',
       component: 'RadioGroup',
-      helpMessage: ['实体类是否使用@Accessors(chain = true)注解'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.isChain[0]')],
       componentProps: {
         ...yesNoComponentProps(),
       },
@@ -413,10 +417,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '生成字段常量',
+      label: t('devOperation.developer.defGenTable.edit.isColumnConstant'),
       field: 'isColumnConstant',
       component: 'RadioGroup',
-      helpMessage: ['实体类中是否生成字段常量'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.isColumnConstant[0]')],
       componentProps: {
         ...yesNoComponentProps(),
       },
@@ -426,12 +430,12 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '生成方式',
+      label: t('devOperation.developer.defGenTable.edit.genType'),
       field: 'genType',
       component: 'ApiRadioGroup',
       componentProps: ({ formActionType }) => {
         return {
-          ...enumComponentProps(EnumEnum.GenTypeEnum),
+          ...enumComponentProps(DictEnum.GenTypeEnum),
           onChange: (e: ChangeEvent) => {
             const value = e?.target?.value;
             const { updateSchema } = formActionType;
@@ -449,6 +453,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
                   field: 'frontSoyOutputDir',
                   rules: [{ required: true }, { min: 0, max: 255, message: '长度不能超过255' }],
                 },
+                {
+                  field: 'frontVben5OutputDir',
+                  rules: [{ required: true }, { min: 0, max: 255, message: '长度不能超过255' }],
+                },
               ]);
             } else {
               updateSchema([
@@ -464,6 +472,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
                   field: 'frontSoyOutputDir',
                   rules: [{ required: false }, { min: 0, max: 255, message: '长度不能超过255' }],
                 },
+                {
+                  field: 'frontVben5OutputDir',
+                  rules: [{ required: false }, { min: 0, max: 255, message: '长度不能超过255' }],
+                },
               ]);
             }
           },
@@ -474,31 +486,40 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
       defaultValue: GenTypeEnum.GEN,
       helpMessage: [
-        '生成代码的方式',
-        '直接生成时，一定要确保lamp-generator服务在本地启动，否则无法生成到开发者的开发电脑',
+        t('devOperation.developer.defGenTable.edit.helpMessage.genType[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.genType[1]'),
       ],
     },
     {
-      label: '后端生成路径',
+      label: t('devOperation.developer.defGenTable.edit.outputDir'),
       field: 'outputDir',
       component: 'Input',
-      helpMessage: ['非dev环境启动，此参数无效'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.outputDir')],
       ifShow: ({ values }) => {
         return values.genType === GenTypeEnum.GEN;
       },
     },
     {
-      label: '前端（Vben）生成路径',
+      label: t('devOperation.developer.defGenTable.edit.frontOutputDir'),
       field: 'frontOutputDir',
       component: 'Input',
-      helpMessage: ['非dev环境启动，此参数无效'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.outputDir')],
       ifShow: ({ values }) => {
         return values.genType === GenTypeEnum.GEN;
       },
     },
     {
-      label: '前端（Soybean）生成路径',
+      label: t('devOperation.developer.defGenTable.edit.frontSoyOutputDir'),
       field: 'frontSoyOutputDir',
+      component: 'Input',
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.outputDir')],
+      ifShow: ({ values }) => {
+        return values.genType === GenTypeEnum.GEN;
+      },
+    },
+    {
+      label: '前端（Vben5）生成路径',
+      field: 'frontVben5OutputDir',
       component: 'Input',
       helpMessage: ['非dev环境启动，此参数无效'],
       ifShow: ({ values }) => {
@@ -512,10 +533,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
         line: true,
         span: true,
       },
-      label: '前端信息',
+      label: t('devOperation.developer.defGenTable.edit.fronedInfo'),
     },
     {
-      label: '前端应用名',
+      label: t('devOperation.developer.defGenTable.edit.plusApplicationName'),
       field: 'plusApplicationName',
       component: 'AutoComplete',
       componentProps: () => {
@@ -532,52 +553,52 @@ export const baseEditFormSchema = (): FormSchema[] => {
         span: 12,
       },
       helpMessage: [
-        '1. src/views/ 目录下的 basic 或 devOperation 或 其他 ',
-        '2. src/api/ 目录下的 basic 或 devOperation 或 其他 ',
-        '3. src/locales/lang/{语言}/ 目录下的 basic 或 devOperation 或 其他 ',
-        '4. 其他 表示其他应用',
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusApplicationName[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusApplicationName[1]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusApplicationName[2]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusApplicationName[3]'),
       ],
     },
     {
-      label: '前端模块名',
+      label: t('devOperation.developer.defGenTable.edit.plusModuleName'),
       field: 'plusModuleName',
       component: 'Input',
       colProps: {
         span: 12,
       },
       helpMessage: [
-        '1. src/api/{前端应用名} 目录下的文件夹名',
-        '2. src/views/{前端应用名} 目录下的文件夹名',
-        '3. src/locales/lang/{语言}/{前端应用名} 目录下的文件夹名',
-        '如：src/views/devOperation/ 下的 application、developer 等目录',
-        '如：src/api/devOperation/ 下的 application、developer 等目录',
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusModuleName[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusModuleName[1]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusModuleName[2]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusModuleName[3]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.plusModuleName[4]'),
       ],
     },
 
     {
-      label: '弹窗方式',
+      label: t('devOperation.developer.defGenTable.edit.popupType'),
       field: 'popupType',
       component: 'ApiRadioGroup',
       componentProps: {
-        ...enumComponentProps(EnumEnum.PopupTypeEnum),
+        ...enumComponentProps(DictEnum.PopupTypeEnum),
       },
       colProps: {
         span: 12,
       },
       defaultValue: PopupTypeEnum.MODAL,
-      helpMessage: ['前端代码index.vue页面点击新增或编辑时，弹窗的打开方式'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.popupType')],
     },
     {
-      label: '生成模板',
+      label: t('devOperation.developer.defGenTable.edit.tplType'),
       field: 'tplType',
       component: 'ApiRadioGroup',
       componentProps: ({ formActionType }) => {
         return {
-          ...enumComponentProps(EnumEnum.TplEnum),
+          ...enumComponentProps(DictEnum.TplEnum),
           onChange: async (value: string) => {
             const { updateSchema, setFieldsValue } = formActionType;
 
-            createMessage.info('实体父类已级联更改');
+            createMessage.info(t('devOperation.developer.defGenTable.edit.helpMessage.tplType[0]'));
             if (value === TplEnum.TREE) {
               await updateSchema({
                 field: 'treeName',
@@ -598,10 +619,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
       colProps: {
         span: 12,
       },
-      helpMessage: ['前端代码生成何种操作风格的页面'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.tplType[1]')],
     },
     {
-      label: '显示新增按钮',
+      label: t('devOperation.developer.defGenTable.edit.addShow'),
       field: 'addShow',
       component: 'RadioGroup',
       componentProps: {
@@ -613,7 +634,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '显示编辑按钮',
+      label: t('devOperation.developer.defGenTable.edit.editShow'),
       field: 'editShow',
       component: 'RadioGroup',
       componentProps: {
@@ -625,7 +646,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '显示删除按钮',
+      label: t('devOperation.developer.defGenTable.edit.deleteShow'),
       field: 'deleteShow',
       component: 'RadioGroup',
       componentProps: {
@@ -637,7 +658,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '显示复制按钮',
+      label: t('devOperation.developer.defGenTable.edit.copyShow'),
       field: 'copyShow',
       component: 'RadioGroup',
       componentProps: {
@@ -649,7 +670,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '显示详情按钮',
+      label: t('devOperation.developer.defGenTable.edit.viewShow'),
       field: 'viewShow',
       component: 'RadioGroup',
       componentProps: {
@@ -661,7 +682,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '新增按钮权限',
+      label: t('devOperation.developer.defGenTable.edit.addAuth'),
       field: 'addAuth',
       component: 'InputSearch',
       colProps: {
@@ -671,12 +692,12 @@ export const baseEditFormSchema = (): FormSchema[] => {
         return values.addShow;
       },
       helpMessage: [
-        '文本框为空时，方可点击"生成"按钮，按系统建议的规则生成权限编码',
-        '系统规则：{前端应用名}:{前端模块名}:{实体名称}:add',
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[1]') + ':add',
       ],
       componentProps: ({ formActionType }) => {
         return {
-          enterButton: '生成',
+          enterButton: t('devOperation.developer.defGenTable.generation'),
           onSearch: (value: string) => {
             return getAuthCode(formActionType, value, 'add');
           },
@@ -684,7 +705,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '编辑按钮权限',
+      label: t('devOperation.developer.defGenTable.edit.editAuth'),
       field: 'editAuth',
       component: 'InputSearch',
       colProps: {
@@ -694,12 +715,12 @@ export const baseEditFormSchema = (): FormSchema[] => {
         return values.editShow;
       },
       helpMessage: [
-        '文本框为空时，方可点击"生成"按钮，按系统建议的规则生成权限编码',
-        '系统规则：{前端应用名}:{前端模块名}:{实体名称}:edit',
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[1]') + ':edit',
       ],
       componentProps: ({ formActionType }) => {
         return {
-          enterButton: '生成',
+          enterButton: t('devOperation.developer.defGenTable.generation'),
           onSearch: (value: string) => {
             return getAuthCode(formActionType, value, 'edit');
           },
@@ -707,7 +728,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '删除按钮权限',
+      label: t('devOperation.developer.defGenTable.edit.deleteAuth'),
       field: 'deleteAuth',
       component: 'InputSearch',
       colProps: {
@@ -717,12 +738,12 @@ export const baseEditFormSchema = (): FormSchema[] => {
         return values.deleteShow;
       },
       helpMessage: [
-        '文本框为空时，方可点击"生成"按钮，按系统建议的规则生成权限编码',
-        '系统规则：{前端应用名}:{前端模块名}:{实体名称}:delete',
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[1]') + ':delete',
       ],
       componentProps: ({ formActionType }) => {
         return {
-          enterButton: '生成',
+          enterButton: t('devOperation.developer.defGenTable.generation'),
           onSearch: (value: string) => {
             return getAuthCode(formActionType, value, 'delete');
           },
@@ -730,7 +751,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '复制按钮权限',
+      label: t('devOperation.developer.defGenTable.edit.copyAuth'),
       field: 'copyAuth',
       component: 'InputSearch',
       colProps: {
@@ -740,12 +761,12 @@ export const baseEditFormSchema = (): FormSchema[] => {
         return values.copyShow;
       },
       helpMessage: [
-        '文本框为空时，方可点击"生成"按钮，按系统建议的规则生成权限编码',
-        '系统规则：{前端应用名}:{前端模块名}:{实体名称}:copy',
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[1]') + ':copy',
       ],
       componentProps: ({ formActionType }) => {
         return {
-          enterButton: '生成',
+          enterButton: t('devOperation.developer.defGenTable.generation'),
           onSearch: (value: string) => {
             return getAuthCode(formActionType, value, 'copy');
           },
@@ -753,7 +774,7 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '详情按钮权限',
+      label: t('devOperation.developer.defGenTable.edit.viewAuth'),
       field: 'viewAuth',
       component: 'InputSearch',
       colProps: {
@@ -763,12 +784,12 @@ export const baseEditFormSchema = (): FormSchema[] => {
         return values.viewShow;
       },
       helpMessage: [
-        '文本框为空时，方可点击"生成"按钮，按系统建议的规则生成权限编码',
-        '系统规则：{前端应用名}:{前端模块名}:{实体名称}:view',
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[0]'),
+        t('devOperation.developer.defGenTable.edit.helpMessage.auth[1]') + ':view',
       ],
       componentProps: ({ formActionType }) => {
         return {
-          enterButton: '生成',
+          enterButton: t('devOperation.developer.defGenTable.generation'),
           onSearch: (value: string) => {
             return getAuthCode(formActionType, value, 'view');
           },
@@ -782,10 +803,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
         line: true,
         span: true,
       },
-      label: 'SQL信息',
+      label: t('devOperation.developer.defGenTable.edit.sqlInfo'),
     },
     {
-      label: '菜单所属应用',
+      label: t('devOperation.developer.defGenTable.edit.menuApplicationId'),
       field: 'menuApplicationId',
       component: 'ApiSelect',
       componentProps: ({ formActionType }) => {
@@ -806,37 +827,37 @@ export const baseEditFormSchema = (): FormSchema[] => {
           },
         };
       },
-      helpMessage: ['当前功能生成后，菜单属于哪个应用？'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.menuApplicationId')],
       colProps: {
         span: 12,
       },
     },
     {
-      label: '上级菜单',
+      label: t('devOperation.developer.defGenTable.edit.menuParentId'),
       field: 'menuParentId',
       component: 'TreeSelect',
       componentProps: {
         fieldNames: { children: 'children', label: 'name', key: 'id', value: 'id' },
       },
-      helpMessage: ['当前功能生成后，显示在左侧菜单的位置'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.menuParentId')],
       colProps: {
         span: 12,
       },
     },
     {
-      label: '当前菜单名',
+      label: t('devOperation.developer.defGenTable.edit.menuName'),
       field: 'menuName',
       component: 'Input',
-      helpMessage: ['当前功能生成后，显示在左侧的菜单名'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.menuName')],
       colProps: {
         span: 12,
       },
     },
     {
-      label: '菜单图标',
+      label: t('devOperation.developer.defGenTable.edit.menuIcon'),
       field: 'menuIcon',
       component: 'IconPicker',
-      helpMessage: ['当前功能生成后，显示在左侧的菜单图标'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.menuIcon')],
       colProps: {
         span: 12,
       },
@@ -848,16 +869,16 @@ export const baseEditFormSchema = (): FormSchema[] => {
         line: true,
         span: true,
       },
-      label: '其他信息',
+      label: t('devOperation.developer.defGenTable.edit.otherInfo'),
       ifShow: ({ values }) => {
         return [TplEnum.MAIN_SUB, TplEnum.TREE].includes(values.tplType);
       },
     },
     {
-      label: '树名称字段',
+      label: t('devOperation.developer.defGenTable.edit.treeName'),
       field: 'treeName',
       component: 'Input',
-      helpMessage: ['树型页面，显示在树节点上的字段'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.treeName')],
       colProps: {
         span: 12,
       },
@@ -869,10 +890,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '从表',
+      label: t('devOperation.developer.defGenTable.edit.subId'),
       field: 'subId',
       component: 'ApiSelect',
-      helpMessage: ['主从页面，从表需要先导入并配置相关信息'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.subId')],
       componentProps: {
         api: queryTable,
         labelField: 'name',
@@ -892,10 +913,10 @@ export const baseEditFormSchema = (): FormSchema[] => {
       },
     },
     {
-      label: '从表实体字段名',
+      label: t('devOperation.developer.defGenTable.edit.subJavaFieldName'),
       field: 'subJavaFieldName',
       component: 'Input',
-      helpMessage: ['主从页面，从表的外键Java实体类的字段名'],
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.subJavaFieldName')],
       colProps: {
         span: 12,
       },

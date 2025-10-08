@@ -10,4 +10,13 @@ export default {
   dsType: '数据权限',
   createdOrgId: '创建人组织',
   category: '角色类别',
+  bindEmployee: '绑定员工',
+  scope: '范围',
+  dept: '所在部门',
+  batchBinding: '批量绑定',
+  batchCancellation: '批量取消',
+  bindConfirm: '确认要批量绑定选中的员工吗?',
+  unBindConfirm: '确认要批量解绑选中的员工吗?',
+  ownedResources: '【{name}】拥有的应用资源',
+  allResources: '系统角色拥有全部权限',
 };

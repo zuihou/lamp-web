@@ -3,6 +3,8 @@ export default {
   updatedTime: 'updatedTime',
   updateBy: 'updateBy',
   createeBy: 'createeBy',
+  receiveBy: 'ReceiveBy',
+  all: 'All',
   yes: 'yes',
   no: 'no',
   enable: 'Enable',

@@ -15,6 +15,7 @@ export default {
   readTime: 'ReadTime',
   isRead: 'IsRead',
   isHandle: 'IsHandle',
+  markRead: 'MarkRead',
   createdTime: 'CreatedTime',
   createdBy: 'CreatedBy',
   updatedTime: 'UpdatedTime',

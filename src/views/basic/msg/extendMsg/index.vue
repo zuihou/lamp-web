@@ -17,7 +17,7 @@
           type="primary"
           @click="handleAdd"
         >
-          发布
+          {{ t('basic.msg.extendMsg.publish') }}
         </a-button>
       </template>
       <template #bodyCell="{ column, record }">

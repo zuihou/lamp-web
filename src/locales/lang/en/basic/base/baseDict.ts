@@ -6,4 +6,5 @@ export default {
   name: 'name',
   state: 'state',
   remark: 'remark',
+  importDict: 'Import the system dictionary',
 };

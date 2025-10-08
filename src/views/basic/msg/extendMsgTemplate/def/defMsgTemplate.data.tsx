@@ -52,7 +52,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'type',
       component: 'ApiSelect',
       componentProps: {
-        ...dictAllComponentProps(DictEnum.EchoDictType_Base_MSG_TEMPLATE_TYPE),
+        ...dictAllComponentProps(DictEnum.MsgTemplateTypeEnum),
       },
       colProps: { span: 8 },
     },

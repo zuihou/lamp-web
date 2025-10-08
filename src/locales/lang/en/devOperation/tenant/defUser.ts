@@ -21,4 +21,18 @@ export default {
   password: 'password',
   salt: 'salt',
   lastLoginTime: 'lastLoginTime',
+  export: {
+    template: '【 Import 】 User',
+    step1: 'Step 1: Download the template',
+    step2: 'Step 2: Fill in the above template',
+    step3: 'Step 3: Upload the completed template',
+  },
+  loginInfo: 'Login Info',
+  basicInfo: 'Basic Info',
+  extraInfo: 'Extra Info',
+  builtPassword: 'Use the built-in password of the syste',
+  expireTime: 'expireTime',
+  count: 'count',
+  kickOff: 'Kick off',
+  logout: 'Forced cancellation',
 };

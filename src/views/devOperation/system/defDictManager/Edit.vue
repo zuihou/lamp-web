@@ -8,9 +8,11 @@
     @ok="handleSubmit"
     @register="registerDrawer"
   >
-    <BasicTitle span line style="margin-bottom: 1rem">字典</BasicTitle>
+    <BasicTitle span line style="margin-bottom: 1rem">{{
+      t('basic.base.baseDict.table.title')
+    }}</BasicTitle>
     <BasicForm @register="registerForm" />
-    <BasicTitle span line>字典条目</BasicTitle>
+    <BasicTitle span line>{{ t('devOperation.system.defDict.entry') }}</BasicTitle>
     <DictItemModal ref="dictItemRef" />
   </BasicDrawer>
 </template>

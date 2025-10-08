@@ -40,7 +40,7 @@
                 onClick: handleEdit.bind(null, record),
               },
               {
-                label: '绑定员工',
+                label: t('basic.system.baseRole.bindEmployee'),
                 auth: RoleEnum.ROLE_BING_USER,
                 onClick: handleBindUser.bind(null, record),
               },
@@ -109,7 +109,7 @@
             columnWidth: 40,
           },
           actionColumn: {
-            width: 120,
+            width: 150,
             title: t('common.column.action'),
             dataIndex: 'action',
           },

@@ -14,4 +14,10 @@ export default {
   consumingTime: 'consumingTime',
   ua: 'ua',
   createdOrgId: 'createdOrgId',
+  clear: 'Clean up logs',
+  params: 'Params',
+  result: 'Result',
+  exception: 'Exception',
+  exceptionMsg: 'ExceptionMsg',
+  exceptionDetail: 'ExceptionDetail',
 };

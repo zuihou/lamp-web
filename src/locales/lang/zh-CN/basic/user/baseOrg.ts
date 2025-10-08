@@ -1,5 +1,6 @@
 export default {
   table: { title: '组织列表' },
+  form: { title: '角色列表' },
   id: '主键',
   name: '名称',
   type: '类型',
@@ -11,4 +12,11 @@ export default {
   label: '名称',
   parentId: '父机构',
   sortValue: '排序',
+  bindRole: '绑定角色',
+  phoneMsg: '手机号已存在',
+  vertical: '垂直展示',
+  foldedNode: '折叠节点',
+  scope: '范围',
+  batchBinding: '批量绑定',
+  batchCancellation: '批量取消',
 };

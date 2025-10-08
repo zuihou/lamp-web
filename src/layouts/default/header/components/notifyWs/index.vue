@@ -14,6 +14,7 @@
               >
               <!-- 绑定title-click事件的通知列表中标题是“可点击”的-->
               <NoticeList :remindMode="item.key" :value="item.data" @title-click="onNoticeClick" />
+              <MsgWrapper @register="registerModal" />
             </TabPane>
           </template>
         </Tabs>
@@ -25,33 +26,43 @@
   import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
   import { Badge, Popover, Tabs } from 'ant-design-vue';
   import { BellOutlined } from '@ant-design/icons-vue';
-  import { useRouter } from 'vue-router';
   import { useWebSocket } from '@vueuse/core';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useUserStore } from '/@/store/modules/user';
-  import { RouteEnum } from '/@/enums/biz/tenant';
+  import MsgWrapper from '/@/views/basic/msg/extendNotice/Wrapper.vue';
   import { mark } from '/@/api/basic/msg/extendNotice';
-  import { ActionEnum } from '/@/enums/commonEnum';
   import { ExtendNoticeResultVO } from '/@/api/basic/msg/model/extendNoticeModel';
   import { NoticeRemindModeEnum } from '/@/enums/biz/base';
   import NoticeList from './NoticeList.vue';
   import { TabItem } from './data';
+  import { useModal } from '/@/components/Modal';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
-    components: { Popover, BellOutlined, Tabs, TabPane: Tabs.TabPane, Badge, NoticeList },
+    components: {
+      MsgWrapper,
+      Popover,
+      BellOutlined,
+      Tabs,
+      TabPane: Tabs.TabPane,
+      Badge,
+      NoticeList,
+    },
     setup() {
       const { prefixCls } = useDesign('header-notify');
-      const { replace } = useRouter();
+      const [registerModal, { openModal }] = useModal();
       const listData = ref<TabItem[]>([]);
       const userStore = useUserStore();
+      const { t } = useI18n();
       const employeeId = userStore.getUserInfo.employeeId;
+      const tenantId = userStore.getTenantId;
       console.log('ws1');
       const host = window.location.host;
       const protocol = window.location.protocol;
       const state = reactive({
         server: `${
           protocol.includes('https') ? 'wss' : 'ws'
-        }://${host}/api/wsMsg/anno/myMsg/${employeeId}`,
+        }://${host}/api/wsMsg/anno/myMsg/${tenantId}/${employeeId}`,
         sendValue: '',
         recordList: [] as { id: number; time: number; res: string }[],
       });
@@ -68,17 +79,17 @@
 
           listData.value.push({
             key: NoticeRemindModeEnum.TO_DO,
-            name: '待办',
+            name: t('basic.msg.eMsg.todos'),
             data: jsonResult.data?.todoList,
           });
           listData.value.push({
             key: NoticeRemindModeEnum.NOTICE,
-            name: '提醒',
+            name: t('basic.msg.eMsg.warning'),
             data: jsonResult.data?.noticeList,
           });
           listData.value.push({
             key: NoticeRemindModeEnum.EARLY_WARNING,
-            name: '预警',
+            name: t('basic.msg.eMsg.reminder'),
             data: jsonResult.data?.earlyWarningList,
           });
         } else {
@@ -122,14 +133,15 @@
             send('pull');
           }
         }
-        replace({
-          name: RouteEnum.BASIC_MY_MSG_VIEW,
-          params: { type: ActionEnum.VIEW, id: record.id },
+
+        openModal(true, {
+          id: record.id,
         });
       }
 
       return {
         prefixCls,
+        registerModal,
         listData,
         count,
         onNoticeClick,

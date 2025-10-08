@@ -1,5 +1,9 @@
 <template>
-  <PageWrapper dense contentFullHeight title="代码生成器生成示例，请二次开发后使用">
+  <PageWrapper
+    dense
+    contentFullHeight
+    :title="t('devOperation.developer.defGenTestSimple.pageTitle')"
+  >
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button

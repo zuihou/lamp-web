@@ -3,6 +3,8 @@ export default {
   updatedTime: '修改时间',
   updateBy: '修改人',
   createBy: '创建人',
+  receiveBy: '接收人',
+  all: '所有',
   yes: '是',
   no: '否',
   enable: '启用',

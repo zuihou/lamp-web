@@ -1,5 +1,6 @@
 export default {
-  table: { title: '测试单表列表' },
+  table: { title: '测试单列表' },
+  pageTitle: '代码生成器生成示例，请二次开发后使用',
   id: 'ID',
   name: '名称',
   stock: '库存',

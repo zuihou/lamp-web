@@ -4,7 +4,7 @@
     :keyboard="true"
     :maskClosable="true"
     showFooter
-    title="绑定角色"
+    :title="t('basic.user.baseOrg.bindRole')"
     v-bind="$attrs"
     width="70%"
     @ok="handleSubmit"
@@ -19,22 +19,26 @@
         @register="registerTable"
       >
         <template #toolbar>
-          <a-button color="error" type="primary" @click="handleBatchChoice">批量绑定</a-button>
-          <a-button type="primary" @click="handleBatchCancel">批量取消</a-button>
+          <a-button color="error" type="primary" @click="handleBatchChoice">{{
+            t('basic.user.baseOrg.batchBinding')
+          }}</a-button>
+          <a-button type="primary" @click="handleBatchCancel">{{
+            t('basic.user.baseOrg.batchCancellation')
+          }}</a-button>
         </template>
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'action'">
             <TableAction
               :actions="[
                 {
-                  label: '绑定',
+                  label: t('common.binding'),
                   onClick: handleBindRole.bind(null, record),
                   ifShow: () => {
                     return !isEmpty(formData.orgId) && !formData.bindRoleIds.includes(record.id);
                   },
                 },
                 {
-                  label: '取消绑定',
+                  label: t('common.unbinding'),
                   onClick: handleUnBindRole.bind(null, record),
                   ifShow: () => {
                     return !isEmpty(formData.orgId) && formData.bindRoleIds.includes(record.id);
@@ -85,7 +89,7 @@
 
       // 表格
       const [registerTable, { getSelectRowKeys }] = useTable({
-        title: '角色列表',
+        title: t('basic.user.baseOrg.form.title'),
         api: pageMyRole,
         columns: orgRoleColumns(),
         formConfig: {
@@ -134,7 +138,7 @@
         if (formData.orgId) {
           formData.bindRoleIds = await findOrgRoleByOrgId(formData.orgId);
         } else {
-          createMessage.warn('请选择角色');
+          createMessage.warn(t('common.rules.role'));
         }
       });
 
@@ -148,7 +152,7 @@
             roleIdList,
             orgId: formData.orgId,
           });
-          createMessage.success('操作成功');
+          createMessage.success(t('sys.api.operationSuccess'));
           handleSuccess();
         } finally {
           closeWrapLoading();

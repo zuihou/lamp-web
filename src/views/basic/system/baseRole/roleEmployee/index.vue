@@ -13,15 +13,19 @@
     <div ref="wrapEl">
       <BasicTable @register="registerTable">
         <template #toolbar>
-          <a-button color="error" type="primary" @click="handleBatchChoice">批量绑定</a-button>
-          <a-button type="primary" @click="handleBatchCancel">批量取消</a-button>
+          <a-button color="error" type="primary" @click="handleBatchChoice">{{
+            t('basic.system.baseRole.batchBinding')
+          }}</a-button>
+          <a-button type="primary" @click="handleBatchCancel">{{
+            t('basic.system.baseRole.batchCancellation')
+          }}</a-button>
         </template>
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'action'">
             <TableAction
               :actions="[
                 {
-                  label: '绑定',
+                  label: t('common.binding'),
                   onClick: handleBindUser.bind(null, record),
                   ifShow: () => {
                     return (
@@ -30,7 +34,7 @@
                   },
                 },
                 {
-                  label: '取消绑定',
+                  label: t('common.unbinding'),
                   onClick: handleUnBindUser.bind(null, record),
                   ifShow: () => {
                     return (
@@ -129,7 +133,7 @@
         if (formData.roleId) {
           formData.bindEmployeeIds = await findEmployeeIdByRoleId(formData.roleId);
         } else {
-          createMessage.warn('请选择角色');
+          createMessage.warn(t('common.rules.role'));
         }
       });
 
@@ -143,7 +147,7 @@
             employeeIdList,
             roleId: formData.roleId,
           });
-          createMessage.success('操作成功');
+          createMessage.success(t('sys.api.operationSuccess'));
           handleSuccess();
         } finally {
           closeWrapLoading();
@@ -182,7 +186,7 @@
         }
         createConfirm({
           iconType: 'warning',
-          content: '确认要批量绑定选中的员工吗?',
+          content: t('basic.system.baseRole.bindConfirm'),
           onOk: async () => {
             await bindUser(false, ids);
           },
@@ -197,7 +201,7 @@
         }
         createConfirm({
           iconType: 'warning',
-          content: '确认要批量解绑选中的员工吗?',
+          content: t('basic.system.baseRole.unBindConfirm'),
           onOk: async () => {
             await bindUser(true, ids);
           },

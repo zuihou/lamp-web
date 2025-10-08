@@ -34,4 +34,7 @@ export default {
   createdTime: 'CreatedTime',
   updatedBy: 'UpdatedBy',
   updatedTime: 'UpdatedTime',
+  confirmSync: 'Is synchronization confirmed?',
+  syncSuccess: 'Synchronization successful',
+  notExist: 'The data does not exist',
 };

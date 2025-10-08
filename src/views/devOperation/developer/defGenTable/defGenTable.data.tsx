@@ -22,7 +22,7 @@ export const columns = (): BasicColumn[] => {
       // width: 180,
     },
     {
-      title: '作者',
+      title: t('devOperation.developer.defGenTable.author'),
       dataIndex: 'author',
       // width: 180,
     },
@@ -51,7 +51,7 @@ export const searchFormSchema = (): FormSchema[] => {
     },
     {
       field: 'author',
-      label: '作者',
+      label: t('devOperation.developer.defGenTable.author'),
       component: 'Input',
       colProps: { span: 6 },
     },
@@ -84,14 +84,12 @@ export const importSearchFormSchema = (dsChange: Fn, setFieldsValue): FormSchema
   return [
     {
       field: 'dsId',
-      label: '数据源',
+      label: t('devOperation.developer.defGenTable.dataSource'),
       component: 'ApiSelect',
       itemProps: {
-        extra: '若报错：连不上数据源，请到【租户管理】-【数据源管理】页面配置数据库的账号密码',
+        extra: t('devOperation.developer.defGenTable.extra'),
       },
-      helpMessage: [
-        '为什么要将【数据源管理】放在【租户管理】下，为了保持和datasource模式一致性，若你确定只使用column模式，可以自己调整。',
-      ],
+      helpMessage: [t('devOperation.developer.defGenTable.helpMessage')],
       componentProps: {
         api: query,
         afterFetch: (options) => {

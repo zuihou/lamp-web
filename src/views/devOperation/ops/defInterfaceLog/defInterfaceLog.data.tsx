@@ -1,5 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
+import { query } from '/@/api/devOperation/tenant/tenant';
 import { TenantStatusEnum } from '/@/enums/biz/tenant';
 import { MultiTenantTypeEnum } from '/@/enums/biz/tenant';
 import { useGlobSetting } from '/@/hooks/setting';

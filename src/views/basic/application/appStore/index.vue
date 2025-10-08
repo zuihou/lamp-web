@@ -12,7 +12,7 @@
               },
               {
                 icon: 'ant-design:menu-unfold-outlined',
-                tooltip: '续期',
+                tooltip: t('common.renewal'),
                 onClick: handleRenewal.bind(null, record),
               },
             ]"
@@ -84,7 +84,7 @@
 
       function handleRenewal(_: Recordable, e: Event) {
         e?.stopPropagation();
-        createMessage.success('请联系管理员');
+        createMessage.success(t('devOperation.application.defApplication.renwalMsg'));
       }
 
       return {

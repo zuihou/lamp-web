@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper contentFullHeight dense title="第三种方式实现字典管理">
+  <PageWrapper contentFullHeight dense :title="t('devOperation.system.defDict.thirdDict')">
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button color="error" type="primary" @click="handleBatchDelete">
@@ -23,7 +23,7 @@
               {
                 label: t('common.title.copy'),
                 popConfirm: {
-                  title: '确认要复制吗？',
+                  title: t('common.tips.confirmCopy'),
                   confirm: handleCopy.bind(null, record),
                 },
               },

@@ -2,9 +2,13 @@ export default {
   footer: { onlinePreview: 'Preview', onlineDocument: 'Document' },
   header: {
     // user dropdown
+    registeredEnterprise: 'Registered enterprise',
     dropdownItemDoc: 'Document',
+    dropdownItemDocFrontEnd: 'FrontEnd Document',
     dropdownItemLoginOut: 'Login Out',
     dropdownProfile: 'Profile',
+
+    switchingCompanies: 'Switching Companies',
 
     tooltipErrorLog: 'Error log',
     tooltipLock: 'Lock screen',

@@ -13,4 +13,5 @@ export default {
   icon: '图标',
   cssStyle: 'css样式',
   cssClass: 'css类元素',
+  i18nJson: '国际化配置',
 };

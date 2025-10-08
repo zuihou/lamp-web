@@ -145,7 +145,7 @@
       async function handleSync(record: EditRecordRow, e: Event) {
         e?.stopPropagation();
         await syncField(record.tableId, record.id);
-        createMessage.success('同步成功');
+        createMessage.success(t('devOperation.developer.defGenTableColumn.syncSuccess'));
         reload();
       }
 
@@ -194,7 +194,7 @@
           tableId.value = tId;
           reload();
         } else {
-          createMessage.warn('该表不存在');
+          createMessage.warn(t('devOperation.developer.defGenTableColumn.notExist'));
         }
       }
 

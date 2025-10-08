@@ -4,7 +4,7 @@ import { DictEnum, EnumEnum } from '/@/enums/commonEnum';
 import { DropMenu } from '/@/components/Dropdown/src/typing';
 import { Badge } from 'ant-design-vue';
 import { LoginStatusEnum } from '/@/enums/biz/tenant';
-import { dictComponentProps, enumComponentProps } from '/@/utils/lamp/common';
+import { dictComponentProps } from '/@/utils/lamp/common';
 
 const { t } = useI18n();
 // 列表页字段
@@ -90,7 +90,7 @@ export const searchFormSchema = (): FormSchema[] => {
       field: 'status',
       component: 'ApiSelect',
       componentProps: {
-        ...enumComponentProps(EnumEnum.LoginStatusEnum),
+        ...dictComponentProps(DictEnum.LoginStatusEnum),
       },
       colProps: { span: 8 },
     },
@@ -180,7 +180,7 @@ export const editFormSchema = (_): FormSchema[] => {
       field: 'status',
       component: 'ApiSelect',
       componentProps: {
-        ...dictComponentProps(DictEnum.TENANT_LOGIN_STATUS),
+        ...dictComponentProps(DictEnum.LoginStatusEnum),
       },
     },
     {

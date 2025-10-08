@@ -2,9 +2,10 @@ export default {
   table: { title: '应用列表', resource: '应用资源管理' },
   id: '主键',
   appKey: '应用标识',
-  appSecret: '应用秘钥',
+  appSecret: '应用密钥',
   name: '应用名称',
   version: '版本',
+  redirect: '默认地址',
   type: '应用类型',
   introduce: '简介',
   remark: '备注',
@@ -13,4 +14,5 @@ export default {
   isGeneral: '公共应用',
   sortValue: '排序',
   logo: '图标',
+  renwalMsg: '请联系管理员',
 };

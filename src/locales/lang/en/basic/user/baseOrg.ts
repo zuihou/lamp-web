@@ -1,5 +1,6 @@
 export default {
   table: { title: 'BaseOrg list' },
+  form: { title: 'Role list' },
   id: 'ID',
   name: 'name',
   type: 'type',
@@ -11,4 +12,11 @@ export default {
   label: 'label',
   parentId: 'parentId',
   sortValue: 'sortValue',
+  bindRole: 'Bind the role  ',
+  phoneMsg: 'The mobile phone number already exists',
+  vertical: 'Vertical display',
+  foldedNode: 'Folded node',
+  scope: 'Scope',
+  batchBinding: 'Batch binding',
+  batchCancellation: 'Batch cancellation',
 };

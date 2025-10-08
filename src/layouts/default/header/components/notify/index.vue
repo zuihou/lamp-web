@@ -14,6 +14,7 @@
               >
               <!-- 绑定title-click事件的通知列表中标题是“可点击”的-->
               <NoticeList :value="item.data" :remindMode="item.key" @title-click="onNoticeClick" />
+              <MsgWrapper @register="registerModal" />
             </TabPane>
           </template>
         </Tabs>
@@ -30,19 +31,30 @@
   import NoticeList from './NoticeList.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { myNotice, mark } from '/@/api/basic/msg/extendNotice';
-  import { ActionEnum } from '/@/enums/commonEnum';
+  import MsgWrapper from '/@/views/basic/msg/extendNotice/Wrapper.vue';
   import { ExtendNoticeResultVO } from '/@/api/basic/msg/model/extendNoticeModel';
   import { NoticeRemindModeEnum } from '/@/enums/biz/base';
   import { PageEnum } from '/@/enums/pageEnum';
-  import { RouteEnum } from '/@/enums/biz/tenant';
+  import { useModal } from '/@/components/Modal';
+  import { useI18n } from '/@/hooks/web/useI18n';
 
   export default defineComponent({
-    components: { Popover, BellOutlined, Tabs, TabPane: Tabs.TabPane, Badge, NoticeList },
+    components: {
+      MsgWrapper,
+      Popover,
+      BellOutlined,
+      Tabs,
+      TabPane: Tabs.TabPane,
+      Badge,
+      NoticeList,
+    },
     setup() {
       const { prefixCls } = useDesign('header-notify');
-      const { replace, currentRoute } = useRouter();
+      const { currentRoute } = useRouter();
       const listData = ref<TabItem[]>([]);
+      const [registerModal, { openModal }] = useModal();
 
+      const { t } = useI18n();
       async function loadMyMsg() {
         const allMsg = await myNotice({
           current: 1,
@@ -54,17 +66,17 @@
 
         listData.value.push({
           key: NoticeRemindModeEnum.TO_DO,
-          name: '待办',
+          name: t('basic.msg.eMsg.todos'),
           data: allMsg?.todoList,
         });
         listData.value.push({
           key: NoticeRemindModeEnum.EARLY_WARNING,
-          name: '预警',
+          name: t('basic.msg.eMsg.warning'),
           data: allMsg?.earlyWarningList,
         });
         listData.value.push({
           key: NoticeRemindModeEnum.NOTICE,
-          name: '提醒',
+          name: t('basic.msg.eMsg.reminder'),
           data: allMsg?.noticeList,
         });
       }
@@ -94,14 +106,14 @@
             loadMyMsg();
           }
         }
-        replace({
-          name: RouteEnum.BASIC_MY_MSG_VIEW,
-          params: { type: ActionEnum.VIEW, id: record.id },
+        openModal(true, {
+          id: record.id,
         });
       }
 
       return {
         prefixCls,
+        registerModal,
         listData,
         count,
         onNoticeClick,

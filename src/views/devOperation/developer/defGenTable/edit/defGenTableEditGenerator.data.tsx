@@ -1,15 +1,17 @@
 import { FormSchema } from '/@/components/Table';
 import { enumComponentProps } from '/@/utils/lamp/common';
-import { EnumEnum } from '/@/enums/commonEnum';
+import { DictEnum } from '/@/enums/commonEnum';
+import { useI18n } from '/@/hooks/web/useI18n';
 
+const { t } = useI18n();
 // 代码生成页面 表单
 export const generatorCodeFormSchema = (): FormSchema[] => {
   return [
     {
       field: 'divider-selects1',
       component: 'Divider',
-      label: '后端',
-      helpMessage: ['“覆盖策略”只会影响“生成前端”和“生成后端”功能，下载功能不收“覆盖策略”影响'],
+      label: t('devOperation.developer.defGenTable.backed'),
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.divider')],
       colProps: {
         span: 24,
       },
@@ -17,10 +19,10 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
     {
       field: 'allBack',
       component: 'ApiRadioGroup',
-      label: '批量设置',
+      label: t('devOperation.developer.defGenTable.edit.batchSettings'),
       componentProps: ({ formActionType }) => {
         return {
-          ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+          ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
           isBtn: true,
           onChange: (value) => {
             const { setFieldsValue } = formActionType;
@@ -51,7 +53,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'entity',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -60,7 +62,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'saveVo',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -69,7 +71,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'updateVo',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -78,7 +80,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'resultVo',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -87,7 +89,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'pageQuery',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -96,7 +98,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'Enum',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -105,7 +107,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'sql',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -114,7 +116,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'xml',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -123,7 +125,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'mapper',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -132,7 +134,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'manager',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -141,7 +143,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'service',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -150,16 +152,16 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'controller',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
     {
       field: 'echoList',
       component: 'ApiRadioGroup',
-      label: 'Echo常量',
+      label: t('devOperation.developer.defGenTable.edit.echoList'),
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
       helpMessage: ['仅支持覆盖和忽略'],
@@ -167,8 +169,8 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
     {
       field: 'divider-selects1',
       component: 'Divider',
-      helpMessage: ['“覆盖策略”只会影响“生成前端”和“生成后端”功能，下载功能不收“覆盖策略”影响'],
-      label: '前端',
+      helpMessage: [t('devOperation.developer.defGenTable.edit.helpMessage.divider')],
+      label: t('devOperation.developer.defGenTable.fronted'),
       colProps: {
         span: 24,
       },
@@ -176,10 +178,10 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
     {
       field: 'allFront',
       component: 'ApiRadioGroup',
-      label: '批量设置',
+      label: t('devOperation.developer.defGenTable.edit.batchSettings'),
       componentProps: ({ formActionType }) => {
         return {
-          ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+          ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
           isBtn: true,
           onChange: async (value: string) => {
             const { setFieldsValue } = formActionType;
@@ -205,7 +207,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'index',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -214,7 +216,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'edit',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -223,7 +225,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'data',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -232,7 +234,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'Api',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -241,7 +243,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'Model',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -250,7 +252,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'langEn',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
     },
@@ -259,7 +261,7 @@ export const generatorCodeFormSchema = (): FormSchema[] => {
       component: 'ApiRadioGroup',
       label: 'langZh',
       componentProps: {
-        ...enumComponentProps(EnumEnum.FileOverrideStrategyEnum),
+        ...enumComponentProps(DictEnum.FileOverrideStrategyEnum),
         isBtn: true,
       },
       colProps: {

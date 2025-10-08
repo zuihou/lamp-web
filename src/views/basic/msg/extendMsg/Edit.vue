@@ -92,7 +92,7 @@
           const params = await validate();
           params.draft = draft;
 
-          if(unref(type) === ActionEnum.COPY) {
+          if (unref(type) === ActionEnum.COPY) {
             params.id = null;
           }
 

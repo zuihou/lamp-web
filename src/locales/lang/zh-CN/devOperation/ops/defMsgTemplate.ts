@@ -21,4 +21,7 @@ export default {
   createdTime: '创建时间',
   updatedBy: '最后修改人',
   updatedTime: '最后修改时间',
+  importTitle: '导入消息模板',
+  dictTips: '请先选择字典',
+  testSend: '测试发送',
 };

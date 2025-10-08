@@ -42,7 +42,7 @@
           span: 13,
         },
         submitButtonOptions: {
-          text: '保存',
+          text: t('common.saveText'),
         },
         submitFunc: handleSubmit,
       });
@@ -54,7 +54,7 @@
           const params = await validate();
           params.tableIdList = tableIdListRef.value;
           await update(params);
-          createMessage.success('保存成功');
+          createMessage.success(t('common.tips.saveSuccess'));
         } finally {
           setLoading(false);
         }

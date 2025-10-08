@@ -57,7 +57,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects1',
       component: 'Divider',
-      label: '基础信息',
+      label: t('devOperation.application.defResource.basicInfo'),
       colProps: {
         span: 24,
       },
@@ -68,7 +68,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       component: 'ApiRadioGroup',
       defaultValue: ResourceTypeEnum.MENU,
       componentProps: {
-        ...dictComponentProps(DictEnum.RESOURCE_TYPE),
+        ...dictComponentProps(DictEnum.ResourceTypeEnum),
       },
       helpMessage: [
         '菜单：左侧显示的菜单(肉眼可见的菜单)(包括N级菜单)（包括需要配置在路由中，但需要隐藏的菜单, 如 资源管理）',
@@ -230,7 +230,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects2',
       component: 'Divider',
-      label: '特性信息',
+      label: t('devOperation.application.defResource.featuresInfo'),
       colProps: {
         span: 24,
       },
@@ -259,7 +259,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       ],
       componentProps: ({ formActionType }) => {
         return {
-          ...dictComponentProps(DictEnum.RESOURCE_OPEN_WITH),
+          ...dictComponentProps(DictEnum.ResourceOpenWithEnum),
           onChange: (value: string) => {
             const { setFieldsValue, validateFields } = formActionType;
             switch (value) {
@@ -282,7 +282,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       },
     },
     {
-      label: '是否隐藏菜单',
+      label: t('devOperation.application.defResource.isHidden'),
       field: 'isHidden',
       component: 'Switch',
       defaultValue: false,
@@ -455,7 +455,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
       component: 'ApiRadioGroup',
       defaultValue: DataScopeEnum.SELF,
       componentProps: {
-        ...dictComponentProps(DictEnum.RESOURCE_DATA_SCOPE),
+        ...dictComponentProps(DictEnum.DataScopeEnum),
       },
       ifShow: ({ values }) => {
         return values.resourceType === ResourceTypeEnum.DATA;
@@ -571,7 +571,7 @@ export const editFormSchema = (type: Ref<ActionEnum>): FormSchema[] => {
     {
       field: 'divider-selects3',
       component: 'Divider',
-      label: '扩展信息',
+      label: t('devOperation.application.defResource.expansionInfo'),
       colProps: {
         span: 24,
       },

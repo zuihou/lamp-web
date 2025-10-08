@@ -1,7 +1,7 @@
 import { useI18n } from '/@/hooks/web/useI18n';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { enumComponentProps } from '/@/utils/lamp/common';
-import { EnumEnum } from '/@/enums/commonEnum';
+import { DictEnum } from '/@/enums/commonEnum';
 
 const { t } = useI18n();
 
@@ -242,7 +242,7 @@ export const columnColumns = (): BasicColumn[] => {
       editRow: true,
       editComponent: 'ApiSelect',
       editComponentProps: {
-        ...enumComponentProps(EnumEnum.ComponentEnum),
+        ...enumComponentProps(DictEnum.ComponentEnum),
       },
     },
     {

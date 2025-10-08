@@ -14,15 +14,15 @@ export const columns = (): BasicColumn[] => {
       dataIndex: 'nickName',
     },
     {
-      title: '创建时间',
+      title: t('lamp.common.createdTime'),
       dataIndex: 'sessionTime',
     },
     {
-      title: '过期时间',
+      title: t('devOperation.tenant.defUser.expireTime'),
       dataIndex: 'expireTime',
     },
     {
-      title: '数量',
+      title: t('devOperation.tenant.defUser.count'),
       width: 100,
       dataIndex: 'count',
       slots: { default: 'count' },

@@ -1,5 +1,5 @@
 export default {
-  table: { title: '通知表列表' },
+  table: { title: '通知列表' },
   id: 'ID',
   bizId: '业务ID',
   bizType: '业务类型',
@@ -15,6 +15,7 @@ export default {
   readTime: '读取时间',
   isRead: '是否已读',
   isHandle: '是否处理',
+  markRead: '标记已读',
   createdTime: '创建时间',
   createdBy: '创建人id',
   updatedTime: '最后修改时间',

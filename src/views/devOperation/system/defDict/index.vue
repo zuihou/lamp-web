@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper contentFullHeight dense title="第二种方式实现字典管理">
+  <PageWrapper contentFullHeight dense :title="t('devOperation.system.defDict.secondDict')">
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button color="error" type="primary" @click="handleBatchDelete">
@@ -17,7 +17,7 @@
           <TableAction
             :actions="[
               {
-                label: '字典项',
+                label: t('devOperation.system.defDict.dictionary'),
                 onClick: handleViewItem.bind(null, record),
               },
               {

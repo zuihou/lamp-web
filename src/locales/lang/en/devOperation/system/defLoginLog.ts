@@ -15,4 +15,6 @@ export default {
   browserVersion: 'browserVersion',
   operatingSystem: 'operatingSystem',
   location: 'location',
+  clear: 'Clear the log',
+  clearMsg: 'Are you sure you want to clean up the data?',
 };

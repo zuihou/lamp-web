@@ -8,10 +8,10 @@
     :title="t(`common.title.${type}`)"
     @ok="handleSubmit"
   >
-    <CollapseContainer title="员工信息">
+    <CollapseContainer :title="t('basic.user.baseEmployee.employee')">
       <BasicForm @register="registerForm" />
     </CollapseContainer>
-    <CollapseContainer title="用户信息" v-if="type === ActionEnum.VIEW">
+    <CollapseContainer :title="t('basic.user.baseEmployee.user')" v-if="type === ActionEnum.VIEW">
       <BasicForm @register="registerUserForm" />
     </CollapseContainer>
   </BasicDrawer>

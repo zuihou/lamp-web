@@ -4,7 +4,7 @@
     :keyboard="true"
     :maskClosable="true"
     showFooter
-    title="导入表结构"
+    :title="t('devOperation.developer.defGenTable.importTable')"
     v-bind="$attrs"
     width="70%"
     @cancel="handleCancel"
