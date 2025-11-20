@@ -1,5 +1,6 @@
 <template>
   <LoginFormTitle v-show="getShow" class="enter-x" />
+  <EditModal @register="registerModal" />
   <Form
     v-show="getShow"
     ref="formRef"
@@ -61,8 +62,16 @@
     </ARow>
 
     <ARow class="enter-x">
-      <ACol :span="24" style="color: red;">
-        账号/密码：lamp/lamp，登录不上请 <a href="https://tangyh.top/vip/%E5%A6%82%E4%BD%95%E8%B5%9E%E5%8A%A9.html" target="_blank">联系作者</a>
+      <ACol :span="24" style="color: red">
+        <Button
+          @click="
+            () => {
+              openModal();
+            }
+          "
+          type="primary"
+        >获取登录账号和密码</Button
+        >
       </ACol>
     </ARow>
     <ARow class="enter-x">
@@ -141,6 +150,8 @@
   import { randomNum } from '/@/utils';
 
   import { loadCaptcha } from '/@/api/lamp/common/oauth';
+  import { useModal } from '/@/components/Modal';
+  import EditModal from './mini-program.vue';
 
   const ACol = Col;
   const ARow = Row;
@@ -154,6 +165,7 @@
   const globSetting = useGlobSetting();
   const { setLoginState, getLoginState } = useLoginState();
   const { getFormRules } = useFormRules();
+  const [registerModal, { openModal }] = useModal();
 
   const formRef = ref();
   const rememberMe = ref(false);
