@@ -8,6 +8,11 @@
 [![Star](https://gitee.com/dromara/lamp-cloud/badge/star.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/stargazers) 
 [![Fork](https://gitee.com/dromara/lamp-cloud/badge/fork.svg?theme=gray)](https://gitee.com/dromara/lamp-cloud/members)
 
+
+## 小程序免费看文档
+![小程序免费看文档](灯灯快速开发小程序.jpg)
+
+
 ## lamp-cloud/lamp-boot + lamp-web 功能介绍：
 
 1. 租户管理：运营人员管理所有的租户创建
